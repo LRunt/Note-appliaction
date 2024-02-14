@@ -25,7 +25,16 @@ class MyApp extends StatelessWidget {
             ],
           ),
         ),
-        body:   MyTreeView(),
+        body:   const Center(
+          child: Text(
+            'Here will be rich editor',
+            style: TextStyle(
+              color: Colors.grey, // Set the text color to light grey
+              fontSize: 32.0,
+            ),
+            textAlign: TextAlign.center, // Center the text
+          ),
+        ),
       ),
     );
   }
@@ -50,7 +59,7 @@ class MyTreeView extends StatefulWidget {
 
 class _MyTreeViewState extends State<MyTreeView> {
   static const List<MyNode> roots = <MyNode>[
-    MyNode(
+     MyNode(
       title: 'Root 1',
       children: <MyNode>[
         MyNode(
@@ -63,7 +72,7 @@ class _MyTreeViewState extends State<MyTreeView> {
         MyNode(title: 'Node 1.2'),
       ],
     ),
-    MyNode(
+     MyNode(
       title: 'Root 2',
       children: <MyNode>[
         MyNode(
