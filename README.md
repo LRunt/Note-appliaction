@@ -1,1 +1,1 @@
-# Note-appliaction
+# Note-application
