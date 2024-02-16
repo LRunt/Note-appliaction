@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
+class LoginPage extends StatelessWidget {
+  final void Function()? onTap;
+  const LoginPage({super.key, required this.onTap});
 
-  static const login = "Sign In";
+  static const loginString = "Login";
   static const pleaseLogin = "Please Login";
+
+  void login() {
+    print('Touched login');
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(login),
+        title: const Text(loginString),
       ),
       body: Center(
         child: Padding(
@@ -39,21 +44,24 @@ class SignUpPage extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    print('Touched');
+                    login();
                   },
-                  child: const Text(login),
+                  child: const Text(loginString),
                 ),
                 const SizedBox(
                   height: 40,
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Don't have an acount?"),
-                    SizedBox(width: 4),
-                    Text(
-                      "Create new here!",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    const Text("Don't have an acount?"),
+                    const SizedBox(width: 4),
+                    GestureDetector(
+                      onTap: this.onTap,
+                      child: const Text(
+                        "Create new here!",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ],
                 ),

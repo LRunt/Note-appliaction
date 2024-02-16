@@ -1,54 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
-import 'package:notes/screens/signup.dart';
+import 'package:notes/services/LoginOrRegister.dart';
 
-
-class MainScreen extends StatelessWidget{
-
+class MainScreen extends StatelessWidget {
   static const appTitle = 'Notes';
 
   const MainScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text(appTitle),
-        ),
-        drawer: Drawer(
-          child: ListView(
-            padding: const EdgeInsets.all(0),
-            children: [
-              DrawerHeader(decoration: BoxDecoration(color: Colors.blue),
-                  child:  UserAccountsDrawerHeader(accountName: Text('Lukas Runt'), accountEmail: Text('lukas.runt@gmail.com'))),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SignUpPage()),
-                  );
-                },
-                child: Text('Sign Up'),
-              ),
-              MyTreeView(),
-            ],
-          ),
-        ),
-        body: const Center(
-          child: Text(
-            'Here will be rich editor',
-            style: TextStyle(
-              color: Colors.grey, // Set the text color to light grey
-              fontSize: 32.0,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(appTitle),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: const EdgeInsets.all(0),
+          children: [
+            const DrawerHeader(
+                decoration: BoxDecoration(color: Colors.blue),
+                child: UserAccountsDrawerHeader(
+                    accountName: Text('Lukas Runt'),
+                    accountEmail: Text('lukas.runt@gmail.com'))),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginOrRegister()),
+                );
+              },
+              child: Text('Login'),
             ),
-            textAlign: TextAlign.center, // Center the text
+            const MyTreeView(),
+          ],
+        ),
+      ),
+      body: const Center(
+        child: Text(
+          'Here will be rich editor',
+          style: TextStyle(
+            color: Colors.grey, // Set the text color to light grey
+            fontSize: 32.0,
           ),
+          textAlign: TextAlign.center, // Center the text
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: (){},
-          child: const Icon(Icons.add),
-        ),
-      );
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 }
 
