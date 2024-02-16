@@ -44,6 +44,10 @@ class MainScreen extends StatelessWidget{
             textAlign: TextAlign.center, // Center the text
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: (){},
+          child: const Icon(Icons.add),
+        ),
       );
   }
 }
