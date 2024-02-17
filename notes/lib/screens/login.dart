@@ -1,14 +1,34 @@
 import 'package:flutter/material.dart';
+import 'dart:developer';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   final void Function()? onTap;
   const LoginPage({super.key, required this.onTap});
 
+  @override
+  State<LoginPage> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginPage> {
   static const loginString = "Login";
   static const pleaseLogin = "Please Login";
 
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  ///Clean up the controllers when widget is removed from the tree.
+  @override
+  void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   void login() {
-    print('Touched login');
+    String username = usernameController.text;
+    String password = passwordController.text;
+
+    log('Loging user: $username, password: $password');
   }
 
   @override
@@ -57,7 +77,7 @@ class LoginPage extends StatelessWidget {
                     const Text("Don't have an acount?"),
                     const SizedBox(width: 4),
                     GestureDetector(
-                      onTap: this.onTap,
+                      onTap: widget.onTap,
                       child: const Text(
                         "Create new here!",
                         style: TextStyle(fontWeight: FontWeight.bold),
