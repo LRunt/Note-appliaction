@@ -1,8 +1,8 @@
 class MyNode {
-  final String title;
-  final List<MyNode> children;
+  String title;
+  List<MyNode> children;
 
-  const MyNode({
+  MyNode({
     required this.title,
     this.children = const <MyNode>[],
   });

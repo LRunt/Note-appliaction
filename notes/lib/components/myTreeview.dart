@@ -27,7 +27,6 @@ class _MyTreeViewState extends State<MyTreeView> {
   @override
   void initState() {
     super.initState();
-    // Replace this with your actual JSON data
     String jsonData = '''
       {
         "roots": [
@@ -81,7 +80,6 @@ class _MyTreeViewState extends State<MyTreeView> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          // Your other widgets can go here
           TreeView<MyNode>(
             shrinkWrap: true,
             treeController: treeController,
@@ -113,25 +111,72 @@ class MyTreeTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        //entry.node.title = "Hehe";
         print(entry.node.title);
         onTap();
       },
       child: TreeIndentation(
         entry: entry,
         guide: const IndentGuide.connectingLines(indent: 10),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(4, 8, 8, 8),
-          child: Row(
-            children: [
-              FolderButton(
-                isOpen: entry.hasChildren ? entry.isExpanded : null,
-                onPressed: entry.hasChildren ? onTap : null,
+        child: GestureDetector(
+          onLongPressStart: (LongPressStartDetails details) {
+            _showPopupMenu(context, details.globalPosition);
+          },
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(4, 8, 8, 8),
+            child: GestureDetector(
+              onLongPressStart: (LongPressStartDetails details) {
+                _showPopupMenu(context, details.globalPosition);
+              },
+              child: Row(
+                children: [
+                  FolderButton(
+                    isOpen: entry.hasChildren ? entry.isExpanded : null,
+                    onPressed: entry.hasChildren ? onTap : null,
+                  ),
+                  Text(entry.node.title),
+                ],
               ),
-              Text(entry.node.title),
-            ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  void _showPopupMenu(BuildContext context, Offset tapPosition) async {
+    final RenderBox overlay =
+        Overlay.of(context)!.context.findRenderObject() as RenderBox;
+
+    showMenu(
+      context: context,
+      position: RelativeRect.fromRect(
+        tapPosition & const Size(1.0, 1.0),
+        Offset.zero & overlay.size,
+      ),
+      items: <PopupMenuEntry>[
+        const PopupMenuItem(
+          value: 'delete',
+          child: Text('Delete'),
+        ),
+        const PopupMenuItem(
+          value: 'rename',
+          child: Text('Rename'),
+        ),
+        const PopupMenuItem(
+          value: 'addChildren',
+          child: Text('add Children'),
+        ),
+        const PopupMenuItem(
+          value: 'addSibling',
+          child: Text('add Sibling'),
+        )
+        // Add more menu items as needed
+      ],
+    ).then((value) {
+      if (value != null) {
+        print('Selected: $value');
+      }
+    });
   }
 }
