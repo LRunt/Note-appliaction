@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
-import 'package:notes/services/LoginOrRegister.dart';
+import 'package:notes/services/loginOrRegister.dart';
 
 class MainScreen extends StatelessWidget {
   static const appTitle = 'Notes';
@@ -29,7 +29,7 @@ class MainScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => LoginOrRegister()),
                 );
               },
-              child: Text('Login'),
+              child: const Text('Login'),
             ),
             const MyTreeView(),
           ],

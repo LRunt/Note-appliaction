@@ -44,20 +44,22 @@ class _LoginFormState extends State<LoginPage> {
               children: [
                 const Icon(Icons.message, size: 80),
                 const Text(pleaseLogin),
-                const TextField(
-                  decoration: InputDecoration(
+                TextField(
+                  decoration: const InputDecoration(
                     hintText: "Username",
                   ),
+                  controller: usernameController,
                 ),
                 const SizedBox(
                   height: 40,
                 ),
-                const TextField(
+                TextField(
                   obscureText: true,
                   obscuringCharacter: "*",
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "Password",
                   ),
+                  controller: passwordController,
                 ),
                 const SizedBox(
                   height: 40,
