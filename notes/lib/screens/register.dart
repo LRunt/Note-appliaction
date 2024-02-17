@@ -48,7 +48,7 @@ class _RegisterFormState extends State<RegisterPage> {
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: Column(
               children: [
-                const Icon(Icons.man, size: 80),
+                const Icon(Icons.person, size: 80),
                 const Text("Let's create an acount"),
                 const TextField(
                   decoration: InputDecoration(

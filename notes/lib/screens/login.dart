@@ -42,7 +42,7 @@ class _LoginFormState extends State<LoginPage> {
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: Column(
               children: [
-                const Icon(Icons.message, size: 80),
+                const Icon(Icons.person, size: 80),
                 const Text(pleaseLogin),
                 TextField(
                   decoration: const InputDecoration(
