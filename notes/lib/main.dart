@@ -3,13 +3,18 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive_flutter/adapters.dart';
 
 import 'package:notes/screens/mainScreen.dart';
+import 'package:notes/model/myTreeNode.dart';
+import 'boxes.dart';
 
 void main() async {
-  //initialize hive
+  // initialize hive
   await Hive.initFlutter();
 
-  // oben a box
-  await Hive.openBox("Notes_Database");
+  // registring myTreeNodeAdapter
+  Hive.registerAdapter(MyTreeNodeAdapter());
+
+  // open a box
+  boxHierachy = await Hive.openBox<List<MyTreeNode>>("Notes_Database");
 
   runApp(const MyApp());
 }

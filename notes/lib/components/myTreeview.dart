@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:notes/data/notes_database.dart';
 import 'package:notes/model/myTreeNode.dart';
 import "dart:developer";
+import "package:notes/boxes.dart";
 
 class MyTreeView extends StatefulWidget {
   const MyTreeView({super.key});
@@ -11,18 +14,28 @@ class MyTreeView extends StatefulWidget {
 }
 
 class _MyTreeViewState extends State<MyTreeView> {
-  late final TreeController<MyNode> treeController;
+  late final TreeController<MyTreeNode> treeController;
 
-  //init root
-  List<MyNode> roots = [MyNode(id: "/home", title: "Home", isNote: false)];
+  NotesDatabase db = NotesDatabase();
 
   @override
   void initState() {
-    super.initState();
-    treeController = TreeController<MyNode>(
-      roots: roots,
-      childrenProvider: (MyNode node) => node.children,
+    //there is no initial state, first time the application runs
+    if (boxHierachy.get("TREE_VIEW") == null) {
+      log("Creating new data!");
+      db.createDefaultData();
+    }
+    //there are saved data
+    else {
+      log("Loading data!");
+      db.loadData();
+    }
+
+    treeController = TreeController<MyTreeNode>(
+      roots: db.roots,
+      childrenProvider: (MyTreeNode node) => node.children,
     );
+    super.initState();
   }
 
   @override
@@ -37,10 +50,10 @@ class _MyTreeViewState extends State<MyTreeView> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          TreeView<MyNode>(
+          TreeView<MyTreeNode>(
             shrinkWrap: true,
             treeController: treeController,
-            nodeBuilder: (BuildContext context, TreeEntry<MyNode> entry) {
+            nodeBuilder: (BuildContext context, TreeEntry<MyTreeNode> entry) {
               return MyTreeTile(
                 key: ValueKey(entry.node),
                 entry: entry,
@@ -62,7 +75,7 @@ class MyTreeTile extends StatelessWidget {
       required this.onTap,
       required this.treeController});
 
-  final TreeEntry<MyNode> entry;
+  final TreeEntry<MyTreeNode> entry;
   final VoidCallback onTap;
   final TreeController treeController;
 
@@ -103,10 +116,10 @@ class MyTreeTile extends StatelessWidget {
     );
   }
 
-  void delete(MyNode node) {
+  void delete(MyTreeNode node) {
     log("deleting node");
     log("${entry.parent?.node}");
-    MyNode? parent = entry.parent?.node;
+    MyTreeNode? parent = entry.parent?.node;
     if (parent == null) {
       log("root");
     } else {
@@ -116,16 +129,16 @@ class MyTreeTile extends StatelessWidget {
     log("${treeController.roots.first}");
   }
 
-  void rename(MyNode node) {
+  void rename(MyTreeNode node) {
     log("Renaming node");
     node.title = "remaned node";
     treeController.rebuild();
   }
 
-  void addChildren(MyNode node) {
+  void addChildren(MyTreeNode node) {
     log("Adding children");
-    MyNode newChild =
-        MyNode(id: node.id + '/Newchild', title: "New child", isNote: false);
+    MyTreeNode newChild = MyTreeNode(
+        id: node.id + '/Newchild', title: "New child", isNote: false);
     node.addChild(newChild);
     treeController.expand(node);
     treeController.rebuild();
