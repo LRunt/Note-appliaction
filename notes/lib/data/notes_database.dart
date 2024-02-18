@@ -1,7 +1,7 @@
 import 'package:notes/model/myTreeNode.dart';
 import 'package:notes/boxes.dart';
 import 'package:notes/assets/constants.dart';
-//reference to our box
+import 'dart:developer';
 
 class NotesDatabase {
   List<MyTreeNode> roots = [];
@@ -15,6 +15,7 @@ class NotesDatabase {
   // load data if already exists
   void loadData() {
     MyTreeNode? storedData = boxHierachy.get(TREE_STORAGE);
+    log("Loaded data: ${storedData}");
 
     if (storedData != null) {
       roots = [storedData];
@@ -25,6 +26,7 @@ class NotesDatabase {
 
   // update database
   void updateDatabase() {
-    boxHierachy.put(TREE_STORAGE, roots);
+    log("Updating database: ${roots.firstOrNull}");
+    boxHierachy.put(TREE_STORAGE, roots.firstOrNull);
   }
 }

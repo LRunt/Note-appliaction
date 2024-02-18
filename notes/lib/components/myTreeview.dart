@@ -56,11 +56,11 @@ class _MyTreeViewState extends State<MyTreeView> {
             treeController: treeController,
             nodeBuilder: (BuildContext context, TreeEntry<MyTreeNode> entry) {
               return MyTreeTile(
-                key: ValueKey(entry.node),
-                entry: entry,
-                onTap: () => treeController.toggleExpansion(entry.node),
-                treeController: treeController,
-              );
+                  key: ValueKey(entry.node),
+                  entry: entry,
+                  onTap: () => treeController.toggleExpansion(entry.node),
+                  treeController: treeController,
+                  db: db);
             },
           ),
         ],
@@ -74,42 +74,38 @@ class MyTreeTile extends StatelessWidget {
       {super.key,
       required this.entry,
       required this.onTap,
-      required this.treeController});
+      required this.treeController,
+      required this.db});
 
   final TreeEntry<MyTreeNode> entry;
   final VoidCallback onTap;
   final TreeController treeController;
+  final NotesDatabase db;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        //entry.node.title = "Hehe";
         log(entry.node.title);
         onTap();
       },
       child: TreeIndentation(
         entry: entry,
         guide: const IndentGuide.connectingLines(indent: 10),
-        child: GestureDetector(
-          onLongPressStart: (LongPressStartDetails details) {
-            _showPopupMenu(context, details.globalPosition);
-          },
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(4, 8, 8, 8),
-            child: GestureDetector(
-              onLongPressStart: (LongPressStartDetails details) {
-                _showPopupMenu(context, details.globalPosition);
-              },
-              child: Row(
-                children: [
-                  FolderButton(
-                    isOpen: entry.hasChildren ? entry.isExpanded : null,
-                    onPressed: entry.hasChildren ? onTap : null,
-                  ),
-                  Text(entry.node.title),
-                ],
-              ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(4, 8, 8, 8),
+          child: GestureDetector(
+            onLongPressStart: (LongPressStartDetails details) {
+              _showPopupMenu(context, details.globalPosition);
+            },
+            child: Row(
+              children: [
+                FolderButton(
+                  isOpen: entry.hasChildren ? entry.isExpanded : null,
+                  onPressed: entry.hasChildren ? onTap : null,
+                ),
+                Text(entry.node.title),
+              ],
             ),
           ),
         ),
@@ -128,12 +124,14 @@ class MyTreeTile extends StatelessWidget {
     }
     treeController.rebuild();
     log("${treeController.roots.first}");
+    db.updateDatabase();
   }
 
   void rename(MyTreeNode node) {
     log("Renaming node");
     node.title = "remaned node";
     treeController.rebuild();
+    db.updateDatabase();
   }
 
   void addChildren(MyTreeNode node) {
@@ -144,6 +142,7 @@ class MyTreeTile extends StatelessWidget {
     treeController.expand(node);
     treeController.rebuild();
     log("${treeController.roots}");
+    db.updateDatabase();
   }
 
   void _showPopupMenu(BuildContext context, Offset tapPosition) async {
