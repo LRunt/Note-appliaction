@@ -1,19 +1,35 @@
 class MyNode {
+  /// Path of directory/note
+  String id;
+
+  /// Name of the directory/note
   String title;
+
+  /// If the tree node is directory or note
+  bool isNote;
+
+  /// Childrens of the note or directory
   List<MyNode> children;
 
+  ///Constructor of the treenode
   MyNode({
+    required this.id,
     required this.title,
-    this.children = const <MyNode>[],
-  });
+    required this.isNote,
+    List<MyNode>? children,
+  }) : children = children ?? [];
 
-  factory MyNode.fromJson(Map<String, dynamic> json) {
-    return MyNode(
-      title: json['title'],
-      children: (json['children'] as List<dynamic>?)
-              ?.map((child) => MyNode.fromJson(child))
-              .toList() ??
-          [],
-    );
+  /// Add a child to the node
+  void addChild(MyNode child) {
+    if (children == null) {
+      children = [child];
+    } else {
+      children.add(child);
+    }
+  }
+
+  @override
+  String toString() {
+    return "Title: $title, Childrens: $children";
   }
 }

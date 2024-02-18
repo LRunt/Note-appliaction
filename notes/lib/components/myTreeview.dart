@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
 import 'package:notes/model/myTreeNode.dart';
-import 'dart:convert';
+import "dart:developer";
 
 class MyTreeView extends StatefulWidget {
   const MyTreeView({super.key});
@@ -13,57 +13,14 @@ class MyTreeView extends StatefulWidget {
 class _MyTreeViewState extends State<MyTreeView> {
   late final TreeController<MyNode> treeController;
 
-  List<MyNode> _parseJsonTree(dynamic json) {
-    List<MyNode> nodes = [];
-
-    for (var rootNode in json) {
-      MyNode node = MyNode.fromJson(rootNode);
-      nodes.add(node);
-    }
-
-    return nodes;
-  }
+  //init root
+  List<MyNode> roots = [MyNode(id: "/home", title: "Home", isNote: false)];
 
   @override
   void initState() {
     super.initState();
-    String jsonData = '''
-      {
-        "roots": [
-          {
-            "title": "Root 1",
-            "children": [
-              {
-                "title": "Node 1.1",
-                "children": [
-                  {"title": "Node 1.1.1"},
-                  {"title": "Node 1.1.2"}
-                ]
-              },
-              {"title": "Node 1.2"}
-            ]
-          },
-          {
-            "title": "Root 2",
-            "children": [
-              {
-                "title": "Node 2.1",
-                "children": [
-                  {"title": "Node 2.1.1"}
-                ]
-              },
-              {"title": "Node 2.2"}
-            ]
-          },
-          {"title": "Nova slozka"}
-        ]
-      }
-    ''';
-
-    dynamic json = jsonDecode(jsonData);
-
     treeController = TreeController<MyNode>(
-      roots: _parseJsonTree(json['roots']),
+      roots: roots,
       childrenProvider: (MyNode node) => node.children,
     );
   }
@@ -88,6 +45,7 @@ class _MyTreeViewState extends State<MyTreeView> {
                 key: ValueKey(entry.node),
                 entry: entry,
                 onTap: () => treeController.toggleExpansion(entry.node),
+                treeController: treeController,
               );
             },
           ),
@@ -98,21 +56,22 @@ class _MyTreeViewState extends State<MyTreeView> {
 }
 
 class MyTreeTile extends StatelessWidget {
-  const MyTreeTile({
-    super.key,
-    required this.entry,
-    required this.onTap,
-  });
+  const MyTreeTile(
+      {super.key,
+      required this.entry,
+      required this.onTap,
+      required this.treeController});
 
   final TreeEntry<MyNode> entry;
   final VoidCallback onTap;
+  final TreeController treeController;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         //entry.node.title = "Hehe";
-        print(entry.node.title);
+        log(entry.node.title);
         onTap();
       },
       child: TreeIndentation(
@@ -144,6 +103,35 @@ class MyTreeTile extends StatelessWidget {
     );
   }
 
+  void delete(MyNode node) {
+    log("deleting node");
+    log("${entry.parent?.node}");
+    MyNode? parent = entry.parent?.node;
+    if (parent == null) {
+      log("root");
+    } else {
+      parent.children.remove(node);
+    }
+    treeController.rebuild();
+    log("${treeController.roots.first}");
+  }
+
+  void rename(MyNode node) {
+    log("Renaming node");
+    node.title = "remaned node";
+    treeController.rebuild();
+  }
+
+  void addChildren(MyNode node) {
+    log("Adding children");
+    MyNode newChild =
+        MyNode(id: node.id + '/Newchild', title: "New child", isNote: false);
+    node.addChild(newChild);
+    treeController.expand(node);
+    treeController.rebuild();
+    log("${treeController.roots}");
+  }
+
   void _showPopupMenu(BuildContext context, Offset tapPosition) async {
     final RenderBox overlay =
         Overlay.of(context)!.context.findRenderObject() as RenderBox;
@@ -155,28 +143,22 @@ class MyTreeTile extends StatelessWidget {
         Offset.zero & overlay.size,
       ),
       items: <PopupMenuEntry>[
-        const PopupMenuItem(
+        PopupMenuItem(
+          onTap: () => delete(entry.node),
           value: 'delete',
-          child: Text('Delete'),
+          child: const Text('Delete'),
         ),
-        const PopupMenuItem(
+        PopupMenuItem(
+          onTap: () => rename(entry.node),
           value: 'rename',
-          child: Text('Rename'),
+          child: const Text('Rename'),
         ),
-        const PopupMenuItem(
+        PopupMenuItem(
+          onTap: () => addChildren(entry.node),
           value: 'addChildren',
-          child: Text('add Children'),
-        ),
-        const PopupMenuItem(
-          value: 'addSibling',
-          child: Text('add Sibling'),
+          child: const Text('add Children'),
         )
-        // Add more menu items as needed
       ],
-    ).then((value) {
-      if (value != null) {
-        print('Selected: $value');
-      }
-    });
+    );
   }
 }
