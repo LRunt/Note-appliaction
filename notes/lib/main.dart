@@ -14,7 +14,7 @@ void main() async {
   Hive.registerAdapter(MyTreeNodeAdapter());
 
   // open a box
-  boxHierachy = await Hive.openBox<List<MyTreeNode>>("Notes_Database");
+  boxHierachy = await Hive.openBox<MyTreeNode>("Notes_Database");
 
   runApp(const MyApp());
 }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'dart:developer';
 import 'package:notes/data/notes_database.dart';
 import 'package:notes/model/myTreeNode.dart';
-import "dart:developer";
-import "package:notes/boxes.dart";
+import 'package:notes/boxes.dart';
+import 'package:notes/assets/constants.dart';
 
 class MyTreeView extends StatefulWidget {
   const MyTreeView({super.key});
@@ -21,7 +21,8 @@ class _MyTreeViewState extends State<MyTreeView> {
   @override
   void initState() {
     //there is no initial state, first time the application runs
-    if (boxHierachy.get("TREE_VIEW") == null) {
+    if (!boxHierachy.containsKey(TREE_STORAGE) ||
+        boxHierachy.get(TREE_STORAGE) == null) {
       log("Creating new data!");
       db.createDefaultData();
     }

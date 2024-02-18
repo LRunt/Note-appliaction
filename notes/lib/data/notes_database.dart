@@ -1,8 +1,7 @@
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:notes/model/myTreeNode.dart';
 import 'package:notes/boxes.dart';
+import 'package:notes/assets/constants.dart';
 //reference to our box
-//final _myBox = Hive.box<List<MyTreeNode>>("Notes_Database");
 
 class NotesDatabase {
   List<MyTreeNode> roots = [];
@@ -10,15 +9,15 @@ class NotesDatabase {
   // create initial default data
   void createDefaultData() {
     roots = [MyTreeNode(id: "/home", title: "Home", isNote: false)];
-    boxHierachy.put("TREE_VIEW", roots);
+    boxHierachy.put(TREE_STORAGE, roots.firstOrNull);
   }
 
   // load data if already exists
   void loadData() {
-    List<MyTreeNode>? storedData = boxHierachy.get("TREE_VIEW");
+    MyTreeNode? storedData = boxHierachy.get(TREE_STORAGE);
 
-    if (storedData != null && storedData.isNotEmpty) {
-      roots = storedData;
+    if (storedData != null) {
+      roots = [storedData];
     } else {
       roots = [MyTreeNode(id: "/home", title: "Home", isNote: false)];
     }
@@ -26,6 +25,6 @@ class NotesDatabase {
 
   // update database
   void updateDatabase() {
-    boxHierachy.put("TREE_VIEW", roots);
+    boxHierachy.put(TREE_STORAGE, roots);
   }
 }
