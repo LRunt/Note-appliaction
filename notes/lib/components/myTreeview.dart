@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
+import 'package:notes/components/deleteNodeBox.dart';
 import 'dart:developer';
 import 'package:notes/data/notes_database.dart';
 import 'package:notes/model/myTreeNode.dart';
@@ -113,8 +114,23 @@ class MyTreeTile extends StatelessWidget {
     );
   }
 
-  void delete(MyTreeNode node) {
+  /// Showing dialog with asking the user if he is sure to delete the node
+  void showDeleteDialog(BuildContext context, MyTreeNode node) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return DeleteNodeBox(
+            nodeName: node.title,
+            onDelete: () => deleteNode(context, node),
+            onCancel: () => cancelDelete(context),
+          );
+        });
+  }
+
+  /// Deleting the node
+  void deleteNode(BuildContext context, MyTreeNode node) {
     log("deleting node");
+    Navigator.of(context).pop();
     log("${entry.parent?.node}");
     MyTreeNode? parent = entry.parent?.node;
     if (parent == null) {
@@ -125,6 +141,11 @@ class MyTreeTile extends StatelessWidget {
     treeController.rebuild();
     log("${treeController.roots.first}");
     db.updateDatabase();
+  }
+
+  /// Poping the alert dialog
+  void cancelDelete(BuildContext context) {
+    Navigator.of(context).pop();
   }
 
   void rename(MyTreeNode node) {
@@ -157,7 +178,7 @@ class MyTreeTile extends StatelessWidget {
       ),
       items: <PopupMenuEntry>[
         PopupMenuItem(
-          onTap: () => delete(entry.node),
+          onTap: () => showDeleteDialog(context, entry.node),
           value: 'delete',
           child: const Text('Delete'),
         ),

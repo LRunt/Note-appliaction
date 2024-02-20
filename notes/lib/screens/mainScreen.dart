@@ -47,7 +47,9 @@ class MainScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          print("Pressed floating button");
+        },
         child: const Icon(Icons.add),
       ),
     );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'dart:io';
 
 import 'package:notes/screens/mainScreen.dart';
 import 'package:notes/model/myTreeNode.dart';
