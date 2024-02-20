@@ -30,13 +30,14 @@ class MyTreeNode {
 
   /// Add a child to the node
   void addChild(MyTreeNode child) {
-    if (children == null) {
+    if (children.isEmpty) {
       children = [child];
     } else {
       children.add(child);
     }
   }
 
+  /// Text representation of the treeNode
   @override
   String toString() {
     return "Title: $title, Childrens: $children";
