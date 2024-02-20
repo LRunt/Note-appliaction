@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
-import 'package:notes/components/deleteNodeBox.dart';
+import 'package:notes/components/dialogs/deleteNodeDialog.dart';
+import 'package:notes/components/dialogs/renameNodeDialog.dart';
 import 'dart:developer';
 import 'package:notes/data/notes_database.dart';
 import 'package:notes/model/myTreeNode.dart';
@@ -71,7 +72,7 @@ class _MyTreeViewState extends State<MyTreeView> {
 }
 
 class MyTreeTile extends StatelessWidget {
-  const MyTreeTile(
+  MyTreeTile(
       {super.key,
       required this.entry,
       required this.onTap,
@@ -119,12 +120,33 @@ class MyTreeTile extends StatelessWidget {
     showDialog(
         context: context,
         builder: (context) {
-          return DeleteNodeBox(
+          return DeleteNodeDialog(
             nodeName: node.title,
             onDelete: () => deleteNode(context, node),
-            onCancel: () => cancelDelete(context),
+            onCancel: () => closeAndClear(context),
           );
         });
+  }
+
+  final _textDialogController = TextEditingController();
+  void showRenameDialog(BuildContext context, MyTreeNode node) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return RenameNodeDialog(
+              nodeName: node.title,
+              controller: _textDialogController,
+              onRename: () => renameNode(context, node),
+              onCancel: () => closeAndClear(context));
+        });
+  }
+
+  void renameNode(BuildContext context, MyTreeNode node) {
+    log("Renaming node");
+    node.title = _textDialogController.text;
+    closeAndClear(context);
+    treeController.rebuild();
+    db.updateDatabase();
   }
 
   /// Deleting the node
@@ -143,16 +165,10 @@ class MyTreeTile extends StatelessWidget {
     db.updateDatabase();
   }
 
-  /// Poping the alert dialog
-  void cancelDelete(BuildContext context) {
+  /// Closes dialogs and clears controllers
+  void closeAndClear(BuildContext context) {
+    _textDialogController.clear();
     Navigator.of(context).pop();
-  }
-
-  void rename(MyTreeNode node) {
-    log("Renaming node");
-    node.title = "remaned node";
-    treeController.rebuild();
-    db.updateDatabase();
   }
 
   void addChildren(MyTreeNode node) {
@@ -183,7 +199,7 @@ class MyTreeTile extends StatelessWidget {
           child: const Text('Delete'),
         ),
         PopupMenuItem(
-          onTap: () => rename(entry.node),
+          onTap: () => showRenameDialog(context, entry.node),
           value: 'rename',
           child: const Text('Rename'),
         ),

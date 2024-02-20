@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class DeleteNodeBox extends StatelessWidget {
+class DeleteNodeDialog extends StatelessWidget {
   final String nodeName;
   final VoidCallback onDelete;
   final VoidCallback onCancel;
 
-  const DeleteNodeBox(
+  const DeleteNodeDialog(
       {super.key,
       required this.nodeName,
       required this.onDelete,
