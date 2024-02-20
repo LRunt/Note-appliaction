@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
+import 'package:notes/components/dialogs/createNodeDialog.dart';
 import 'package:notes/components/dialogs/deleteNodeDialog.dart';
 import 'package:notes/components/dialogs/renameNodeDialog.dart';
 import 'dart:developer';
@@ -128,6 +129,7 @@ class MyTreeTile extends StatelessWidget {
         });
   }
 
+  /// Showing dialog to rename the node
   final _textDialogController = TextEditingController();
   void showRenameDialog(BuildContext context, MyTreeNode node) {
     showDialog(
@@ -141,8 +143,37 @@ class MyTreeTile extends StatelessWidget {
         });
   }
 
+  /// Showing dialog to create new dorectory or node
+  void showCreateDialog(BuildContext context, MyTreeNode node) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return CreateNodeDialog(
+              nodeName: node.title,
+              controller: _textDialogController,
+              onCreate: () => createNode(context, node),
+              onCancel: () => closeAndClear(context));
+        });
+  }
+
+  /// Creating new node as children of [node]
+  void createNode(BuildContext context, MyTreeNode node) {
+    log("Adding children of node ${node.title}");
+    MyTreeNode newChild = MyTreeNode(
+        id: "${node.id}/${_textDialogController.text}",
+        title: _textDialogController.text,
+        isNote: false);
+    node.addChild(newChild);
+    treeController.expand(node);
+    treeController.rebuild();
+    closeAndClear(context);
+    log("${treeController.roots}");
+    db.updateDatabase();
+  }
+
+  /// Renaming the node
   void renameNode(BuildContext context, MyTreeNode node) {
-    log("Renaming node");
+    log("Renaming node ${node.title}");
     node.title = _textDialogController.text;
     closeAndClear(context);
     treeController.rebuild();
@@ -151,7 +182,7 @@ class MyTreeTile extends StatelessWidget {
 
   /// Deleting the node
   void deleteNode(BuildContext context, MyTreeNode node) {
-    log("deleting node");
+    log("deleting node ${node.title}");
     Navigator.of(context).pop();
     log("${entry.parent?.node}");
     MyTreeNode? parent = entry.parent?.node;
@@ -171,21 +202,11 @@ class MyTreeTile extends StatelessWidget {
     Navigator.of(context).pop();
   }
 
-  void addChildren(MyTreeNode node) {
-    log("Adding children");
-    MyTreeNode newChild = MyTreeNode(
-        id: node.id + '/Newchild', title: "New child", isNote: false);
-    node.addChild(newChild);
-    treeController.expand(node);
-    treeController.rebuild();
-    log("${treeController.roots}");
-    db.updateDatabase();
-  }
-
+  ///Showing the menu with items rename, delete and create
   void _showPopupMenu(BuildContext context, Offset tapPosition) async {
     final RenderBox overlay =
         Overlay.of(context)!.context.findRenderObject() as RenderBox;
-
+    //showing the menu
     showMenu(
       context: context,
       position: RelativeRect.fromRect(
@@ -204,9 +225,9 @@ class MyTreeTile extends StatelessWidget {
           child: const Text('Rename'),
         ),
         PopupMenuItem(
-          onTap: () => addChildren(entry.node),
-          value: 'addChildren',
-          child: const Text('add Children'),
+          onTap: () => showCreateDialog(context, entry.node),
+          value: 'create',
+          child: const Text('Create'),
         )
       ],
     );
