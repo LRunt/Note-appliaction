@@ -1,17 +1,62 @@
 import 'package:flutter/material.dart';
+import 'dart:developer';
 import 'package:notes/services/loginOrRegister.dart';
 import 'package:notes/components/myTreeview.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   static const appTitle = 'Notes';
 
   const MainScreen({super.key});
 
   @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  int _pageType = 0;
+  String _noteId = "";
+
+  void _changeScreen(int screenType, String id) {
+    setState(() {
+      _noteId = id;
+      _pageType = screenType;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    List<Widget> _widgetTypes = <Widget>[
+      Container(
+        padding: const EdgeInsets.all(50),
+        child: const FittedBox(
+          child: Text(
+            "Welcome back!",
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 32.0,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+      Container(
+        padding: const EdgeInsets.all(50),
+        child: FittedBox(
+          child: Text(
+            "Opening note $_noteId",
+            style: const TextStyle(
+              color: Colors.grey,
+              fontSize: 32.0,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      )
+    ];
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text(appTitle),
+        title: const Text(MainScreen.appTitle),
       ),
       drawer: Drawer(
         child: ListView(
@@ -32,23 +77,21 @@ class MainScreen extends StatelessWidget {
               },
               child: const Text('Login'),
             ),
-            const MyTreeView(),
+            MyTreeView(
+              navigateWithParam: (int pageType, String id) {
+                log("Navigation $id");
+                _changeScreen(pageType, id);
+              },
+            ),
           ],
         ),
       ),
-      body: const Center(
-        child: Text(
-          'Here will be rich editor',
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 32.0,
-          ),
-          textAlign: TextAlign.center,
-        ),
+      body: Center(
+        child: _widgetTypes[_pageType],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print("Pressed floating button");
+          log("Pressed floating button");
         },
         child: const Icon(Icons.add),
       ),

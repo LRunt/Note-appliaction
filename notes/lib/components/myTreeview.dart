@@ -10,7 +10,9 @@ import 'package:notes/boxes.dart';
 import 'package:notes/assets/constants.dart';
 
 class MyTreeView extends StatefulWidget {
-  const MyTreeView({super.key});
+  final void Function(int, String) navigateWithParam;
+
+  const MyTreeView({super.key, required this.navigateWithParam});
 
   @override
   State<MyTreeView> createState() => _MyTreeViewState();
@@ -62,6 +64,7 @@ class _MyTreeViewState extends State<MyTreeView> {
                   key: ValueKey(entry.node),
                   entry: entry,
                   onTap: () => treeController.toggleExpansion(entry.node),
+                  navigate: () => widget.navigateWithParam(1, entry.node.id),
                   treeController: treeController,
                   db: db);
             },
@@ -77,11 +80,13 @@ class MyTreeTile extends StatelessWidget {
       {super.key,
       required this.entry,
       required this.onTap,
+      required this.navigate,
       required this.treeController,
       required this.db});
 
   final TreeEntry<MyTreeNode> entry;
   final VoidCallback onTap;
+  final VoidCallback navigate;
   final TreeController treeController;
   final NotesDatabase db;
 
@@ -90,7 +95,7 @@ class MyTreeTile extends StatelessWidget {
     return InkWell(
       onTap: () {
         log(entry.node.title);
-        onTap();
+        navigate();
       },
       child: TreeIndentation(
         entry: entry,
