@@ -16,6 +16,8 @@ void main() async {
 
   // open a box
   boxHierachy = await Hive.openBox<MyTreeNode>("Notes_Database");
+  boxNotes = await Hive.openBox("Notes");
+  boxUser = await Hive.openBox("User");
 
   runApp(const MyApp());
 }

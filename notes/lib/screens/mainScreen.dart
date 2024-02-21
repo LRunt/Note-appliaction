@@ -40,7 +40,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       ),
-      const RichTextEditor()
+      RichTextEditor(noteId: _noteId)
     ];
 
     return Scaffold(
