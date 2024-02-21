@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes/components/richTextEditor.dart';
 import 'dart:developer';
 import 'package:notes/services/loginOrRegister.dart';
 import 'package:notes/components/myTreeview.dart';
@@ -39,19 +40,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       ),
-      Container(
-        padding: const EdgeInsets.all(50),
-        child: FittedBox(
-          child: Text(
-            "Opening note $_noteId",
-            style: const TextStyle(
-              color: Colors.grey,
-              fontSize: 32.0,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      )
+      const RichTextEditor()
     ];
 
     return Scaffold(
