@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:notes/model/note.dart';
 
 import 'package:notes/screens/mainScreen.dart';
 import 'package:notes/model/myTreeNode.dart';
 import 'boxes.dart';
 
+/// main - entry point of the program
 void main() async {
   // initialize hive
   await Hive.initFlutter();

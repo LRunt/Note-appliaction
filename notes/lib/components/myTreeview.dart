@@ -176,7 +176,7 @@ class MyTreeTile extends StatelessWidget {
     db.updateDatabase();
   }
 
-  /// Renaming the node
+  /// Renaming the [node]
   void renameNode(BuildContext context, MyTreeNode node) {
     log("Renaming node ${node.title}");
     node.title = _textDialogController.text;
@@ -210,7 +210,7 @@ class MyTreeTile extends StatelessWidget {
   ///Showing the menu with items rename, delete and create
   void _showPopupMenu(BuildContext context, Offset tapPosition) async {
     final RenderBox overlay =
-        Overlay.of(context)!.context.findRenderObject() as RenderBox;
+        Overlay.of(context).context.findRenderObject() as RenderBox;
     //showing the menu
     showMenu(
       context: context,
