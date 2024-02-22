@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:notes/boxes.dart';
+import 'dart:developer';
 
 class RichTextEditor extends StatefulWidget {
   final String noteId;
@@ -19,8 +20,8 @@ class _RichTextEditorState extends State<RichTextEditor> {
   @override
   void initState() {
     super.initState();
-    _controller.addListener(_saveDocument);
     _loadDocument();
+    _controller.addListener(_saveDocument);
   }
 
   @override
@@ -31,12 +32,15 @@ class _RichTextEditorState extends State<RichTextEditor> {
   }
 
   void _loadDocument() async {
+    log("Loading new state");
     final documentJson = boxNotes.get(widget.noteId);
     if (documentJson != null) {
       final document = Document.fromJson(jsonDecode(documentJson));
       _controller = QuillController(
           document: document,
           selection: const TextSelection.collapsed(offset: 0));
+    } else {
+      _controller = QuillController.basic();
     }
   }
 
@@ -53,7 +57,11 @@ class _RichTextEditorState extends State<RichTextEditor> {
             configurations:
                 QuillSimpleToolbarConfigurations(controller: _controller)),
         QuillEditor.basic(
-            configurations: QuillEditorConfigurations(controller: _controller))
+            configurations: QuillEditorConfigurations(
+                controller: _controller,
+                padding: const EdgeInsets.all(10),
+                readOnly: false,
+                autoFocus: true))
       ],
     );
   }

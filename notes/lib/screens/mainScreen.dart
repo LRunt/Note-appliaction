@@ -40,7 +40,20 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       ),
-      RichTextEditor(noteId: _noteId)
+      RichTextEditor(noteId: _noteId),
+      Container(
+        padding: const EdgeInsets.all(50),
+        child: const FittedBox(
+          child: Text(
+            "Loading note",
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 32.0,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      )
     ];
 
     return Scaffold(
