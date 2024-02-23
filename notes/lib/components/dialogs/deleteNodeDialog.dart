@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Class [DeleteNodeDialog] is used to confirm the deletion of the node with [nodeName].
 class DeleteNodeDialog extends StatelessWidget {
@@ -21,13 +22,15 @@ class DeleteNodeDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Delete $nodeName"),
-      content: Text("Are you sure to delete $nodeName node?"),
+      title: Text(AppLocalizations.of(context)!.deleteNode(nodeName)),
+      content: Text(AppLocalizations.of(context)!.deleteContent(nodeName)),
       actions: [
-        MaterialButton(onPressed: onDelete, child: const Text("DELETE")),
+        MaterialButton(
+            onPressed: onDelete,
+            child: Text(AppLocalizations.of(context)!.delete)),
         MaterialButton(
           onPressed: onCancel,
-          child: const Text("CANCEL"),
+          child: Text(AppLocalizations.of(context)!.cancel),
         )
       ],
     );

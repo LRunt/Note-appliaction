@@ -8,8 +8,6 @@ import 'package:notes/components/myTreeview.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MainScreen extends StatefulWidget {
-  static const appTitle = 'Notes';
-
   const MainScreen({super.key});
 
   @override
@@ -35,7 +33,8 @@ class _MainScreenState extends State<MainScreen> {
       Container(
         padding: const EdgeInsets.all(50),
         child: FittedBox(
-          child: Text(AppLocalizations.of(context)!.welcome,
+          child: Text(
+            AppLocalizations.of(context)!.welcome,
             style: const TextStyle(
               color: Colors.grey,
               fontSize: 32.0,
@@ -49,7 +48,7 @@ class _MainScreenState extends State<MainScreen> {
 
     return Scaffold(
       appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.app_name),
+          title: Text(AppLocalizations.of(context)!.appName),
           actions: <Widget>[
             DropdownButton(
                 icon: const Icon(Icons.language),

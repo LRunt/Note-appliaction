@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:developer';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   final void Function()? onTap;
@@ -10,9 +11,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginPage> {
-  static const loginString = "Login";
-  static const pleaseLogin = "Please Login";
-
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -35,7 +33,7 @@ class _LoginFormState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(loginString),
+        title: Text(AppLocalizations.of(context)!.login),
       ),
       body: Center(
         child: Padding(
@@ -43,10 +41,10 @@ class _LoginFormState extends State<LoginPage> {
             child: Column(
               children: [
                 const Icon(Icons.person, size: 80),
-                const Text(pleaseLogin),
+                Text(AppLocalizations.of(context)!.loginText),
                 TextField(
-                  decoration: const InputDecoration(
-                    hintText: "Username",
+                  decoration: InputDecoration(
+                    hintText: AppLocalizations.of(context)!.username,
                   ),
                   controller: usernameController,
                 ),
@@ -56,8 +54,8 @@ class _LoginFormState extends State<LoginPage> {
                 TextField(
                   obscureText: true,
                   obscuringCharacter: "*",
-                  decoration: const InputDecoration(
-                    hintText: "Password",
+                  decoration: InputDecoration(
+                    hintText: AppLocalizations.of(context)!.password,
                   ),
                   controller: passwordController,
                 ),
@@ -68,7 +66,7 @@ class _LoginFormState extends State<LoginPage> {
                   onPressed: () {
                     login();
                   },
-                  child: const Text(loginString),
+                  child: Text(AppLocalizations.of(context)!.login),
                 ),
                 const SizedBox(
                   height: 40,
@@ -76,13 +74,13 @@ class _LoginFormState extends State<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Don't have an acount?"),
+                    Text(AppLocalizations.of(context)!.doNotHaveAccount),
                     const SizedBox(width: 4),
                     GestureDetector(
                       onTap: widget.onTap,
-                      child: const Text(
-                        "Create new here!",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      child: Text(
+                        AppLocalizations.of(context)!.createAccount,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],

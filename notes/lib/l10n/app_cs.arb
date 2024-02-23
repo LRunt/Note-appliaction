@@ -1,4 +1,23 @@
 {
-    "app_name": "Notes",
-    "welcome": "Vítej zpět!"
+    "appName": "Notes",
+    "welcome": "Vítej zpět!",
+    "registration": "Registrace",
+    "login": "Přihlášení",
+    "username": "Přezdívka",
+    "password": "Heslo",
+    "passwordConfirm": "Potvrďte heslo",
+    "loginText": "Prosím přihlašte se",
+    "doNotHaveAccount": "Nemáte založený účet?",
+    "createAccount": "Založte si nový zde!",
+    "registrationText": "Založte si nový účet",
+    "haveAccount": "Máte založený účet?",
+    "loginHere": "Přihlašte se zde!",
+    "newNode": "Vytvořit novou poznámku/složku",
+    "deleteNode": "Odstranit {nodeName}",
+    "renameNode": "Přejmenovat {nodeName}",
+    "cancel": "STORNO",
+    "create": "VYTVOŘ",
+    "delete": "ODSTRAŇ",
+    "rename": "PŘEJMENUJ",
+    "deleteContent": "Jste si jistí, že chcete smazat {nodeName}?"
 }

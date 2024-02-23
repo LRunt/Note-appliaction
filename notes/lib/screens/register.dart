@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:developer';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Form for registrating new user
 class RegisterPage extends StatefulWidget {
@@ -41,7 +42,7 @@ class _RegisterFormState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Registration"),
+        title: Text(AppLocalizations.of(context)!.registration),
       ),
       body: Center(
         child: Padding(
@@ -49,10 +50,10 @@ class _RegisterFormState extends State<RegisterPage> {
             child: Column(
               children: [
                 const Icon(Icons.person, size: 80),
-                const Text("Let's create an acount"),
-                const TextField(
+                Text(AppLocalizations.of(context)!.registrationText),
+                TextField(
                   decoration: InputDecoration(
-                    hintText: "Username",
+                    hintText: AppLocalizations.of(context)!.username,
                   ),
                 ),
                 const SizedBox(
@@ -61,8 +62,8 @@ class _RegisterFormState extends State<RegisterPage> {
                 TextField(
                   obscureText: true,
                   obscuringCharacter: "*",
-                  decoration: const InputDecoration(
-                    hintText: "Password",
+                  decoration: InputDecoration(
+                    hintText: AppLocalizations.of(context)!.password,
                   ),
                   controller: passwordController,
                 ),
@@ -72,8 +73,8 @@ class _RegisterFormState extends State<RegisterPage> {
                 TextField(
                   obscureText: true,
                   obscuringCharacter: "*",
-                  decoration: const InputDecoration(
-                    hintText: "Confirm password",
+                  decoration: InputDecoration(
+                    hintText: AppLocalizations.of(context)!.passwordConfirm,
                   ),
                   controller: confirmPasswordController,
                 ),
@@ -84,7 +85,7 @@ class _RegisterFormState extends State<RegisterPage> {
                   onPressed: () {
                     register();
                   },
-                  child: const Text("Register"),
+                  child: Text(AppLocalizations.of(context)!.registration),
                 ),
                 const SizedBox(
                   height: 40,
@@ -92,13 +93,13 @@ class _RegisterFormState extends State<RegisterPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Have an acount?"),
+                    Text(AppLocalizations.of(context)!.haveAccount),
                     const SizedBox(width: 4),
                     GestureDetector(
                       onTap: widget.onTap,
-                      child: const Text(
-                        "Login here!",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      child: Text(
+                        AppLocalizations.of(context)!.loginHere,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],

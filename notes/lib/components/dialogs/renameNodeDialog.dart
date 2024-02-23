@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Class [RenameNodeDialog] creates alert dialog to the rename the node.
 class RenameNodeDialog extends StatelessWidget {
@@ -25,15 +26,17 @@ class RenameNodeDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Rename $nodeName"),
+      title: Text(AppLocalizations.of(context)!.renameNode(nodeName)),
       content: TextField(
         controller: controller,
       ),
       actions: [
-        MaterialButton(onPressed: onRename, child: const Text("RENAME")),
+        MaterialButton(
+            onPressed: onRename,
+            child: Text(AppLocalizations.of(context)!.rename)),
         MaterialButton(
           onPressed: onCancel,
-          child: const Text("CANCEL"),
+          child: Text(AppLocalizations.of(context)!.cancel),
         )
       ],
     );

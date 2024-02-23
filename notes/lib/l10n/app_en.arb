@@ -1,4 +1,104 @@
 {
-    "app_name": "Notes",
-    "welcome": "Welcome back!"
+    "appName": "Notes",
+    "@appName": {
+        "description": "The name of the application."
+    },
+    "welcome": "Welcome back!",
+    "@welcome": {
+        "description": "Greeting, when user open the app."
+    },
+    "registration": "Registration",
+    "@registration": {
+        "description": "Registration of the new user account."
+    },
+    "login": "Login",
+    "@login": {
+        "description": "Autentification of the user."
+    },
+    "username": "Username",
+    "@username": {
+        "description": "Username of the user."
+    },
+    "password": "Password",
+    "@password": {
+        "description": "Secret string that allows access to a computer system or service."
+    },
+    "passwordConfirm": "Confirm password",
+    "@passwordConfirm": {
+        "description": "Confirmation of the password to control if there is not any missclick."
+    },
+    "loginText": "Please Login",
+    "@loginText": {
+        "description": "Introductory text for login."
+    },
+    "doNotHaveAccount": "Don't have an acount?",
+    "@doNotHaveAccount": {
+        "description": "Asking the user if he do not have an account."  
+    },
+    "createAccount": "Create new here!",
+    "@createAccount": {
+        "description": "Text that redirects the user to the registration page."
+    },
+    "registrationText": "Let's create an acount",
+    "@registrationText": {
+        "description": "Introductory text for registration."
+    },
+    "haveAccount": "Have an acount?",
+    "@haveAccount": {
+        "description": "Asking the user if he have an account."
+    },
+    "loginHere": "Login here!",
+    "@loginHere": {
+        "description": "Text that redirects the user to the login page."
+    },
+    "newNode": "Create new note/directory",
+    "@newNode": {
+        "description": "Title of the creating new node alert dialog."
+    },
+    "deleteNode": "Delete {nodeName}",
+    "@deleteNode": {
+        "description": "Title of the deleting node alert dialog.",
+        "placeholders": {
+            "nodeName": {
+                "type": "String",
+                "example": "My note"
+            }
+        }
+    },
+    "renameNode": "Rename {nodeName}",
+    "@renameNode": {
+        "description": "Title of the renaming the node alert dialog.",
+        "placeholders": {
+            "nodeName": {
+                "type": "String",
+                "example": "My note"
+            }
+        }
+    },
+    "cancel": "CANCEL",
+    "@cancel": {
+        "description": "Text content of the cancel button to the cancel the decision."
+    },
+    "create": "CREATE",
+    "@create": {
+        "description": "Text content of the create button which leads to the creating new object."
+    },
+    "delete": "DELETE",
+    "@delete": {
+        "description": "Text content of the delete button which leads to the deleting objects."
+    },
+    "rename": "RENAME",
+    "@rename": {
+        "description": "Text content of the rename button which leads to the remaning the objects."
+    },
+    "deleteContent": "Are you sure to delete {nodeName} node?",
+    "@deleteContent": {
+        "description": "The question to the user, if he want to delete the node.",
+        "placeholders": {
+            "nodeName": {
+                "type": "String",
+                "example": "My note"               
+            }
+        }
+    }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Class [CreateNodeDialog] creates alert dialog to create new note or directory.
 class CreateNodeDialog extends StatelessWidget {
@@ -25,15 +26,17 @@ class CreateNodeDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Create new note"),
+      title: Text(AppLocalizations.of(context)!.newNode),
       content: TextField(
         controller: controller,
       ),
       actions: [
-        MaterialButton(onPressed: onCreate, child: const Text("CREATE")),
+        MaterialButton(
+            onPressed: onCreate,
+            child: Text(AppLocalizations.of(context)!.create)),
         MaterialButton(
           onPressed: onCancel,
-          child: const Text("CANCEL"),
+          child: Text(AppLocalizations.of(context)!.cancel),
         )
       ],
     );
