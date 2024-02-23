@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:notes/components/richTextEditor.dart';
+import 'package:notes/main.dart';
+import 'package:notes/model/language.dart';
 import 'dart:developer';
 import 'package:notes/services/loginOrRegister.dart';
 import 'package:notes/components/myTreeview.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MainScreen extends StatefulWidget {
   static const appTitle = 'Notes';
@@ -31,10 +34,9 @@ class _MainScreenState extends State<MainScreen> {
     List<Widget> _widgetTypes = <Widget>[
       Container(
         padding: const EdgeInsets.all(50),
-        child: const FittedBox(
-          child: Text(
-            "Welcome back!",
-            style: TextStyle(
+        child: FittedBox(
+          child: Text(AppLocalizations.of(context)!.welcome,
+            style: const TextStyle(
               color: Colors.grey,
               fontSize: 32.0,
             ),
@@ -47,8 +49,25 @@ class _MainScreenState extends State<MainScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(MainScreen.appTitle),
-      ),
+          title: Text(AppLocalizations.of(context)!.app_name),
+          actions: <Widget>[
+            DropdownButton(
+                icon: const Icon(Icons.language),
+                items: Language.languageList()
+                    .map((e) => DropdownMenuItem(
+                          value: e,
+                          child: Text(
+                            e.flag,
+                            style: const TextStyle(fontSize: 30),
+                          ),
+                        ))
+                    .toList(),
+                onChanged: (Language? language) {
+                  if (language != null) {
+                    MyApp.setLocale(context, Locale(language.langCode));
+                  }
+                })
+          ]),
       drawer: Drawer(
         child: ListView(
           padding: const EdgeInsets.all(0),
