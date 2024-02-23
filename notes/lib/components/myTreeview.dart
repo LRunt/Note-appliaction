@@ -9,9 +9,33 @@ import 'package:notes/model/myTreeNode.dart';
 import 'package:notes/boxes.dart';
 import 'package:notes/assets/constants.dart';
 
+/// A custom implementation of a tree view for displaying hierarchical structures.
+///
+/// This widget is designed to display a tree of nodes, where each node can represent
+/// a note or a folder in the context of a note-taking application. It utilizes the
+/// `flutter_fancy_tree_view` package to manage and display the tree structure. Users
+/// can interact with the tree by tapping on nodes to navigate, or by long-pressing
+/// to access additional options such as rename, delete, or create a new node.
+///
+/// The tree view is dynamic, allowing for the tree structure to be modified through
+/// user interaction, reflecting changes in real-time. This includes operations like
+/// adding, renaming, and deleting nodes.
+///
+/// The widget requires a navigation callback function, `navigateWithParam`, which
+/// should be implemented to handle navigation actions triggered by tapping on a node.
+///
+/// Usage:
+/// ```dart
+/// MyTreeView(navigateWithParam: (int param, String id) {
+///   // Implementation for navigation
+/// });
+/// ```
 class MyTreeView extends StatefulWidget {
+  /// A callback function used for navigating with a specified parameter.
+  /// The function takes an type of the page as integer and a noteId as string as parameters.
   final void Function(int, String) navigateWithParam;
 
+  /// Constructor of the [MyTreeView] class.
   const MyTreeView({super.key, required this.navigateWithParam});
 
   @override
@@ -19,8 +43,10 @@ class MyTreeView extends StatefulWidget {
 }
 
 class _MyTreeViewState extends State<MyTreeView> {
+  /// Controller of the hierarchical tree.
   late final TreeController<MyTreeNode> treeController;
 
+  /// The database instance for managing note data.
   NotesDatabase db = NotesDatabase();
 
   @override
@@ -75,7 +101,32 @@ class _MyTreeViewState extends State<MyTreeView> {
   }
 }
 
+/// A custom widget representing a single node (or tile) within the tree view.
+///
+/// This widget is designed to display the content of a node, including the node's
+/// title and an optional folder icon indicating whether the node has children. It
+/// supports interactions such as tapping to navigate or perform actions, and
+/// long-pressing to open a menu with additional options (rename, delete, create).
+///
+/// The widget utilizes dialogs for user interactions like renaming or deleting nodes,
+/// ensuring a consistent and user-friendly experience.
 class MyTreeTile extends StatelessWidget {
+  /// The one entry of the tree.
+  final TreeEntry<MyTreeNode> entry;
+
+  /// Reaction on the tap on the icon of the directory.
+  final VoidCallback onTap;
+
+  /// Reaction on the tap on the node.
+  final VoidCallback navigate;
+
+  /// Controller of the hierarchy.
+  final TreeController treeController;
+
+  /// Database where are the data localy stored.
+  final NotesDatabase db;
+
+  /// Constructor of the class [MyTreeTile].
   MyTreeTile(
       {super.key,
       required this.entry,
@@ -83,12 +134,6 @@ class MyTreeTile extends StatelessWidget {
       required this.navigate,
       required this.treeController,
       required this.db});
-
-  final TreeEntry<MyTreeNode> entry;
-  final VoidCallback onTap;
-  final VoidCallback navigate;
-  final TreeController treeController;
-  final NotesDatabase db;
 
   @override
   Widget build(BuildContext context) {

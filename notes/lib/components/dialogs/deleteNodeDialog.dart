@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 
+/// Class [DeleteNodeDialog] is used to confirm the deletion of the node with [nodeName].
 class DeleteNodeDialog extends StatelessWidget {
+  /// Name of the node what will be deleted.
   final String nodeName;
+
+  /// Reaction on the Delete button click.
   final VoidCallback onDelete;
+
+  /// Reaction on the Cancel button click.
   final VoidCallback onCancel;
 
+  /// Constructor of the [DeleteNodeDialog].
   const DeleteNodeDialog(
       {super.key,
       required this.nodeName,

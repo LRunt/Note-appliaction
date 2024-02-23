@@ -21,6 +21,7 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     // Two types of header (unlogged, logged)
     List<Widget> _widgetOptions = <Widget>[
