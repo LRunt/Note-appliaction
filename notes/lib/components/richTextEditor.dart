@@ -27,6 +27,7 @@ class _RichTextEditorState extends State<RichTextEditor> {
   /// Loading the note and adding a listener to save every change.
   @override
   void initState() {
+    log("initializing rich text edotor");
     super.initState();
     _loadDocument();
     _controller.addListener(_saveDocument);

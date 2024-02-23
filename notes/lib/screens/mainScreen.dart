@@ -19,8 +19,10 @@ class _MainScreenState extends State<MainScreen> {
 
   void _changeScreen(int screenType, String id) {
     setState(() {
+      log("Changing screen");
       _noteId = id;
       _pageType = screenType;
+      log("Page type: $_pageType, Note id: $_noteId");
     });
   }
 
@@ -40,20 +42,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       ),
-      RichTextEditor(noteId: _noteId),
-      Container(
-        padding: const EdgeInsets.all(50),
-        child: const FittedBox(
-          child: Text(
-            "Loading note",
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: 32.0,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      )
+      RichTextEditor(noteId: _noteId, key: ValueKey(_noteId)),
     ];
 
     return Scaffold(
