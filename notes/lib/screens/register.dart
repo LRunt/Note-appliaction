@@ -46,13 +46,12 @@ class _RegisterFormState extends State<RegisterPage> {
   /// If the registration is successful, the user is navigated back to the previous page.
   /// Errors during the registration process are logged for debugging purposes.
   void register() async {
-    String password = passwordController.text;
-    String confirmPassword = confirmPasswordController.text;
+    String password = passwordController.text.trim();
+    String confirmPassword = confirmPasswordController.text.trim();
     if (password == confirmPassword) {
       try {
-        UserCredential userCredital = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-                email: emailController.text.trim(), password: password);
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: emailController.text.trim(), password: password);
         log("New user created!");
         Navigator.pop(context);
       } on FirebaseException catch (e) {
@@ -61,7 +60,7 @@ class _RegisterFormState extends State<RegisterPage> {
         } else if (e.code == 'email-already-in-use') {
           log("An account already exists for that email.");
         } else {
-          log("Error while trying to register: ${e.message}");
+          log("Error while trying to register: ${e.code} - ${e.message}");
         }
       } catch (e) {
         log("General error while trying to register: $e");
@@ -89,6 +88,7 @@ class _RegisterFormState extends State<RegisterPage> {
                   decoration: InputDecoration(
                     hintText: AppLocalizations.of(context)!.email,
                   ),
+                  controller: emailController,
                 ),
                 const SizedBox(
                   height: 40,
