@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes/components/myDrawerHeader.dart';
 import 'package:notes/components/richTextEditor.dart';
 import 'package:notes/main.dart';
 import 'package:notes/model/language.dart';
@@ -71,21 +72,7 @@ class _MainScreenState extends State<MainScreen> {
         child: ListView(
           padding: const EdgeInsets.all(0),
           children: [
-            const DrawerHeader(
-                decoration: BoxDecoration(color: Colors.blue),
-                child: UserAccountsDrawerHeader(
-                    accountName: Text('Lukas Runt'),
-                    accountEmail: Text('lukas.runt@gmail.com'))),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const LoginOrRegister()),
-                );
-              },
-              child: const Text('Login'),
-            ),
+            const UserDrawerHeader(),
             MyTreeView(
               navigateWithParam: (int pageType, String id) {
                 log("Navigation $id");

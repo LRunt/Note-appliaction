@@ -51,6 +51,14 @@
     "@loginHere": {
         "description": "Text that redirects the user to the login page."
     },
+    "notLogged": "Not logged user",
+    "@notLogged": {
+        "description": "Indicator if the user is logged or not"
+    },
+    "signOut": "Sign out",
+    "@signOut": {
+        "description": "Text of the button to sign out"
+    },
     "newNode": "Create new note/directory",
     "@newNode": {
         "description": "Title of the creating new node alert dialog."
