@@ -81,10 +81,24 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const LoginOrRegister()),
+                    builder: (context) =>
+                        const LoginOrRegister(showLoginPage: true),
+                  ),
                 );
               },
               child: Text(AppLocalizations.of(context)!.login),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        const LoginOrRegister(showLoginPage: false),
+                  ),
+                );
+              },
+              child: Text(AppLocalizations.of(context)!.registration),
             ),
           ] else ...[
             Text(AppLocalizations.of(context)!.loggedUser(user!.email),

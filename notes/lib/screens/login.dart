@@ -3,8 +3,18 @@ import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+/// A StatefulWidget that provides a user interface for logging in.
+///
+/// This page allows users to enter their email and password to log in to their account.
+/// It utilizes Firebase Authentication for secure login functionality and provides
+/// feedback in case of errors such as incorrect email or password.
 class LoginPage extends StatefulWidget {
+  /// A callback function that is triggered when the user taps on the 'Create Account' text.
+  ///
+  /// This function can be used to navigate the user to the registration page.
   final void Function()? onTap;
+
+  /// Constructor of [LoginPage] class.
   const LoginPage({super.key, required this.onTap});
 
   @override
@@ -12,10 +22,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginPage> {
+  /// Controller for the email input field.
   final emailController = TextEditingController();
+
+  /// Controller for the password input field.
   final passwordController = TextEditingController();
 
-  /// Clean up the controllers when widget is removed from the tree.
+  /// Cleans up the controllers when the widget is removed from the widget tree.
+  ///
+  /// This method prevents memory leaks by disposing of the TextEditingController
+  /// instances when the LoginPage widget is disposed.
   @override
   void dispose() {
     emailController.dispose();
@@ -23,13 +39,18 @@ class _LoginFormState extends State<LoginPage> {
     super.dispose();
   }
 
+  /// Attempts to log in the user using Firebase Authentication.
+  ///
+  /// This method is called when the user presses the login button. It uses the
+  /// email and password from the text controllers to attempt a login via Firebase.
+  /// If the login is successful, the user is navigated back to the main screen.
+  /// Errors during the login process are logged for debugging purposes.
   void login() async {
     log('Loging user: ${emailController.text}, password: ${passwordController.text}');
 
     try {
-      UserCredential userCredital = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: emailController.text, password: passwordController.text);
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
       // Go back to the main screen
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
@@ -68,6 +89,7 @@ class _LoginFormState extends State<LoginPage> {
         });
   }
 
+  /// Builds the registration page UI.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
