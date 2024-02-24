@@ -27,8 +27,9 @@ class _LoginFormState extends State<LoginPage> {
     log('Loging user: ${emailController.text}, password: ${passwordController.text}');
 
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
+      UserCredential userCredital = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: emailController.text, password: passwordController.text);
       // Go back to the main screen
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {

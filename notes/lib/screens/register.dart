@@ -1,10 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-/// Form for registrating new user
+/// A StatefulWidget that provides a user interface for registering a new user.
+///
+/// This page displays a form where users can input their email, password, and confirm their password
+/// to create a new account. It uses Firebase Authentication for the registration process.
 class RegisterPage extends StatefulWidget {
+  /// Callback function to navigate to another page.
+  ///
+  /// This is used to navigate to the login page if the user already has an account.
   final void Function()? onTap;
+
+  /// Constructor of [RegisterPage] class.
   const RegisterPage({super.key, required this.onTap});
 
   @override
@@ -12,32 +21,57 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterPage> {
-  //Defining controllers for the textfields
-  final usernameController = TextEditingController();
+  /// Controller for the email input field.
+  final emailController = TextEditingController();
+
+  /// Controller for the password input field.
   final passwordController = TextEditingController();
+
+  /// Controller for the confirm password input field.
   final confirmPasswordController = TextEditingController();
 
   ///Clean up the controllers when widget is removed from the tree.
   @override
   void dispose() {
-    usernameController.dispose();
+    emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
     super.dispose();
   }
 
-  ///Method for registration of the user
-  void register() {
+  /// Attempts to register a new user using the provided email and password.
+  ///
+  /// This method first checks if the password and confirm password fields match.
+  /// If they do, it proceeds to attempt creating a new user with Firebase Authentication.
+  /// If the registration is successful, the user is navigated back to the previous page.
+  /// Errors during the registration process are logged for debugging purposes.
+  void register() async {
     String password = passwordController.text;
     String confirmPassword = confirmPasswordController.text;
-
     if (password == confirmPassword) {
-      log("Passwords match. Registring...");
+      try {
+        UserCredential userCredital = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+                email: emailController.text.trim(), password: password);
+        log("New user created!");
+        Navigator.pop(context);
+      } on FirebaseException catch (e) {
+        if (e.code == 'weak-password') {
+          log("The password provided is too weak.");
+        } else if (e.code == 'email-already-in-use') {
+          log("An account already exists for that email.");
+        } else {
+          log("Error while trying to register: ${e.message}");
+        }
+      } catch (e) {
+        log("General error while trying to register: $e");
+      }
     } else {
       log("Passwords do not match.");
     }
   }
 
+  /// Builds the registration page UI.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +87,7 @@ class _RegisterFormState extends State<RegisterPage> {
                 Text(AppLocalizations.of(context)!.registrationText),
                 TextField(
                   decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context)!.username,
+                    hintText: AppLocalizations.of(context)!.email,
                   ),
                 ),
                 const SizedBox(
