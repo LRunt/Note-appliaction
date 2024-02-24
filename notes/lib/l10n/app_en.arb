@@ -57,11 +57,21 @@
     },
     "notLogged": "Not logged user",
     "@notLogged": {
-        "description": "Indicator if the user is logged or not"
+        "description": "Indicator if the user is logged or not."
     },
     "signOut": "Sign out",
     "@signOut": {
-        "description": "Text of the button to sign out"
+        "description": "Text of the button to sign out."
+    },
+    "loggedUser": "Logged user: {userEmail}",
+    "@loggedUser": {
+        "description": "Information about logged user email.",
+        "placeholders": {
+            "userEmail": {
+                "type": "String?",
+                "example": "test@gmail.com"
+            }
+        }
     },
     "newNode": "Create new note/directory",
     "@newNode": {

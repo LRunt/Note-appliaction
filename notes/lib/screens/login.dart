@@ -36,8 +36,11 @@ class _LoginFormState extends State<LoginPage> {
         log("No user found with that email.");
       } else if (e.code == 'wrong-password') {
         log("Wrong password.");
+      } else if (e.code == 'invalid-credential') {
+        log("Invalide creditial.");
       } else {
-        log("Uknown error.");
+        log("Uknown error $e.");
+        log("Code: ${e.code}");
       }
     }
   }

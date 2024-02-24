@@ -15,6 +15,7 @@
     "loginHere": "Přihlašte se zde!",
     "notLogged": "Nepřihlášený uživatel",
     "signOut": "Odhlásit se",
+    "loggedUser": "Přihlášený uživatel: {userEmail}",
     "newNode": "Vytvořit novou poznámku/složku",
     "deleteNode": "Odstranit {nodeName}",
     "renameNode": "Přejmenovat {nodeName}",
