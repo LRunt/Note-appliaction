@@ -4,7 +4,6 @@ import 'package:notes/components/richTextEditor.dart';
 import 'package:notes/main.dart';
 import 'package:notes/model/language.dart';
 import 'dart:developer';
-import 'package:notes/services/loginOrRegister.dart';
 import 'package:notes/components/myTreeview.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

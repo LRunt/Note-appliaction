@@ -19,6 +19,10 @@
     "@username": {
         "description": "Username of the user."
     },
+    "email": "Email",
+    "@email": {
+        "description": "Email of the user who wants to login or register"
+    },
     "password": "Password",
     "@password": {
         "description": "Secret string that allows access to a computer system or service."

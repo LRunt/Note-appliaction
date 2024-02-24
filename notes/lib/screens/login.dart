@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -11,22 +12,56 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginPage> {
-  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  ///Clean up the controllers when widget is removed from the tree.
+  /// Clean up the controllers when widget is removed from the tree.
   @override
   void dispose() {
-    usernameController.dispose();
+    emailController.dispose();
     passwordController.dispose();
     super.dispose();
   }
 
-  void login() {
-    String username = usernameController.text;
-    String password = passwordController.text;
+  void login() async {
+    log('Loging user: ${emailController.text}, password: ${passwordController.text}');
 
-    log('Loging user: $username, password: $password');
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+      // Go back to the main screen
+      Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        log("No user found with that email.");
+      } else if (e.code == 'wrong-password') {
+        log("Wrong password.");
+      } else {
+        log("Uknown error.");
+      }
+    }
+  }
+
+  // Wrong email popup
+  void wrongEmailMessage() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const AlertDialog(
+            title: Text("Wrong email"),
+          );
+        });
+  }
+
+  // Wrong password popup
+  void wrongPasswordMessage() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const AlertDialog(
+            title: Text("Wrong Password"),
+          );
+        });
   }
 
   @override
@@ -44,9 +79,9 @@ class _LoginFormState extends State<LoginPage> {
                 Text(AppLocalizations.of(context)!.loginText),
                 TextField(
                   decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context)!.username,
+                    hintText: AppLocalizations.of(context)!.email,
                   ),
-                  controller: usernameController,
+                  controller: emailController,
                 ),
                 const SizedBox(
                   height: 40,

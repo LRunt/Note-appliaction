@@ -4,6 +4,7 @@
     "registration": "Registrovat",
     "login": "Přihlásit",
     "username": "Přezdívka",
+    "email": "Email",
     "password": "Heslo",
     "passwordConfirm": "Potvrďte heslo",
     "loginText": "Prosím přihlašte se",

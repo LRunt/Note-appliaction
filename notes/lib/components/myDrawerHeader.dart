@@ -1,10 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:notes/assets/constants.dart';
-import 'package:notes/boxes.dart';
-import 'package:notes/data/user_database.dart';
 import 'package:notes/services/loginOrRegister.dart';
-import 'dart:developer';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'dart:developer';
 
 class UserDrawerHeader extends StatefulWidget {
   const UserDrawerHeader({super.key});
@@ -14,45 +12,28 @@ class UserDrawerHeader extends StatefulWidget {
 }
 
 class _UserDrawerHeaderState extends State<UserDrawerHeader> {
-  int _isConnected = 0;
-
-  /// The database instance for managing data ofthe user.
-  UserDatabase db = UserDatabase();
-
-  void _changeState() {
-    setState(() {
-      if (_isConnected == 0) {
-        _isConnected = 1;
-      } else {
-        _isConnected = 0;
-      }
-    });
-  }
+  User? user = FirebaseAuth.instance.currentUser;
 
   @override
   void initState() {
-    if (!boxUser.containsKey(USER_LOGGED) ||
-        boxHierachy.get(USER_LOGGED) == null) {
-      log("User in not logged");
-      db.createDefaultData();
-    } else {
-      log("Loading data!");
-      db.loadData();
-      log("Controling if the user is logged");
-      if (db.isLogged == 1) {
-        // Todo login the user if there is an internet connection
-      }
-    }
     super.initState();
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      setState(() {
+        this.user = user;
+      });
+    });
+  }
+
+  void logout() async {
+    await FirebaseAuth.instance.signOut();
   }
 
   @override
   Widget build(BuildContext context) {
-    // Two types of header (unlogged, logged)
-    List<Widget> _widgetOptions = <Widget>[
-      DrawerHeader(
-          child: Column(
-        children: [
+    return DrawerHeader(
+        child: Column(
+      children: [
+        if (user == null) ...[
           Text(AppLocalizations.of(context)!.notLogged),
           ElevatedButton(
               onPressed: () {
@@ -63,21 +44,15 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
                 );
               },
               child: Text(AppLocalizations.of(context)!.login))
-        ],
-      )),
-      DrawerHeader(
-          child: Column(
-        children: [
-          const UserAccountsDrawerHeader(
-              accountName: Text('Lukas Runt'),
-              accountEmail: Text('lukas.runt@gmail.com')),
+        ] else ...[
+          Text('Logged user: ${user!.email}',
+              style: const TextStyle(fontSize: 16)),
           ElevatedButton(
-              onPressed: () {},
-              child: Text(AppLocalizations.of(context)!.signOut))
-        ],
-      ))
-    ];
-
-    return DrawerHeader(child: Center(child: _widgetOptions[_isConnected]));
+            onPressed: () => logout(),
+            child: Text(AppLocalizations.of(context)!.signOut),
+          ),
+        ]
+      ],
+    ));
   }
 }
