@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 import 'package:notes/screens/mainScreen.dart';
 import 'package:notes/model/myTreeNode.dart';
@@ -19,6 +21,12 @@ void main() async {
   boxHierachy = await Hive.openBox<MyTreeNode>("Notes_Database");
   boxNotes = await Hive.openBox("Notes");
   boxUser = await Hive.openBox("User");
+
+  // Initializing Firebase
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(const MyApp());
 }

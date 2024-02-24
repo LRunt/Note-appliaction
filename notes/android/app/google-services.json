@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "61772139773",
+    "project_id": "note-taking-application-7c5e4",
+    "storage_bucket": "note-taking-application-7c5e4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:61772139773:android:a68e25fa43e269d401c294",
+        "android_client_info": {
+          "package_name": "com.example.notes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARE_9uqSPYTVdkRxVWdxoA6_oSFWVYpmU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
