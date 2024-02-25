@@ -8,3 +8,6 @@ late Box boxNotes;
 
 /// Box for user data
 late Box boxUser;
+
+/// Box stores data about last synchronizations and last changes
+late Box boxSynchronization;

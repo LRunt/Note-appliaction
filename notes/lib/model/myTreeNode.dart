@@ -37,6 +37,26 @@ class MyTreeNode {
     }
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'isNote': isNote,
+      'children': children.map((child) => child.toMap()).toList(),
+    };
+  }
+
+  factory MyTreeNode.fromMap(Map<String, dynamic> map) {
+    return MyTreeNode(
+      id: map['id'],
+      title: map['title'],
+      isNote: map['isNote'],
+      children: List<MyTreeNode>.from(
+          map['children']?.map((childMap) => MyTreeNode.fromMap(childMap)) ??
+              []),
+    );
+  }
+
   /// Text representation of the treeNode
   @override
   String toString() {
