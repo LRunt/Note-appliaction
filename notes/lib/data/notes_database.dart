@@ -41,6 +41,7 @@ class NotesDatabase {
   void updateFirebaseDatabase() {
     if (_firebaseService.isLoggedIn()) {
       _firebaseService.saveTreeStructure(roots.first);
+      _firebaseService.saveTreeTime();
     }
   }
 }
