@@ -2,6 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:notes/assets/constants.dart';
+import 'package:notes/boxes.dart';
+import 'package:notes/model/myTreeNode.dart';
+import 'package:notes/services/firebaseService.dart';
 
 /// A StatefulWidget that provides a user interface for registering a new user.
 ///
@@ -21,6 +25,8 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterPage> {
+  final FirebaseService _firebaseService = FirebaseService();
+
   /// Controller for the email input field.
   final emailController = TextEditingController();
 
@@ -53,6 +59,9 @@ class _RegisterFormState extends State<RegisterPage> {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: emailController.text.trim(), password: password);
         log("New user created!");
+        MyTreeNode tree = boxHierachy.get(TREE_STORAGE);
+        _firebaseService.saveTreeStructure(tree);
+        _firebaseService.saveAllNotes();
         Navigator.pop(context);
       } on FirebaseException catch (e) {
         if (e.code == 'weak-password') {

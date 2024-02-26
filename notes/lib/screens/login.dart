@@ -2,6 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:notes/assets/constants.dart';
+import 'package:notes/boxes.dart';
+import 'package:notes/model/myTreeNode.dart';
+import 'package:notes/services/firebaseService.dart';
 
 /// A StatefulWidget that provides a user interface for logging in.
 ///
@@ -22,6 +26,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginPage> {
+  final FirebaseService _firebaseService = FirebaseService();
+
   /// Controller for the email input field.
   final emailController = TextEditingController();
 
@@ -51,6 +57,8 @@ class _LoginFormState extends State<LoginPage> {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
+      MyTreeNode tree = await _firebaseService.getTreeNode();
+      boxHierachy.put(TREE_STORAGE, tree);
       // Go back to the main screen
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
