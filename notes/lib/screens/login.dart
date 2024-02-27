@@ -34,6 +34,8 @@ class _LoginFormState extends State<LoginPage> {
   /// Controller for the password input field.
   final passwordController = TextEditingController();
 
+  bool isVisible = true;
+
   /// Cleans up the controllers when the widget is removed from the widget tree.
   ///
   /// This method prevents memory leaks by disposing of the TextEditingController
@@ -53,15 +55,26 @@ class _LoginFormState extends State<LoginPage> {
   /// Errors during the login process are logged for debugging purposes.
   void login() async {
     log('Loging user: ${emailController.text}, password: ${passwordController.text}');
-
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
       MyTreeNode tree = await _firebaseService.getTreeNode();
       boxHierachy.put(TREE_STORAGE, tree);
+      //List notes = await _firebaseService.getAllNotes();
+      // Pop the CircularProgressIndicator
+      Navigator.pop(context);
       // Go back to the main screen
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
+      // Pop the CircularProgressIndicator
+      Navigator.pop(context);
       String errorMessage = "";
       if (e.code == 'user-not-found') {
         errorMessage = "No user found with that email.";
@@ -70,7 +83,7 @@ class _LoginFormState extends State<LoginPage> {
       } else if (e.code == 'invalid-credential') {
         errorMessage = "Invalid creditial.";
       } else {
-        errorMessage = "Uknown error $e.";
+        errorMessage = "Uknown error ${e.code}.";
       }
       log(errorMessage);
       ScaffoldMessenger.of(context).showSnackBar(
@@ -80,11 +93,17 @@ class _LoginFormState extends State<LoginPage> {
             style: const TextStyle(
                 color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          backgroundColor:
-              const Color.fromRGBO(220, 53, 69, 1.0), // Bootstrap danger color
+          backgroundColor: const Color.fromRGBO(220, 53, 69, 1.0),
+          // Bootstrap danger color
         ),
       );
     }
+  }
+
+  void toggleVisibility() {
+    setState(() {
+      isVisible = !isVisible;
+    });
   }
 
   /// Builds the registration page UI.
@@ -111,11 +130,16 @@ class _LoginFormState extends State<LoginPage> {
                   height: 40,
                 ),
                 TextField(
-                  obscureText: true,
+                  obscureText: isVisible,
                   obscuringCharacter: "*",
                   decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context)!.password,
-                  ),
+                      hintText: AppLocalizations.of(context)!.password,
+                      suffixIcon: IconButton(
+                        onPressed: toggleVisibility,
+                        icon: isVisible
+                            ? const Icon(Icons.visibility)
+                            : const Icon(Icons.visibility_off),
+                      )),
                   controller: passwordController,
                 ),
                 const SizedBox(

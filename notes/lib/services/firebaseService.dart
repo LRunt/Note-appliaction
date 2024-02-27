@@ -75,6 +75,7 @@ class FirebaseService extends ChangeNotifier {
   // SAVE note
   Future<void> saveNote(String noteId) async {
     var value = boxNotes.get(noteId);
+    log(value);
     String userId = _firebaseAuth.currentUser!.uid;
     var collectionId = userId + FIREBASE_NOTES;
     await _fireStore

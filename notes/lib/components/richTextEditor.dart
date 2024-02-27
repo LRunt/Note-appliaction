@@ -58,6 +58,7 @@ class _RichTextEditorState extends State<RichTextEditor> {
   /// Saving content of the note.
   void _saveDocument() {
     var json = jsonEncode(_controller.document.toDelta().toJson());
+    log("Saving data: $json");
     boxNotes.put(widget.noteId, json);
   }
 

@@ -17,11 +17,14 @@
     "signOut": "Odhlásit se",
     "loggedUser": "Přihlášený uživatel: {userEmail}",
     "newNode": "Vytvořit novou poznámku/složku",
-    "deleteNode": "Odstranit {nodeName}",
+    "deleteNode": "Smazat {nodeName}",
     "renameNode": "Přejmenovat {nodeName}",
     "cancel": "STORNO",
     "create": "VYTVOŘ",
-    "delete": "ODSTRAŇ",
+    "delete": "SMAZAT",
     "rename": "PŘEJMENUJ",
-    "deleteContent": "Jste si jistí, že chcete smazat {nodeName}?"
+    "deleteContent": "Jste si jistí, že chcete smazat {nodeName}?",
+    "menuDelete": "Smazat",
+    "menuRename": "Přejmenovat",
+    "menuCreate": "Nová poznámka/složka"
 }

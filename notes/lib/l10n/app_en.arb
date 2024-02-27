@@ -122,5 +122,17 @@
                 "example": "My note"               
             }
         }
+    },
+    "menuDelete": "Delete",
+    "@menuDelete": {
+        "description": "A text in the menu when user wants to delete the node."
+    },
+    "menuRename": "Rename",
+    "@menuRename": {
+        "description": "A text in the menu when user wants to rename the node."
+    },
+    "menuCreate": "Create children",
+    "@menuCreate": {
+        "description": "A text in the menu when user wants to add children to the node."
     }
 }

@@ -12,7 +12,7 @@ class NotesDatabase {
 
   // create initial default data
   void createDefaultData() {
-    roots = [MyTreeNode(id: "/home", title: "Home", isNote: false)];
+    roots = [MyTreeNode(id: "|home", title: "Home", isNote: false)];
     boxHierachy.put(TREE_STORAGE, roots.firstOrNull);
   }
 
@@ -24,7 +24,7 @@ class NotesDatabase {
     if (storedData != null) {
       roots = [storedData];
     } else {
-      roots = [MyTreeNode(id: "/home", title: "Home", isNote: false)];
+      roots = [MyTreeNode(id: "|home", title: "Home", isNote: false)];
     }
   }
 

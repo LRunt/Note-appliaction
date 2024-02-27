@@ -210,7 +210,7 @@ class MyTreeTile extends StatelessWidget {
   void createNode(BuildContext context, MyTreeNode node) {
     log("Adding children of node ${node.title}");
     MyTreeNode newChild = MyTreeNode(
-        id: "${node.id}/${_textDialogController.text}",
+        id: "${node.id}$DELIMITER${_textDialogController.text}",
         title: _textDialogController.text,
         isNote: false);
     node.addChild(newChild);
