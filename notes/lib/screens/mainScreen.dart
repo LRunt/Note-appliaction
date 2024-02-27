@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notes/components/myDrawerHeader.dart';
 import 'package:notes/components/richTextEditor.dart';
-import 'package:notes/data/clear_database.dart';
+import 'package:notes/data/clearDatabase.dart';
 import 'package:notes/main.dart';
 import 'package:notes/model/language.dart';
 import 'dart:developer';

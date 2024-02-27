@@ -4,7 +4,7 @@ import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
 import 'package:notes/components/dialogs/createNodeDialog.dart';
 import 'package:notes/components/dialogs/deleteNodeDialog.dart';
 import 'package:notes/components/dialogs/renameNodeDialog.dart';
-import 'package:notes/data/notes_database.dart';
+import 'package:notes/data/hierarchyDatabase.dart';
 import 'package:notes/model/myTreeNode.dart';
 import 'package:notes/boxes.dart';
 import 'package:notes/assets/constants.dart';
