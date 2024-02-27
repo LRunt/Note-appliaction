@@ -5,7 +5,7 @@ import 'dart:developer';
 
 import 'package:notes/services/firebaseService.dart';
 
-class NotesDatabase {
+class HierarchyDatabase {
   final FirebaseService _firebaseService = FirebaseService();
 
   List<MyTreeNode> roots = [];

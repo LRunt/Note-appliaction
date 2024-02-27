@@ -47,7 +47,7 @@ class _MyTreeViewState extends State<MyTreeView> {
   late final TreeController<MyTreeNode> treeController;
 
   /// The database instance for managing note data.
-  NotesDatabase db = NotesDatabase();
+  HierarchyDatabase db = HierarchyDatabase();
 
   @override
   void initState() {
@@ -124,7 +124,7 @@ class MyTreeTile extends StatelessWidget {
   final TreeController treeController;
 
   /// Database where are the data localy stored.
-  final NotesDatabase db;
+  final HierarchyDatabase db;
 
   /// Constructor of the class [MyTreeTile].
   MyTreeTile(

@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notes/assets/constants.dart';
 import 'package:notes/boxes.dart';
+import 'package:notes/data/notesDatabase.dart';
 import 'package:notes/model/myTreeNode.dart';
 import 'package:notes/services/firebaseService.dart';
 
@@ -27,6 +28,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginFormState extends State<LoginPage> {
   final FirebaseService _firebaseService = FirebaseService();
+
+  NotesDatabase db = NotesDatabase();
 
   /// Controller for the email input field.
   final emailController = TextEditingController();
@@ -67,7 +70,7 @@ class _LoginFormState extends State<LoginPage> {
           email: emailController.text, password: passwordController.text);
       MyTreeNode tree = await _firebaseService.getTreeNode();
       boxHierachy.put(TREE_STORAGE, tree);
-      //List notes = await _firebaseService.getAllNotes();
+      db.saveAllNotes();
       // Pop the CircularProgressIndicator
       Navigator.pop(context);
       // Go back to the main screen

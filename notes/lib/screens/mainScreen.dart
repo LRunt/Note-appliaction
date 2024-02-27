@@ -90,7 +90,7 @@ class _MainScreenState extends State<MainScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           log("Pressed floating button");
-          // db.clearAllData();
+          db.clearAllData();
         },
         child: const Icon(Icons.add),
       ),
