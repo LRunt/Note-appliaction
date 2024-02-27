@@ -61,7 +61,7 @@ class _RegisterFormState extends State<RegisterPage> {
         log("New user created!");
         MyTreeNode tree = boxHierachy.get(TREE_STORAGE);
         _firebaseService.saveTreeStructure(tree);
-        _firebaseService.saveAllNotes();
+        //_firebaseService.saveAllNotes();
         Navigator.pop(context);
       } on FirebaseException catch (e) {
         if (e.code == 'weak-password') {
