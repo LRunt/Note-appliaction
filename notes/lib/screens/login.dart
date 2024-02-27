@@ -62,39 +62,29 @@ class _LoginFormState extends State<LoginPage> {
       // Go back to the main screen
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
+      String errorMessage = "";
       if (e.code == 'user-not-found') {
-        log("No user found with that email.");
+        errorMessage = "No user found with that email.";
       } else if (e.code == 'wrong-password') {
-        log("Wrong password.");
+        errorMessage = "Wrong password.";
       } else if (e.code == 'invalid-credential') {
-        log("Invalide creditial.");
+        errorMessage = "Invalid creditial.";
       } else {
-        log("Uknown error $e.");
-        log("Code: ${e.code}");
+        errorMessage = "Uknown error $e.";
       }
+      log(errorMessage);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            errorMessage,
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          backgroundColor:
+              const Color.fromRGBO(220, 53, 69, 1.0), // Bootstrap danger color
+        ),
+      );
     }
-  }
-
-  // Wrong email popup
-  void wrongEmailMessage() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return const AlertDialog(
-            title: Text("Wrong email"),
-          );
-        });
-  }
-
-  // Wrong password popup
-  void wrongPasswordMessage() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return const AlertDialog(
-            title: Text("Wrong Password"),
-          );
-        });
   }
 
   /// Builds the registration page UI.

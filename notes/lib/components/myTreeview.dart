@@ -8,7 +8,6 @@ import 'package:notes/data/notes_database.dart';
 import 'package:notes/model/myTreeNode.dart';
 import 'package:notes/boxes.dart';
 import 'package:notes/assets/constants.dart';
-import 'package:notes/services/firebaseService.dart';
 
 /// A custom implementation of a tree view for displaying hierarchical structures.
 ///
