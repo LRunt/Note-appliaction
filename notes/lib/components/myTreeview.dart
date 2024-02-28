@@ -8,6 +8,7 @@ import 'package:notes/data/hierarchyDatabase.dart';
 import 'package:notes/model/myTreeNode.dart';
 import 'package:notes/boxes.dart';
 import 'package:notes/assets/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// A custom implementation of a tree view for displaying hierarchical structures.
 ///
@@ -267,17 +268,17 @@ class MyTreeTile extends StatelessWidget {
         PopupMenuItem(
           onTap: () => showDeleteDialog(context, entry.node),
           value: 'delete',
-          child: const Text('Delete'),
+          child: Text(AppLocalizations.of(context)!.menuDelete),
         ),
         PopupMenuItem(
           onTap: () => showRenameDialog(context, entry.node),
           value: 'rename',
-          child: const Text('Rename'),
+          child: Text(AppLocalizations.of(context)!.menuRename),
         ),
         PopupMenuItem(
           onTap: () => showCreateDialog(context, entry.node),
           value: 'create',
-          child: const Text('Create'),
+          child: Text(AppLocalizations.of(context)!.menuCreate),
         )
       ],
     );
