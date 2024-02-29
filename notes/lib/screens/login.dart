@@ -84,20 +84,26 @@ class _LoginFormState extends State<LoginPage> {
       } else if (e.code == 'wrong-password') {
         errorMessage = "Wrong password.";
       } else if (e.code == 'invalid-credential') {
-        errorMessage = "Invalid creditial.";
+        errorMessage = "Wrong email or password.";
+      } else if (e.code == "network-request-failed") {
+        errorMessage = "No internet connection!";
+      } else if (e.code == "invalid-email") {
+        errorMessage = "Wrong format of email";
       } else {
-        errorMessage = "Uknown error ${e.code}.";
+        errorMessage = "Error: ${e.code}.";
       }
       log(errorMessage);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            errorMessage,
-            style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold),
+          content: Center(
+            child: Text(
+              errorMessage,
+              style: const TextStyle(
+                  color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+            // Bootstrap danger color
           ),
           backgroundColor: const Color.fromRGBO(220, 53, 69, 1.0),
-          // Bootstrap danger color
         ),
       );
     }

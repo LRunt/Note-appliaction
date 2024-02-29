@@ -21,3 +21,6 @@ const String FIREBASE_TREE_TIME = "tree_time";
 const String FIREBASE_NOTES = "user_notes";
 
 const String DELIMITER = "|";
+
+// Other constants
+const String OBSCURE_CHAR = '*';

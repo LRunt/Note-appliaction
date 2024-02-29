@@ -134,5 +134,25 @@
     "menuCreate": "Create children",
     "@menuCreate": {
         "description": "A text in the menu when user wants to add children to the node."
-    }
+    },
+    "networkRequestFailed": "No internet connection",
+    "@networkRequestFailed": {
+        "description": "Inform user that register or login failed because of internet connection."
+    },
+    "invalidEmail": "Wrong format of email",
+    "@invalidEmail": {
+        "description": "When user inputs the wrong format of email, for example missing @ or ."
+    },
+    "wrongPassword": "Wrong password",
+    "@wrongPassword": {
+        "description": "When user inputs wrong password."
+    },
+    "userNotFound": "No user found with that email",
+    "@userNotFound": {
+        "description": "When user inputs an email that do not exists in the database."
+    },
+    "invalidCreditial": "Wrong email or password",
+    "@invalidCreditial": {
+        "description": "When the email or password is wrong."
+    } 
 }
