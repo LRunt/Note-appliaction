@@ -1,12 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:notes/assets/constants.dart';
-import 'package:notes/boxes.dart';
-import 'package:notes/data/notesDatabase.dart';
-import 'package:notes/model/myTreeNode.dart';
-import 'package:notes/services/firebaseService.dart';
+import 'package:notes/components/componentUtils.dart';
+import 'package:notes/services/authentificationService.dart';
 
 /// A StatefulWidget that provides a user interface for logging in.
 ///
@@ -27,9 +23,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginPage> {
-  final FirebaseService _firebaseService = FirebaseService();
-
-  NotesDatabase db = NotesDatabase();
+  final AuthentificationService _authentificationService =
+      AuthentificationService();
+  final ComponentUtils utils = ComponentUtils();
 
   /// Controller for the email input field.
   final emailController = TextEditingController();
@@ -58,39 +54,30 @@ class _LoginFormState extends State<LoginPage> {
   /// Errors during the login process are logged for debugging purposes.
   void login() async {
     log('Loging user: ${emailController.text}, password: ${passwordController.text}');
-    showDialog(
-        context: context,
-        builder: (context) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        });
+    utils.getProgressIndicator(context);
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
-      MyTreeNode tree = await _firebaseService.getTreeNode();
-      boxHierachy.put(TREE_STORAGE, tree);
-      db.saveAllNotes();
+      await _authentificationService.login(
+          emailController.text, passwordController.text);
       // Pop the CircularProgressIndicator
       Navigator.pop(context);
       // Go back to the main screen
       Navigator.pop(context);
-    } on FirebaseAuthException catch (e) {
+    } catch (e) {
       // Pop the CircularProgressIndicator
       Navigator.pop(context);
       String errorMessage = "";
-      if (e.code == 'user-not-found') {
+      if (e == 'user-not-found') {
         errorMessage = "No user found with that email.";
-      } else if (e.code == 'wrong-password') {
+      } else if (e == 'wrong-password') {
         errorMessage = "Wrong password.";
-      } else if (e.code == 'invalid-credential') {
+      } else if (e == 'invalid-credential') {
         errorMessage = "Wrong email or password.";
-      } else if (e.code == "network-request-failed") {
+      } else if (e == "network-request-failed") {
         errorMessage = "No internet connection!";
-      } else if (e.code == "invalid-email") {
+      } else if (e == "invalid-email") {
         errorMessage = "Wrong format of email";
       } else {
-        errorMessage = "Error: ${e.code}.";
+        errorMessage = "Error: $e.";
       }
       log(errorMessage);
       ScaffoldMessenger.of(context).showSnackBar(

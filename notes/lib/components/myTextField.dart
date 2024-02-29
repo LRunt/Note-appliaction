@@ -4,15 +4,13 @@ import 'package:notes/assets/constants.dart';
 
 class MyTextField extends StatefulWidget {
   final bool isPasswordField;
-  bool isVisible;
   final String hint;
   final TextEditingController controller;
   final Icon pefIcon;
 
-  MyTextField(
+  const MyTextField(
       {Key? key,
       required this.isPasswordField,
-      required this.isVisible,
       required this.hint,
       required this.controller,
       required this.pefIcon})
@@ -23,9 +21,11 @@ class MyTextField extends StatefulWidget {
 }
 
 class _MyTextFieldState extends State<MyTextField> {
+  bool isVisible = false;
+
   void changeVisibility() {
     setState(() {
-      widget.isVisible = !widget.isVisible;
+      isVisible = !isVisible;
     });
   }
 
@@ -40,7 +40,7 @@ class _MyTextFieldState extends State<MyTextField> {
         suffixIcon: widget.isPasswordField
             ? IconButton(
                 onPressed: changeVisibility,
-                icon: widget.isVisible
+                icon: isVisible
                     ? const Icon(Icons.visibility)
                     : const Icon(Icons.visibility_off),
               )
