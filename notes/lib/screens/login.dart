@@ -62,37 +62,13 @@ class _LoginFormState extends State<LoginPage> {
       Navigator.pop(context);
       // Go back to the main screen
       Navigator.pop(context);
-    } catch (e) {
+    } catch (errorCode) {
+      String errorMessage = _authentificationService.getErrorMessage(
+          errorCode.toString(), context);
       // Pop the CircularProgressIndicator
       Navigator.pop(context);
-      String errorMessage = "";
-      if (e == 'user-not-found') {
-        errorMessage = "No user found with that email.";
-      } else if (e == 'wrong-password') {
-        errorMessage = "Wrong password.";
-      } else if (e == 'invalid-credential') {
-        errorMessage = "Wrong email or password.";
-      } else if (e == "network-request-failed") {
-        errorMessage = "No internet connection!";
-      } else if (e == "invalid-email") {
-        errorMessage = "Wrong format of email";
-      } else {
-        errorMessage = "Error: $e.";
-      }
-      log(errorMessage);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Center(
-            child: Text(
-              errorMessage,
-              style: const TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.bold),
-            ),
-            // Bootstrap danger color
-          ),
-          backgroundColor: const Color.fromRGBO(220, 53, 69, 1.0),
-        ),
-      );
+      log(errorMessage.toString());
+      utils.getSnackBarError(context, errorMessage.toString());
     }
   }
 
