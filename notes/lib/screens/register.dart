@@ -1,7 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:notes/components/componentUtils.dart';
+import 'package:notes/components/myButton.dart';
+import 'package:notes/components/myTextField.dart';
 import 'package:notes/services/AuthentificationService.dart';
 
 /// A StatefulWidget that provides a user interface for registering a new user.
@@ -23,6 +25,8 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterPage> {
   final AuthentificationService _authService = AuthentificationService();
+
+  final ComponentUtils utils = ComponentUtils();
 
   /// Controller for the email input field.
   final emailController = TextEditingController();
@@ -51,24 +55,29 @@ class _RegisterFormState extends State<RegisterPage> {
   void register() async {
     String password = passwordController.text.trim();
     String confirmPassword = confirmPasswordController.text.trim();
+    String errorMessage = "";
+    utils.getProgressIndicator(context);
     if (password == confirmPassword) {
       try {
         await _authService.register(emailController.text.trim(), password);
         log("New user created!");
+        // Pop the CircularProgressIndicator
         Navigator.pop(context);
-      } on FirebaseException catch (e) {
-        if (e.code == 'weak-password') {
-          log("The password provided is too weak.");
-        } else if (e.code == 'email-already-in-use') {
-          log("An account already exists for that email.");
-        } else {
-          log("Error while trying to register: ${e.code} - ${e.message}");
-        }
-      } catch (e) {
-        log("General error while trying to register: $e");
+        // Go back to the main screen
+        Navigator.pop(context);
+      } catch (errorCode) {
+        String errorMessage =
+            _authService.getErrorMessage(errorCode.toString(), context);
+        // Pop the CircularProgressIndicator
+        Navigator.pop(context);
+        log("Error: $errorMessage");
+        utils.getSnackBarError(context, errorMessage.toString());
       }
     } else {
-      log("Passwords do not match.");
+      Navigator.pop(context);
+      errorMessage = AppLocalizations.of(context)!.differentPasswords;
+      utils.getSnackBarError(context, errorMessage.toString());
+      log("Error: $errorMessage");
     }
   }
 
@@ -79,69 +88,81 @@ class _RegisterFormState extends State<RegisterPage> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.registration),
       ),
-      body: Center(
-        child: Padding(
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: Column(
               children: [
                 const Icon(Icons.person, size: 80),
-                Text(AppLocalizations.of(context)!.registrationText),
-                TextField(
-                  decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context)!.email,
+                Text(
+                  AppLocalizations.of(context)!.registrationText,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
                   ),
-                  controller: emailController,
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 30,
                 ),
-                TextField(
-                  obscureText: true,
-                  obscuringCharacter: "*",
-                  decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context)!.password,
-                  ),
-                  controller: passwordController,
-                ),
+                MyTextField(
+                    isPasswordField: false,
+                    hint: AppLocalizations.of(context)!.email,
+                    controller: emailController,
+                    pefIcon: const Icon(Icons.email)),
                 const SizedBox(
-                  height: 40,
+                  height: 30,
                 ),
-                TextField(
-                  obscureText: true,
-                  obscuringCharacter: "*",
-                  decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context)!.passwordConfirm,
-                  ),
-                  controller: confirmPasswordController,
-                ),
+                MyTextField(
+                    isPasswordField: true,
+                    hint: AppLocalizations.of(context)!.password,
+                    controller: passwordController,
+                    pefIcon: const Icon(Icons.key)),
                 const SizedBox(
-                  height: 40,
+                  height: 30,
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    register();
-                  },
-                  child: Text(AppLocalizations.of(context)!.registration),
-                ),
+                MyTextField(
+                    isPasswordField: true,
+                    hint: AppLocalizations.of(context)!.passwordConfirm,
+                    controller: confirmPasswordController,
+                    pefIcon: const Icon(Icons.key)),
                 const SizedBox(
-                  height: 40,
+                  height: 30,
+                ),
+                MyButton(
+                    onTap: () {
+                      register();
+                    },
+                    text: AppLocalizations.of(context)!.registration),
+                const SizedBox(
+                  height: 30,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(AppLocalizations.of(context)!.haveAccount),
+                    Text(
+                      AppLocalizations.of(context)!.haveAccount,
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
                     const SizedBox(width: 4),
                     GestureDetector(
                       onTap: widget.onTap,
                       child: Text(
                         AppLocalizations.of(context)!.loginHere,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ],
-            )),
+            ),
+          ),
+        ),
       ),
     );
   }

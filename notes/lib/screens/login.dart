@@ -35,8 +35,6 @@ class _LoginFormState extends State<LoginPage> {
   /// Controller for the password input field.
   final passwordController = TextEditingController();
 
-  bool isVisible = true;
-
   /// Cleans up the controllers when the widget is removed from the widget tree.
   ///
   /// This method prevents memory leaks by disposing of the TextEditingController
@@ -74,12 +72,6 @@ class _LoginFormState extends State<LoginPage> {
     }
   }
 
-  void toggleVisibility() {
-    setState(() {
-      isVisible = !isVisible;
-    });
-  }
-
   /// Builds the registration page UI.
   @override
   Widget build(BuildContext context) {
@@ -89,15 +81,20 @@ class _LoginFormState extends State<LoginPage> {
           AppLocalizations.of(context)!.login,
         ),
       ),
-      body: Center(
-        child: Padding(
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: Column(
               children: [
                 const Icon(Icons.person, size: 80),
-                Text(AppLocalizations.of(context)!.loginText,
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w600)),
+                Text(
+                  AppLocalizations.of(context)!.loginText,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
                 const SizedBox(
                   height: 30,
                 ),
@@ -130,7 +127,9 @@ class _LoginFormState extends State<LoginPage> {
                   children: [
                     Text(
                       AppLocalizations.of(context)!.doNotHaveAccount,
-                      style: const TextStyle(fontSize: 16),
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
                     ),
                     const SizedBox(width: 4),
                     GestureDetector(
@@ -138,13 +137,17 @@ class _LoginFormState extends State<LoginPage> {
                       child: Text(
                         AppLocalizations.of(context)!.createAccount,
                         style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ],
-            )),
+            ),
+          ),
+        ),
       ),
     );
   }

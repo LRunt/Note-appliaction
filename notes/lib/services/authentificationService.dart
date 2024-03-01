@@ -79,9 +79,25 @@ class AuthentificationService extends ChangeNotifier {
       errorMessage = AppLocalizations.of(context)!.wrongPassword;
     } else if (errorCode == 'invalid-credential') {
       errorMessage = AppLocalizations.of(context)!.invalidCreditial;
-    } else if (errorCode == "network-request-failed") {
+    } else if (errorCode == 'network-request-failed') {
       errorMessage = AppLocalizations.of(context)!.networkRequestFailed;
-    } else if (errorCode == "invalid-email") {
+    } else if (errorCode == 'invalid-email') {
+      errorMessage = AppLocalizations.of(context)!.invalidEmail;
+    } else {
+      errorMessage = "$errorCode.";
+    }
+    return errorMessage;
+  }
+
+  String getRegisterErrorMessage(String errorCode, BuildContext context) {
+    String errorMessage = "";
+    if (errorCode == 'weak-password') {
+      errorMessage = AppLocalizations.of(context)!.weakPassword;
+    } else if (errorCode == 'email-already-in-use') {
+      errorMessage = AppLocalizations.of(context)!.accountWithEmailExists;
+    } else if (errorCode == 'network-request-failed') {
+      errorMessage = AppLocalizations.of(context)!.networkRequestFailed;
+    } else if (errorCode == 'invalid-email') {
       errorMessage = AppLocalizations.of(context)!.invalidEmail;
     } else {
       errorMessage = "$errorCode.";

@@ -154,5 +154,18 @@
     "invalidCreditial": "Wrong email or password",
     "@invalidCreditial": {
         "description": "When the email or password is wrong."
-    } 
+    },
+    "weakPassword": "Password is too short. Password must have at least 6 chars.",
+    "@weakPassword": {
+        "description": "When the password have less than 6 chars"
+    },
+    "accountWithEmailExists": "An account already exists for that email.",
+    "@accountWithEmailExists": {
+        "description": "When the user enters email for what already exists account."
+    },
+    "differentPasswords": "Passwords are not same.",
+    "@differentPasswords": {
+        "description": "When the passwords in the textfields does not match."
+    }
+
 }

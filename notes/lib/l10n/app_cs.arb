@@ -7,7 +7,7 @@
     "email": "Email",
     "password": "Heslo",
     "passwordConfirm": "Potvrďte heslo",
-    "loginText": "Prosím přihlašte se",
+    "loginText": "Přihlašte se",
     "doNotHaveAccount": "Nemáte založený účet?",
     "createAccount": "Založte si nový zde!",
     "registrationText": "Založte si nový účet",
@@ -31,5 +31,8 @@
     "invalidEmail": "Špatný formát emailové adresy",
     "wrongPassword": "Špatné heslo",
     "userNotFound": "Nebyl nalezen žádný uživatel s touto emailovou adresou",
-    "invalidCreditial": "Špatná emailová adresa nebo heslo"
+    "invalidCreditial": "Špatná emailová adresa nebo heslo",
+    "weakPassword": "Heslo je příliš krátké. Heslo musí mít nejméně 6 znaků.",
+    "accountWithEmailExists": "Pro tuto emailovou adresu již existuje účet.",
+    "differentPasswords": "Hesla se neshodují."
 }
