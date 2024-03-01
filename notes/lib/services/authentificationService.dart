@@ -33,6 +33,9 @@ class AuthentificationService extends ChangeNotifier {
     try {
       UserCredential userCredential = await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
+      MyTreeNode tree = boxHierachy.get(TREE_STORAGE);
+      _firebaseService.saveTreeStructure(tree);
+      _firebaseService.saveAllNotes();
       return userCredential;
     } on FirebaseAuthException catch (e) {
       throw e.code;

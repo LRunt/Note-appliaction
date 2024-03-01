@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notes/components/componentUtils.dart';
+import 'package:notes/components/myButton.dart';
+import 'package:notes/components/myTextField.dart';
 import 'package:notes/services/authentificationService.dart';
 
 /// A StatefulWidget that provides a user interface for logging in.
@@ -57,7 +59,7 @@ class _LoginFormState extends State<LoginPage> {
     utils.getProgressIndicator(context);
     try {
       await _authentificationService.login(
-          emailController.text, passwordController.text);
+          emailController.text.trim(), passwordController.text.trim());
       // Pop the CircularProgressIndicator
       Navigator.pop(context);
       // Go back to the main screen
@@ -83,7 +85,9 @@ class _LoginFormState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.login),
+        title: Text(
+          AppLocalizations.of(context)!.login,
+        ),
       ),
       body: Center(
         child: Padding(
@@ -91,51 +95,50 @@ class _LoginFormState extends State<LoginPage> {
             child: Column(
               children: [
                 const Icon(Icons.person, size: 80),
-                Text(AppLocalizations.of(context)!.loginText),
-                TextField(
-                  decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context)!.email,
-                  ),
-                  controller: emailController,
-                ),
+                Text(AppLocalizations.of(context)!.loginText,
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w600)),
                 const SizedBox(
-                  height: 40,
+                  height: 30,
                 ),
-                TextField(
-                  obscureText: isVisible,
-                  obscuringCharacter: "*",
-                  decoration: InputDecoration(
-                      hintText: AppLocalizations.of(context)!.password,
-                      suffixIcon: IconButton(
-                        onPressed: toggleVisibility,
-                        icon: isVisible
-                            ? const Icon(Icons.visibility)
-                            : const Icon(Icons.visibility_off),
-                      )),
-                  controller: passwordController,
-                ),
+                MyTextField(
+                    isPasswordField: false,
+                    hint: AppLocalizations.of(context)!.email,
+                    controller: emailController,
+                    pefIcon: const Icon(Icons.email)),
                 const SizedBox(
-                  height: 40,
+                  height: 30,
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    login();
-                  },
-                  child: Text(AppLocalizations.of(context)!.login),
-                ),
+                MyTextField(
+                    isPasswordField: true,
+                    hint: AppLocalizations.of(context)!.password,
+                    controller: passwordController,
+                    pefIcon: const Icon(Icons.key)),
                 const SizedBox(
-                  height: 40,
+                  height: 30,
+                ),
+                MyButton(
+                    onTap: () {
+                      login();
+                    },
+                    text: AppLocalizations.of(context)!.login),
+                const SizedBox(
+                  height: 30,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(AppLocalizations.of(context)!.doNotHaveAccount),
+                    Text(
+                      AppLocalizations.of(context)!.doNotHaveAccount,
+                      style: const TextStyle(fontSize: 16),
+                    ),
                     const SizedBox(width: 4),
                     GestureDetector(
                       onTap: widget.onTap,
                       child: Text(
                         AppLocalizations.of(context)!.createAccount,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                     ),
                   ],

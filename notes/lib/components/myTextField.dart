@@ -31,9 +31,9 @@ class _MyTextFieldState extends State<MyTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
+    return TextField(
       controller: widget.controller,
-      obscureText: widget.isPasswordField,
+      obscureText: widget.isPasswordField ? isVisible : false,
       obscuringCharacter: OBSCURE_CHAR,
       decoration: InputDecoration(
         hintText: widget.hint,
