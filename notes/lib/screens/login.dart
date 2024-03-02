@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:notes/assets/constants.dart';
 import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/myButton.dart';
 import 'package:notes/components/myTextField.dart';
@@ -91,12 +92,12 @@ class _LoginFormState extends State<LoginPage> {
                 Text(
                   AppLocalizations.of(context)!.loginText,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: DEFAULT_TEXT_SIZE,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: DEFAULT_GAP_SIZE,
                 ),
                 MyTextField(
                     isPasswordField: false,
@@ -104,7 +105,7 @@ class _LoginFormState extends State<LoginPage> {
                     controller: emailController,
                     pefIcon: const Icon(Icons.email)),
                 const SizedBox(
-                  height: 30,
+                  height: DEFAULT_GAP_SIZE,
                 ),
                 MyTextField(
                     isPasswordField: true,
@@ -112,7 +113,7 @@ class _LoginFormState extends State<LoginPage> {
                     controller: passwordController,
                     pefIcon: const Icon(Icons.key)),
                 const SizedBox(
-                  height: 30,
+                  height: DEFAULT_GAP_SIZE,
                 ),
                 MyButton(
                     onTap: () {
@@ -120,7 +121,7 @@ class _LoginFormState extends State<LoginPage> {
                     },
                     text: AppLocalizations.of(context)!.login),
                 const SizedBox(
-                  height: 30,
+                  height: DEFAULT_GAP_SIZE,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -128,7 +129,7 @@ class _LoginFormState extends State<LoginPage> {
                     Text(
                       AppLocalizations.of(context)!.doNotHaveAccount,
                       style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: DEFAULT_TEXT_SIZE,
                       ),
                     ),
                     const SizedBox(width: 4),
@@ -138,7 +139,7 @@ class _LoginFormState extends State<LoginPage> {
                         AppLocalizations.of(context)!.createAccount,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                          fontSize: DEFAULT_TEXT_SIZE,
                         ),
                       ),
                     ),
