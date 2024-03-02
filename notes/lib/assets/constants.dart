@@ -22,5 +22,8 @@ const String FIREBASE_NOTES = "user_notes";
 
 const String DELIMITER = "|";
 
-// Other constants
+// Widgets decorative constants
 const String OBSCURE_CHAR = '*';
+const double DEFAULT_TEXT_SIZE = 16.0;
+const double DEFAULT_GAP_SIZE = 30.0;
+const double BORDER_RADIUS = 10.0;

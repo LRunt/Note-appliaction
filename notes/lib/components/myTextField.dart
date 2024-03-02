@@ -61,7 +61,7 @@ class _MyTextFieldState extends State<MyTextField> {
             : null,
         prefixIcon: widget.pefIcon,
         border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderRadius: BorderRadius.all(Radius.circular(BORDER_RADIUS)),
         ),
       ),
     );
