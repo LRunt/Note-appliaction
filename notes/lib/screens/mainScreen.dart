@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes/components/myButton.dart';
 import 'package:notes/components/myDrawerHeader.dart';
 import 'package:notes/components/richTextEditor.dart';
 import 'package:notes/data/clearDatabase.dart';
@@ -71,16 +72,21 @@ class _MainScreenState extends State<MainScreen> {
                 })
           ]),
       drawer: Drawer(
-        child: ListView(
-          padding: const EdgeInsets.all(0),
+        child: Column(
           children: [
-            const UserDrawerHeader(),
-            MyTreeView(
-              navigateWithParam: (int pageType, String id) {
-                log("Navigation $id");
-                _changeScreen(pageType, id);
-              },
+            const UserDrawerHeader(), // Your custom drawer header
+            Expanded(
+              // Expanded widget takes all the available space after the header and button have been laid out
+              child: MyTreeView(
+                navigateWithParam: (int pageType, String id) {
+                  log("Navigation $id");
+                  _changeScreen(pageType, id);
+                },
+              ),
             ),
+            MyButton(
+                onTap: () {},
+                text: "Synchronize"), // Your custom button at the bottom
           ],
         ),
       ),

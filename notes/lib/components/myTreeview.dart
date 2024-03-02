@@ -80,23 +80,25 @@ class _MyTreeViewState extends State<MyTreeView> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          TreeView<MyTreeNode>(
-            shrinkWrap: true,
-            treeController: treeController,
-            nodeBuilder: (BuildContext context, TreeEntry<MyTreeNode> entry) {
-              return MyTreeTile(
-                  key: ValueKey(entry.node),
-                  entry: entry,
-                  onTap: () => treeController.toggleExpansion(entry.node),
-                  navigate: () => widget.navigateWithParam(1, entry.node.id),
-                  treeController: treeController,
-                  db: db);
-            },
-          ),
-        ],
+    return Scrollbar(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            TreeView<MyTreeNode>(
+              shrinkWrap: true,
+              treeController: treeController,
+              nodeBuilder: (BuildContext context, TreeEntry<MyTreeNode> entry) {
+                return MyTreeTile(
+                    key: ValueKey(entry.node),
+                    entry: entry,
+                    onTap: () => treeController.toggleExpansion(entry.node),
+                    navigate: () => widget.navigateWithParam(1, entry.node.id),
+                    treeController: treeController,
+                    db: db);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -158,7 +160,37 @@ class MyTreeTile extends StatelessWidget {
                   isOpen: entry.hasChildren ? entry.isExpanded : null,
                   onPressed: entry.hasChildren ? onTap : null,
                 ),
-                Text(entry.node.title),
+                Expanded(child: Text(entry.node.title)),
+                PopupMenuButton<String>(
+                  onSelected: (value) {
+                    switch (value) {
+                      case 'delete':
+                        showDeleteDialog(context, entry.node);
+                        break;
+                      case 'rename':
+                        showRenameDialog(context, entry.node);
+                        break;
+                      case 'create':
+                        showCreateDialog(context, entry.node);
+                        break;
+                    }
+                  },
+                  itemBuilder: (BuildContext context) =>
+                      <PopupMenuEntry<String>>[
+                    PopupMenuItem<String>(
+                      value: 'delete',
+                      child: Text(AppLocalizations.of(context)!.menuDelete),
+                    ),
+                    PopupMenuItem<String>(
+                      value: 'rename',
+                      child: Text(AppLocalizations.of(context)!.menuRename),
+                    ),
+                    PopupMenuItem<String>(
+                      value: 'create',
+                      child: Text(AppLocalizations.of(context)!.menuCreate),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
