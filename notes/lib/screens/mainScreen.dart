@@ -3,6 +3,7 @@ import 'package:notes/components/myButton.dart';
 import 'package:notes/components/myDrawerHeader.dart';
 import 'package:notes/components/richTextEditor.dart';
 import 'package:notes/data/clearDatabase.dart';
+import 'package:notes/data/userDatabase.dart';
 import 'package:notes/main.dart';
 import 'package:notes/model/language.dart';
 import 'dart:developer';
@@ -21,6 +22,7 @@ class _MainScreenState extends State<MainScreen> {
   String _noteId = "";
 
   ClearDatabase db = ClearDatabase();
+  UserDatabase userDB = UserDatabase();
 
   void _changeScreen(int screenType, String id) {
     setState(() {
@@ -52,25 +54,28 @@ class _MainScreenState extends State<MainScreen> {
 
     return Scaffold(
       appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.appName),
-          actions: <Widget>[
-            DropdownButton(
-                icon: const Icon(Icons.language),
-                items: Language.languageList()
-                    .map((e) => DropdownMenuItem(
-                          value: e,
-                          child: Text(
-                            e.flag,
-                            style: const TextStyle(fontSize: 30),
-                          ),
-                        ))
-                    .toList(),
-                onChanged: (Language? language) {
-                  if (language != null) {
-                    MyApp.setLocale(context, Locale(language.langCode));
-                  }
-                })
-          ]),
+        title: Text(AppLocalizations.of(context)!.appName),
+        actions: <Widget>[
+          DropdownButton(
+            icon: const Icon(Icons.language),
+            items: Language.languageList()
+                .map((e) => DropdownMenuItem(
+                      value: e,
+                      child: Text(
+                        e.flag,
+                        style: const TextStyle(fontSize: 30),
+                      ),
+                    ))
+                .toList(),
+            onChanged: (Language? language) {
+              if (language != null) {
+                MyApp.setLocale(context, Locale(language.langCode));
+                userDB.saveLocale(language.langCode);
+              }
+            },
+          ),
+        ],
+      ),
       drawer: Drawer(
         child: Column(
           children: [

@@ -4,6 +4,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:notes/assets/constants.dart';
+import 'package:notes/data/userDatabase.dart';
 import 'firebase_options.dart';
 
 import 'package:notes/screens/mainScreen.dart';
@@ -48,11 +49,22 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Locale? _locale;
+  UserDatabase db = UserDatabase();
 
   setLocale(Locale locale) {
     setState(() {
       _locale = locale;
     });
+  }
+
+  @override
+  void initState() {
+    // Loading user preferences
+    if (boxUser.containsKey(LOCALE) && boxUser.get(LOCALE) != null) {
+      Locale locale = db.loadLocale();
+      setLocale(locale);
+    }
+    super.initState();
   }
 
   @override

@@ -3,6 +3,8 @@ const String TREE_STORAGE = "TreeView";
 // Keys for [boxSynchronization]
 const String TREE_CHANGE = "tree_change";
 const String TREE_SYNC = "tree_sync";
+// Keys for [boxUser]
+const String LOCALE = "locale";
 
 // User database constants (keys)
 const String USER_LOGGED = "isLogged";
