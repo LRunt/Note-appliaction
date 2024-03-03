@@ -4,11 +4,10 @@ import 'package:notes/components/myDrawerHeader.dart';
 import 'package:notes/components/richTextEditor.dart';
 import 'package:notes/data/clearDatabase.dart';
 import 'package:notes/data/userDatabase.dart';
-import 'package:notes/main.dart';
-import 'package:notes/model/language.dart';
 import 'dart:developer';
 import 'package:notes/components/myTreeview.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:notes/screens/settings.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -53,29 +52,20 @@ class _MainScreenState extends State<MainScreen> {
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.appName),
-        actions: <Widget>[
-          DropdownButton(
-            icon: const Icon(Icons.language),
-            items: Language.languageList()
-                .map((e) => DropdownMenuItem(
-                      value: e,
-                      child: Text(
-                        e.flag,
-                        style: const TextStyle(fontSize: 30),
-                      ),
-                    ))
-                .toList(),
-            onChanged: (Language? language) {
-              if (language != null) {
-                MyApp.setLocale(context, Locale(language.langCode));
-                userDB.saveLocale(language.langCode);
-              }
-            },
-          ),
-        ],
-      ),
+      appBar:
+          AppBar(title: Text(AppLocalizations.of(context)!.appName), actions: [
+        IconButton(
+          icon: const Icon(Icons.settings),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const Settings(),
+              ),
+            );
+          },
+        )
+      ]),
       drawer: Drawer(
         child: Column(
           children: [
