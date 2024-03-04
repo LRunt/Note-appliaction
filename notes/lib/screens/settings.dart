@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:notes/components/dialogs/deleteDialog.dart';
+import 'package:notes/data/clearDatabase.dart';
 import 'package:notes/data/userDatabase.dart';
 import 'package:notes/main.dart';
 import 'package:notes/model/language.dart';
@@ -12,6 +14,7 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   UserDatabase userDB = UserDatabase();
+  ClearDatabase clearDB = ClearDatabase();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +36,7 @@ class _SettingsState extends State<Settings> {
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
-                  DropdownButton(
+                  DropdownButton<Language>(
                     items: Language.languageList()
                         .map(
                           (e) => DropdownMenuItem(
@@ -72,7 +75,22 @@ class _SettingsState extends State<Settings> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return DeleteDialog(
+                                titleText: "Vymazání všech dat",
+                                contentText:
+                                    "Právě se chystáte smazat všechna data z lokální databáze. Všechna nesynchronizovaná data budou ztracena!",
+                                onDelete: () {
+                                  clearDB.clearAllData();
+                                },
+                                onCancel: () {
+                                  Navigator.of(context).pop();
+                                });
+                          });
+                    },
                     child: const Text('Smazat'),
                   ),
                 ],

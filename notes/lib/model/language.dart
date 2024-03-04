@@ -33,4 +33,19 @@ class Language {
       Language("🇨🇿", "Czech", "cs")
     ];
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Language &&
+          runtimeType == other.runtimeType &&
+          langCode == other.langCode;
+
+  @override
+  int get hashCode => langCode.hashCode;
+
+  @override
+  String toString() {
+    return "$flag  $name";
+  }
 }
