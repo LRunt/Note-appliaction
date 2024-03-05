@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:notes/assets/constants.dart';
 import 'package:notes/data/userDatabase.dart';
+import 'package:notes/logger.dart';
 import 'firebase_options.dart';
 
 import 'package:notes/screens/mainScreen.dart';
@@ -13,6 +14,12 @@ import 'boxes.dart';
 
 /// main - entry point of the program
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initializing the logger
+  await AppLogger.init();
+
+  AppLogger.log("Inicializing the application");
   // initialize hive
   await Hive.initFlutter();
 
@@ -26,11 +33,11 @@ void main() async {
   boxSynchronization = await Hive.openBox(BOX_SYNCHRONIZATION);
 
   // Initializing Firebase
-  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  AppLogger.log("Running the appliaction");
+  // Running the application
   runApp(const MyApp());
 }
 

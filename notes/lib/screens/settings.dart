@@ -6,6 +6,7 @@ import 'package:notes/data/userDatabase.dart';
 import 'package:notes/main.dart';
 import 'package:notes/model/language.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:notes/screens/logs.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -101,6 +102,33 @@ class _SettingsState extends State<Settings> {
                         );
                       },
                       child: Text(AppLocalizations.of(context)!.delete),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "Logs",
+                      style: utils.getBasicTextStyle(),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 125,
+                    child: FilledButton(
+                      style: utils.getButtonStyle(),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LogScreen()));
+                      },
+                      child: const Text("Show logs"),
                     ),
                   ),
                 ],
