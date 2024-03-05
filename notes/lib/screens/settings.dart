@@ -20,6 +20,12 @@ class _SettingsState extends State<Settings> {
   ClearDatabase clearDB = ClearDatabase();
   ComponentUtils utils = ComponentUtils();
 
+  void clearData() {
+    clearDB.clearAllData();
+    Navigator.of(context).pop();
+    utils.getSnackBarSuccess(context, "Data úspěšně smazána");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,7 +98,7 @@ class _SettingsState extends State<Settings> {
                               contentText: AppLocalizations.of(context)!
                                   .deleteAppDataDialogContent,
                               onDelete: () {
-                                clearDB.clearAllData();
+                                clearData();
                               },
                               onCancel: () {
                                 Navigator.of(context).pop();

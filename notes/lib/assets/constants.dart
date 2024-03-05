@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 // Keys for [boxHierachy]
 const String TREE_STORAGE = "TreeView";
 // Keys for [boxSynchronization]
@@ -30,3 +32,9 @@ const double DEFAULT_TEXT_SIZE = 16.0;
 const double DEFAULT_GAP_SIZE = 30.0;
 const double BORDER_RADIUS = 10.0;
 const double BUTTON_BORDER_RADIUS = 5.0;
+
+// Bootstrap Colors
+const Color COLOR_ERROR = Color.fromRGBO(220, 53, 69, 1.0);
+const Color COLOR_INFO = Color.fromRGBO(13, 111, 253, 1.0);
+const Color COLOR_SUCCESS = Color.fromRGBO(25, 135, 84, 1.0);
+const Color COLOR_WARNING = Color.fromRGBO(255, 193, 7, 1.0);
