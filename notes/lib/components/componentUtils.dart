@@ -46,4 +46,15 @@ class ComponentUtils {
   TextStyle getBasicTextStyle() {
     return const TextStyle(fontSize: DEFAULT_TEXT_SIZE);
   }
+
+  /// Returns a default button style with rounded corners
+  ButtonStyle getButtonStyle() {
+    return ButtonStyle(
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(BUTTON_BORDER_RADIUS),
+        ),
+      ),
+    );
+  }
 }

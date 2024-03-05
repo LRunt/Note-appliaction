@@ -77,27 +77,31 @@ class _SettingsState extends State<Settings> {
                       style: utils.getBasicTextStyle(),
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return DeleteDialog(
-                            titleText: AppLocalizations.of(context)!
-                                .deleteAppDataDialogTitle,
-                            contentText: AppLocalizations.of(context)!
-                                .deleteAppDataDialogContent,
-                            onDelete: () {
-                              clearDB.clearAllData();
-                            },
-                            onCancel: () {
-                              Navigator.of(context).pop();
-                            },
-                          );
-                        },
-                      );
-                    },
-                    child: Text(AppLocalizations.of(context)!.menuDelete),
+                  SizedBox(
+                    width: 125,
+                    child: FilledButton(
+                      style: utils.getButtonStyle(),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return DeleteDialog(
+                              titleText: AppLocalizations.of(context)!
+                                  .deleteAppDataDialogTitle,
+                              contentText: AppLocalizations.of(context)!
+                                  .deleteAppDataDialogContent,
+                              onDelete: () {
+                                clearDB.clearAllData();
+                              },
+                              onCancel: () {
+                                Navigator.of(context).pop();
+                              },
+                            );
+                          },
+                        );
+                      },
+                      child: Text(AppLocalizations.of(context)!.delete),
+                    ),
                   ),
                 ],
               ),
