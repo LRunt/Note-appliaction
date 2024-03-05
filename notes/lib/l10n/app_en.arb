@@ -166,6 +166,29 @@
     "differentPasswords": "Passwords are not same.",
     "@differentPasswords": {
         "description": "When the passwords in the textfields does not match."
+    },
+    "fieldsAreNotFilled": "One or more fields are not filled!",
+    "@fieldsAreNotFilled": {
+        "description": "When user do not fill one or more fields."
+    },
+    "settings": "Settings",
+    "@settings": {
+        "description": "Allows user to set up the application."
+    },
+    "language": "Language",
+    "@language": {
+        "description": "The language what user prefers."
+    },
+    "deleteApplicationData": "Delete application data",
+    "@deleteApplicationData": {
+        "description": "Label for deleting all user data saved in the device."
+    },
+    "deleteAppDataDialogTitle": "Delete application data",
+    "@deleteAppDataDialogTitle": {
+        "description": "Alert dialog title to the comfirm to delete all application data."
+    },
+    "deleteAppDataDialogContent": "Are you sure you want to delete all application data? All data will be lost!",
+    "@deleteAppDataDialogContent": {
+        "description": "The warning to the user, that if he delete data, the data will be lost."
     }
-
 }

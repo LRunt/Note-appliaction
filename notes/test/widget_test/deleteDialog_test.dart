@@ -12,8 +12,8 @@ void main() {
     // Create a MaterialApp to properly load localizations
     await tester.pumpWidget(MaterialApp(
       home: DeleteDialog(
-        titleText: 'Delete Node',
-        contentText: 'Are you sure you want to delete this node?',
+        titleText: 'Delete app data',
+        contentText: 'Are you sure you want to delete all application data?',
         onDelete: () {
           onDeleteCalled = true;
         },
@@ -33,8 +33,8 @@ void main() {
         AppLocalizations.of(tester.element(find.byType(DeleteDialog)))!;
 
     // Verify the title and content texts are displayed
-    expect(find.text('Delete Node'), findsOneWidget);
-    expect(find.text('Are you sure you want to delete this node?'),
+    expect(find.text('Delete app data'), findsOneWidget);
+    expect(find.text('Are you sure you want to delete all application data?'),
         findsOneWidget);
 
     // Tap the delete button and verify onDelete is called

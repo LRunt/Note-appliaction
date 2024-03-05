@@ -34,5 +34,11 @@
     "invalidCreditial": "Špatná emailová adresa nebo heslo",
     "weakPassword": "Heslo je příliš krátké. Heslo musí mít nejméně 6 znaků.",
     "accountWithEmailExists": "Pro tuto emailovou adresu již existuje účet.",
-    "differentPasswords": "Hesla se neshodují."
+    "differentPasswords": "Hesla se neshodují.",
+    "fieldsAreNotFilled": "Jedno nebo více textových polí je prázdné!",
+    "settings": "Nastavení",
+    "language": "Jazyk",
+    "deleteApplicationData": "Smazat lokální data aplikace",
+    "deleteAppDataDialogTitle": "Smazat data aplikace",
+    "deleteAppDataDialogContent": "Právě se chystáte smazat všechna data z lokální databáze. Všechna nesynchronizovaná data budou ztracena!"
 }

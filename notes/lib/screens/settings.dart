@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/dialogs/deleteDialog.dart';
 import 'package:notes/data/clearDatabase.dart';
 import 'package:notes/data/userDatabase.dart';
 import 'package:notes/main.dart';
 import 'package:notes/model/language.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -15,12 +17,13 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   UserDatabase userDB = UserDatabase();
   ClearDatabase clearDB = ClearDatabase();
+  ComponentUtils utils = ComponentUtils();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Nastavení"),
+        title: Text(AppLocalizations.of(context)!.settings),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -30,10 +33,10 @@ class _SettingsState extends State<Settings> {
               padding: const EdgeInsets.all(10.0),
               child: Row(
                 children: [
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      "Jazyk",
-                      style: TextStyle(fontSize: 16),
+                      AppLocalizations.of(context)!.language,
+                      style: utils.getBasicTextStyle(),
                     ),
                   ),
                   DropdownButton<Language>(
@@ -68,30 +71,33 @@ class _SettingsState extends State<Settings> {
               padding: const EdgeInsets.all(10.0),
               child: Row(
                 children: [
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      "Smazat data",
-                      style: TextStyle(fontSize: 16),
+                      AppLocalizations.of(context)!.deleteApplicationData,
+                      style: utils.getBasicTextStyle(),
                     ),
                   ),
                   ElevatedButton(
                     onPressed: () {
                       showDialog(
-                          context: context,
-                          builder: (context) {
-                            return DeleteDialog(
-                                titleText: "Vymazání všech dat",
-                                contentText:
-                                    "Právě se chystáte smazat všechna data z lokální databáze. Všechna nesynchronizovaná data budou ztracena!",
-                                onDelete: () {
-                                  clearDB.clearAllData();
-                                },
-                                onCancel: () {
-                                  Navigator.of(context).pop();
-                                });
-                          });
+                        context: context,
+                        builder: (context) {
+                          return DeleteDialog(
+                            titleText: AppLocalizations.of(context)!
+                                .deleteAppDataDialogTitle,
+                            contentText: AppLocalizations.of(context)!
+                                .deleteAppDataDialogContent,
+                            onDelete: () {
+                              clearDB.clearAllData();
+                            },
+                            onCancel: () {
+                              Navigator.of(context).pop();
+                            },
+                          );
+                        },
+                      );
                     },
-                    child: const Text('Smazat'),
+                    child: Text(AppLocalizations.of(context)!.menuDelete),
                   ),
                 ],
               ),

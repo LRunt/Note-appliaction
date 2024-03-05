@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
 import 'package:notes/components/dialogs/createNodeDialog.dart';
-import 'package:notes/components/dialogs/deleteNodeDialog.dart';
+import 'package:notes/components/dialogs/deleteDialog.dart';
 import 'package:notes/components/dialogs/renameNodeDialog.dart';
 import 'package:notes/data/hierarchyDatabase.dart';
 import 'package:notes/model/myTreeNode.dart';
@@ -204,8 +204,10 @@ class MyTreeTile extends StatelessWidget {
     showDialog(
         context: context,
         builder: (context) {
-          return DeleteNodeDialog(
-            nodeName: node.title,
+          return DeleteDialog(
+            titleText: AppLocalizations.of(context)!.deleteNode(node.title),
+            contentText:
+                AppLocalizations.of(context)!.deleteContent(node.title),
             onDelete: () => deleteNode(context, node),
             onCancel: () => closeAndClear(context),
           );

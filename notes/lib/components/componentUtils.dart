@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes/assets/constants.dart';
 
 ///Class [ComponentUtils] provides utility methods for common UI components in Flutter apps.
 ///
@@ -39,5 +40,10 @@ class ComponentUtils {
             const Color.fromRGBO(220, 53, 69, 1.0), // Bootstrap danger color
       ),
     );
+  }
+
+  /// Returns a default text style
+  TextStyle getBasicTextStyle() {
+    return const TextStyle(fontSize: DEFAULT_TEXT_SIZE);
   }
 }
