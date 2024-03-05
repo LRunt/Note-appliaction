@@ -57,6 +57,7 @@ class _MainScreenState extends State<MainScreen> {
     ];
 
     return Scaffold(
+      backgroundColor: _pageType == 2 ? Colors.grey[200] : Colors.white,
       appBar:
           AppBar(title: Text(AppLocalizations.of(context)!.appName), actions: [
         IconButton(

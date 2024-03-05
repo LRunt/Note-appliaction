@@ -149,7 +149,7 @@ class MyTreeTile extends StatelessWidget {
         entry: entry,
         guide: const IndentGuide.connectingLines(indent: 10),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(4, 8, 8, 8),
+          padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
           child: GestureDetector(
             onLongPressStart: (LongPressStartDetails details) {
               _showPopupMenu(context, details.globalPosition);

@@ -17,7 +17,7 @@ class FileListView extends StatefulWidget {
 }
 
 class _FileListViewState extends State<FileListView> {
-  List<MyTreeNode> chidrens = [];
+  List<MyTreeNode> chidren = [];
 
   NodeService service = NodeService();
 
@@ -26,18 +26,21 @@ class _FileListViewState extends State<FileListView> {
     MyTreeNode? node = service.getNode(widget.nodeId);
     log("$node");
     if (node != null) {
-      chidrens = node.children;
+      chidren = node.children;
     }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: chidrens.length,
-        itemBuilder: (context, index) {
-          return FileListViewTile(
-              isNote: chidrens[index].isNote, fileName: chidrens[index].title);
-        });
+    return chidren.isEmpty
+        ? const Text("Složka je prázdná")
+        : ListView.builder(
+            itemCount: chidren.length,
+            itemBuilder: (context, index) {
+              return FileListViewTile(
+                  isNote: chidren[index].isNote,
+                  fileName: chidren[index].title);
+            });
   }
 }
