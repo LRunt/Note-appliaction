@@ -92,7 +92,7 @@ class _MyTreeViewState extends State<MyTreeView> {
                     key: ValueKey(entry.node),
                     entry: entry,
                     onTap: () => treeController.toggleExpansion(entry.node),
-                    navigate: () => widget.navigateWithParam(1, entry.node.id),
+                    navigate: () => widget.navigateWithParam(2, entry.node.id),
                     treeController: treeController,
                     db: db);
               },

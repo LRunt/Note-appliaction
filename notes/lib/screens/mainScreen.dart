@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes/components/fileListView.dart';
 import 'package:notes/components/myButton.dart';
 import 'package:notes/components/myDrawerHeader.dart';
 import 'package:notes/components/richTextEditor.dart';
@@ -7,7 +8,9 @@ import 'package:notes/data/userDatabase.dart';
 import 'dart:developer';
 import 'package:notes/components/myTreeview.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:notes/model/myTreeNode.dart';
 import 'package:notes/screens/settings.dart';
+import 'package:notes/services/nodeService.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -22,6 +25,7 @@ class _MainScreenState extends State<MainScreen> {
 
   ClearDatabase db = ClearDatabase();
   UserDatabase userDB = UserDatabase();
+  NodeService nodeService = NodeService();
 
   void _changeScreen(int screenType, String id) {
     setState(() {
@@ -49,6 +53,7 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
       RichTextEditor(noteId: _noteId, key: ValueKey(_noteId)),
+      FileListView(nodeId: _noteId, key: ValueKey(_noteId)),
     ];
 
     return Scaffold(
@@ -91,6 +96,8 @@ class _MainScreenState extends State<MainScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           log("Pressed floating button");
+          MyTreeNode? node = nodeService.getNode('|Home|poznámka');
+          log("Node: $node");
         },
         child: const Icon(Icons.add),
       ),
