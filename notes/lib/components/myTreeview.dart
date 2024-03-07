@@ -34,7 +34,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class MyTreeView extends StatefulWidget {
   /// A callback function used for navigating with a specified parameter.
   /// The function takes an type of the page as integer and a noteId as string as parameters.
-  final void Function(int, String) navigateWithParam;
+  final void Function(bool, String) navigateWithParam;
 
   /// Constructor of the [MyTreeView] class.
   const MyTreeView({super.key, required this.navigateWithParam});
@@ -92,7 +92,8 @@ class _MyTreeViewState extends State<MyTreeView> {
                     key: ValueKey(entry.node),
                     entry: entry,
                     onTap: () => treeController.toggleExpansion(entry.node),
-                    navigate: () => widget.navigateWithParam(2, entry.node.id),
+                    navigate: () => widget.navigateWithParam(
+                        entry.node.isNote, entry.node.id),
                     treeController: treeController,
                     db: db);
               },
@@ -157,8 +158,8 @@ class MyTreeTile extends StatelessWidget {
             child: Row(
               children: [
                 FolderButton(
-                  isOpen: entry.hasChildren ? entry.isExpanded : null,
-                  onPressed: entry.hasChildren ? onTap : null,
+                  isOpen: !entry.node.isNote ? entry.isExpanded : null,
+                  onPressed: !entry.node.isNote ? onTap : null,
                 ),
                 Expanded(child: Text(entry.node.title)),
                 PopupMenuButton<String>(
@@ -171,7 +172,10 @@ class MyTreeTile extends StatelessWidget {
                         showRenameDialog(context, entry.node);
                         break;
                       case 'create':
-                        showCreateDialog(context, entry.node);
+                        showCreateDialog(context, entry.node, true);
+                        break;
+                      case 'create_directory':
+                        showCreateDialog(context, entry.node, false);
                         break;
                     }
                   },
@@ -185,9 +189,13 @@ class MyTreeTile extends StatelessWidget {
                       value: 'rename',
                       child: Text(AppLocalizations.of(context)!.menuRename),
                     ),
-                    PopupMenuItem<String>(
+                    const PopupMenuItem<String>(
                       value: 'create',
-                      child: Text(AppLocalizations.of(context)!.menuCreate),
+                      child: Text("Create note"),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'create_directory',
+                      child: Text("Create directory"),
                     ),
                   ],
                 ),
@@ -229,25 +237,25 @@ class MyTreeTile extends StatelessWidget {
   }
 
   /// Showing dialog to create new dorectory or node
-  void showCreateDialog(BuildContext context, MyTreeNode node) {
+  void showCreateDialog(BuildContext context, MyTreeNode node, bool isNote) {
     showDialog(
         context: context,
         builder: (context) {
           return CreateNodeDialog(
               nodeName: node.title,
               controller: _textDialogController,
-              onCreate: () => createNode(context, node),
+              onCreate: () => createNode(context, node, isNote),
               onCancel: () => closeAndClear(context));
         });
   }
 
   /// Creating new node as children of [node]
-  void createNode(BuildContext context, MyTreeNode node) {
+  void createNode(BuildContext context, MyTreeNode node, bool isNote) {
     log("Adding children of node ${node.title}");
     MyTreeNode newChild = MyTreeNode(
         id: "${node.id}$DELIMITER${_textDialogController.text}",
         title: _textDialogController.text,
-        isNote: false);
+        isNote: isNote);
     node.addChild(newChild);
     treeController.expand(node);
     treeController.rebuild();
@@ -310,10 +318,15 @@ class MyTreeTile extends StatelessWidget {
           child: Text(AppLocalizations.of(context)!.menuRename),
         ),
         PopupMenuItem(
-          onTap: () => showCreateDialog(context, entry.node),
+          onTap: () => showCreateDialog(context, entry.node, true),
           value: 'create',
-          child: Text(AppLocalizations.of(context)!.menuCreate),
-        )
+          child: const Text("Create note"),
+        ),
+        PopupMenuItem(
+          onTap: () => showCreateDialog(context, entry.node, false),
+          value: 'create_directory',
+          child: const Text("Create directory"),
+        ),
       ],
     );
   }

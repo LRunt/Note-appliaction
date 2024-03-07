@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes/assets/constants.dart';
 import 'package:notes/components/fileListView.dart';
 import 'package:notes/components/myButton.dart';
 import 'package:notes/components/myDrawerHeader.dart';
@@ -79,9 +80,13 @@ class _MainScreenState extends State<MainScreen> {
             Expanded(
               // Expanded widget takes all the available space after the header and button have been laid out
               child: MyTreeView(
-                navigateWithParam: (int pageType, String id) {
+                navigateWithParam: (bool isNote, String id) {
                   log("Navigation $id");
-                  _changeScreen(pageType, id);
+                  if (isNote) {
+                    _changeScreen(NOTE_SCREEN, id);
+                  } else {
+                    _changeScreen(DIRECTORY_SCREEN, id);
+                  }
                 },
               ),
             ),
