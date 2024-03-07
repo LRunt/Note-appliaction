@@ -36,11 +36,15 @@ class _FileListViewState extends State<FileListView> {
     return chidren.isEmpty
         ? const Text("Složka je prázdná")
         : ListView.builder(
+            padding: const EdgeInsets.all(7),
             itemCount: chidren.length,
             itemBuilder: (context, index) {
-              return FileListViewTile(
-                  isNote: chidren[index].isNote,
-                  fileName: chidren[index].title);
+              return Padding(
+                padding: const EdgeInsets.all(1),
+                child: FileListViewTile(
+                    isNote: chidren[index].isNote,
+                    fileName: chidren[index].title),
+              );
             });
   }
 }
