@@ -1,6 +1,7 @@
 {
     "appName": "Notes",
     "welcome": "Vítej zpět!",
+    "fileIsEmpty": "Složka je prázdná",
     "registration": "Registrovat",
     "login": "Přihlásit",
     "username": "Přezdívka",
@@ -38,6 +39,8 @@
     "fieldsAreNotFilled": "Jedno nebo více textových polí je prázdné!",
     "settings": "Nastavení",
     "language": "Jazyk",
+    "logs": "Logy",
+    "showLogs": "UKAŽ LOGY",
     "deleteApplicationData": "Smazat lokální data aplikace",
     "deleteAppDataDialogTitle": "Smazat data aplikace",
     "deleteAppDataDialogContent": "Právě se chystáte smazat všechna data z lokální databáze. Všechna nesynchronizovaná data budou ztracena!"

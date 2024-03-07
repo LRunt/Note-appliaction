@@ -7,6 +7,10 @@
     "@welcome": {
         "description": "Greeting, when user open the app."
     },
+    "fileIsEmpty": "File is empty",
+    "@fileIsEmpty": {
+        "description": "Announcement to the user that file, what he chose, is empty."
+    },
     "registration": "Registration",
     "@registration": {
         "description": "Registration of the new user account."
@@ -178,6 +182,14 @@
     "language": "Language",
     "@language": {
         "description": "The language what user prefers."
+    },
+    "logs": "Logs",
+    "@logs": {
+        "description": "Logs of the application."   
+    },
+    "showLogs": "SHOW LOGS",
+    "@showLogs": {
+        "description": "Label of the button to show the logs."
     },
     "deleteApplicationData": "Delete application data",
     "@deleteApplicationData": {

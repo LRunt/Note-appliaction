@@ -46,6 +46,10 @@ class AppLogger {
       print('${record.level.name}: $formattedTime: ${record.message}');
       _writeToFile('${record.level.name}: $formattedTime: ${record.message}');
     });
+    createLogFileIfNotExist();
+  }
+
+  static void createLogFileIfNotExist() async {
     final directory = await getApplicationDocumentsDirectory();
     logFile = File('${directory.path}/app_logs.txt');
     if (!await logFile!.exists()) {

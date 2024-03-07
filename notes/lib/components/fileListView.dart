@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/fileListViewTile.dart';
 import 'package:notes/model/myTreeNode.dart';
 import 'package:notes/services/nodeService.dart';
@@ -13,12 +14,12 @@ class FileListView extends StatefulWidget {
   });
 
   @override
-  _FileListViewState createState() => _FileListViewState();
+  State<FileListView> createState() => _FileListViewState();
 }
 
 class _FileListViewState extends State<FileListView> {
   List<MyTreeNode> chidren = [];
-
+  final utils = ComponentUtils();
   NodeService service = NodeService();
 
   @override
@@ -34,7 +35,10 @@ class _FileListViewState extends State<FileListView> {
   @override
   Widget build(BuildContext context) {
     return chidren.isEmpty
-        ? const Text("Složka je prázdná")
+        ? Text(
+            "Složka je prázdná",
+            style: utils.getBasicTextStyle(),
+          )
         : ListView.builder(
             padding: const EdgeInsets.all(7),
             itemCount: chidren.length,

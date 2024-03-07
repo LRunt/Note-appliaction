@@ -3,6 +3,7 @@ import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/dialogs/deleteDialog.dart';
 import 'package:notes/data/clearDatabase.dart';
 import 'package:notes/data/userDatabase.dart';
+import 'package:notes/logger.dart';
 import 'package:notes/main.dart';
 import 'package:notes/model/language.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -26,6 +27,18 @@ class _SettingsState extends State<Settings> {
     utils.getSnackBarSuccess(context, "Data úspěšně smazána");
   }
 
+  void clearLogs() async {
+    await AppLogger.deleteLogFile();
+    AppLogger.createLogFileIfNotExist();
+    Navigator.of(context).pop();
+    utils.getSnackBarSuccess(context, "Logy byly úspěšně smazány");
+  }
+
+  Language? actualLanguage() {
+    Locale actualLocale = Localizations.localeOf(context);
+    return Language.getByLangCode(actualLocale.languageCode);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +60,7 @@ class _SettingsState extends State<Settings> {
                     ),
                   ),
                   DropdownButton<Language>(
+                    value: actualLanguage(),
                     items: Language.languageList()
                         .map(
                           (e) => DropdownMenuItem(
@@ -85,7 +99,7 @@ class _SettingsState extends State<Settings> {
                     ),
                   ),
                   SizedBox(
-                    width: 125,
+                    width: 130,
                     child: FilledButton(
                       style: utils.getButtonStyle(),
                       onPressed: () {
@@ -120,12 +134,12 @@ class _SettingsState extends State<Settings> {
                 children: [
                   Expanded(
                     child: Text(
-                      "Logs",
+                      AppLocalizations.of(context)!.logs,
                       style: utils.getBasicTextStyle(),
                     ),
                   ),
                   SizedBox(
-                    width: 125,
+                    width: 130,
                     child: FilledButton(
                       style: utils.getButtonStyle(),
                       onPressed: () {
@@ -134,7 +148,46 @@ class _SettingsState extends State<Settings> {
                             MaterialPageRoute(
                                 builder: (context) => const LogScreen()));
                       },
-                      child: const Text("Show logs"),
+                      child: Text(AppLocalizations.of(context)!.showLogs),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "Clear logs",
+                      style: utils.getBasicTextStyle(),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 130,
+                    child: FilledButton(
+                      style: utils.getButtonStyle(),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return DeleteDialog(
+                              titleText: "Smazání logů",
+                              contentText:
+                                  "Chystáte se smazat všechny logy aplikace",
+                              onDelete: () {
+                                clearLogs();
+                              },
+                              onCancel: () {
+                                Navigator.of(context).pop();
+                              },
+                            );
+                          },
+                        );
+                      },
+                      child: const Text("Clear"),
                     ),
                   ),
                 ],

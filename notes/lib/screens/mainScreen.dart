@@ -58,7 +58,8 @@ class _MainScreenState extends State<MainScreen> {
     ];
 
     return Scaffold(
-      backgroundColor: _pageType == 2 ? Colors.grey[200] : Colors.white,
+      backgroundColor:
+          _pageType == DIRECTORY_SCREEN ? Colors.grey[200] : Colors.white,
       appBar:
           AppBar(title: Text(AppLocalizations.of(context)!.appName), actions: [
         IconButton(
@@ -90,9 +91,11 @@ class _MainScreenState extends State<MainScreen> {
                 },
               ),
             ),
-            MyButton(
-                onTap: () {},
-                text: "Synchronize"), // Your custom button at the bottom
+            Padding(
+              padding: const EdgeInsets.all(5),
+              child: MyButton(onTap: () {}, text: "Synchronize"),
+            )
+            // Your custom button at the bottom
           ],
         ),
       ),
