@@ -29,4 +29,24 @@ class NodeService {
     }
     return null;
   }
+
+  bool containsBadChars(String name) {
+    if (name.contains("|")) {
+      return true;
+    }
+    return false;
+  }
+
+  bool siblingWithSameName(MyTreeNode parent, String name) {
+    return false;
+  }
+
+  void deleteNode(String nodeId) {
+    //Delete node
+    //Detele note if it has node
+  }
+
+  void renameNode(String nodeId, String newName) {}
+
+  void createNewNode(String parentId, String nodeName, bool nodeType) {}
 }

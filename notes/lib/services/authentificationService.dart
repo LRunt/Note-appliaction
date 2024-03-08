@@ -68,12 +68,17 @@ class AuthentificationService extends ChangeNotifier {
     await _firebaseAuth.signOut();
   }
 
+  //TODO předělat na mapu
+  //Udělat testy
+
   /// Returns the human redable error description of `errorCode`.
   ///
-  /// Returns a text translated description of error what occurs during authentification.
+  /// Returns a text translated description of error what occurs during login.
   String getErrorMessage(String errorCode, BuildContext context) {
     String errorMessage = "";
-    if (errorCode == 'user-not-found') {
+    if (errorCode == 'channel-error') {
+      errorMessage = AppLocalizations.of(context)!.fieldsAreNotFilled;
+    } else if (errorCode == 'user-not-found') {
       errorMessage = AppLocalizations.of(context)!.userNotFound;
     } else if (errorCode == 'wrong-password') {
       errorMessage = AppLocalizations.of(context)!.wrongPassword;
@@ -89,9 +94,14 @@ class AuthentificationService extends ChangeNotifier {
     return errorMessage;
   }
 
+  /// Returns the human redable error description of `errorCode`.
+  ///
+  /// Returns a text translated description of error what occurs during registration.
   String getRegisterErrorMessage(String errorCode, BuildContext context) {
     String errorMessage = "";
-    if (errorCode == 'weak-password') {
+    if (errorCode == 'channel-error') {
+      errorMessage = AppLocalizations.of(context)!.fieldsAreNotFilled;
+    } else if (errorCode == 'weak-password') {
       errorMessage = AppLocalizations.of(context)!.weakPassword;
     } else if (errorCode == 'email-already-in-use') {
       errorMessage = AppLocalizations.of(context)!.accountWithEmailExists;
