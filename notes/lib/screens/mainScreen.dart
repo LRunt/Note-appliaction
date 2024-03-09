@@ -42,6 +42,15 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  void navigateWithParam(bool isNote, String id) {
+    log("Navigation $id");
+    if (isNote) {
+      _changeScreen(NOTE_SCREEN, id);
+    } else {
+      _changeScreen(DIRECTORY_SCREEN, id);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Widget> _widgetTypes = <Widget>[
@@ -59,7 +68,12 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
       RichTextEditor(noteId: _noteId, key: ValueKey(_noteId)),
-      FileListView(nodeId: _noteId, key: ValueKey(_noteId)),
+      FileListView(
+        nodeId: _noteId,
+        key: ValueKey(_noteId),
+        navigateWithParam: (isNote, nodeId) =>
+            navigateWithParam(isNote, nodeId),
+      ),
     ];
 
     return Scaffold(
@@ -89,14 +103,8 @@ class _MainScreenState extends State<MainScreen> {
             Expanded(
               // Expanded widget takes all the available space after the header and button have been laid out
               child: MyTreeView(
-                navigateWithParam: (bool isNote, String id) {
-                  log("Navigation $id");
-                  if (isNote) {
-                    _changeScreen(NOTE_SCREEN, id);
-                  } else {
-                    _changeScreen(DIRECTORY_SCREEN, id);
-                  }
-                },
+                navigateWithParam: (bool isNote, String id) =>
+                    navigateWithParam(isNote, id),
               ),
             ),
             Padding(

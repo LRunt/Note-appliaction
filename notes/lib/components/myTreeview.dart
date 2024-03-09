@@ -39,7 +39,10 @@ class MyTreeView extends StatefulWidget {
   final void Function(bool, String) navigateWithParam;
 
   /// Constructor of the [MyTreeView] class.
-  const MyTreeView({super.key, required this.navigateWithParam});
+  const MyTreeView({
+    super.key,
+    required this.navigateWithParam,
+  });
 
   @override
   State<MyTreeView> createState() => _MyTreeViewState();
@@ -95,7 +98,9 @@ class _MyTreeViewState extends State<MyTreeView> {
                     entry: entry,
                     onTap: () => treeController.toggleExpansion(entry.node),
                     navigate: () => widget.navigateWithParam(
-                        entry.node.isNote, entry.node.id),
+                          entry.node.isNote,
+                          entry.node.id,
+                        ),
                     treeController: treeController,
                     db: db);
               },
@@ -259,25 +264,25 @@ class MyTreeTile extends StatelessWidget {
   /// Creating new node as children of [node]
   void createNode(BuildContext context, MyTreeNode node, bool isNote) {
     log("Adding children of node ${node.title}");
-    if (nodeService.siblingWithSameName(
+    /*if (nodeService.siblingWithSameName(
         node.id, _textDialogController.text.trim())) {
       utils.getSnackBarError(
           context, "Exist file with same name in the direcotry.");
     } else if (nodeService
         .containsDisabledChars(_textDialogController.text.trim())) {
       utils.getSnackBarError(context, "Forbidden characters in the name.");
-    } else {
-      MyTreeNode newChild = MyTreeNode(
-          id: "${node.id}$DELIMITER${_textDialogController.text}",
-          title: _textDialogController.text,
-          isNote: isNote);
-      node.addChild(newChild);
-      treeController.expand(node);
-      treeController.rebuild();
-      closeAndClear(context);
-      log("${treeController.roots}");
-      db.updateDatabase();
-    }
+    } else {*/
+    MyTreeNode newChild = MyTreeNode(
+        id: "${node.id}$DELIMITER${_textDialogController.text}",
+        title: _textDialogController.text,
+        isNote: isNote);
+    node.addChild(newChild);
+    treeController.expand(node);
+    treeController.rebuild();
+    closeAndClear(context);
+    log("${treeController.roots}");
+    db.updateDatabase();
+    //}
   }
 
   /// Renaming the [node]

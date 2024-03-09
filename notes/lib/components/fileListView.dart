@@ -8,9 +8,12 @@ import 'dart:developer';
 class FileListView extends StatefulWidget {
   final String nodeId;
 
+  final void Function(bool, String) navigateWithParam;
+
   const FileListView({
     super.key,
     required this.nodeId,
+    required this.navigateWithParam,
   });
 
   @override
@@ -46,8 +49,12 @@ class _FileListViewState extends State<FileListView> {
               return Padding(
                 padding: const EdgeInsets.all(1),
                 child: FileListViewTile(
-                    isNote: chidren[index].isNote,
-                    fileName: chidren[index].title),
+                  node: chidren[index],
+                  touch: () => widget.navigateWithParam(
+                    chidren[index].isNote,
+                    chidren[index].id,
+                  ),
+                ),
               );
             });
   }
