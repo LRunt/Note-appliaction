@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/assets/constants.dart';
 import 'package:notes/components/fileListView.dart';
@@ -14,7 +16,10 @@ import 'package:notes/screens/settings.dart';
 import 'package:notes/services/nodeService.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  final FirebaseAuth auth;
+  final FirebaseFirestore firestore;
+
+  const MainScreen({super.key, required this.auth, required this.firestore});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -68,7 +73,7 @@ class _MainScreenState extends State<MainScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const Settings(),
+                builder: (context) => const SettingsPage(),
               ),
             );
           },
@@ -77,7 +82,10 @@ class _MainScreenState extends State<MainScreen> {
       drawer: Drawer(
         child: Column(
           children: [
-            const UserDrawerHeader(), // Your custom drawer header
+            UserDrawerHeader(
+              auth: widget.auth,
+              firestore: widget.firestore,
+            ), // Your custom drawer header
             Expanded(
               // Expanded widget takes all the available space after the header and button have been laid out
               child: MyTreeView(

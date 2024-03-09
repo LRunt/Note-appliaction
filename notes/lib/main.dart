@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -59,6 +61,12 @@ class _MyAppState extends State<MyApp> {
   Locale? _locale;
   UserDatabase db = UserDatabase();
 
+  /// An instance of firebase authentification, created in main because of testing.
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  /// An instance of firebase firestore to store data, create in main because of testing.
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   setLocale(Locale locale) {
     setState(() {
       _locale = locale;
@@ -82,7 +90,10 @@ class _MyAppState extends State<MyApp> {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: _locale,
-      home: const MainScreen(),
+      home: MainScreen(
+        auth: _auth,
+        firestore: _firestore,
+      ),
     );
   }
 }

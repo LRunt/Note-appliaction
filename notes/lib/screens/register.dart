@@ -1,30 +1,39 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/myButton.dart';
 import 'package:notes/components/myTextField.dart';
-import 'package:notes/services/AuthentificationService.dart';
+import 'package:notes/services/authentificationService.dart';
 
 /// A StatefulWidget that provides a user interface for registering a new user.
 ///
 /// This page displays a form where users can input their email, password, and confirm their password
 /// to create a new account. It uses Firebase Authentication for the registration process.
 class RegisterPage extends StatefulWidget {
+  final FirebaseAuth auth;
+  final FirebaseFirestore firestore;
+
   /// Callback function to navigate to another page.
   ///
   /// This is used to navigate to the login page if the user already has an account.
   final void Function()? onTap;
 
   /// Constructor of [RegisterPage] class.
-  const RegisterPage({super.key, required this.onTap});
+  const RegisterPage(
+      {super.key,
+      required this.auth,
+      required this.firestore,
+      required this.onTap});
 
   @override
   State<RegisterPage> createState() => _RegisterFormState();
 }
 
 class _RegisterFormState extends State<RegisterPage> {
-  final AuthentificationService _authService = AuthentificationService();
+  late final AuthService _authService;
 
   final ComponentUtils utils = ComponentUtils();
 
@@ -36,6 +45,17 @@ class _RegisterFormState extends State<RegisterPage> {
 
   /// Controller for the confirm password input field.
   final confirmPasswordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _authService = AuthService(
+      auth: widget.auth,
+      firestore: widget.firestore,
+      localizationProvider: (BuildContext context) =>
+          AppLocalizations.of(context)!,
+    );
+  }
 
   ///Clean up the controllers when widget is removed from the tree.
   @override

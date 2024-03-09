@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/services/loginOrRegister.dart';
@@ -11,8 +12,12 @@ import 'dart:developer';
 /// This widget listens to Firebase Authentication state changes to update the state of the UI.
 /// It also uses Firebase Authentication to manage the user state.
 class UserDrawerHeader extends StatefulWidget {
+  final FirebaseAuth auth;
+  final FirebaseFirestore firestore;
+
   /// Constructor of [UserDrawerHeader] class.
-  const UserDrawerHeader({super.key});
+  const UserDrawerHeader(
+      {super.key, required this.auth, required this.firestore});
 
   @override
   State<UserDrawerHeader> createState() => _UserDrawerHeaderState();
@@ -81,8 +86,10 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        const LoginOrRegister(showLoginPage: true),
+                    builder: (context) => LoginOrRegister(
+                        auth: widget.auth,
+                        firestore: widget.firestore,
+                        showLoginPage: true),
                   ),
                 );
               },
@@ -93,8 +100,10 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        const LoginOrRegister(showLoginPage: false),
+                    builder: (context) => LoginOrRegister(
+                        auth: widget.auth,
+                        firestore: widget.firestore,
+                        showLoginPage: false),
                   ),
                 );
               },

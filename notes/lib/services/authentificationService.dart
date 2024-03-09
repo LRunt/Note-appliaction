@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/assets/constants.dart';
@@ -14,15 +15,23 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 /// Author: Lukas Runt
 /// Date: 2024-02-29
 /// Version: 1.0.0
-class AuthentificationService extends ChangeNotifier {
+class AuthService extends ChangeNotifier {
   /// The [FirebaseAuth] instance for interacting getting authentification data.
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth auth;
+  final FirebaseFirestore firestore;
+  final AppLocalizations Function(BuildContext) localizationProvider;
 
   /// Instance of [FirebaseService] for accessing Firebase-related services.
-  final FirebaseService _firebaseService = FirebaseService();
+  late final FirebaseService _firebaseService =
+      FirebaseService(auth: auth, fireStore: firestore);
 
   /// Instance of [NotesDatabase] for performing operations on the notes database.
   final NotesDatabase db = NotesDatabase();
+
+  AuthService(
+      {required this.auth,
+      required this.firestore,
+      required this.localizationProvider});
 
   /// Registers a new user with the given email and password.
   ///
@@ -31,8 +40,8 @@ class AuthentificationService extends ChangeNotifier {
   /// Throws a [FirebaseAuthException] if a Firebase Authentication error occurs.
   Future<UserCredential> register(String email, String password) async {
     try {
-      UserCredential userCredential = await _firebaseAuth
-          .createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
       MyTreeNode tree = boxHierachy.get(TREE_STORAGE);
       _firebaseService.saveTreeStructure(tree);
       _firebaseService.saveAllNotes();
@@ -49,12 +58,12 @@ class AuthentificationService extends ChangeNotifier {
   /// Throws a [FirebaseAuthException] if a Firebase Authentication error occurs.
   Future<UserCredential> login(String email, String password) async {
     try {
-      UserCredential userCredential = await _firebaseAuth
-          .signInWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
       // Synchronization after login
       MyTreeNode tree = await _firebaseService.getTreeNode();
       boxHierachy.put(TREE_STORAGE, tree);
-      db.saveAllNotes();
+      //db.saveAllNotes();
       return userCredential;
     } on FirebaseAuthException catch (e) {
       throw e.code;
@@ -65,7 +74,7 @@ class AuthentificationService extends ChangeNotifier {
   ///
   /// It signs out the user from Firebase Authentication.
   Future<void> logout() async {
-    await _firebaseAuth.signOut();
+    await auth.signOut();
   }
 
   //TODO předělat na mapu
@@ -74,22 +83,32 @@ class AuthentificationService extends ChangeNotifier {
   /// Returns the human redable error description of `errorCode`.
   ///
   /// Returns a text translated description of error what occurs during login.
+  /// Updated method to use localizationProvider for getting localized strings.
   String getErrorMessage(String errorCode, BuildContext context) {
+    final AppLocalizations localizations = localizationProvider(context);
     String errorMessage = "";
-    if (errorCode == 'channel-error') {
-      errorMessage = AppLocalizations.of(context)!.fieldsAreNotFilled;
-    } else if (errorCode == 'user-not-found') {
-      errorMessage = AppLocalizations.of(context)!.userNotFound;
-    } else if (errorCode == 'wrong-password') {
-      errorMessage = AppLocalizations.of(context)!.wrongPassword;
-    } else if (errorCode == 'invalid-credential') {
-      errorMessage = AppLocalizations.of(context)!.invalidCreditial;
-    } else if (errorCode == 'network-request-failed') {
-      errorMessage = AppLocalizations.of(context)!.networkRequestFailed;
-    } else if (errorCode == 'invalid-email') {
-      errorMessage = AppLocalizations.of(context)!.invalidEmail;
-    } else {
-      errorMessage = "$errorCode.";
+    switch (errorCode) {
+      case 'channel-error':
+        errorMessage = localizations.fieldsAreNotFilled;
+        break;
+      case 'user-not-found':
+        errorMessage = localizations.userNotFound;
+        break;
+      case 'wrong-password':
+        errorMessage = localizations.wrongPassword;
+        break;
+      case 'invalid-credential':
+        errorMessage = localizations.invalidCreditial;
+        break;
+      case 'network-request-failed':
+        errorMessage = localizations.networkRequestFailed;
+        break;
+      case 'invalid-email':
+        errorMessage = localizations.invalidEmail;
+        break;
+      default:
+        errorMessage = "$errorCode.";
+        break;
     }
     return errorMessage;
   }

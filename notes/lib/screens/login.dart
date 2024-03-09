@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -13,21 +15,27 @@ import 'package:notes/services/authentificationService.dart';
 /// It utilizes Firebase Authentication for secure login functionality and provides
 /// feedback in case of errors such as incorrect email or password.
 class LoginPage extends StatefulWidget {
+  final FirebaseAuth auth;
+  final FirebaseFirestore firestore;
+
   /// A callback function that is triggered when the user taps on the 'Create Account' text.
   ///
   /// This function can be used to navigate the user to the registration page.
   final void Function()? onTap;
 
   /// Constructor of [LoginPage] class.
-  const LoginPage({super.key, required this.onTap});
+  const LoginPage(
+      {super.key,
+      required this.auth,
+      required this.firestore,
+      required this.onTap});
 
   @override
   State<LoginPage> createState() => _LoginFormState();
 }
 
 class _LoginFormState extends State<LoginPage> {
-  final AuthentificationService _authentificationService =
-      AuthentificationService();
+  late final AuthService _authService;
   final ComponentUtils utils = ComponentUtils();
 
   /// Controller for the email input field.
@@ -35,6 +43,17 @@ class _LoginFormState extends State<LoginPage> {
 
   /// Controller for the password input field.
   final passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _authService = AuthService(
+      auth: widget.auth,
+      firestore: widget.firestore,
+      localizationProvider: (BuildContext context) =>
+          AppLocalizations.of(context)!,
+    );
+  }
 
   /// Cleans up the controllers when the widget is removed from the widget tree.
   ///
@@ -57,15 +76,15 @@ class _LoginFormState extends State<LoginPage> {
     log('Loging user: ${emailController.text}, password: ${passwordController.text}');
     utils.getProgressIndicator(context);
     try {
-      await _authentificationService.login(
+      await _authService.login(
           emailController.text.trim(), passwordController.text.trim());
       // Pop the CircularProgressIndicator
       Navigator.pop(context);
       // Go back to the main screen
       Navigator.pop(context);
     } catch (errorCode) {
-      String errorMessage = _authentificationService.getErrorMessage(
-          errorCode.toString(), context);
+      String errorMessage =
+          _authService.getErrorMessage(errorCode.toString(), context);
       // Pop the CircularProgressIndicator
       Navigator.pop(context);
       log(errorMessage.toString());

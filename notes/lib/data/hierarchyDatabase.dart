@@ -3,10 +3,10 @@ import 'package:notes/boxes.dart';
 import 'package:notes/assets/constants.dart';
 import 'dart:developer';
 
-import 'package:notes/services/firebaseService.dart';
+//import 'package:notes/services/firebaseService.dart';
 
 class HierarchyDatabase {
-  final FirebaseService _firebaseService = FirebaseService();
+  //final FirebaseService _firebaseService = FirebaseService();
 
   List<MyTreeNode> roots = [];
 
@@ -34,14 +34,14 @@ class HierarchyDatabase {
     boxHierachy.put(TREE_STORAGE, roots.firstOrNull);
     // Adding timestamp of last change
     boxSynchronization.put(TREE_CHANGE, DateTime.now().toIso8601String());
-    updateFirebaseDatabase();
+    //updateFirebaseDatabase();
   }
 
   // Update firebase database
-  void updateFirebaseDatabase() {
+  /*void updateFirebaseDatabase() {
     if (_firebaseService.isLoggedIn()) {
       _firebaseService.saveTreeStructure(roots.first);
       _firebaseService.saveTreeTime();
     }
-  }
+  }*/
 }

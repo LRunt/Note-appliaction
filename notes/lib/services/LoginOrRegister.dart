@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/screens/login.dart';
 import 'package:notes/screens/register.dart';
@@ -8,11 +10,18 @@ import 'package:notes/screens/register.dart';
 /// or the registration screen based on the user's choice. It provides a seamless way
 /// for users to switch between the two screens without navigating back and forth in the app's navigation stack.
 class LoginOrRegister extends StatefulWidget {
+  final FirebaseAuth auth;
+  final FirebaseFirestore firestore;
+
   /// What page will be shown first.
   final bool showLoginPage;
 
   /// Constructor of [LoginOrRegister] class.
-  const LoginOrRegister({super.key, required this.showLoginPage});
+  const LoginOrRegister(
+      {super.key,
+      required this.auth,
+      required this.firestore,
+      required this.showLoginPage});
 
   @override
   State<LoginOrRegister> createState() => _LoginOrRegisterState();
@@ -46,9 +55,11 @@ class _LoginOrRegisterState extends State<LoginOrRegister> {
   @override
   Widget build(BuildContext context) {
     if (showLoginPage) {
-      return LoginPage(onTap: togglePages);
+      return LoginPage(
+          auth: widget.auth, firestore: widget.firestore, onTap: togglePages);
     } else {
-      return RegisterPage(onTap: togglePages);
+      return RegisterPage(
+          auth: widget.auth, firestore: widget.firestore, onTap: togglePages);
     }
   }
 }

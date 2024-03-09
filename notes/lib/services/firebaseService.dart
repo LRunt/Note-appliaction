@@ -8,18 +8,20 @@ import 'dart:developer';
 
 class FirebaseService extends ChangeNotifier {
   //get instance of auth and firestore
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
+  final FirebaseAuth auth;
+  final FirebaseFirestore fireStore;
+
+  FirebaseService({required this.auth, required this.fireStore});
 
   bool isLoggedIn() {
-    return _firebaseAuth.currentUser != null;
+    return auth.currentUser != null;
   }
 
   // SAVE hierarchy
   Future<void> saveTreeStructure(MyTreeNode treeViewData) async {
     var map = treeViewData.toMap();
-    String userId = _firebaseAuth.currentUser!.uid;
-    await _fireStore
+    String userId = auth.currentUser!.uid;
+    await fireStore
         .collection(userId)
         .doc(FIREBASE_TREE)
         .set(map, SetOptions(merge: true));
@@ -27,8 +29,8 @@ class FirebaseService extends ChangeNotifier {
 
   // SAVE hierarchy sync time
   Future<void> saveTreeTime() async {
-    String userId = _firebaseAuth.currentUser!.uid;
-    await _fireStore.collection(userId).doc(FIREBASE_TREE_TIME).set({
+    String userId = auth.currentUser!.uid;
+    await fireStore.collection(userId).doc(FIREBASE_TREE_TIME).set({
       'updateTime': FieldValue.serverTimestamp(),
     }, SetOptions(merge: true));
   }
@@ -36,18 +38,18 @@ class FirebaseService extends ChangeNotifier {
   // GET hierarchy
   // not a realtime for now (not using stream builder)
   Future<MyTreeNode> getTreeNode() async {
-    String userId = _firebaseAuth.currentUser!.uid;
-    var snapshot = await _fireStore.collection(userId).doc(FIREBASE_TREE).get();
+    String userId = auth.currentUser!.uid;
+    var snapshot = await fireStore.collection(userId).doc(FIREBASE_TREE).get();
     var map = snapshot.data();
     return MyTreeNode.fromMap(map!);
   }
 
   // Get hierarchy sync time
   Future<DateTime?> getTreeTime() async {
-    String userId = _firebaseAuth.currentUser!.uid;
+    String userId = auth.currentUser!.uid;
     try {
       var documentSnapshot =
-          await _fireStore.collection(userId).doc(FIREBASE_TREE_TIME).get();
+          await fireStore.collection(userId).doc(FIREBASE_TREE_TIME).get();
       if (documentSnapshot.exists) {
         Map<String, dynamic> data =
             documentSnapshot.data() as Map<String, dynamic>;
@@ -76,9 +78,9 @@ class FirebaseService extends ChangeNotifier {
   Future<void> saveNote(String noteId) async {
     var value = boxNotes.get(noteId);
     log(value);
-    String userId = _firebaseAuth.currentUser!.uid;
+    String userId = auth.currentUser!.uid;
     var collectionId = userId + FIREBASE_NOTES;
-    await _fireStore
+    await fireStore
         .collection(collectionId)
         .doc(noteId)
         .set({'content': value});
@@ -86,9 +88,9 @@ class FirebaseService extends ChangeNotifier {
 
   // GET notes
   Future<List<Map<String, dynamic>>> getAllNotes() async {
-    String userId = _firebaseAuth.currentUser!.uid;
+    String userId = auth.currentUser!.uid;
     var collectionId = userId + FIREBASE_NOTES;
-    var querySnapshot = await _fireStore.collection(collectionId).get();
+    var querySnapshot = await fireStore.collection(collectionId).get();
 
     List<Map<String, dynamic>> notes = [];
     for (var doc in querySnapshot.docs) {
@@ -103,10 +105,10 @@ class FirebaseService extends ChangeNotifier {
 
   // GET note
   Future<String?> getNote(String noteId) async {
-    String userId = _firebaseAuth.currentUser!.uid;
+    String userId = auth.currentUser!.uid;
     var collectionId = userId + FIREBASE_NOTES;
     var documentSnapshot =
-        await _fireStore.collection(collectionId).doc(noteId).get();
+        await fireStore.collection(collectionId).doc(noteId).get();
 
     if (documentSnapshot.exists) {
       return documentSnapshot.get('content'); // Return the content directly
