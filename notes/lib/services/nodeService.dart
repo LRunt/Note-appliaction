@@ -20,7 +20,7 @@ class NodeService {
     log("$path");
     int level = 1;
     hierarchyDb.loadData();
-    List<MyTreeNode> nodeList = hierarchyDb.roots;
+    List<MyTreeNode> nodeList = HierarchyDatabase.roots;
     log("Starting serching, nodeList: $nodeList");
     return searchChildren(level, nodeList, path);
   }
@@ -43,7 +43,7 @@ class NodeService {
     List<String> path = nodeId.split(DELIMITER);
     int level = 1;
     hierarchyDb.loadData();
-    List<MyTreeNode> nodeList = hierarchyDb.roots;
+    List<MyTreeNode> nodeList = HierarchyDatabase.roots;
     return searchParent(level, nodeList, path, null);
   }
 
@@ -55,7 +55,7 @@ class NodeService {
         return parent;
       }
       if (node.title == path[level]) {
-        return searchChildren(level + 1, node.children, path);
+        return searchParent(level + 1, node.children, path, node);
       }
     }
     return null;
@@ -72,10 +72,13 @@ class NodeService {
 
   bool siblingWithSameName(String nodeId, String newName) {
     MyTreeNode? parent = getParent(nodeId);
+    log("Parent: $parent");
     if (parent == null) {
-      return true; //TODO throw error
+      return true;
     } else {
       for (MyTreeNode sibling in parent.children) {
+        print("Sibling title: ${sibling.title}");
+        print("NewName: ${newName}");
         if (sibling.title == newName) {
           return true;
         }
@@ -97,4 +100,8 @@ class NodeService {
   void changeChidrenId(String parentId) {}
 
   void createNewNode(String parentId, String nodeName, bool nodeType) {}
+
+  List<String> getAllFolders() {
+    return List.empty();
+  }
 }

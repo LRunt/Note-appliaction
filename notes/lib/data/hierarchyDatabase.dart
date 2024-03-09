@@ -8,7 +8,7 @@ import 'dart:developer';
 class HierarchyDatabase {
   //final FirebaseService _firebaseService = FirebaseService();
 
-  List<MyTreeNode> roots = [];
+  static List<MyTreeNode> roots = [];
 
   // create initial default data
   void createDefaultData() {
