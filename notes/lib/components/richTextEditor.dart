@@ -70,17 +70,13 @@ class _RichTextEditorState extends State<RichTextEditor> {
             configurations:
                 QuillSimpleToolbarConfigurations(controller: _controller)),
         Expanded(
-          child: Scrollbar(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: QuillEditor.basic(
-                configurations: QuillEditorConfigurations(
-                    controller: _controller,
-                    padding: const EdgeInsets.all(10),
-                    readOnly: false,
-                    autoFocus: true),
-              ),
-            ),
+          child: QuillEditor.basic(
+            configurations: QuillEditorConfigurations(
+                controller: _controller,
+                padding: const EdgeInsets.all(10),
+                readOnly: false,
+                autoFocus: true,
+                scrollable: true),
           ),
         ),
       ],
