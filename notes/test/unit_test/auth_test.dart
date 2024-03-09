@@ -6,7 +6,7 @@ import 'package:notes/firebase_options.dart';
 import 'package:notes/services/authentificationService.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notes/services/firebaseService.dart';
-import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
+//import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 //class MockFirebaseAuth extends Mock implements FirebaseAuth {}
@@ -27,7 +27,7 @@ void main() {
   //final MockUserCredential mockUserCredential = MockUserCredential();
   final MockAppLocalizations mockLocalizations = MockAppLocalizations();
   final MockBuildContext mockBuildContext = MockBuildContext();
-  late MockFirebaseAuth mockFirebaseAuth;
+  //late MockFirebaseAuth mockFirebaseAuth;
   late AuthentificationService authService;
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -38,7 +38,7 @@ void main() {
   });
   // Before every test
   setUp(() {
-    mockFirebaseAuth = MockFirebaseAuth(signedIn: true);
+    //mockFirebaseAuth = MockFirebaseAuth(signedIn: true);
     authService = AuthentificationService();
   });
   // After every test

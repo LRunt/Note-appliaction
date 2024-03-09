@@ -36,6 +36,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   AppLogger.log("Running the appliaction");
   // Running the application
   runApp(const MyApp());

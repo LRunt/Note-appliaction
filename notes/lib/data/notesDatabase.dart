@@ -12,4 +12,12 @@ class NotesDatabase {
       await boxNotes.put(noteId, content);
     }
   }
+
+  void changeNoteId(String oldId, String newId) async {
+    final data = boxNotes.get(oldId);
+    if (data != null) {
+      await boxNotes.put(newId, data);
+      await boxNotes.delete(oldId);
+    }
+  }
 }
