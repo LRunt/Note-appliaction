@@ -77,60 +77,24 @@ class AuthService extends ChangeNotifier {
     await auth.signOut();
   }
 
-  //TODO předělat na mapu
-  //Udělat testy
-
   /// Returns the human redable error description of `errorCode`.
   ///
   /// Returns a text translated description of error what occurs during login.
   /// Updated method to use localizationProvider for getting localized strings.
   String getErrorMessage(String errorCode, BuildContext context) {
     final AppLocalizations localizations = localizationProvider(context);
-    String errorMessage = "";
-    switch (errorCode) {
-      case 'channel-error':
-        errorMessage = localizations.fieldsAreNotFilled;
-        break;
-      case 'user-not-found':
-        errorMessage = localizations.userNotFound;
-        break;
-      case 'wrong-password':
-        errorMessage = localizations.wrongPassword;
-        break;
-      case 'invalid-credential':
-        errorMessage = localizations.invalidCreditial;
-        break;
-      case 'network-request-failed':
-        errorMessage = localizations.networkRequestFailed;
-        break;
-      case 'invalid-email':
-        errorMessage = localizations.invalidEmail;
-        break;
-      default:
-        errorMessage = "$errorCode.";
-        break;
-    }
-    return errorMessage;
-  }
-
-  /// Returns the human redable error description of `errorCode`.
-  ///
-  /// Returns a text translated description of error what occurs during registration.
-  String getRegisterErrorMessage(String errorCode, BuildContext context) {
-    String errorMessage = "";
-    if (errorCode == 'channel-error') {
-      errorMessage = AppLocalizations.of(context)!.fieldsAreNotFilled;
-    } else if (errorCode == 'weak-password') {
-      errorMessage = AppLocalizations.of(context)!.weakPassword;
-    } else if (errorCode == 'email-already-in-use') {
-      errorMessage = AppLocalizations.of(context)!.accountWithEmailExists;
-    } else if (errorCode == 'network-request-failed') {
-      errorMessage = AppLocalizations.of(context)!.networkRequestFailed;
-    } else if (errorCode == 'invalid-email') {
-      errorMessage = AppLocalizations.of(context)!.invalidEmail;
-    } else {
-      errorMessage = "$errorCode.";
-    }
-    return errorMessage;
+    Map<String, String Function(BuildContext)> errorMessages = {
+      'channel-error': (ctx) => localizations.fieldsAreNotFilled,
+      'user-not-found': (ctx) => localizations.userNotFound,
+      'wrong-password': (ctx) => localizations.wrongPassword,
+      'invalid-credential': (ctx) => localizations.invalidCreditial,
+      'network-request-failed': (ctx) => localizations.networkRequestFailed,
+      'invalid-email': (ctx) => localizations.invalidEmail,
+      'weak-password': (ctx) => localizations.weakPassword,
+      'email-already-in-use': (ctx) => localizations.accountWithEmailExists,
+    };
+    // Default error message for unspecified errors
+    String defaultErrorMessage = "$errorCode.";
+    return errorMessages[errorCode]?.call(context) ?? defaultErrorMessage;
   }
 }
