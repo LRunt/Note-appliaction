@@ -21,7 +21,7 @@ class FileListView extends StatefulWidget {
 }
 
 class _FileListViewState extends State<FileListView> {
-  List<MyTreeNode> chidren = [];
+  List<MyTreeNode> children = [];
   final utils = ComponentUtils();
   NodeService service = NodeService();
 
@@ -30,31 +30,37 @@ class _FileListViewState extends State<FileListView> {
     MyTreeNode? node = service.getNode(widget.nodeId);
     log("$node");
     if (node != null) {
-      chidren = node.children;
+      children = node.children;
     }
     super.initState();
   }
 
+  void deleteNode(MyTreeNode node) {
+    setState(() {
+      service.deleteNode(node, service.getParent(node.id)!);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return chidren.isEmpty
+    return children.isEmpty
         ? Text(
             "Složka je prázdná",
             style: utils.getBasicTextStyle(),
           )
         : ListView.builder(
             padding: const EdgeInsets.all(7),
-            itemCount: chidren.length,
+            itemCount: children.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.all(1),
                 child: FileListViewTile(
-                  node: chidren[index],
-                  touch: () => widget.navigateWithParam(
-                    chidren[index].isNote,
-                    chidren[index].id,
-                  ),
-                ),
+                    node: children[index],
+                    touch: () => widget.navigateWithParam(
+                          children[index].isNote,
+                          children[index].id,
+                        ),
+                    delete: () => deleteNode(children[index])),
               );
             });
   }

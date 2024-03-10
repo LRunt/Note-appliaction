@@ -20,4 +20,8 @@ class NotesDatabase {
       await boxNotes.delete(oldId);
     }
   }
+
+  void deleteNote(String noteId) async {
+    await boxNotes.delete(noteId);
+  }
 }

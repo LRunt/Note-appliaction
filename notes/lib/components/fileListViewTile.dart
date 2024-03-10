@@ -7,8 +7,13 @@ class FileListViewTile extends StatelessWidget {
   final MyTreeNode node;
   final utils = ComponentUtils();
   final VoidCallback touch;
+  final VoidCallback delete;
 
-  FileListViewTile({super.key, required this.node, required this.touch});
+  FileListViewTile(
+      {super.key,
+      required this.node,
+      required this.touch,
+      required this.delete});
 
   @override
   Widget build(BuildContext context) {
@@ -43,16 +48,29 @@ class FileListViewTile extends StatelessWidget {
               },
               itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                 PopupMenuItem<String>(
+                  onTap: () => delete(),
                   value: 'delete',
-                  child: Text(AppLocalizations.of(context)!.menuDelete),
+                  child: Row(children: [
+                    const Icon(Icons.delete),
+                    const SizedBox(width: 4),
+                    Text(AppLocalizations.of(context)!.menuDelete)
+                  ]),
                 ),
                 PopupMenuItem<String>(
                   value: 'rename',
-                  child: Text(AppLocalizations.of(context)!.menuRename),
+                  child: Row(children: [
+                    const Icon(Icons.edit),
+                    const SizedBox(width: 4),
+                    Text(AppLocalizations.of(context)!.menuRename)
+                  ]),
                 ),
                 PopupMenuItem<String>(
                   value: 'create',
-                  child: Text(AppLocalizations.of(context)!.menuCreate),
+                  child: Row(children: [
+                    const Icon(Icons.add),
+                    const SizedBox(width: 4),
+                    Text(AppLocalizations.of(context)!.menuCreate)
+                  ]),
                 ),
               ],
             ),

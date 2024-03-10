@@ -264,25 +264,25 @@ class MyTreeTile extends StatelessWidget {
   /// Creating new node as children of [node]
   void createNode(BuildContext context, MyTreeNode node, bool isNote) {
     log("Adding children of node ${node.title}");
-    if (nodeService.siblingWithSameName(
-        node.id, _textDialogController.text.trim())) {
+    /*if (nodeService.siblingWithSameName(
+        node.id, _textDialogController.text)) {
       utils.getSnackBarError(
           context, "Exist file with same name in the direcotry.");
     } else if (nodeService
         .containsDisabledChars(_textDialogController.text.trim())) {
       utils.getSnackBarError(context, "Forbidden characters in the name.");
-    } else {
-      MyTreeNode newChild = MyTreeNode(
-          id: "${node.id}$DELIMITER${_textDialogController.text}",
-          title: _textDialogController.text,
-          isNote: isNote);
-      node.addChild(newChild);
-      treeController.expand(node);
-      treeController.rebuild();
-      closeAndClear(context);
-      log("${treeController.roots}");
-      db.updateDatabase();
-    }
+    } else {*/
+    MyTreeNode newChild = MyTreeNode(
+        id: "${node.id}$DELIMITER${_textDialogController.text}",
+        title: _textDialogController.text,
+        isNote: isNote);
+    node.addChild(newChild);
+    treeController.expand(node);
+    treeController.rebuild();
+    closeAndClear(context);
+    log("${treeController.roots}");
+    db.updateDatabase();
+    //}
   }
 
   /// Renaming the [node]

@@ -98,11 +98,23 @@ class NodeService {
     return true;
   }
 
-  void changeChidrenId(String parentId) {}
+  void changeChidrenIds(String parentId) {}
 
   void createNewNode(String parentId, String nodeName, bool nodeType) {}
 
   List<String> getAllFolders() {
     return List.empty();
+  }
+
+  void deleteNode(MyTreeNode node, MyTreeNode parent) {
+    // If node is note, delete note
+    if (node.isNote) {
+      notesDatabase.deleteNote(node.id);
+    }
+    // If node have children -> delete its notes
+    for (MyTreeNode child in node.children) {
+      deleteNode(child, node);
+    }
+    parent.children.remove(node);
   }
 }
