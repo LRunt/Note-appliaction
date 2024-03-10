@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
 import 'package:notes/components/componentUtils.dart';
-import 'package:notes/components/dialogs/createNodeDialog.dart';
 import 'package:notes/components/dialogs/deleteDialog.dart';
 import 'package:notes/components/dialogs/textFieldDialog.dart';
 import 'package:notes/data/hierarchyDatabase.dart';
@@ -253,10 +252,11 @@ class MyTreeTile extends StatelessWidget {
     showDialog(
         context: context,
         builder: (context) {
-          return CreateNodeDialog(
-              nodeName: node.title,
+          return TextFieldDialog(
+              titleText: AppLocalizations.of(context)!.newNode,
+              confirmButtonText: AppLocalizations.of(context)!.create,
               controller: _textDialogController,
-              onCreate: () => createNode(context, node, isNote),
+              onConfirm: () => createNode(context, node, isNote),
               onCancel: () => closeAndClear(context));
         });
   }
@@ -264,25 +264,25 @@ class MyTreeTile extends StatelessWidget {
   /// Creating new node as children of [node]
   void createNode(BuildContext context, MyTreeNode node, bool isNote) {
     log("Adding children of node ${node.title}");
-    /*if (nodeService.siblingWithSameName(
+    if (nodeService.siblingWithSameName(
         node.id, _textDialogController.text.trim())) {
       utils.getSnackBarError(
           context, "Exist file with same name in the direcotry.");
     } else if (nodeService
         .containsDisabledChars(_textDialogController.text.trim())) {
       utils.getSnackBarError(context, "Forbidden characters in the name.");
-    } else {*/
-    MyTreeNode newChild = MyTreeNode(
-        id: "${node.id}$DELIMITER${_textDialogController.text}",
-        title: _textDialogController.text,
-        isNote: isNote);
-    node.addChild(newChild);
-    treeController.expand(node);
-    treeController.rebuild();
-    closeAndClear(context);
-    log("${treeController.roots}");
-    db.updateDatabase();
-    //}
+    } else {
+      MyTreeNode newChild = MyTreeNode(
+          id: "${node.id}$DELIMITER${_textDialogController.text}",
+          title: _textDialogController.text,
+          isNote: isNote);
+      node.addChild(newChild);
+      treeController.expand(node);
+      treeController.rebuild();
+      closeAndClear(context);
+      log("${treeController.roots}");
+      db.updateDatabase();
+    }
   }
 
   /// Renaming the [node]

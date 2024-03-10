@@ -40,6 +40,7 @@ class NodeService {
   }
 
   MyTreeNode? getParent(String nodeId) {
+    log("Getting parent");
     List<String> path = nodeId.split(DELIMITER);
     int level = 1;
     hierarchyDb.loadData();
@@ -49,7 +50,7 @@ class NodeService {
 
   MyTreeNode? searchParent(int level, List<MyTreeNode> nodeList,
       List<String> path, MyTreeNode? parent) {
-    log("Search children ${path.elementAt(level)}");
+    log("Search parent ${path.elementAt(level)}");
     for (MyTreeNode node in nodeList) {
       if (level == path.length - 1 && node.title == path[level]) {
         return parent;
