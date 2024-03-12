@@ -161,7 +161,20 @@ class NodeService {
   }
 
   List<String> getAllFolders() {
-    return List.empty();
+    List<String> folders = [];
+    for (MyTreeNode node in HierarchyDatabase.roots) {
+      getFolders(folders, node);
+    }
+    return folders;
+  }
+
+  void getFolders(List<String> folders, MyTreeNode node) {
+    if (!node.isNote) {
+      folders.add(node.id);
+    }
+    for (MyTreeNode child in node.children) {
+      getFolders(folders, child);
+    }
   }
 
   void deleteNode(MyTreeNode node, MyTreeNode parent) {

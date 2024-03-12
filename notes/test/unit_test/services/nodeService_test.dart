@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:notes/data/hierarchyDatabase.dart';
+import 'package:notes/model/myTreeNode.dart';
 import 'package:notes/services/nodeService.dart';
 
 class MockHierarchyDatabase extends Mock implements HierarchyDatabase {}
@@ -43,6 +44,22 @@ void main() {
     test('Get parent path - simple test', () {
       String path = "|home|slozka1|slozka2|parent|child";
       expect(nodeService.getParentPath(path), "|home|slozka1|slozka2|parent");
+    });
+  });
+
+  group('Getting all forders', () {
+    test('Getting folders - simple test', () {
+      MyTreeNode root = MyTreeNode(id: '|Home', title: "Home", isNote: false);
+      MyTreeNode child1 =
+          MyTreeNode(id: '|Home|child1', title: "child1", isNote: false);
+      MyTreeNode child2 =
+          MyTreeNode(id: '|Home|child2', title: "child2", isNote: true);
+      root.addChild(child1);
+      root.addChild(child2);
+      List<String> folders = [];
+      nodeService.getFolders(folders, root);
+      expect(folders.length, 2);
+      expect(folders[0], root.id);
     });
   });
 }
