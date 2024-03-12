@@ -8,12 +8,19 @@ class FileListViewTile extends StatelessWidget {
   final utils = ComponentUtils();
   final VoidCallback touch;
   final VoidCallback delete;
+  final VoidCallback rename;
+  final VoidCallback createNote;
+  final VoidCallback createFile;
 
-  FileListViewTile(
-      {super.key,
-      required this.node,
-      required this.touch,
-      required this.delete});
+  FileListViewTile({
+    super.key,
+    required this.node,
+    required this.touch,
+    required this.delete,
+    required this.rename,
+    required this.createNote,
+    required this.createFile,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +43,6 @@ class FileListViewTile extends StatelessWidget {
               ),
             ),
             PopupMenuButton<String>(
-              onSelected: (value) {
-                switch (value) {
-                  case 'delete':
-                    break;
-                  case 'rename':
-                    break;
-                  case 'create':
-                    break;
-                }
-              },
               itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                 PopupMenuItem<String>(
                   onTap: () => delete(),
@@ -58,20 +55,33 @@ class FileListViewTile extends StatelessWidget {
                 ),
                 PopupMenuItem<String>(
                   value: 'rename',
+                  onTap: () => rename(),
                   child: Row(children: [
                     const Icon(Icons.edit),
                     const SizedBox(width: 4),
                     Text(AppLocalizations.of(context)!.menuRename)
                   ]),
                 ),
-                PopupMenuItem<String>(
-                  value: 'create',
-                  child: Row(children: [
-                    const Icon(Icons.add),
-                    const SizedBox(width: 4),
-                    Text(AppLocalizations.of(context)!.menuCreate)
-                  ]),
-                ),
+                if (!node.isNote)
+                  PopupMenuItem<String>(
+                    value: 'create_node',
+                    onTap: () => createNote(),
+                    child: Row(children: [
+                      const Icon(Icons.article),
+                      const SizedBox(width: 4),
+                      Text("Nová poznámka")
+                    ]),
+                  ),
+                if (!node.isNote)
+                  PopupMenuItem<String>(
+                    value: 'create_file',
+                    onTap: () => createFile(),
+                    child: Row(children: [
+                      const Icon(Icons.folder),
+                      const SizedBox(width: 4),
+                      Text("Nová složka")
+                    ]),
+                  ),
               ],
             ),
           ],

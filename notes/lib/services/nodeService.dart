@@ -103,6 +103,7 @@ class NodeService {
       for (MyTreeNode child in node.children) {
         changeId(child, newId);
       }
+      hierarchyDb.updateDatabase();
       return true;
     }
   }
@@ -134,9 +135,21 @@ class NodeService {
     return newPath + DELIMITER + fileName;
   }
 
-  void changeChidrenIds(String parentId) {}
-
-  void createNewNode(String parentId, String nodeName, bool nodeType) {}
+  bool createNewNode(MyTreeNode node, String nodeName, bool nodeType) {
+    if (containsDisabledChars(nodeName)) {
+      return false;
+    } else if (siblingWithSameName(node.id, nodeName)) {
+      return false;
+    } else {
+      MyTreeNode newNode = MyTreeNode(
+          id: node.id + DELIMITER + nodeName,
+          title: nodeName,
+          isNote: nodeType);
+      node.addChild(newNode);
+      hierarchyDb.updateDatabase();
+      return true;
+    }
+  }
 
   List<String> getAllFolders() {
     return List.empty();
@@ -152,5 +165,6 @@ class NodeService {
       deleteNode(child, node);
     }
     parent.children.remove(node);
+    hierarchyDb.updateDatabase();
   }
 }
