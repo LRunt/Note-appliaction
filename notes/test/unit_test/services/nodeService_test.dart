@@ -38,4 +38,11 @@ void main() {
           "|home|slozka1|newName|poznamka");
     });
   });
+
+  group('Getting parent path', () {
+    test('Get parent path - simple test', () {
+      String path = "|home|slozka1|slozka2|parent|child";
+      expect(nodeService.getParentPath(path), "|home|slozka1|slozka2|parent");
+    });
+  });
 }

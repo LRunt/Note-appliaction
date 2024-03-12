@@ -139,6 +139,14 @@
     "@menuCreate": {
         "description": "A text in the menu when user wants to add children to the node."
     },
+    "createNote": "New note",
+    "@createNote": {
+        "description": "A text in the menu and alert box, when user wants to create new note."
+    },
+    "createFile": "New file",
+    "@createFile": {
+        "description": "A text in the menu and alert box, when user wants to create an new file."
+    },
     "networkRequestFailed": "No internet connection",
     "@networkRequestFailed": {
         "description": "Inform user that register or login failed because of internet connection."
@@ -202,5 +210,13 @@
     "deleteAppDataDialogContent": "Are you sure you want to delete all application data? All data will be lost!",
     "@deleteAppDataDialogContent": {
         "description": "The warning to the user, that if he delete data, the data will be lost."
+    },
+    "emptyFile": "File is empty",
+    "@emptyFile": {
+        "description": "Information to the user that file is empty (has no children)"
+    },
+    "toParentNode": "To parent directory",
+    "@toParentNode": {
+        "description": "To route the user to the parent directory."
     }
 }

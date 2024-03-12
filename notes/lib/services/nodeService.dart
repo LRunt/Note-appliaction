@@ -135,6 +135,15 @@ class NodeService {
     return newPath + DELIMITER + fileName;
   }
 
+  String getParentPath(String path) {
+    List<String> splittedPath = path.split(DELIMITER);
+    String parentPath = "";
+    for (int i = 1; i < splittedPath.length - 1; i++) {
+      parentPath += DELIMITER + splittedPath[i];
+    }
+    return parentPath;
+  }
+
   bool createNewNode(MyTreeNode node, String nodeName, bool nodeType) {
     if (containsDisabledChars(nodeName)) {
       return false;

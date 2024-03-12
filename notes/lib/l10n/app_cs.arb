@@ -28,6 +28,8 @@
     "menuDelete": "Smazat",
     "menuRename": "Přejmenovat",
     "menuCreate": "Nová poznámka/složka",
+    "createNote": "Nová poznámka",
+    "createFile": "Nová složka",
     "networkRequestFailed": "Bez internetového připojení",
     "invalidEmail": "Špatný formát emailové adresy",
     "wrongPassword": "Špatné heslo",
@@ -43,5 +45,7 @@
     "showLogs": "UKAŽ LOGY",
     "deleteApplicationData": "Smazat lokální data aplikace",
     "deleteAppDataDialogTitle": "Smazat data aplikace",
-    "deleteAppDataDialogContent": "Právě se chystáte smazat všechna data z lokální databáze. Všechna nesynchronizovaná data budou ztracena!"
+    "deleteAppDataDialogContent": "Právě se chystáte smazat všechna data z lokální databáze. Všechna nesynchronizovaná data budou ztracena!",
+    "emptyFile": "File is empty",
+    "toParentNode": "O úroveň výš"
 }

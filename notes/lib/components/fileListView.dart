@@ -77,7 +77,9 @@ class _FileListViewState extends State<FileListView> {
         context: context,
         builder: (context) {
           return TextFieldDialog(
-              titleText: isNote ? "Nová poznámka" : "Nová složka",
+              titleText: isNote
+                  ? AppLocalizations.of(context)!.createNote
+                  : AppLocalizations.of(context)!.createFile,
               confirmButtonText: AppLocalizations.of(context)!.create,
               controller: _textDialogController,
               onConfirm: () => createNode(node, isNote),
@@ -117,9 +119,25 @@ class _FileListViewState extends State<FileListView> {
   @override
   Widget build(BuildContext context) {
     return children.isEmpty
-        ? Text(
-            "Složka je prázdná",
-            style: utils.getBasicTextStyle(),
+        ? Column(
+            children: [
+              FileListViewTile(
+                  node: null,
+                  touch: () => widget.navigateWithParam(
+                        false,
+                        service.getParentPath(widget.nodeId),
+                      ),
+                  delete: () {},
+                  rename: () {},
+                  createNote: () {},
+                  createFile: () {}),
+              Expanded(
+                child: Text(
+                  AppLocalizations.of(context)!.emptyFile,
+                  style: utils.getBasicTextStyle(),
+                ),
+              ),
+            ],
           )
         : ListView.builder(
             padding: const EdgeInsets.all(7),
