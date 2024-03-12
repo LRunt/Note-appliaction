@@ -88,14 +88,50 @@ class NodeService {
     return false;
   }
 
-  bool renameNode(String nodeId, String newName) {
+  bool renameNode(MyTreeNode node, String newName) {
     if (containsDisabledChars(newName)) {
       return false;
-    } else if (siblingWithSameName(nodeId, newName)) {
+    } else if (siblingWithSameName(node.id, newName)) {
       return false;
+    } else {
+      node.title = newName;
+      String newId = changeNameInId(node.id, newName);
+      if (node.isNote) {
+        notesDatabase.changeNoteId(node.id, newId);
+      }
+      node.id = newId;
+      for (MyTreeNode child in node.children) {
+        changeId(child, newId);
+      }
+      return true;
     }
-    //Todo
-    return true;
+  }
+
+  void changeId(MyTreeNode node, String path) {
+    String newId = changePathInId(node.id, path);
+    if (node.isNote) {
+      notesDatabase.changeNoteId(node.id, newId);
+    }
+    node.id = newId;
+    for (MyTreeNode child in node.children) {
+      changeId(child, node.id);
+    }
+  }
+
+  String changeNameInId(String actualPath, String newFileName) {
+    List<String> path = actualPath.split(DELIMITER);
+    String newId = "";
+    for (int i = 1; i < path.length - 1; i++) {
+      newId += DELIMITER + path[i];
+    }
+    newId += DELIMITER + newFileName;
+    return newId;
+  }
+
+  String changePathInId(String path, String newPath) {
+    List<String> splittedPath = path.split(DELIMITER);
+    String fileName = splittedPath[splittedPath.length - 1];
+    return newPath + DELIMITER + fileName;
   }
 
   void changeChidrenIds(String parentId) {}

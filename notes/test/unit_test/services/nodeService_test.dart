@@ -20,4 +20,22 @@ void main() {
       expect(nodeService.containsDisabledChars(name), true);
     });
   });
+
+  group('Changing file name id', () {
+    test('Change file name in the path - simple test', () {
+      String newFileName = 'newName';
+      String nodeId = "|home|slozka1|slozka2|oldName";
+      expect(nodeService.changeNameInId(nodeId, newFileName),
+          "|home|slozka1|slozka2|newName");
+    });
+  });
+
+  group('Changing path in id', () {
+    test('Change path in id - simple test', () {
+      String path = "|home|slozka1|slozka2|poznamka";
+      String newPath = "|home|slozka1|newName";
+      expect(nodeService.changePathInId(path, newPath),
+          "|home|slozka1|newName|poznamka");
+    });
+  });
 }
