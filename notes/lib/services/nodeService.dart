@@ -189,4 +189,24 @@ class NodeService {
     parent.children.remove(node);
     hierarchyDb.updateDatabase();
   }
+
+  void moveNode(MyTreeNode node, String newParent) {
+    MyTreeNode? parent = getNode(newParent);
+    if (parent == null) {
+      // return error
+    } else {
+      MyTreeNode? oldParent = getParent(node.id);
+      oldParent!.children.remove(node);
+      parent.addChild(node);
+      String oldNoteId = node.id;
+      node.id = newParent + DELIMITER + node.title;
+      if (node.isNote) {
+        notesDatabase.changeNoteId(oldNoteId, node.id);
+      }
+      for (MyTreeNode child in node.children) {
+        changeId(child, node.id);
+      }
+      hierarchyDb.updateDatabase();
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/dialogs/deleteDialog.dart';
+import 'package:notes/components/dialogs/dropdownMenuDialog.dart';
 import 'package:notes/components/dialogs/textFieldDialog.dart';
 import 'package:notes/components/fileListViewTile.dart';
 import 'package:notes/model/myTreeNode.dart';
@@ -87,6 +88,29 @@ class _FileListViewState extends State<FileListView> {
         });
   }
 
+  void showMoveDialog(MyTreeNode node) {
+    String? selectedValue;
+    List<String> files = service.getAllFolders();
+    List<DropdownMenuItem<String>> dropdownItems = files.map((String option) {
+      return DropdownMenuItem<String>(
+        value: option,
+        child: Text(option),
+      );
+    }).toList();
+    showDialog(
+        context: context,
+        builder: (context) {
+          return DropdownMenuDialog(
+            onConfirm: () => moveNode(node, selectedValue),
+            onCancel: () => closeAndClear,
+            titleText: "Přesunout",
+            confirmButtonText: "PŘESUŇ",
+            items: dropdownItems,
+            selectedValue: selectedValue,
+          );
+        });
+  }
+
   void closeAndClear() {
     Navigator.of(context).pop();
     _textDialogController.clear();
@@ -116,21 +140,32 @@ class _FileListViewState extends State<FileListView> {
     });
   }
 
+  void moveNode(MyTreeNode node, String? newParent) {
+    setState(() {
+      if (newParent != null) {}
+      service.moveNode(node, newParent!);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return children.isEmpty
         ? Column(
             children: [
-              FileListViewTile(
-                  node: null,
-                  touch: () => widget.navigateWithParam(
-                        false,
-                        service.getParentPath(widget.nodeId),
-                      ),
-                  delete: () {},
-                  rename: () {},
-                  createNote: () {},
-                  createFile: () {}),
+              Padding(
+                padding: const EdgeInsets.all(7),
+                child: FileListViewTile(
+                    node: null,
+                    touch: () => widget.navigateWithParam(
+                          false,
+                          service.getParentPath(widget.nodeId),
+                        ),
+                    delete: () {},
+                    rename: () {},
+                    createNote: () {},
+                    createFile: () {},
+                    move: () {}),
+              ),
               Expanded(
                 child: Text(
                   AppLocalizations.of(context)!.emptyFile,
@@ -155,6 +190,7 @@ class _FileListViewState extends State<FileListView> {
                   rename: () => showRenameDialog(children[index]),
                   createNote: () => showCreateDialog(children[index], true),
                   createFile: () => showCreateDialog(children[index], false),
+                  move: () => showMoveDialog(children[index]),
                 ),
               );
             });

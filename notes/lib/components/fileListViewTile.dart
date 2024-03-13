@@ -11,6 +11,7 @@ class FileListViewTile extends StatelessWidget {
   final VoidCallback rename;
   final VoidCallback createNote;
   final VoidCallback createFile;
+  final VoidCallback move;
 
   FileListViewTile({
     super.key,
@@ -20,6 +21,7 @@ class FileListViewTile extends StatelessWidget {
     required this.rename,
     required this.createNote,
     required this.createFile,
+    required this.move,
   });
 
   @override
@@ -92,6 +94,16 @@ class FileListViewTile extends StatelessWidget {
                             ],
                           ),
                         ),
+                      PopupMenuItem<String>(
+                          value: 'move',
+                          onTap: () => move(),
+                          child: const Row(
+                            children: [
+                              Icon(Icons.move_down),
+                              SizedBox(width: 4),
+                              Text("Move"),
+                            ],
+                          ))
                     ],
                   ),
                 ],
