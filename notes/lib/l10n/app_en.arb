@@ -117,6 +117,10 @@
     "@rename": {
         "description": "Text content of the rename button which leads to the remaning the objects."
     },
+    "move": "MOVE",
+    "@move": {
+        "description": "Text content of the button to confirm the moving of the file."
+    },
     "deleteContent": "Are you sure to delete {nodeName} node?",
     "@deleteContent": {
         "description": "The question to the user, if he want to delete the node.",
@@ -146,6 +150,10 @@
     "createFile": "New file",
     "@createFile": {
         "description": "A text in the menu and alert box, when user wants to create an new file."
+    },
+    "menuMove": "Move",
+    "@menuMove": {
+        "description": "A text in the menu when user wants to move the file to another folder."
     },
     "networkRequestFailed": "No internet connection",
     "@networkRequestFailed": {

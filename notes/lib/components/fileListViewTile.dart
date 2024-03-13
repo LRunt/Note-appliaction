@@ -95,15 +95,16 @@ class FileListViewTile extends StatelessWidget {
                           ),
                         ),
                       PopupMenuItem<String>(
-                          value: 'move',
-                          onTap: () => move(),
-                          child: const Row(
-                            children: [
-                              Icon(Icons.move_down),
-                              SizedBox(width: 4),
-                              Text("Move"),
-                            ],
-                          ))
+                        value: 'move',
+                        onTap: () => move(),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.move_down),
+                            const SizedBox(width: 4),
+                            Text(AppLocalizations.of(context)!.menuMove),
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ],

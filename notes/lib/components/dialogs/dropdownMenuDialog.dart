@@ -10,6 +10,7 @@ class DropdownMenuDialog extends StatelessWidget {
   final String confirmButtonText;
   final List<DropdownMenuItem<String>> items;
   String? selectedValue;
+  final Function(String?) onSelect;
   final utils = ComponentUtils();
 
   DropdownMenuDialog({
@@ -19,6 +20,7 @@ class DropdownMenuDialog extends StatelessWidget {
     required this.titleText,
     required this.confirmButtonText,
     required this.items,
+    required this.onSelect,
     this.selectedValue,
   });
 
@@ -37,6 +39,7 @@ class DropdownMenuDialog extends StatelessWidget {
         items: items,
         onChanged: (value) {
           selectedValue = value;
+          onSelect(value);
         },
         decoration: const InputDecoration(
           border: OutlineInputBorder(),

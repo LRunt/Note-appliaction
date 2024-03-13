@@ -173,40 +173,67 @@ class MyTreeTile extends StatelessWidget {
                 ),
                 Expanded(child: Text(entry.node.title)),
                 PopupMenuButton<String>(
-                  onSelected: (value) {
-                    switch (value) {
-                      case 'delete':
-                        showDeleteDialog(context, entry.node);
-                        break;
-                      case 'rename':
-                        showRenameDialog(context, entry.node);
-                        break;
-                      case 'create':
-                        showCreateDialog(context, entry.node, true);
-                        break;
-                      case 'create_directory':
-                        showCreateDialog(context, entry.node, false);
-                        break;
-                    }
-                  },
                   itemBuilder: (BuildContext context) =>
                       <PopupMenuEntry<String>>[
                     PopupMenuItem<String>(
                       value: 'delete',
-                      child: Text(AppLocalizations.of(context)!.menuDelete),
+                      onTap: () => showDeleteDialog(context, entry.node),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.delete),
+                          const SizedBox(width: 4),
+                          Text(AppLocalizations.of(context)!.menuDelete),
+                        ],
+                      ),
                     ),
                     PopupMenuItem<String>(
                       value: 'rename',
-                      child: Text(AppLocalizations.of(context)!.menuRename),
+                      onTap: () => showRenameDialog(context, entry.node),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.border_color_sharp),
+                          const SizedBox(width: 4),
+                          Text(AppLocalizations.of(context)!.menuRename),
+                        ],
+                      ),
                     ),
-                    const PopupMenuItem<String>(
-                      value: 'create',
-                      child: Text("Create note"),
-                    ),
-                    const PopupMenuItem<String>(
-                      value: 'create_directory',
-                      child: Text("Create directory"),
-                    ),
+                    if (!entry.node.isNote)
+                      PopupMenuItem<String>(
+                        value: 'create_note',
+                        onTap: () =>
+                            showCreateDialog(context, entry.node, true),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.article),
+                            const SizedBox(width: 4),
+                            Text(AppLocalizations.of(context)!.createFile),
+                          ],
+                        ),
+                      ),
+                    if (!entry.node.isNote)
+                      PopupMenuItem<String>(
+                        value: 'create_file',
+                        onTap: () =>
+                            showCreateDialog(context, entry.node, false),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.create_new_folder),
+                            const SizedBox(width: 4),
+                            Text(AppLocalizations.of(context)!.createNote),
+                          ],
+                        ),
+                      ),
+                    PopupMenuItem<String>(
+                      value: 'move',
+                      onTap: () => {},
+                      child: Row(
+                        children: [
+                          const Icon(Icons.move_down),
+                          const SizedBox(width: 4),
+                          Text(AppLocalizations.of(context)!.menuMove),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ],
@@ -349,12 +376,17 @@ class MyTreeTile extends StatelessWidget {
         PopupMenuItem(
           onTap: () => showCreateDialog(context, entry.node, true),
           value: 'create',
-          child: const Text("Create note"),
+          child: Text(AppLocalizations.of(context)!.createNote),
         ),
         PopupMenuItem(
           onTap: () => showCreateDialog(context, entry.node, false),
           value: 'create_directory',
-          child: const Text("Create directory"),
+          child: Text(AppLocalizations.of(context)!.createFile),
+        ),
+        PopupMenuItem(
+          onTap: () => showCreateDialog(context, entry.node, false),
+          value: 'move',
+          child: const Text("Move"),
         ),
       ],
     );

@@ -48,67 +48,75 @@ class _FileListViewState extends State<FileListView> {
 
   void showDeleteDialog(MyTreeNode node) {
     showDialog(
-        context: context,
-        builder: (context) {
-          return DeleteDialog(
-            titleText: AppLocalizations.of(context)!.deleteNode(node.title),
-            contentText:
-                AppLocalizations.of(context)!.deleteContent(node.title),
-            onDelete: () => deleteNode(node),
-            onCancel: () => Navigator.of(context).pop(),
-          );
-        });
+      context: context,
+      builder: (context) {
+        return DeleteDialog(
+          titleText: AppLocalizations.of(context)!.deleteNode(node.title),
+          contentText: AppLocalizations.of(context)!.deleteContent(node.title),
+          onDelete: () => deleteNode(node),
+          onCancel: () => Navigator.of(context).pop(),
+        );
+      },
+    );
   }
 
   void showRenameDialog(MyTreeNode node) {
     showDialog(
-        context: context,
-        builder: (context) {
-          return TextFieldDialog(
-              titleText: AppLocalizations.of(context)!.renameNode(node.title),
-              confirmButtonText: AppLocalizations.of(context)!.rename,
-              controller: _textDialogController,
-              onConfirm: () => renameNode(node),
-              onCancel: () => closeAndClear());
-        });
+      context: context,
+      builder: (context) {
+        return TextFieldDialog(
+            titleText: AppLocalizations.of(context)!.renameNode(node.title),
+            confirmButtonText: AppLocalizations.of(context)!.rename,
+            controller: _textDialogController,
+            onConfirm: () => renameNode(node),
+            onCancel: () => closeAndClear());
+      },
+    );
   }
 
   void showCreateDialog(MyTreeNode node, bool isNote) {
     showDialog(
-        context: context,
-        builder: (context) {
-          return TextFieldDialog(
-              titleText: isNote
-                  ? AppLocalizations.of(context)!.createNote
-                  : AppLocalizations.of(context)!.createFile,
-              confirmButtonText: AppLocalizations.of(context)!.create,
-              controller: _textDialogController,
-              onConfirm: () => createNode(node, isNote),
-              onCancel: () => closeAndClear());
-        });
+      context: context,
+      builder: (context) {
+        return TextFieldDialog(
+            titleText: isNote
+                ? AppLocalizations.of(context)!.createNote
+                : AppLocalizations.of(context)!.createFile,
+            confirmButtonText: AppLocalizations.of(context)!.create,
+            controller: _textDialogController,
+            onConfirm: () => createNode(node, isNote),
+            onCancel: () => closeAndClear());
+      },
+    );
   }
 
   void showMoveDialog(MyTreeNode node) {
     String? selectedValue;
     List<String> files = service.getAllFolders();
-    List<DropdownMenuItem<String>> dropdownItems = files.map((String option) {
-      return DropdownMenuItem<String>(
-        value: option,
-        child: Text(option),
-      );
-    }).toList();
+    List<DropdownMenuItem<String>> dropdownItems = files.map(
+      (String option) {
+        return DropdownMenuItem<String>(
+          value: option,
+          child: Text(option),
+        );
+      },
+    ).toList();
     showDialog(
-        context: context,
-        builder: (context) {
-          return DropdownMenuDialog(
-            onConfirm: () => moveNode(node, selectedValue),
-            onCancel: () => closeAndClear,
-            titleText: "Přesunout",
-            confirmButtonText: "PŘESUŇ",
-            items: dropdownItems,
-            selectedValue: selectedValue,
-          );
-        });
+      context: context,
+      builder: (context) {
+        return DropdownMenuDialog(
+          onConfirm: () => moveNode(node, selectedValue),
+          onCancel: () => closeAndClear,
+          titleText: AppLocalizations.of(context)!.menuMove,
+          confirmButtonText: AppLocalizations.of(context)!.move,
+          items: dropdownItems,
+          selectedValue: selectedValue,
+          onSelect: (value) {
+            selectedValue = value;
+          },
+        );
+      },
+    );
   }
 
   void closeAndClear() {
@@ -124,27 +132,35 @@ class _FileListViewState extends State<FileListView> {
   }
 
   void renameNode(MyTreeNode node) {
-    setState(() {
-      if (service.renameNode(node, _textDialogController.text.trim())) {
-        closeAndClear();
-      }
-    });
+    setState(
+      () {
+        if (service.renameNode(node, _textDialogController.text.trim())) {
+          closeAndClear();
+        }
+      },
+    );
   }
 
   void createNode(MyTreeNode node, bool isNote) {
-    setState(() {
-      if (service.createNewNode(
-          node, _textDialogController.text.trim(), isNote)) {
-        closeAndClear();
-      }
-    });
+    setState(
+      () {
+        if (service.createNewNode(
+            node, _textDialogController.text.trim(), isNote)) {
+          closeAndClear();
+        }
+      },
+    );
   }
 
   void moveNode(MyTreeNode node, String? newParent) {
-    setState(() {
-      if (newParent != null) {}
-      service.moveNode(node, newParent!);
-    });
+    setState(
+      () {
+        if (newParent != null) {
+          service.moveNode(node, newParent);
+          Navigator.of(context).pop();
+        }
+      },
+    );
   }
 
   @override
@@ -193,6 +209,7 @@ class _FileListViewState extends State<FileListView> {
                   move: () => showMoveDialog(children[index]),
                 ),
               );
-            });
+            },
+          );
   }
 }

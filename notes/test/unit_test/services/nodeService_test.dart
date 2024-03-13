@@ -47,7 +47,7 @@ void main() {
     });
   });
 
-  group('Getting all forders', () {
+  group('Getting folders', () {
     test('Getting folders - simple test', () {
       MyTreeNode root = MyTreeNode(id: '|Home', title: "Home", isNote: false);
       MyTreeNode child1 =
@@ -61,5 +61,21 @@ void main() {
       expect(folders.length, 2);
       expect(folders[0], root.id);
     });
+
+    /*test('Getting folders without actual position and node - simple test', () {
+      MyTreeNode root = MyTreeNode(id: '|Home', title: "Home", isNote: false);
+      MyTreeNode child1 =
+          MyTreeNode(id: '|Home|file1', title: "file1", isNote: false);
+      MyTreeNode child2 =
+          MyTreeNode(id: '|Home|child2', title: "child2", isNote: true);
+      MyTreeNode child3 =
+          MyTreeNode(id: '|Home|file2', title: "file2", isNote: false);
+      root.addChild(child1);
+      root.addChild(child2);
+      root.addChild(child3);
+      List<String> folders = nodeService.getFoldersToMove(child1);
+      expect(folders.length, 1);
+      expect(folders[0], child3.id);
+    });*/
   });
 }

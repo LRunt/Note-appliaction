@@ -177,6 +177,15 @@ class NodeService {
     }
   }
 
+  List<String> getFoldersToMove(MyTreeNode node) {
+    List<String> folders = getAllFolders();
+    if (!node.isNote) {
+      folders.remove(node.id);
+    }
+    folders.remove(getParentPath(node.id));
+    return folders;
+  }
+
   void deleteNode(MyTreeNode node, MyTreeNode parent) {
     // If node is note, delete note
     if (node.isNote) {
