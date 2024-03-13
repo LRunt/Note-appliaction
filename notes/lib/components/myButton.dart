@@ -17,23 +17,24 @@ class MyButton extends StatelessWidget {
   /// Builds the UI of my button.
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
-      child: Container(
-          padding: const EdgeInsets.all(20.0),
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            borderRadius: BorderRadius.circular(BORDER_RADIUS),
+      child: Ink(
+        padding: const EdgeInsets.all(20.0),
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.circular(BORDER_RADIUS),
+        ),
+        child: Center(
+          child: Text(
+            text,
+            style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: DEFAULT_TEXT_SIZE),
           ),
-          child: Center(
-            child: Text(
-              text,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: DEFAULT_TEXT_SIZE),
-            ),
-          )),
+        ),
+      ),
     );
   }
 }
