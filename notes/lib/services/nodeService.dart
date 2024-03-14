@@ -55,8 +55,10 @@ class NodeService {
   // Create
   bool createNewNode(MyTreeNode node, String nodeName, bool nodeType) {
     if (containsDisabledChars(nodeName)) {
+      log("Disabled chars");
       return false;
     } else if (siblingWithSameName(node.id, nodeName)) {
+      log("Sibling with same name");
       return false;
     } else {
       MyTreeNode newNode = MyTreeNode(
@@ -151,7 +153,7 @@ class NodeService {
     MyTreeNode? parent = getParent(nodeId);
     log("Parent: $parent");
     if (parent == null) {
-      return true;
+      return false;
     } else {
       for (MyTreeNode sibling in parent.children) {
         print("Sibling title: ${sibling.title}");

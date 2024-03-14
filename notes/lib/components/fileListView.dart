@@ -92,7 +92,7 @@ class _FileListViewState extends State<FileListView> {
 
   void showMoveDialog(MyTreeNode node) {
     String? selectedValue;
-    List<String> files = service.getAllFolders();
+    List<String> files = service.getFoldersToMove(node);
     List<DropdownMenuItem<String>> dropdownItems = files.map(
       (String option) {
         return DropdownMenuItem<String>(

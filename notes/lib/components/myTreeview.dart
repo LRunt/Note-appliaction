@@ -229,7 +229,7 @@ class MyTreeTile extends StatelessWidget {
                     if (!nodeService.isRoot(entry.node.id))
                       PopupMenuItem<String>(
                         value: 'move',
-                        onTap: () => {},
+                        onTap: () => showMoveDialog(context, entry.node),
                         child: Row(
                           children: [
                             const Icon(Icons.move_down),
@@ -237,7 +237,7 @@ class MyTreeTile extends StatelessWidget {
                             Text(AppLocalizations.of(context)!.menuMove),
                           ],
                         ),
-                      )
+                      ),
                   ],
                 ),
               ],
@@ -294,7 +294,7 @@ class MyTreeTile extends StatelessWidget {
 
   void showMoveDialog(BuildContext context, MyTreeNode node) {
     String? selectedValue;
-    List<String> files = nodeService.getAllFolders();
+    List<String> files = nodeService.getFoldersToMove(node);
     List<DropdownMenuItem<String>> dropdownItems = files.map(
       (String option) {
         return DropdownMenuItem<String>(
@@ -325,64 +325,36 @@ class MyTreeTile extends StatelessWidget {
     if (newParent != null) {
       nodeService.moveNode(node, newParent);
       Navigator.of(context).pop();
+      treeController.rebuild();
     }
   }
 
   /// Creating new node as children of [node]
   void createNode(BuildContext context, MyTreeNode node, bool isNote) {
-    log("Adding children of node ${node.title}");
-    /*if (nodeService.siblingWithSameName(
-        node.id, _textDialogController.text)) {
-      utils.getSnackBarError(
-          context, "Exist file with same name in the direcotry.");
-    } else if (nodeService
-        .containsDisabledChars(_textDialogController.text.trim())) {
-      utils.getSnackBarError(context, "Forbidden characters in the name.");
-    } else {*/
-    MyTreeNode newChild = MyTreeNode(
-        id: "${node.id}$DELIMITER${_textDialogController.text}",
-        title: _textDialogController.text,
-        isNote: isNote);
-    node.addChild(newChild);
-    treeController.expand(node);
-    treeController.rebuild();
-    closeAndClear(context);
-    log("${treeController.roots}");
-    db.updateDatabase();
-    //}
+    if (nodeService.createNewNode(
+        node, _textDialogController.text.trim(), isNote)) {
+      treeController.expand(node);
+      treeController.rebuild();
+      closeAndClear(context);
+    }
+    //log("${treeController.roots}");
   }
 
   /// Renaming the [node]
   void renameNode(BuildContext context, MyTreeNode node) {
-    log("Renaming node ${node.title}");
-    if (nodeService.siblingWithSameName(node.id, _textDialogController.text)) {
-      utils.getSnackBarError(
-          context, "Exist file with same name in the direcotry.");
-    } else if (nodeService
-        .containsDisabledChars(_textDialogController.text.trim())) {
-      utils.getSnackBarError(context, "Forbidden characters in the name.");
-    } else {
-      node.title = _textDialogController.text;
+    if (nodeService.renameNode(node, _textDialogController.text.trim())) {
       closeAndClear(context);
       treeController.rebuild();
-      db.updateDatabase();
     }
   }
 
   /// Deleting the node
   void deleteNode(BuildContext context, MyTreeNode node) {
     log("deleting node ${node.title}");
+    nodeService.deleteNode(node, entry.parent!.node);
     Navigator.of(context).pop();
-    log("${entry.parent?.node}");
-    MyTreeNode? parent = entry.parent?.node;
-    if (parent == null) {
-      log("root");
-    } else {
-      parent.children.remove(node);
-    }
     treeController.rebuild();
-    log("${treeController.roots.first}");
-    db.updateDatabase();
+    //log("${treeController.roots.first}");
   }
 
   /// Closes dialogs and clears controllers
