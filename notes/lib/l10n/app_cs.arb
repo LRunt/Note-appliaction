@@ -45,9 +45,13 @@
     "language": "Jazyk",
     "logs": "Logy",
     "showLogs": "UKAŽ LOGY",
+    "deleteLogs": "Smazat logy",
+    "deleteLogsContent": "Chystáte se smazat všechny logy aplikace",
     "deleteApplicationData": "Smazat lokální data aplikace",
     "deleteAppDataDialogTitle": "Smazat data aplikace",
     "deleteAppDataDialogContent": "Právě se chystáte smazat všechna data z lokální databáze. Všechna nesynchronizovaná data budou ztracena!",
     "emptyFile": "File is empty",
-    "toParentNode": "O úroveň výš"
+    "toParentNode": "O úroveň výš",
+    "deleteDataSuccess": "Všechna data úspěšně smazána",
+    "clearLogsSuccess": "Všechny logy úspěšně smazány"
 }

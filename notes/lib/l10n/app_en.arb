@@ -207,6 +207,14 @@
     "@showLogs": {
         "description": "Label of the button to show the logs."
     },
+    "deleteLogs": "Clear logs",
+    "@deleteLogs": {
+        "description": "Title of the delete logs alert dialog"
+    },
+    "deleteLogsContent": "You are going to delete all logs",
+    "@deleteLogsContent": {
+        "description": "Content of the delete logs alert dialog"
+    },
     "deleteApplicationData": "Delete application data",
     "@deleteApplicationData": {
         "description": "Label for deleting all user data saved in the device."
@@ -226,5 +234,13 @@
     "toParentNode": "To parent directory",
     "@toParentNode": {
         "description": "To route the user to the parent directory."
+    },
+    "deleteDataSuccess": "All data was successfully deleted",
+    "@deleteDataSuccess": {
+        "description": "Information to the user, that all data was successfully deleted"
+    },
+    "clearLogsSuccess": "All logs was cleared",
+    "@clearLogsSuccess": {
+        "description": "Information to the user, that all logs was cleared"
     }
 }

@@ -24,14 +24,16 @@ class _SettingsPageState extends State<SettingsPage> {
   void clearData() {
     clearDB.clearAllData();
     Navigator.of(context).pop();
-    utils.getSnackBarSuccess(context, "Data úspěšně smazána");
+    utils.getSnackBarSuccess(
+        context, AppLocalizations.of(context)!.deleteDataSuccess);
   }
 
   void clearLogs() async {
     await AppLogger.deleteLogFile();
     AppLogger.createLogFileIfNotExist();
     Navigator.of(context).pop();
-    utils.getSnackBarSuccess(context, "Logy byly úspěšně smazány");
+    utils.getSnackBarSuccess(
+        context, AppLocalizations.of(context)!.clearLogsSuccess);
   }
 
   Language? actualLanguage() {
@@ -161,7 +163,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 children: [
                   Expanded(
                     child: Text(
-                      "Clear logs",
+                      AppLocalizations.of(context)!.deleteLogs,
                       style: utils.getBasicTextStyle(),
                     ),
                   ),
@@ -174,9 +176,10 @@ class _SettingsPageState extends State<SettingsPage> {
                           context: context,
                           builder: (context) {
                             return DeleteDialog(
-                              titleText: "Smazání logů",
-                              contentText:
-                                  "Chystáte se smazat všechny logy aplikace",
+                              titleText:
+                                  AppLocalizations.of(context)!.deleteLogs,
+                              contentText: AppLocalizations.of(context)!
+                                  .deleteLogsContent,
                               onDelete: () {
                                 clearLogs();
                               },
@@ -187,7 +190,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           },
                         );
                       },
-                      child: const Text("Clear"),
+                      child: Text(AppLocalizations.of(context)!.delete),
                     ),
                   ),
                 ],
