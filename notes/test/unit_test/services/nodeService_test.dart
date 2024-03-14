@@ -48,6 +48,20 @@ void main() {
   });
 
   group('Getting folders', () {
+    setUp(() {
+      MyTreeNode root = MyTreeNode(id: '|Home', title: "Home", isNote: false);
+      MyTreeNode child1 =
+          MyTreeNode(id: '|Home|file1', title: "file1", isNote: false);
+      MyTreeNode child2 =
+          MyTreeNode(id: '|Home|child2', title: "child2", isNote: true);
+      MyTreeNode child3 =
+          MyTreeNode(id: '|Home|file2', title: "file2", isNote: false);
+      root.addChild(child1);
+      root.addChild(child2);
+      root.addChild(child3);
+      HierarchyDatabase.roots = [root];
+    });
+
     test('Getting folders - simple test', () {
       MyTreeNode root = MyTreeNode(id: '|Home', title: "Home", isNote: false);
       MyTreeNode child1 =
@@ -62,7 +76,13 @@ void main() {
       expect(folders[0], root.id);
     });
 
-    /*test('Getting folders without actual position and node - simple test', () {
+    test('Getting all folders - simple test', () {
+      List<String> folders = nodeService.getAllFolders();
+      expect(folders.length, 3);
+      expect(folders[0], "|Home");
+    });
+
+    test('Getting folders without actual position and node - simple test', () {
       MyTreeNode root = MyTreeNode(id: '|Home', title: "Home", isNote: false);
       MyTreeNode child1 =
           MyTreeNode(id: '|Home|file1', title: "file1", isNote: false);
@@ -76,7 +96,7 @@ void main() {
       List<String> folders = nodeService.getFoldersToMove(child1);
       expect(folders.length, 1);
       expect(folders[0], child3.id);
-    });*/
+    });
   });
 
   group('Testing if file is root', () {
