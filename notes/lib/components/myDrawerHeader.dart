@@ -81,7 +81,7 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
         children: [
           if (user == null) ...[
             Text(AppLocalizations.of(context)!.notLogged),
-            ElevatedButton(
+            FilledButton(
               onPressed: () {
                 Navigator.push(
                   context,
@@ -95,7 +95,7 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
               },
               child: Text(AppLocalizations.of(context)!.login),
             ),
-            ElevatedButton(
+            FilledButton(
               onPressed: () {
                 Navigator.push(
                   context,

@@ -176,28 +176,30 @@ class MyTreeTile extends StatelessWidget {
                 PopupMenuButton<String>(
                   itemBuilder: (BuildContext context) =>
                       <PopupMenuEntry<String>>[
-                    PopupMenuItem<String>(
-                      value: 'delete',
-                      onTap: () => showDeleteDialog(context, entry.node),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.delete),
-                          const SizedBox(width: 4),
-                          Text(AppLocalizations.of(context)!.menuDelete),
-                        ],
+                    if (!nodeService.isRoot(entry.node.id))
+                      PopupMenuItem<String>(
+                        value: 'delete',
+                        onTap: () => showDeleteDialog(context, entry.node),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.delete),
+                            const SizedBox(width: 4),
+                            Text(AppLocalizations.of(context)!.menuDelete),
+                          ],
+                        ),
                       ),
-                    ),
-                    PopupMenuItem<String>(
-                      value: 'rename',
-                      onTap: () => showRenameDialog(context, entry.node),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.border_color_sharp),
-                          const SizedBox(width: 4),
-                          Text(AppLocalizations.of(context)!.menuRename),
-                        ],
+                    if (!nodeService.isRoot(entry.node.id))
+                      PopupMenuItem<String>(
+                        value: 'rename',
+                        onTap: () => showRenameDialog(context, entry.node),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.border_color_sharp),
+                            const SizedBox(width: 4),
+                            Text(AppLocalizations.of(context)!.menuRename),
+                          ],
+                        ),
                       ),
-                    ),
                     if (!entry.node.isNote)
                       PopupMenuItem<String>(
                         value: 'create_note',
@@ -224,17 +226,18 @@ class MyTreeTile extends StatelessWidget {
                           ],
                         ),
                       ),
-                    PopupMenuItem<String>(
-                      value: 'move',
-                      onTap: () => {},
-                      child: Row(
-                        children: [
-                          const Icon(Icons.move_down),
-                          const SizedBox(width: 4),
-                          Text(AppLocalizations.of(context)!.menuMove),
-                        ],
-                      ),
-                    )
+                    if (!nodeService.isRoot(entry.node.id))
+                      PopupMenuItem<String>(
+                        value: 'move',
+                        onTap: () => {},
+                        child: Row(
+                          children: [
+                            const Icon(Icons.move_down),
+                            const SizedBox(width: 4),
+                            Text(AppLocalizations.of(context)!.menuMove),
+                          ],
+                        ),
+                      )
                   ],
                 ),
               ],

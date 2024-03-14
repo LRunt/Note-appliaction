@@ -15,6 +15,82 @@ class NodeService {
   })  : hierarchyDb = hierarchyDb ?? HierarchyDatabase(),
         notesDatabase = notesDatabase ?? NotesDatabase();
 
+  // Delete
+  void deleteNode(MyTreeNode node, MyTreeNode parent) {
+    // If node is note, delete note
+    if (node.isNote) {
+      notesDatabase.deleteNote(node.id);
+    }
+    // If node have children -> delete its notes
+    for (MyTreeNode child in node.children) {
+      deleteNode(child, node);
+    }
+    parent.children.remove(node);
+    hierarchyDb.updateDatabase();
+  }
+
+  // Rename
+  bool renameNode(MyTreeNode node, String newName) {
+    if (newName.isEmpty) {
+      return false;
+    } else if (containsDisabledChars(newName)) {
+      return false;
+    } else if (siblingWithSameName(node.id, newName)) {
+      return false;
+    } else {
+      node.title = newName;
+      String newId = changeNameInId(node.id, newName);
+      if (node.isNote) {
+        notesDatabase.changeNoteId(node.id, newId);
+      }
+      node.id = newId;
+      for (MyTreeNode child in node.children) {
+        changeId(child, newId);
+      }
+      hierarchyDb.updateDatabase();
+      return true;
+    }
+  }
+
+  // Create
+  bool createNewNode(MyTreeNode node, String nodeName, bool nodeType) {
+    if (containsDisabledChars(nodeName)) {
+      return false;
+    } else if (siblingWithSameName(node.id, nodeName)) {
+      return false;
+    } else {
+      MyTreeNode newNode = MyTreeNode(
+          id: node.id + DELIMITER + nodeName,
+          title: nodeName,
+          isNote: nodeType);
+      node.addChild(newNode);
+      hierarchyDb.updateDatabase();
+      return true;
+    }
+  }
+
+  // Move
+  void moveNode(MyTreeNode node, String newParent) {
+    MyTreeNode? parent = getNode(newParent);
+    if (parent == null) {
+      // return error
+    } else {
+      MyTreeNode? oldParent = getParent(node.id);
+      oldParent!.children.remove(node);
+      parent.addChild(node);
+      String oldNoteId = node.id;
+      node.id = newParent + DELIMITER + node.title;
+      if (node.isNote) {
+        notesDatabase.changeNoteId(oldNoteId, node.id);
+      }
+      for (MyTreeNode child in node.children) {
+        changeId(child, node.id);
+      }
+      hierarchyDb.updateDatabase();
+    }
+  }
+
+  //Serching for node or parent
   MyTreeNode? getNode(String nodeId) {
     List<String> path = nodeId.split(DELIMITER);
     log("$path");
@@ -88,26 +164,6 @@ class NodeService {
     return false;
   }
 
-  bool renameNode(MyTreeNode node, String newName) {
-    if (containsDisabledChars(newName)) {
-      return false;
-    } else if (siblingWithSameName(node.id, newName)) {
-      return false;
-    } else {
-      node.title = newName;
-      String newId = changeNameInId(node.id, newName);
-      if (node.isNote) {
-        notesDatabase.changeNoteId(node.id, newId);
-      }
-      node.id = newId;
-      for (MyTreeNode child in node.children) {
-        changeId(child, newId);
-      }
-      hierarchyDb.updateDatabase();
-      return true;
-    }
-  }
-
   void changeId(MyTreeNode node, String path) {
     String newId = changePathInId(node.id, path);
     if (node.isNote) {
@@ -144,22 +200,6 @@ class NodeService {
     return parentPath;
   }
 
-  bool createNewNode(MyTreeNode node, String nodeName, bool nodeType) {
-    if (containsDisabledChars(nodeName)) {
-      return false;
-    } else if (siblingWithSameName(node.id, nodeName)) {
-      return false;
-    } else {
-      MyTreeNode newNode = MyTreeNode(
-          id: node.id + DELIMITER + nodeName,
-          title: nodeName,
-          isNote: nodeType);
-      node.addChild(newNode);
-      hierarchyDb.updateDatabase();
-      return true;
-    }
-  }
-
   List<String> getAllFolders() {
     List<String> folders = [];
     for (MyTreeNode node in HierarchyDatabase.roots) {
@@ -184,39 +224,6 @@ class NodeService {
     }
     folders.remove(getParentPath(node.id));
     return folders;
-  }
-
-  void deleteNode(MyTreeNode node, MyTreeNode parent) {
-    // If node is note, delete note
-    if (node.isNote) {
-      notesDatabase.deleteNote(node.id);
-    }
-    // If node have children -> delete its notes
-    for (MyTreeNode child in node.children) {
-      deleteNode(child, node);
-    }
-    parent.children.remove(node);
-    hierarchyDb.updateDatabase();
-  }
-
-  void moveNode(MyTreeNode node, String newParent) {
-    MyTreeNode? parent = getNode(newParent);
-    if (parent == null) {
-      // return error
-    } else {
-      MyTreeNode? oldParent = getParent(node.id);
-      oldParent!.children.remove(node);
-      parent.addChild(node);
-      String oldNoteId = node.id;
-      node.id = newParent + DELIMITER + node.title;
-      if (node.isNote) {
-        notesDatabase.changeNoteId(oldNoteId, node.id);
-      }
-      for (MyTreeNode child in node.children) {
-        changeId(child, node.id);
-      }
-      hierarchyDb.updateDatabase();
-    }
   }
 
   /// Controls if the node is root or not
