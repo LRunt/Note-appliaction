@@ -78,4 +78,24 @@ void main() {
       expect(folders[0], child3.id);
     });*/
   });
+
+  group('Testing if file is root', () {
+    setUp(() {
+      MyTreeNode root = MyTreeNode(id: '|Home', title: "Home", isNote: false);
+      HierarchyDatabase.roots = [root];
+    });
+
+    test('Is root - simple text', () {
+      MyTreeNode root = MyTreeNode(id: '|Home', title: "Home", isNote: false);
+      MyTreeNode child1 =
+          MyTreeNode(id: '|Home|child1', title: "child1", isNote: false);
+      MyTreeNode child2 =
+          MyTreeNode(id: '|Home|child2', title: "child2", isNote: true);
+      root.addChild(child1);
+      root.addChild(child2);
+      expect(nodeService.isRoot(root.id), true);
+      expect(nodeService.isRoot(child1.id), false);
+      expect(nodeService.isRoot(child2.id), false);
+    });
+  });
 }

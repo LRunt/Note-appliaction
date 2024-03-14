@@ -46,7 +46,7 @@ void main() {
       expect(textWidget.style?.color, Colors.white);
       expect(textWidget.style?.fontWeight, FontWeight.bold);
       expect(textWidget.style?.fontSize, DEFAULT_TEXT_SIZE);
-      final containerWidget = tester.widget<Container>(find.byType(Container));
+      final containerWidget = tester.widget<Ink>(find.byType(Ink));
       final decoration = containerWidget.decoration as BoxDecoration;
       expect(decoration.borderRadius, BorderRadius.circular(BORDER_RADIUS));
     });
