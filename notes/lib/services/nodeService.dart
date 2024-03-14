@@ -218,4 +218,14 @@ class NodeService {
       hierarchyDb.updateDatabase();
     }
   }
+
+  /// Controls if the node is root or not
+  bool isRoot(String nodeId) {
+    for (MyTreeNode root in HierarchyDatabase.roots) {
+      if (root.id == nodeId) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

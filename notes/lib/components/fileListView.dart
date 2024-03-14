@@ -190,26 +190,49 @@ class _FileListViewState extends State<FileListView> {
               ),
             ],
           )
-        : ListView.builder(
+        : Padding(
             padding: const EdgeInsets.all(7),
-            itemCount: children.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(1),
-                child: FileListViewTile(
-                  node: children[index],
-                  touch: () => widget.navigateWithParam(
-                    children[index].isNote,
-                    children[index].id,
+            child: Column(
+              children: [
+                if (!service.isRoot(widget.nodeId))
+                  FileListViewTile(
+                    node: null,
+                    touch: () => widget.navigateWithParam(
+                      false,
+                      service.getParentPath(widget.nodeId),
+                    ),
+                    delete: () {},
+                    rename: () {},
+                    createNote: () {},
+                    createFile: () {},
+                    move: () {},
                   ),
-                  delete: () => showDeleteDialog(children[index]),
-                  rename: () => showRenameDialog(children[index]),
-                  createNote: () => showCreateDialog(children[index], true),
-                  createFile: () => showCreateDialog(children[index], false),
-                  move: () => showMoveDialog(children[index]),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: children.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(1),
+                        child: FileListViewTile(
+                          node: children[index],
+                          touch: () => widget.navigateWithParam(
+                            children[index].isNote,
+                            children[index].id,
+                          ),
+                          delete: () => showDeleteDialog(children[index]),
+                          rename: () => showRenameDialog(children[index]),
+                          createNote: () =>
+                              showCreateDialog(children[index], true),
+                          createFile: () =>
+                              showCreateDialog(children[index], false),
+                          move: () => showMoveDialog(children[index]),
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              );
-            },
+              ],
+            ),
           );
   }
 }
