@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
 import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/dialogs/deleteDialog.dart';
+import 'package:notes/components/dialogs/dropdownMenuDialog.dart';
 import 'package:notes/components/dialogs/textFieldDialog.dart';
 import 'package:notes/data/hierarchyDatabase.dart';
 import 'package:notes/model/myTreeNode.dart';
@@ -206,7 +207,7 @@ class MyTreeTile extends StatelessWidget {
                           children: [
                             const Icon(Icons.article),
                             const SizedBox(width: 4),
-                            Text(AppLocalizations.of(context)!.createFile),
+                            Text(AppLocalizations.of(context)!.createNote),
                           ],
                         ),
                       ),
@@ -219,7 +220,7 @@ class MyTreeTile extends StatelessWidget {
                           children: [
                             const Icon(Icons.create_new_folder),
                             const SizedBox(width: 4),
-                            Text(AppLocalizations.of(context)!.createNote),
+                            Text(AppLocalizations.of(context)!.createFile),
                           ],
                         ),
                       ),
@@ -286,6 +287,42 @@ class MyTreeTile extends StatelessWidget {
               onConfirm: () => createNode(context, node, isNote),
               onCancel: () => closeAndClear(context));
         });
+  }
+
+  void showMoveDialog(BuildContext context, MyTreeNode node) {
+    String? selectedValue;
+    List<String> files = nodeService.getAllFolders();
+    List<DropdownMenuItem<String>> dropdownItems = files.map(
+      (String option) {
+        return DropdownMenuItem<String>(
+          value: option,
+          child: Text(option),
+        );
+      },
+    ).toList();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return DropdownMenuDialog(
+          onConfirm: () => moveNode(node, selectedValue, context),
+          onCancel: () => closeAndClear,
+          titleText: AppLocalizations.of(context)!.menuMove,
+          confirmButtonText: AppLocalizations.of(context)!.move,
+          items: dropdownItems,
+          selectedValue: selectedValue,
+          onSelect: (value) {
+            selectedValue = value;
+          },
+        );
+      },
+    );
+  }
+
+  void moveNode(MyTreeNode node, String? newParent, BuildContext context) {
+    if (newParent != null) {
+      nodeService.moveNode(node, newParent);
+      Navigator.of(context).pop();
+    }
   }
 
   /// Creating new node as children of [node]
