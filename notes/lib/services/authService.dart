@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:notes/assets/constants.dart';
-import 'package:notes/boxes.dart';
 import 'package:notes/data/notesDatabase.dart';
-import 'package:notes/model/myTreeNode.dart';
 import 'package:notes/services/firestoreService.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -21,8 +18,8 @@ class AuthService extends ChangeNotifier {
   final FirebaseFirestore firestore;
   final AppLocalizations Function(BuildContext) localizationProvider;
 
-  /// Instance of [FirebaseService] for accessing Firebase-related services.
-  late final FirebaseService _firebaseService = FirebaseService(auth: auth, fireStore: firestore);
+  /// Instance of [FirestoreService] for accessing Firebase-related services.
+  late final FirestoreService _firebaseService = FirestoreService(auth: auth, fireStore: firestore);
 
   /// Instance of [NotesDatabase] for performing operations on the notes database.
   final NotesDatabase db = NotesDatabase();
@@ -38,9 +35,7 @@ class AuthService extends ChangeNotifier {
     try {
       UserCredential userCredential =
           await auth.createUserWithEmailAndPassword(email: email, password: password);
-      MyTreeNode tree = boxHierachy.get(TREE_STORAGE);
-      _firebaseService.saveTreeStructure(tree);
-      _firebaseService.saveAllNotes();
+      _firebaseService.synchronize();
       return userCredential;
     } on FirebaseAuthException catch (e) {
       throw e.code;
@@ -57,9 +52,7 @@ class AuthService extends ChangeNotifier {
       UserCredential userCredential =
           await auth.signInWithEmailAndPassword(email: email, password: password);
       // Synchronization after login
-      MyTreeNode tree = await _firebaseService.getTreeNode();
-      boxHierachy.put(TREE_STORAGE, tree);
-      //db.saveAllNotes();
+      _firebaseService.synchronize();
       return userCredential;
     } on FirebaseAuthException catch (e) {
       throw e.code;

@@ -5,6 +5,8 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:notes/boxes.dart';
 import 'dart:developer';
 
+import 'package:notes/data/notesDatabase.dart';
+
 /// Class [RichTextEditor] creates rich text editor from the flutter_quill library.
 class RichTextEditor extends StatefulWidget {
   /// Id of the note what will be loaded and edited.
@@ -22,6 +24,8 @@ class RichTextEditor extends StatefulWidget {
 class _RichTextEditorState extends State<RichTextEditor> {
   /// Controller of the rich text editor.
   QuillController _controller = QuillController.basic();
+
+  NotesDatabase notesDatabase = NotesDatabase();
 
   /// Inicialization of the class.
   /// Loading the note and adding a listener to save every change.
@@ -47,9 +51,8 @@ class _RichTextEditorState extends State<RichTextEditor> {
     final documentJson = boxNotes.get(widget.noteId);
     if (documentJson != null) {
       final document = Document.fromJson(jsonDecode(documentJson));
-      _controller = QuillController(
-          document: document,
-          selection: const TextSelection.collapsed(offset: 0));
+      _controller =
+          QuillController(document: document, selection: const TextSelection.collapsed(offset: 0));
     } else {
       _controller = QuillController.basic();
     }
@@ -58,8 +61,9 @@ class _RichTextEditorState extends State<RichTextEditor> {
   /// Saving content of the note.
   void _saveDocument() {
     var json = jsonEncode(_controller.document.toDelta().toJson());
-    log("Saving data: $json");
-    boxNotes.put(widget.noteId, json);
+    //log("Saving data: $json");
+    notesDatabase.updateNote(widget.noteId, json);
+    //boxNotes.put(widget.noteId, json);
   }
 
   @override
@@ -67,8 +71,7 @@ class _RichTextEditorState extends State<RichTextEditor> {
     return Column(
       children: [
         QuillToolbar.simple(
-            configurations:
-                QuillSimpleToolbarConfigurations(controller: _controller)),
+            configurations: QuillSimpleToolbarConfigurations(controller: _controller)),
         Expanded(
           child: QuillEditor.basic(
             configurations: QuillEditorConfigurations(

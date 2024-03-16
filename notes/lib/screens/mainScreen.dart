@@ -13,6 +13,7 @@ import 'package:notes/components/myTreeview.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notes/model/myTreeNode.dart';
 import 'package:notes/screens/settings.dart';
+import 'package:notes/services/firestoreService.dart';
 import 'package:notes/services/nodeService.dart';
 
 class MainScreen extends StatefulWidget {
@@ -32,6 +33,16 @@ class _MainScreenState extends State<MainScreen> {
   ClearDatabase db = ClearDatabase();
   UserDatabase userDB = UserDatabase();
   NodeService nodeService = NodeService();
+  late final FirestoreService firestoreService;
+
+  @override
+  void initState() {
+    firestoreService = FirestoreService(
+      auth: widget.auth,
+      fireStore: widget.firestore,
+    );
+    super.initState();
+  }
 
   void _changeScreen(int screenType, String id) {
     setState(() {
@@ -71,16 +82,13 @@ class _MainScreenState extends State<MainScreen> {
       FileListView(
         nodeId: _noteId,
         key: ValueKey(_noteId),
-        navigateWithParam: (isNote, nodeId) =>
-            navigateWithParam(isNote, nodeId),
+        navigateWithParam: (isNote, nodeId) => navigateWithParam(isNote, nodeId),
       ),
     ];
 
     return Scaffold(
-      backgroundColor:
-          _pageType == DIRECTORY_SCREEN ? Colors.grey[200] : Colors.white,
-      appBar:
-          AppBar(title: Text(AppLocalizations.of(context)!.appName), actions: [
+      backgroundColor: _pageType == DIRECTORY_SCREEN ? Colors.grey[200] : Colors.white,
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.appName), actions: [
         IconButton(
           icon: const Icon(Icons.settings),
           onPressed: () {
@@ -99,19 +107,20 @@ class _MainScreenState extends State<MainScreen> {
             UserDrawerHeader(
               auth: widget.auth,
               firestore: widget.firestore,
-            ), // Your custom drawer header
+            ),
             Expanded(
-              // Expanded widget takes all the available space after the header and button have been laid out
               child: MyTreeView(
-                navigateWithParam: (bool isNote, String id) =>
-                    navigateWithParam(isNote, id),
+                navigateWithParam: (bool isNote, String id) => navigateWithParam(isNote, id),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(5),
-              child: MyButton(onTap: () {}, text: "Synchronize"),
+              child: MyButton(
+                  onTap: () {
+                    firestoreService.synchronize();
+                  },
+                  text: "Synchronize"),
             )
-            // Your custom button at the bottom
           ],
         ),
       ),

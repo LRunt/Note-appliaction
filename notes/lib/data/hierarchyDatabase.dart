@@ -33,15 +33,12 @@ class HierarchyDatabase {
     log("Updating database: ${roots.firstOrNull}");
     boxHierachy.put(TREE_STORAGE, roots.firstOrNull);
     // Adding timestamp of last change
-    boxSynchronization.put(TREE_CHANGE, DateTime.now().toIso8601String());
+    boxSynchronization.put(TREE_CHANGE, DateTime.now().microsecondsSinceEpoch);
     //updateFirebaseDatabase();
   }
 
-  // Update firebase database
-  /*void updateFirebaseDatabase() {
-    if (_firebaseService.isLoggedIn()) {
-      _firebaseService.saveTreeStructure(roots.first);
-      _firebaseService.saveTreeTime();
-    }
-  }*/
+  void saveHierarchy(MyTreeNode hierarchy) {
+    roots[0] = hierarchy;
+    updateDatabase();
+  }
 }

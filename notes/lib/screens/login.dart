@@ -7,7 +7,7 @@ import 'package:notes/assets/constants.dart';
 import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/myButton.dart';
 import 'package:notes/components/myTextField.dart';
-import 'package:notes/services/authentificationService.dart';
+import 'package:notes/services/authService.dart';
 
 /// A StatefulWidget that provides a user interface for logging in.
 ///
@@ -24,11 +24,7 @@ class LoginPage extends StatefulWidget {
   final void Function()? onTap;
 
   /// Constructor of [LoginPage] class.
-  const LoginPage(
-      {super.key,
-      required this.auth,
-      required this.firestore,
-      required this.onTap});
+  const LoginPage({super.key, required this.auth, required this.firestore, required this.onTap});
 
   @override
   State<LoginPage> createState() => _LoginFormState();
@@ -50,8 +46,7 @@ class _LoginFormState extends State<LoginPage> {
     _authService = AuthService(
       auth: widget.auth,
       firestore: widget.firestore,
-      localizationProvider: (BuildContext context) =>
-          AppLocalizations.of(context)!,
+      localizationProvider: (BuildContext context) => AppLocalizations.of(context)!,
     );
   }
 
@@ -76,15 +71,13 @@ class _LoginFormState extends State<LoginPage> {
     log('Loging user: ${emailController.text}, password: ${passwordController.text}');
     utils.getProgressIndicator(context);
     try {
-      await _authService.login(
-          emailController.text.trim(), passwordController.text.trim());
+      await _authService.login(emailController.text.trim(), passwordController.text.trim());
       // Pop the CircularProgressIndicator
       Navigator.pop(context);
       // Go back to the main screen
       Navigator.pop(context);
     } catch (errorCode) {
-      String errorMessage =
-          _authService.getErrorMessage(errorCode.toString(), context);
+      String errorMessage = _authService.getErrorMessage(errorCode.toString(), context);
       // Pop the CircularProgressIndicator
       Navigator.pop(context);
       log(errorMessage.toString());
