@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:notes/services/authentificationService.dart';
 import 'package:notes/services/loginOrRegister.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:developer';
@@ -16,8 +17,7 @@ class UserDrawerHeader extends StatefulWidget {
   final FirebaseFirestore firestore;
 
   /// Constructor of [UserDrawerHeader] class.
-  const UserDrawerHeader(
-      {super.key, required this.auth, required this.firestore});
+  const UserDrawerHeader({super.key, required this.auth, required this.firestore});
 
   @override
   State<UserDrawerHeader> createState() => _UserDrawerHeaderState();
@@ -28,11 +28,13 @@ class UserDrawerHeader extends StatefulWidget {
 class _UserDrawerHeaderState extends State<UserDrawerHeader> {
   /// The current user, obtained from Firebase Authentification.
   /// null when user is not logged in.
-  User? user = FirebaseAuth.instance.currentUser;
+  User? user;
 
   /// Subscribtion to the authentification state changes.
   /// Listens for updates of the user's status and updates the UI.
   late final StreamSubscription<User?> authSubscription;
+
+  late final AuthService _authService;
 
   /// Inicialization of the state
   /// Adding listener to the authentication state changes (login/logout) and update the UI by setting the current user.
@@ -40,12 +42,20 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
   @override
   void initState() {
     super.initState();
-    authSubscription = FirebaseAuth.instance.authStateChanges().listen(
+    user = widget.auth.currentUser;
+    _authService = AuthService(
+      auth: widget.auth,
+      firestore: widget.firestore,
+      localizationProvider: (BuildContext context) => AppLocalizations.of(context)!,
+    );
+    authSubscription = widget.auth.authStateChanges().listen(
       (User? currentUser) {
         if (mounted) {
-          setState(() {
-            user = currentUser;
-          });
+          setState(
+            () {
+              user = currentUser;
+            },
+          );
         }
       },
       onError: (error) {
@@ -66,10 +76,11 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
   /// This method attempts to sign out the current user.
   /// If an error occurs, it logs the error message.
   void logout() async {
-    try {
-      await FirebaseAuth.instance.signOut();
-    } catch (e) {
-      log('Error while logout: $e');
+    String result = await _authService.logout();
+    if (result == "Success") {
+      log("Success");
+    } else {
+      log('Logout failed with error: $result');
     }
   }
 
@@ -87,9 +98,7 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => LoginOrRegister(
-                        auth: widget.auth,
-                        firestore: widget.firestore,
-                        showLoginPage: true),
+                        auth: widget.auth, firestore: widget.firestore, showLoginPage: true),
                   ),
                 );
               },
@@ -101,9 +110,7 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => LoginOrRegister(
-                        auth: widget.auth,
-                        firestore: widget.firestore,
-                        showLoginPage: false),
+                        auth: widget.auth, firestore: widget.firestore, showLoginPage: false),
                   ),
                 );
               },
