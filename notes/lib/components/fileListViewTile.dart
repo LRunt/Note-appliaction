@@ -46,8 +46,7 @@ class FileListViewTile extends StatelessWidget {
                     ),
                   ),
                   PopupMenuButton<String>(
-                    itemBuilder: (BuildContext context) =>
-                        <PopupMenuEntry<String>>[
+                    itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                       PopupMenuItem<String>(
                         onTap: () => delete(),
                         value: 'delete',
@@ -78,7 +77,7 @@ class FileListViewTile extends StatelessWidget {
                             children: [
                               const Icon(Icons.article),
                               const SizedBox(width: 4),
-                              Text(AppLocalizations.of(context)!.createFile),
+                              Text(AppLocalizations.of(context)!.createNote),
                             ],
                           ),
                         ),
@@ -90,7 +89,7 @@ class FileListViewTile extends StatelessWidget {
                             children: [
                               const Icon(Icons.create_new_folder),
                               const SizedBox(width: 4),
-                              Text(AppLocalizations.of(context)!.createNote),
+                              Text(AppLocalizations.of(context)!.createFile),
                             ],
                           ),
                         ),

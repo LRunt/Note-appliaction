@@ -144,8 +144,7 @@ class _FileListViewState extends State<FileListView> {
   void createNode(MyTreeNode node, bool isNote) {
     setState(
       () {
-        if (service.createNewNode(
-            node, _textDialogController.text.trim(), isNote)) {
+        if (service.createNewNode(node, _textDialogController.text.trim(), isNote)) {
           closeAndClear();
         }
       },
@@ -168,20 +167,21 @@ class _FileListViewState extends State<FileListView> {
     return children.isEmpty
         ? Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(7),
-                child: FileListViewTile(
-                    node: null,
-                    touch: () => widget.navigateWithParam(
-                          false,
-                          service.getParentPath(widget.nodeId),
-                        ),
-                    delete: () {},
-                    rename: () {},
-                    createNote: () {},
-                    createFile: () {},
-                    move: () {}),
-              ),
+              if (service.isRoot(widget.nodeId))
+                Padding(
+                  padding: const EdgeInsets.all(7),
+                  child: FileListViewTile(
+                      node: null,
+                      touch: () => widget.navigateWithParam(
+                            false,
+                            service.getParentPath(widget.nodeId),
+                          ),
+                      delete: () {},
+                      rename: () {},
+                      createNote: () {},
+                      createFile: () {},
+                      move: () {}),
+                ),
               Expanded(
                 child: Text(
                   AppLocalizations.of(context)!.emptyFile,
@@ -221,10 +221,8 @@ class _FileListViewState extends State<FileListView> {
                           ),
                           delete: () => showDeleteDialog(children[index]),
                           rename: () => showRenameDialog(children[index]),
-                          createNote: () =>
-                              showCreateDialog(children[index], true),
-                          createFile: () =>
-                              showCreateDialog(children[index], false),
+                          createNote: () => showCreateDialog(children[index], true),
+                          createFile: () => showCreateDialog(children[index], false),
                           move: () => showMoveDialog(children[index]),
                         ),
                       );
