@@ -22,16 +22,12 @@ class AuthService extends ChangeNotifier {
   final AppLocalizations Function(BuildContext) localizationProvider;
 
   /// Instance of [FirebaseService] for accessing Firebase-related services.
-  late final FirebaseService _firebaseService =
-      FirebaseService(auth: auth, fireStore: firestore);
+  late final FirebaseService _firebaseService = FirebaseService(auth: auth, fireStore: firestore);
 
   /// Instance of [NotesDatabase] for performing operations on the notes database.
   final NotesDatabase db = NotesDatabase();
 
-  AuthService(
-      {required this.auth,
-      required this.firestore,
-      required this.localizationProvider});
+  AuthService({required this.auth, required this.firestore, required this.localizationProvider});
 
   /// Registers a new user with the given email and password.
   ///
@@ -40,8 +36,8 @@ class AuthService extends ChangeNotifier {
   /// Throws a [FirebaseAuthException] if a Firebase Authentication error occurs.
   Future<UserCredential> register(String email, String password) async {
     try {
-      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      UserCredential userCredential =
+          await auth.createUserWithEmailAndPassword(email: email, password: password);
       MyTreeNode tree = boxHierachy.get(TREE_STORAGE);
       _firebaseService.saveTreeStructure(tree);
       _firebaseService.saveAllNotes();
@@ -58,8 +54,8 @@ class AuthService extends ChangeNotifier {
   /// Throws a [FirebaseAuthException] if a Firebase Authentication error occurs.
   Future<UserCredential> login(String email, String password) async {
     try {
-      UserCredential userCredential = await auth.signInWithEmailAndPassword(
-          email: email, password: password);
+      UserCredential userCredential =
+          await auth.signInWithEmailAndPassword(email: email, password: password);
       // Synchronization after login
       MyTreeNode tree = await _firebaseService.getTreeNode();
       boxHierachy.put(TREE_STORAGE, tree);
@@ -73,8 +69,15 @@ class AuthService extends ChangeNotifier {
   /// Logs out the currently signed-in user.
   ///
   /// It signs out the user from Firebase Authentication.
-  Future<void> logout() async {
-    await auth.signOut();
+  Future<String> logout() async {
+    try {
+      await auth.signOut();
+      return "Success";
+    } on FirebaseAuthException catch (e) {
+      return e.code;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   /// Returns the human redable error description of `errorCode`.
