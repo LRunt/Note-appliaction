@@ -5,7 +5,7 @@ import 'package:notes/assets/constants.dart';
 import 'package:notes/boxes.dart';
 import 'package:notes/data/notesDatabase.dart';
 import 'package:notes/model/myTreeNode.dart';
-import 'package:notes/services/firebaseService.dart';
+import 'package:notes/services/firestoreService.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// A service class for handling authentication operations with Firebase Authentication.

@@ -23,6 +23,10 @@ const String BOX_SYNCHRONIZATION = "Synchronization";
 const String FIREBASE_TREE = "user_tree";
 const String FIREBASE_TREE_TIME = "tree_time";
 const String FIREBASE_NOTES = "user_notes";
+const String LAST_SYNC = "last_sync";
+
+// Firebase fields
+const String LAST_SYNC_FIELD = "Sync_timestamp";
 
 const String DELIMITER = "|";
 const List DISABLED_CHARS = ["|", "/"];

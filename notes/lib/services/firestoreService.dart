@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:notes/assets/constants.dart';
 import 'package:notes/boxes.dart';
+import 'package:notes/data/hierarchyDatabase.dart';
 import 'package:notes/model/myTreeNode.dart';
 import 'dart:developer';
 
@@ -17,21 +18,53 @@ class FirebaseService extends ChangeNotifier {
     return auth.currentUser != null;
   }
 
+  Future<String> synchronize() async {
+    if (isLoggedIn()) {
+      String userId = auth.currentUser!.uid;
+      try {
+        var documentSnapshot = await fireStore.collection(userId).doc(LAST_SYNC).get();
+        if (documentSnapshot.exists) {
+          log("document exist");
+          Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+          var last_sync_cloud = data[LAST_SYNC_FIELD];
+          var last_sync_local = boxSynchronization.get(LAST_SYNC);
+          if (last_sync_cloud > last_sync_local) {
+          } else {}
+        } else {
+          log("Document does not exist");
+          await uploadAllData();
+        }
+        return "Succes";
+      } catch (e) {
+        log("Error fetching document: $e");
+        return "$e";
+      }
+    } else {
+      return "not-logged-user";
+    }
+  }
+
+  // Uploading all data to the cloud
+  Future<void> uploadAllData() async {
+    await saveTreeStructure(HierarchyDatabase.roots.first);
+    await saveAllNotes();
+    var now = DateTime.now().microsecondsSinceEpoch;
+    await saveSyncTime(now);
+    boxSynchronization.put(LAST_SYNC, now);
+  }
+
   // SAVE hierarchy
   Future<void> saveTreeStructure(MyTreeNode treeViewData) async {
     var map = treeViewData.toMap();
     String userId = auth.currentUser!.uid;
-    await fireStore
-        .collection(userId)
-        .doc(FIREBASE_TREE)
-        .set(map, SetOptions(merge: true));
+    await fireStore.collection(userId).doc(FIREBASE_TREE).set(map, SetOptions(merge: true));
   }
 
   // SAVE hierarchy sync time
-  Future<void> saveTreeTime() async {
+  Future<void> saveSyncTime(time) async {
     String userId = auth.currentUser!.uid;
-    await fireStore.collection(userId).doc(FIREBASE_TREE_TIME).set({
-      'updateTime': FieldValue.serverTimestamp(),
+    await fireStore.collection(userId).doc(LAST_SYNC).set({
+      LAST_SYNC_FIELD: time,
     }, SetOptions(merge: true));
   }
 
@@ -48,11 +81,9 @@ class FirebaseService extends ChangeNotifier {
   Future<DateTime?> getTreeTime() async {
     String userId = auth.currentUser!.uid;
     try {
-      var documentSnapshot =
-          await fireStore.collection(userId).doc(FIREBASE_TREE_TIME).get();
+      var documentSnapshot = await fireStore.collection(userId).doc(FIREBASE_TREE_TIME).get();
       if (documentSnapshot.exists) {
-        Map<String, dynamic> data =
-            documentSnapshot.data() as Map<String, dynamic>;
+        Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
         Timestamp updateTime = data['updateTime'];
         return updateTime.toDate(); // Convert Timestamp to DateTime
       } else {
@@ -80,10 +111,7 @@ class FirebaseService extends ChangeNotifier {
     log(value);
     String userId = auth.currentUser!.uid;
     var collectionId = userId + FIREBASE_NOTES;
-    await fireStore
-        .collection(collectionId)
-        .doc(noteId)
-        .set({'content': value});
+    await fireStore.collection(collectionId).doc(noteId).set({'content': value});
   }
 
   // GET notes
@@ -107,8 +135,7 @@ class FirebaseService extends ChangeNotifier {
   Future<String?> getNote(String noteId) async {
     String userId = auth.currentUser!.uid;
     var collectionId = userId + FIREBASE_NOTES;
-    var documentSnapshot =
-        await fireStore.collection(collectionId).doc(noteId).get();
+    var documentSnapshot = await fireStore.collection(collectionId).doc(noteId).get();
 
     if (documentSnapshot.exists) {
       return documentSnapshot.get('content'); // Return the content directly

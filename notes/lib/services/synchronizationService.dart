@@ -1,1 +1,5 @@
-class SynchronizationService {}
+class SynchronizationService {
+  bool synchronizeAll() {
+    return true;
+  }
+}

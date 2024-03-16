@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:notes/services/authentificationService.dart';
+import 'package:notes/services/authService.dart';
 import 'package:notes/services/loginOrRegister.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:developer';

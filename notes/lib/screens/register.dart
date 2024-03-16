@@ -6,7 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/myButton.dart';
 import 'package:notes/components/myTextField.dart';
-import 'package:notes/services/authentificationService.dart';
+import 'package:notes/services/authService.dart';
 
 /// A StatefulWidget that provides a user interface for registering a new user.
 ///
@@ -22,11 +22,7 @@ class RegisterPage extends StatefulWidget {
   final void Function()? onTap;
 
   /// Constructor of [RegisterPage] class.
-  const RegisterPage(
-      {super.key,
-      required this.auth,
-      required this.firestore,
-      required this.onTap});
+  const RegisterPage({super.key, required this.auth, required this.firestore, required this.onTap});
 
   @override
   State<RegisterPage> createState() => _RegisterFormState();
@@ -52,8 +48,7 @@ class _RegisterFormState extends State<RegisterPage> {
     _authService = AuthService(
       auth: widget.auth,
       firestore: widget.firestore,
-      localizationProvider: (BuildContext context) =>
-          AppLocalizations.of(context)!,
+      localizationProvider: (BuildContext context) => AppLocalizations.of(context)!,
     );
   }
 
@@ -86,8 +81,7 @@ class _RegisterFormState extends State<RegisterPage> {
         // Go back to the main screen
         Navigator.pop(context);
       } catch (errorCode) {
-        String errorMessage =
-            _authService.getErrorMessage(errorCode.toString(), context);
+        String errorMessage = _authService.getErrorMessage(errorCode.toString(), context);
         // Pop the CircularProgressIndicator
         Navigator.pop(context);
         log("Error: $errorMessage");
