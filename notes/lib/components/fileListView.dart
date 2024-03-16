@@ -29,9 +29,11 @@ class _FileListViewState extends State<FileListView> {
   List<MyTreeNode> children = [];
   final utils = ComponentUtils();
   NodeService service = NodeService();
+  late bool _visibleButtons;
 
   @override
   void initState() {
+    _visibleButtons = false;
     MyTreeNode? node = service.getNode(widget.nodeId);
     log("$node");
     if (node != null) {
@@ -44,6 +46,12 @@ class _FileListViewState extends State<FileListView> {
   void dispose() {
     _textDialogController.dispose();
     super.dispose();
+  }
+
+  void _toggleButtons() {
+    setState(() {
+      _visibleButtons = !_visibleButtons;
+    });
   }
 
   void showDeleteDialog(MyTreeNode node) {
@@ -164,73 +172,122 @@ class _FileListViewState extends State<FileListView> {
 
   @override
   Widget build(BuildContext context) {
-    return children.isEmpty
-        ? Column(
-            children: [
-              if (service.isRoot(widget.nodeId))
-                Padding(
-                  padding: const EdgeInsets.all(7),
-                  child: FileListViewTile(
-                      node: null,
-                      touch: () => widget.navigateWithParam(
-                            false,
-                            service.getParentPath(widget.nodeId),
-                          ),
-                      delete: () {},
-                      rename: () {},
-                      createNote: () {},
-                      createFile: () {},
-                      move: () {}),
-                ),
-              Expanded(
-                child: Text(
-                  AppLocalizations.of(context)!.emptyFile,
-                  style: utils.getBasicTextStyle(),
-                ),
-              ),
-            ],
-          )
-        : Padding(
-            padding: const EdgeInsets.all(7),
-            child: Column(
+    return Scaffold(
+      body: children.isEmpty
+          ? Column(
               children: [
                 if (!service.isRoot(widget.nodeId))
-                  FileListViewTile(
-                    node: null,
-                    touch: () => widget.navigateWithParam(
-                      false,
-                      service.getParentPath(widget.nodeId),
-                    ),
-                    delete: () {},
-                    rename: () {},
-                    createNote: () {},
-                    createFile: () {},
-                    move: () {},
+                  Padding(
+                    padding: const EdgeInsets.all(7),
+                    child: FileListViewTile(
+                        node: null,
+                        touch: () => widget.navigateWithParam(
+                              false,
+                              service.getParentPath(widget.nodeId),
+                            ),
+                        delete: () {},
+                        rename: () {},
+                        createNote: () {},
+                        createFile: () {},
+                        move: () {}),
                   ),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: children.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(1),
-                        child: FileListViewTile(
-                          node: children[index],
-                          touch: () => widget.navigateWithParam(
-                            children[index].isNote,
-                            children[index].id,
-                          ),
-                          delete: () => showDeleteDialog(children[index]),
-                          rename: () => showRenameDialog(children[index]),
-                          createNote: () => showCreateDialog(children[index], true),
-                          createFile: () => showCreateDialog(children[index], false),
-                          move: () => showMoveDialog(children[index]),
-                        ),
-                      );
-                    },
+                  child: Text(
+                    AppLocalizations.of(context)!.emptyFile,
+                    style: utils.getBasicTextStyle(),
                   ),
                 ),
               ],
+            )
+          : Padding(
+              padding: const EdgeInsets.all(7),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (!service.isRoot(widget.nodeId))
+                        FileListViewTile(
+                          node: null,
+                          touch: () => widget.navigateWithParam(
+                            false,
+                            service.getParentPath(widget.nodeId),
+                          ),
+                          delete: () {},
+                          rename: () {},
+                          createNote: () {},
+                          createFile: () {},
+                          move: () {},
+                        ),
+                      ListView.builder(
+                        itemCount: children.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(1),
+                            child: FileListViewTile(
+                              node: children[index],
+                              touch: () => widget.navigateWithParam(
+                                children[index].isNote,
+                                children[index].id,
+                              ),
+                              delete: () => showDeleteDialog(children[index]),
+                              rename: () => showRenameDialog(children[index]),
+                              createNote: () => showCreateDialog(children[index], true),
+                              createFile: () => showCreateDialog(children[index], false),
+                              move: () => showMoveDialog(children[index]),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
-          );
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          if (!_visibleButtons)
+            FloatingActionButton(
+              onPressed: () {
+                _toggleButtons();
+              },
+              child: const Icon(Icons.add),
+            ),
+          if (_visibleButtons)
+            FloatingActionButton(
+              onPressed: () {
+                showCreateDialog(service.getNode(widget.nodeId)!, true);
+              },
+              tooltip: AppLocalizations.of(context)!.createNote,
+              child: const Icon(Icons.article),
+            ),
+          if (_visibleButtons) const SizedBox(height: 16.0),
+          if (_visibleButtons)
+            FloatingActionButton(
+              onPressed: () {
+                showCreateDialog(service.getNode(widget.nodeId)!, false);
+              },
+              tooltip: AppLocalizations.of(context)!.createFile,
+              child: const Icon(Icons.create_new_folder),
+            ),
+          if (_visibleButtons) const SizedBox(height: 16.0),
+          if (_visibleButtons)
+            FloatingActionButton(
+              onPressed: () {
+                _toggleButtons();
+              },
+              backgroundColor: Colors.red[300],
+              child: const Icon(
+                Icons.close,
+                color: Color.fromARGB(255, 183, 28, 28),
+              ),
+            ),
+        ],
+      ),
+    );
   }
 }

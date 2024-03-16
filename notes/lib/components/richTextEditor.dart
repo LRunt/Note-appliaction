@@ -27,7 +27,7 @@ class _RichTextEditorState extends State<RichTextEditor> {
 
   NotesDatabase notesDatabase = NotesDatabase();
 
-  late bool controlsVisible;
+  late bool _controlsVisible;
 
   /// Inicialization of the class.
   /// Loading the note and adding a listener to save every change.
@@ -37,7 +37,7 @@ class _RichTextEditorState extends State<RichTextEditor> {
     super.initState();
     _loadDocument();
     _controller.addListener(_saveDocument);
-    controlsVisible = true;
+    _controlsVisible = true;
   }
 
   /// Disposing when rich text editor is removed.
@@ -50,7 +50,7 @@ class _RichTextEditorState extends State<RichTextEditor> {
 
   void showControls() {
     setState(() {
-      controlsVisible = !controlsVisible;
+      _controlsVisible = !_controlsVisible;
     });
   }
 
@@ -80,7 +80,7 @@ class _RichTextEditorState extends State<RichTextEditor> {
     return Scaffold(
       body: Column(
         children: [
-          if (controlsVisible)
+          if (_controlsVisible)
             QuillToolbar.simple(
                 configurations: QuillSimpleToolbarConfigurations(controller: _controller)),
           Expanded(
@@ -88,7 +88,7 @@ class _RichTextEditorState extends State<RichTextEditor> {
               configurations: QuillEditorConfigurations(
                   controller: _controller,
                   padding: const EdgeInsets.all(10),
-                  readOnly: controlsVisible ? false : true,
+                  readOnly: false,
                   autoFocus: true,
                   scrollable: true),
             ),
@@ -96,8 +96,10 @@ class _RichTextEditorState extends State<RichTextEditor> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: controlsVisible ? const Icon(Icons.chrome_reader_mode) : const Icon(Icons.edit),
+        onPressed: () {
+          showControls();
+        },
+        child: _controlsVisible ? const Icon(Icons.chrome_reader_mode) : const Icon(Icons.edit),
       ),
     );
   }
