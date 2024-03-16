@@ -15,6 +15,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class AuthService extends ChangeNotifier {
   /// The [FirebaseAuth] instance for interacting getting authentification data.
   final FirebaseAuth auth;
+
+  /// The [FirebaseFirestore] instance
   final FirebaseFirestore firestore;
   final AppLocalizations Function(BuildContext) localizationProvider;
 

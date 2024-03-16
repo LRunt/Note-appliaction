@@ -11,7 +11,6 @@ import 'package:notes/data/userDatabase.dart';
 import 'dart:developer';
 import 'package:notes/components/myTreeview.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:notes/model/myTreeNode.dart';
 import 'package:notes/screens/settings.dart';
 import 'package:notes/services/firestoreService.dart';
 import 'package:notes/services/nodeService.dart';
@@ -126,14 +125,6 @@ class _MainScreenState extends State<MainScreen> {
       ),
       body: Center(
         child: _widgetTypes[_pageType],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          log("Pressed floating button");
-          MyTreeNode? node = nodeService.getNode('|Home|poznámka');
-          log("Node: $node");
-        },
-        child: const Icon(Icons.add),
       ),
     );
   }

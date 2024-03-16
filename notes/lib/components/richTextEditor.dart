@@ -27,6 +27,8 @@ class _RichTextEditorState extends State<RichTextEditor> {
 
   NotesDatabase notesDatabase = NotesDatabase();
 
+  late bool controlsVisible;
+
   /// Inicialization of the class.
   /// Loading the note and adding a listener to save every change.
   @override
@@ -35,6 +37,7 @@ class _RichTextEditorState extends State<RichTextEditor> {
     super.initState();
     _loadDocument();
     _controller.addListener(_saveDocument);
+    controlsVisible = true;
   }
 
   /// Disposing when rich text editor is removed.
@@ -43,6 +46,12 @@ class _RichTextEditorState extends State<RichTextEditor> {
     _controller.removeListener(_saveDocument);
     _controller.dispose();
     super.dispose();
+  }
+
+  void showControls() {
+    setState(() {
+      controlsVisible = !controlsVisible;
+    });
   }
 
   /// Loading content of the note with [widget.noteId].
@@ -68,21 +77,28 @@ class _RichTextEditorState extends State<RichTextEditor> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        QuillToolbar.simple(
-            configurations: QuillSimpleToolbarConfigurations(controller: _controller)),
-        Expanded(
-          child: QuillEditor.basic(
-            configurations: QuillEditorConfigurations(
-                controller: _controller,
-                padding: const EdgeInsets.all(10),
-                readOnly: false,
-                autoFocus: true,
-                scrollable: true),
+    return Scaffold(
+      body: Column(
+        children: [
+          if (controlsVisible)
+            QuillToolbar.simple(
+                configurations: QuillSimpleToolbarConfigurations(controller: _controller)),
+          Expanded(
+            child: QuillEditor.basic(
+              configurations: QuillEditorConfigurations(
+                  controller: _controller,
+                  padding: const EdgeInsets.all(10),
+                  readOnly: controlsVisible ? false : true,
+                  autoFocus: true,
+                  scrollable: true),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: controlsVisible ? const Icon(Icons.chrome_reader_mode) : const Icon(Icons.edit),
+      ),
     );
   }
 }
