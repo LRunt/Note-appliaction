@@ -46,10 +46,13 @@ class AppLogger {
       print('${record.level.name}: $formattedTime: ${record.message}');
       _writeToFile('${record.level.name}: $formattedTime: ${record.message}');
     });
-    createLogFileIfNotExist();
+    await createLogFileIfNotExist();
   }
 
-  static void createLogFileIfNotExist() async {
+  /// Ensures `app_logs.txt` exists in the app's document directory.
+  ///
+  /// Checks and creates the log file if absent. Useful for logging.
+  static Future<void> createLogFileIfNotExist() async {
     final directory = await getApplicationDocumentsDirectory();
     logFile = File('${directory.path}/app_logs.txt');
     if (!await logFile!.exists()) {

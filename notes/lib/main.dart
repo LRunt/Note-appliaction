@@ -39,7 +39,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  AppLogger.log("Running the appliaction");
+  AppLogger.log("Running the application");
   // Running the application
   runApp(const MyApp());
 }
