@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:notes/assets/constants.dart';
 
 /// Utility class [ComponentUtils] for common UI components customization in Flutter applications.
@@ -65,13 +66,27 @@ class ComponentUtils {
         content: Center(
           child: Text(
             message,
-            style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold),
+            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ),
         backgroundColor: color,
       ),
     );
+  }
+
+  void showErrorToast(String message) {
+    showCenteredToast(message, COLOR_ERROR);
+  }
+
+  void showCenteredToast(String message, Color color) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 2,
+        backgroundColor: color,
+        textColor: Colors.white,
+        fontSize: DEFAULT_TEXT_SIZE);
   }
 
   /// Provides a default text style for consistency across the app.

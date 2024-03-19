@@ -1,12 +1,16 @@
+import 'package:logging/logging.dart';
 import 'package:notes/assets/constants.dart';
+import 'package:notes/components/componentUtils.dart';
 import 'package:notes/data/hierarchyDatabase.dart';
 import 'package:notes/data/notesDatabase.dart';
+import 'package:notes/logger.dart';
 import 'package:notes/model/myTreeNode.dart';
 import 'dart:developer';
 
 class NodeService {
   HierarchyDatabase hierarchyDb;
   NotesDatabase notesDatabase;
+  ComponentUtils utils = ComponentUtils();
 
   // Because of testing
   NodeService({
@@ -17,6 +21,7 @@ class NodeService {
 
   // Delete
   void deleteNode(MyTreeNode node, MyTreeNode parent) {
+    AppLogger.log('Deleting node ${node.id}');
     // If node is note, delete note
     if (node.isNote) {
       notesDatabase.deleteNote(node.id);
@@ -31,11 +36,18 @@ class NodeService {
 
   // Rename
   bool renameNode(MyTreeNode node, String newName) {
+    AppLogger.log('Renaming node ${node.id}');
     if (newName.isEmpty) {
+      AppLogger.log("The name is empty", level: Level.WARNING);
+      utils.showErrorToast("Name is not filled");
       return false;
     } else if (containsDisabledChars(newName)) {
+      AppLogger.log("Disabled chars", level: Level.WARNING);
+      utils.showErrorToast("Name contains not allowed chars");
       return false;
-    } else if (siblingWithSameName(node.id, newName)) {
+    } else if (siblingWithSameName(node.id, newName, false)) {
+      AppLogger.log("Sibling with same name", level: Level.WARNING);
+      utils.showErrorToast("There exists a node with same name");
       return false;
     } else {
       node.title = newName;
@@ -54,17 +66,23 @@ class NodeService {
 
   // Create
   bool createNewNode(MyTreeNode node, String nodeName, bool nodeType) {
-    if (containsDisabledChars(nodeName)) {
-      log("Disabled chars");
+    AppLogger.log('Creating new node');
+    if (nodeName.isEmpty) {
+      AppLogger.log("The name is empty", level: Level.WARNING);
+      utils.showErrorToast("Name is not filled");
       return false;
-    } else if (siblingWithSameName(node.id, nodeName)) {
+    } else if (containsDisabledChars(nodeName)) {
+      AppLogger.log("Disabled chars", level: Level.WARNING);
+      utils.showErrorToast("Name contains not allowed chars");
+      return false;
+    } else if (siblingWithSameName(node.id, nodeName, true)) {
+      AppLogger.log("Sibling with same name", level: Level.WARNING);
+      utils.showErrorToast("There exists a node with same name");
       log("Sibling with same name");
       return false;
     } else {
-      MyTreeNode newNode = MyTreeNode(
-          id: node.id + DELIMITER + nodeName,
-          title: nodeName,
-          isNote: nodeType);
+      MyTreeNode newNode =
+          MyTreeNode(id: node.id + DELIMITER + nodeName, title: nodeName, isNote: nodeType);
       node.addChild(newNode);
       hierarchyDb.updateDatabase();
       return true;
@@ -72,9 +90,11 @@ class NodeService {
   }
 
   // Move
-  void moveNode(MyTreeNode node, String newParent) {
+  bool moveNode(MyTreeNode node, String newParent) {
+    AppLogger.log('Moving node ${node.id}, new parent: $newParent');
     MyTreeNode? parent = getNode(newParent);
     if (parent == null) {
+      return false;
       // return error
     } else {
       MyTreeNode? oldParent = getParent(node.id);
@@ -89,6 +109,7 @@ class NodeService {
         changeId(child, node.id);
       }
       hierarchyDb.updateDatabase();
+      return true;
     }
   }
 
@@ -103,8 +124,7 @@ class NodeService {
     return searchChildren(level, nodeList, path);
   }
 
-  MyTreeNode? searchChildren(
-      int level, List<MyTreeNode> nodeList, List<String> path) {
+  MyTreeNode? searchChildren(int level, List<MyTreeNode> nodeList, List<String> path) {
     log("Search children ${path.elementAt(level)}");
     for (MyTreeNode node in nodeList) {
       if (level == path.length - 1 && node.title == path[level]) {
@@ -126,8 +146,8 @@ class NodeService {
     return searchParent(level, nodeList, path, null);
   }
 
-  MyTreeNode? searchParent(int level, List<MyTreeNode> nodeList,
-      List<String> path, MyTreeNode? parent) {
+  MyTreeNode? searchParent(
+      int level, List<MyTreeNode> nodeList, List<String> path, MyTreeNode? parent) {
     log("Search parent ${path.elementAt(level)}");
     for (MyTreeNode node in nodeList) {
       if (level == path.length - 1 && node.title == path[level]) {
@@ -149,15 +169,18 @@ class NodeService {
     return false;
   }
 
-  bool siblingWithSameName(String nodeId, String newName) {
-    MyTreeNode? parent = getParent(nodeId);
+  bool siblingWithSameName(String nodeId, String newName, bool newNode) {
+    MyTreeNode? parent;
+    if (newNode) {
+      parent = getNode(nodeId);
+    } else {
+      parent = getParent(nodeId);
+    }
     log("Parent: $parent");
     if (parent == null) {
       return false;
     } else {
       for (MyTreeNode sibling in parent.children) {
-        print("Sibling title: ${sibling.title}");
-        print("NewName: ${newName}");
         if (sibling.title == newName) {
           return true;
         }
