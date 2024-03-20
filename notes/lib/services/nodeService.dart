@@ -81,10 +81,13 @@ class NodeService {
       log("Sibling with same name");
       return false;
     } else {
-      MyTreeNode newNode =
-          MyTreeNode(id: node.id + DELIMITER + nodeName, title: nodeName, isNote: nodeType);
+      String nodeId = node.id + DELIMITER + nodeName;
+      MyTreeNode newNode = MyTreeNode(id: nodeId, title: nodeName, isNote: nodeType);
       node.addChild(newNode);
       hierarchyDb.updateDatabase();
+      if (nodeType) {
+        notesDatabase.createNote(nodeId);
+      }
       return true;
     }
   }

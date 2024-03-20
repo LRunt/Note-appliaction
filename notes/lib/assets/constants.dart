@@ -5,6 +5,8 @@ const String TREE_STORAGE = "TreeView";
 // Keys for [boxSynchronization]
 const String TREE_CHANGE = "tree_change";
 const String TREE_SYNC = "tree_sync";
+// Keys for [boxNotes]
+const String NOTE_LIST = "note_list";
 // Keys for [boxUser]
 const String LOCALE = "locale";
 
