@@ -49,7 +49,7 @@ dependencies:
   flutter_native_splash: ^2.2.19
   logging: ^1.2.0
   path_provider: ^2.1.2
-  fluttertoast: ^8.2.4
+  fluttertoast: ^8.1.1
 
 dev_dependencies:
   flutter_test:

@@ -32,14 +32,15 @@ class FirestoreService extends ChangeNotifier {
             downloadAllData();
           } else {
             log("document exist");
-            Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
-            var lastSyncCloud = data[LAST_SYNC_FIELD];
-            var lastSyncLocal = boxSynchronization.get(LAST_SYNC);
-            if (lastSyncCloud == lastSyncLocal) {
+            //Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+            //var lastSyncCloud = data[LAST_SYNC_FIELD];
+            //var lastSyncLocal = boxSynchronization.get(LAST_SYNC);
+            /*if (lastSyncCloud == lastSyncLocal) {
               // checking update time while synchronizing
             } else {
               // Download data #TODO check conflicts
-            }
+            }*/
+            synchronizeData();
           }
         } else {
           log("Document does not exist");
@@ -83,7 +84,8 @@ class FirestoreService extends ChangeNotifier {
     if (localTimestamp > cloudTimestamp) {
       saveTreeStructure(HierarchyDatabase.roots.first, localTimestamp);
     } else {
-      getTreeNode();
+      MyTreeNode downloadedHierarchy = await getTreeNode();
+      hierarchyDatabase.saveHierarchy(downloadedHierarchy);
     }
     // download or upload
     // do the same with notes
