@@ -28,6 +28,7 @@ class NotesDatabase {
   }
 
   void createNote(String noteId) async {
-    await boxNotes.put(noteId, "");
+    await boxNotes.put(noteId, null);
+    await boxSynchronization.put(noteId, DateTime.now().microsecondsSinceEpoch);
   }
 }

@@ -58,8 +58,7 @@ class _MyTreeViewState extends State<MyTreeView> {
   @override
   void initState() {
     //there is no initial state, first time the application runs
-    if (!boxHierachy.containsKey(TREE_STORAGE) ||
-        boxHierachy.get(TREE_STORAGE) == null) {
+    if (!boxHierachy.containsKey(TREE_STORAGE) || boxHierachy.get(TREE_STORAGE) == null) {
       log("Creating new data!");
       db.createDefaultData();
     }
@@ -174,8 +173,7 @@ class MyTreeTile extends StatelessWidget {
                 ),
                 Expanded(child: Text(entry.node.title)),
                 PopupMenuButton<String>(
-                  itemBuilder: (BuildContext context) =>
-                      <PopupMenuEntry<String>>[
+                  itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                     if (!nodeService.isRoot(entry.node.id))
                       PopupMenuItem<String>(
                         value: 'delete',
@@ -203,8 +201,7 @@ class MyTreeTile extends StatelessWidget {
                     if (!entry.node.isNote)
                       PopupMenuItem<String>(
                         value: 'create_note',
-                        onTap: () =>
-                            showCreateDialog(context, entry.node, true),
+                        onTap: () => showCreateDialog(context, entry.node, true),
                         child: Row(
                           children: [
                             const Icon(Icons.article),
@@ -216,8 +213,7 @@ class MyTreeTile extends StatelessWidget {
                     if (!entry.node.isNote)
                       PopupMenuItem<String>(
                         value: 'create_file',
-                        onTap: () =>
-                            showCreateDialog(context, entry.node, false),
+                        onTap: () => showCreateDialog(context, entry.node, false),
                         child: Row(
                           children: [
                             const Icon(Icons.create_new_folder),
@@ -255,8 +251,7 @@ class MyTreeTile extends StatelessWidget {
         builder: (context) {
           return DeleteDialog(
             titleText: AppLocalizations.of(context)!.deleteNode(node.title),
-            contentText:
-                AppLocalizations.of(context)!.deleteContent(node.title),
+            contentText: AppLocalizations.of(context)!.deleteContent(node.title),
             onDelete: () => deleteNode(context, node),
             onCancel: () => closeAndClear(context),
           );
@@ -308,7 +303,7 @@ class MyTreeTile extends StatelessWidget {
       builder: (context) {
         return DropdownMenuDialog(
           onConfirm: () => moveNode(node, selectedValue, context),
-          onCancel: () => closeAndClear,
+          onCancel: () => Navigator.of(context).pop(),
           titleText: AppLocalizations.of(context)!.menuMove,
           confirmButtonText: AppLocalizations.of(context)!.move,
           items: dropdownItems,
@@ -331,8 +326,7 @@ class MyTreeTile extends StatelessWidget {
 
   /// Creating new node as children of [node]
   void createNode(BuildContext context, MyTreeNode node, bool isNote) {
-    if (nodeService.createNewNode(
-        node, _textDialogController.text.trim(), isNote)) {
+    if (nodeService.createNewNode(node, _textDialogController.text.trim(), isNote)) {
       treeController.expand(node);
       treeController.rebuild();
       closeAndClear(context);
@@ -365,8 +359,7 @@ class MyTreeTile extends StatelessWidget {
 
   ///Showing the menu with items rename, delete and create
   void _showPopupMenu(BuildContext context, Offset tapPosition) async {
-    final RenderBox overlay =
-        Overlay.of(context).context.findRenderObject() as RenderBox;
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
     //showing the menu
     showMenu(
       context: context,

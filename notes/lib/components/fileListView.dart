@@ -114,7 +114,7 @@ class _FileListViewState extends State<FileListView> {
       builder: (context) {
         return DropdownMenuDialog(
           onConfirm: () => moveNode(node, selectedValue),
-          onCancel: () => closeAndClear,
+          onCancel: () => Navigator.of(context).pop(),
           titleText: AppLocalizations.of(context)!.menuMove,
           confirmButtonText: AppLocalizations.of(context)!.move,
           items: dropdownItems,
