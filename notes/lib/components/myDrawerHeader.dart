@@ -13,7 +13,10 @@ import 'dart:developer';
 /// This widget listens to Firebase Authentication state changes to update the state of the UI.
 /// It also uses Firebase Authentication to manage the user state.
 class UserDrawerHeader extends StatefulWidget {
+  /// Instance of firebase authentification.
   final FirebaseAuth auth;
+
+  /// Instance of firebase firestore.
   final FirebaseFirestore firestore;
 
   /// Constructor of [UserDrawerHeader] class.
@@ -126,7 +129,7 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
                 SizedBox(
                   width: 200,
                   child: ElevatedButton.icon(
-                    icon: const Icon(Icons.app_registration),
+                    icon: const Icon(Icons.person_add),
                     label: Text(AppLocalizations.of(context)!.registration),
                     onPressed: () {
                       Navigator.push(
