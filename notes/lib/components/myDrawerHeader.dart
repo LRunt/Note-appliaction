@@ -88,42 +88,80 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
   @override
   Widget build(BuildContext context) {
     return DrawerHeader(
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor, // Optional: Adds color to the DrawerHeader
+      ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (user == null) ...[
-            Text(AppLocalizations.of(context)!.notLogged),
-            FilledButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginOrRegister(
-                        auth: widget.auth, firestore: widget.firestore, showLoginPage: true),
+          if (user == null)
+            Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                ),
+                Text(
+                  AppLocalizations.of(context)!.notLogged,
+                  style: const TextStyle(
+                      fontSize: 20, color: Colors.white), // Makes text larger and white
+                ),
+                const SizedBox(height: 10), // Adds spacing between text and buttons
+                SizedBox(
+                  width: 200,
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.login),
+                    label: Text(AppLocalizations.of(context)!.login),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginOrRegister(
+                              auth: widget.auth, firestore: widget.firestore, showLoginPage: true),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-              child: Text(AppLocalizations.of(context)!.login),
-            ),
-            FilledButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginOrRegister(
-                        auth: widget.auth, firestore: widget.firestore, showLoginPage: false),
+                ),
+                SizedBox(
+                  width: 200,
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.app_registration),
+                    label: Text(AppLocalizations.of(context)!.registration),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginOrRegister(
+                              auth: widget.auth, firestore: widget.firestore, showLoginPage: false),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-              child: Text(AppLocalizations.of(context)!.registration),
+                ),
+              ],
+            )
+          else
+            Column(
+              children: [
+                const SizedBox(
+                  width: double.infinity,
+                ),
+                Text(
+                  AppLocalizations.of(context)!.loggedUser(user!.email),
+                  style: const TextStyle(fontSize: 16, color: Colors.white),
+                ),
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: 200,
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.exit_to_app),
+                    label: Text(AppLocalizations.of(context)!.signOut),
+                    onPressed: () => logout(),
+                  ),
+                ),
+              ],
             ),
-          ] else ...[
-            Text(AppLocalizations.of(context)!.loggedUser(user!.email),
-                style: const TextStyle(fontSize: 16)),
-            ElevatedButton(
-              onPressed: () => logout(),
-              child: Text(AppLocalizations.of(context)!.signOut),
-            ),
-          ],
         ],
       ),
     );

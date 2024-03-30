@@ -102,7 +102,7 @@ class _MainScreenState extends State<MainScreen> {
       ]),
       drawer: Drawer(
         child: Column(
-          children: [
+          children: <Widget>[
             UserDrawerHeader(
               auth: widget.auth,
               firestore: widget.firestore,
