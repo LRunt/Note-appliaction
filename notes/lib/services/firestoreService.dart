@@ -113,6 +113,9 @@ class FirestoreService extends ChangeNotifier {
     } else {
       // Conflict
     }
+    var now = DateTime.now().microsecondsSinceEpoch;
+    await saveSyncTime(now);
+    boxSynchronization.put(FIREBASE_LAST_SYNC, now);
   }
 
   Future<void> synchronizeNotes(List noteIds, int localTimeSync) async {
