@@ -15,7 +15,7 @@ class HierarchyDatabase {
   void createDefaultData() {
     roots = [MyTreeNode(id: "|Home", title: "Home", isNote: false)];
     boxHierachy.put(TREE_STORAGE, roots.firstOrNull);
-    boxHierachy.put(NOTES, notes);
+    boxSynchronization.put(NOTES, []);
   }
 
   // load data if already exists
@@ -44,21 +44,32 @@ class HierarchyDatabase {
   }
 
   void addNote(String noteId) {
-    List notes = boxHierachy.get(NOTES);
+    List notes = boxSynchronization.get(NOTES);
     notes.add(noteId);
-    boxHierachy.put(NOTES, notes);
+    log("$notes");
+    boxSynchronization.put(NOTES, notes);
   }
 
   void deleteNote(String noteId) {
-    List notes = boxHierachy.get(NOTES);
+    List notes = boxSynchronization.get(NOTES);
     notes.remove(noteId);
-    boxHierachy.put(NOTES, notes);
+    log("$notes");
+    boxSynchronization.put(NOTES, notes);
   }
 
   void updateNote(String oldNoteId, String newNoteId) {
-    List notes = boxHierachy.get(NOTES);
+    List notes = boxSynchronization.get(NOTES);
     notes.remove(oldNoteId);
     notes.add(newNoteId);
-    boxHierachy.put(NOTES, notes);
+    log("$notes");
+    boxSynchronization.put(NOTES, notes);
+  }
+
+  List getNotes() {
+    return boxSynchronization.get(NOTES);
+  }
+
+  void saveNotes(List notes) {
+    boxSynchronization.put(NOTES, notes);
   }
 }

@@ -46,7 +46,7 @@ class FirestoreService extends ChangeNotifier {
               uploadAllData();
             } else {
               log("different time sync");
-              synchronizeData();
+              resolveConflicts(lastSyncLocal, lastSyncCloud);
               // Download data #TODO check conflicts
             }
           }
@@ -69,7 +69,8 @@ class FirestoreService extends ChangeNotifier {
   // Uploading all data to the cloud
   Future<void> uploadAllData() async {
     var updateTime = boxSynchronization.get(TREE_CHANGE);
-    await saveTreeStructure(HierarchyDatabase.roots.first, updateTime);
+    List notes = hierarchyDatabase.getNotes();
+    await saveTreeStructure(HierarchyDatabase.roots.first, notes, updateTime);
     await saveAllNotes();
     var now = DateTime.now().microsecondsSinceEpoch;
     await saveSyncTime(now);
@@ -81,6 +82,8 @@ class FirestoreService extends ChangeNotifier {
     // Save hierarchy
     MyTreeNode hierarchy = await getTreeNode();
     hierarchyDatabase.saveHierarchy(hierarchy);
+    List notes = await getNoteList();
+    hierarchyDatabase.saveNotes(notes);
     int syncTime = await getSyncTime();
     log("Sync time: $syncTime");
     syncDatabase.synchronization(syncTime);
@@ -93,15 +96,55 @@ class FirestoreService extends ChangeNotifier {
     int treeChangeTimeCloud = await getUpdateTime();
     int treeChangeTimeLocal = syncDatabase.getLastTreeChangeTime();
     if (localTimeSync > treeChangeTimeCloud && localTimeSync > treeChangeTimeLocal) {
-      // nic nedělám
+      // Only synchronize notes, because hierarchy is not changed
+      List notes = hierarchyDatabase.getNotes();
+      synchronizeNotes(notes, localTimeSync);
     } else if (localTimeSync > treeChangeTimeCloud) {
+      // Upload hierarchy
+      List notes = hierarchyDatabase.getNotes();
+      saveTreeStructure(HierarchyDatabase.roots.first, notes, treeChangeTimeLocal);
+      synchronizeNotes(notes, localTimeSync);
+    } else if (localTimeSync > treeChangeTimeLocal) {
       // Download hierarchy
       MyTreeNode downloadedHierarchy = await getTreeNode();
       hierarchyDatabase.saveHierarchy(downloadedHierarchy);
-    } else if (localTimeSync > treeChangeTimeLocal) {
-      // Nahrávám
+      List notes = hierarchyDatabase.getNotes();
+      synchronizeNotes(notes, localTimeSync);
     } else {
-      //Konflikt
+      // Conflict
+    }
+  }
+
+  Future<void> synchronizeNotes(List noteIds, int localTimeSync) async {
+    for (var noteId in noteIds) {
+      String userId = auth.currentUser!.uid;
+      var collectionId = userId + FIREBASE_NOTES;
+      var documentSnapshot = await fireStore.collection(collectionId).doc(noteId).get();
+      if (documentSnapshot.exists) {
+        var cloud = documentSnapshot.get('timestamp');
+        if (!boxSynchronization.containsKey(noteId) || boxSynchronization.get(noteId) == null) {
+          String? note = await getNote(noteId);
+          if (note != null) {
+            syncDatabase.saveNote(noteId, note, cloud);
+          }
+        } else {
+          var local = await boxSynchronization.get(noteId);
+          if (localTimeSync < cloud && localTimeSync < local) {
+            // Conflict
+          } else if (localTimeSync > cloud) {
+            // saving to the cloud
+            saveNote(noteId);
+          } else if (localTimeSync > local) {
+            // saving to the local
+            String? note = await getNote(noteId);
+            if (note != null) {
+              syncDatabase.saveNote(noteId, note, cloud);
+            }
+          }
+        }
+      } else {
+        saveNote(noteId);
+      }
     }
   }
 
@@ -113,7 +156,8 @@ class FirestoreService extends ChangeNotifier {
     log("LocalTimestamp $localTimestamp");
     log("CloudTimestamp $cloudTimestamp");
     if (localTimestamp > cloudTimestamp) {
-      saveTreeStructure(HierarchyDatabase.roots.first, localTimestamp);
+      List notes = hierarchyDatabase.getNotes();
+      saveTreeStructure(HierarchyDatabase.roots.first, notes, localTimestamp);
       var keys = boxNotes.keys;
       for (var key in keys) {
         await synchronizeNote(key);
@@ -165,11 +209,14 @@ class FirestoreService extends ChangeNotifier {
   }
 
   // SAVE hierarchy
-  Future<void> saveTreeStructure(MyTreeNode treeViewData, var updateTime) async {
+  Future<void> saveTreeStructure(MyTreeNode treeViewData, List notes, var updateTime) async {
     var map = treeViewData.toMap();
     String userId = auth.currentUser!.uid;
     await fireStore.collection(userId).doc(FIREBASE_TREE).set(map, SetOptions(merge: true));
-    await fireStore.collection(userId).doc(FIREBASE_TREE_TIME).set({'updateTime': updateTime});
+    await fireStore.collection(userId).doc(FIREBASE_TREE_PROPERTIES).set({
+      'updateTime': updateTime,
+      'notes': notes,
+    });
   }
 
   // SAVE hierarchy sync time
@@ -187,6 +234,22 @@ class FirestoreService extends ChangeNotifier {
     var snapshot = await fireStore.collection(userId).doc(FIREBASE_TREE).get();
     var map = snapshot.data();
     return MyTreeNode.fromMap(map!);
+  }
+
+  Future<List> getNoteList() async {
+    String userId = auth.currentUser!.uid;
+    try {
+      var documentSnapshot = await fireStore.collection(userId).doc(FIREBASE_TREE_PROPERTIES).get();
+      if (documentSnapshot.exists) {
+        return documentSnapshot.get('notes');
+      } else {
+        log("Document does not exist");
+        return [];
+      }
+    } catch (e) {
+      log("Error fetching document: $e");
+      return [];
+    }
   }
 
   // Get hierarchy sync time
@@ -211,7 +274,7 @@ class FirestoreService extends ChangeNotifier {
   Future<int> getUpdateTime() async {
     String userId = auth.currentUser!.uid;
     try {
-      var documentSnapshot = await fireStore.collection(userId).doc(FIREBASE_TREE_TIME).get();
+      var documentSnapshot = await fireStore.collection(userId).doc(FIREBASE_TREE_PROPERTIES).get();
       if (documentSnapshot.exists) {
         return documentSnapshot.get('updateTime');
       } else {

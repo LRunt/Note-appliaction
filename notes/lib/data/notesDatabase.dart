@@ -5,7 +5,7 @@ class NotesDatabase {
   void saveAllNotes(List<Map<String, dynamic>> notes) async {
     for (var note in notes) {
       String noteId = note['noteId'];
-      String content = note['content'];
+      String? content = note['content'];
       await boxNotes.put(noteId, content);
     }
   }

@@ -27,6 +27,8 @@ const String FIREBASE_TREE = "user_tree";
 const String FIREBASE_TREE_TIME = "tree_time";
 const String FIREBASE_NOTES = "user_notes";
 const String FIREBASE_LAST_SYNC = "last_sync";
+const String FIREBASE_NOTES_LIST = "notes";
+const String FIREBASE_TREE_PROPERTIES = "properties";
 
 // Firebase fields
 const String LAST_SYNC_FIELD = "Sync_timestamp";
