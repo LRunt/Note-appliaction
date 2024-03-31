@@ -78,6 +78,10 @@ class ComponentUtils {
     showCenteredToast(message, COLOR_ERROR);
   }
 
+  void showSuccesToast(String message) {
+    showCenteredToast(message, COLOR_SUCCESS);
+  }
+
   void showCenteredToast(String message, Color color) {
     Fluttertoast.showToast(
         msg: message,

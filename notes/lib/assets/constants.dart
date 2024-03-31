@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 const String TREE_STORAGE = "TreeView";
 // Keys for [boxSynchronization]
 const String TREE_CHANGE = "tree_change";
-const String TREE_SYNC = "tree_sync";
+const String LOCAL_SYNC = "last_sync";
 // Keys for [boxNotes]
 const String NOTE_LIST = "note_list";
 // Keys for [boxUser]
@@ -25,7 +25,7 @@ const String BOX_SYNCHRONIZATION = "Synchronization";
 const String FIREBASE_TREE = "user_tree";
 const String FIREBASE_TREE_TIME = "tree_time";
 const String FIREBASE_NOTES = "user_notes";
-const String LAST_SYNC = "last_sync";
+const String FIREBASE_LAST_SYNC = "last_sync";
 
 // Firebase fields
 const String LAST_SYNC_FIELD = "Sync_timestamp";
