@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:notes/boxes.dart';
 import 'dart:developer';
 
 import 'package:notes/data/notesDatabase.dart';
@@ -57,7 +56,7 @@ class _RichTextEditorState extends State<RichTextEditor> {
   /// Loading content of the note with [widget.noteId].
   void _loadDocument() async {
     log("Loading new state");
-    final documentJson = boxNotes.get(widget.noteId);
+    final documentJson = notesDatabase.getNote(widget.noteId);
     if (documentJson != null) {
       final document = Document.fromJson(jsonDecode(documentJson));
       _controller =

@@ -22,6 +22,10 @@ class NotesDatabase {
     await boxNotes.delete(noteId);
   }
 
+  String? getNote(String noteId) {
+    return boxNotes.get(noteId);
+  }
+
   void updateNote(String noteId, String content) {
     boxNotes.put(noteId, content);
     boxSynchronization.put(noteId, DateTime.now().microsecondsSinceEpoch);
