@@ -43,8 +43,7 @@ class FirestoreService extends ChangeNotifier {
             var lastSyncLocal = boxSynchronization.get(FIREBASE_LAST_SYNC);
             if (lastSyncCloud == lastSyncLocal) {
               log("same time sync");
-              //uploadAllData();
-              synchronizeData();
+              uploadAllData();
             } else {
               log("different time sync");
               synchronizeData();
@@ -62,6 +61,7 @@ class FirestoreService extends ChangeNotifier {
         return "$e";
       }
     } else {
+      utils.showErrorToast("Not logged user");
       return "not-logged-user";
     }
   }
@@ -89,6 +89,22 @@ class FirestoreService extends ChangeNotifier {
     notesDatabase.saveAllNotes(allNotes);
   }
 
+  Future<void> resolveConflicts(int localTimeSync, int cloudTimeSync) async {
+    int treeChangeTimeCloud = await getUpdateTime();
+    int treeChangeTimeLocal = syncDatabase.getLastTreeChangeTime();
+    if (localTimeSync > treeChangeTimeCloud && localTimeSync > treeChangeTimeLocal) {
+      // nic nedělám
+    } else if (localTimeSync > treeChangeTimeCloud) {
+      // Download hierarchy
+      MyTreeNode downloadedHierarchy = await getTreeNode();
+      hierarchyDatabase.saveHierarchy(downloadedHierarchy);
+    } else if (localTimeSync > treeChangeTimeLocal) {
+      // Nahrávám
+    } else {
+      //Konflikt
+    }
+  }
+
   Future<void> synchronizeData() async {
     // Get tree update time
     // Compare times
@@ -110,6 +126,11 @@ class FirestoreService extends ChangeNotifier {
       var querySnapshot = await fireStore.collection(collectionId).get();
       for (var doc in querySnapshot.docs) {
         synchronizeNote(doc.id);
+      }
+    } else {
+      var keys = boxNotes.keys;
+      for (var key in keys) {
+        await synchronizeNote(key);
       }
     }
   }

@@ -52,6 +52,7 @@ class NodeService {
     // If node is note, delete note
     if (node.isNote) {
       notesDatabase.deleteNote(node.id);
+      hierarchyDb.deleteNote(node.id);
     }
     // If node have children -> delete its notes
     for (MyTreeNode child in node.children) {
@@ -86,6 +87,7 @@ class NodeService {
       String newId = changeNameInId(node.id, newName);
       if (node.isNote) {
         notesDatabase.changeNoteId(node.id, newId);
+        hierarchyDb.updateNote(node.id, newId);
       }
       node.id = newId;
       for (MyTreeNode child in node.children) {
@@ -125,6 +127,7 @@ class NodeService {
       hierarchyDb.updateDatabase();
       if (nodeType) {
         notesDatabase.createNote(nodeId);
+        hierarchyDb.addNote(nodeId);
       }
       return true;
     }
@@ -149,6 +152,7 @@ class NodeService {
       node.id = newParent + DELIMITER + node.title;
       if (node.isNote) {
         notesDatabase.changeNoteId(oldNoteId, node.id);
+        hierarchyDb.updateNote(oldNoteId, node.id);
       }
       for (MyTreeNode child in node.children) {
         changeId(child, node.id);

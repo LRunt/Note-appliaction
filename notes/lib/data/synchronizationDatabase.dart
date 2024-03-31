@@ -10,4 +10,8 @@ class SynchronizationDatabase {
     boxNotes.put(noteId, content);
     boxSynchronization.put(noteId, updateTime);
   }
+
+  int getLastTreeChangeTime() {
+    return boxSynchronization.get(TREE_CHANGE);
+  }
 }
