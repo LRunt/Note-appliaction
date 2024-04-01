@@ -54,5 +54,7 @@
     "toParentNode": "O úroveň výš",
     "deleteDataSuccess": "Všechna data úspěšně smazána",
     "clearLogsSuccess": "Všechny logy úspěšně smazány",
-    "synchronize": "Synchronizace"
+    "synchronize": "Synchronizace",
+    "showConflicts": "Show conflicts",
+    "show": "SHOW"
 }

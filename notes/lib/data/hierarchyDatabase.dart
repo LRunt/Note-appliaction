@@ -10,6 +10,7 @@ class HierarchyDatabase {
 
   static List<MyTreeNode> roots = [];
   static List<String> notes = [];
+  static List<MyTreeNode> conflictData = [];
 
   // create initial default data
   void createDefaultData() {
@@ -74,12 +75,24 @@ class HierarchyDatabase {
   }
 
   void saveConflictData() {
-    if (roots.length == 1) {
-      MyTreeNode conflict = MyTreeNode(id: '|conflict', title: 'Conflict', isNote: false);
-      roots.add(conflict);
-      conflict.addChild(roots.first);
-    } else {
-      roots[1].children.add(roots.first);
+    if (!boxHierachy.containsKey(CONFLICT) || boxHierachy.get(CONFLICT) == null) {
+      initConflictData();
     }
+    MyTreeNode conflicts = boxHierachy.get(CONFLICT);
+    String name = CONFLICT + "${DateTime.now()}";
+    MyTreeNode newConflict = MyTreeNode(id: name, title: name, isNote: false);
+    newConflict.addChild(roots.first);
+    conflicts.addChild(newConflict);
+    boxHierachy.put(CONFLICT, conflicts);
+  }
+
+  void loadConflictData() {
+    MyTreeNode conflicts = boxHierachy.get(CONFLICT);
+    conflictData = [conflicts];
+  }
+
+  void initConflictData() {
+    MyTreeNode conflictNode = MyTreeNode(id: "Conflicts", title: "Conflicts", isNote: false);
+    boxHierachy.put(CONFLICT, conflictNode);
   }
 }

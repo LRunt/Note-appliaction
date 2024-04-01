@@ -7,8 +7,36 @@ import 'package:notes/logger.dart';
 import 'package:notes/main.dart';
 import 'package:notes/model/language.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:notes/screens/conflict.dart';
 import 'package:notes/screens/logs.dart';
 
+/// A [SettingsPage] widget that provides an interface for application settings.
+///
+/// This page allows users to configure various settings for the application, including
+/// language selection, data management, and log viewing or deletion. It leverages
+/// the [UserDatabase] and [ClearDatabase] for data-related operations and uses
+/// [ComponentUtils] for consistent styling across its UI components.
+///
+/// Features:
+/// - Language Selection: Lets the user change the application's language using a
+///   dropdown menu populated with available [Language] options.
+/// - Delete Application Data: Provides an option to delete all user data stored by
+///   the application.
+/// - View Logs: Navigates to a screen where the user can view application logs.
+/// - Delete Logs: Offers an option to delete all application logs.
+///
+/// Usage:
+/// ```dart
+/// Navigator.push(
+///   context,
+///   MaterialPageRoute(builder: (context) => const SettingsPage()),
+/// );
+/// ```
+///
+/// The settings are presented in a list, with each option followed by an action, such as
+/// a button to trigger the corresponding functionality. Confirmation dialogs are used for
+/// actions that may result in data loss, ensuring that the user has a chance to cancel
+/// the action if it was selected by mistake.
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
@@ -24,16 +52,14 @@ class _SettingsPageState extends State<SettingsPage> {
   void clearData() {
     clearDB.clearAllData();
     Navigator.of(context).pop();
-    utils.getSnackBarSuccess(
-        context, AppLocalizations.of(context)!.deleteDataSuccess);
+    utils.getSnackBarSuccess(context, AppLocalizations.of(context)!.deleteDataSuccess);
   }
 
   void clearLogs() async {
     await AppLogger.deleteLogFile();
     AppLogger.createLogFileIfNotExist();
     Navigator.of(context).pop();
-    utils.getSnackBarSuccess(
-        context, AppLocalizations.of(context)!.clearLogsSuccess);
+    utils.getSnackBarSuccess(context, AppLocalizations.of(context)!.clearLogsSuccess);
   }
 
   Language? actualLanguage() {
@@ -109,10 +135,8 @@ class _SettingsPageState extends State<SettingsPage> {
                           context: context,
                           builder: (context) {
                             return DeleteDialog(
-                              titleText: AppLocalizations.of(context)!
-                                  .deleteAppDataDialogTitle,
-                              contentText: AppLocalizations.of(context)!
-                                  .deleteAppDataDialogContent,
+                              titleText: AppLocalizations.of(context)!.deleteAppDataDialogTitle,
+                              contentText: AppLocalizations.of(context)!.deleteAppDataDialogContent,
                               onDelete: () {
                                 clearData();
                               },
@@ -136,6 +160,31 @@ class _SettingsPageState extends State<SettingsPage> {
                 children: [
                   Expanded(
                     child: Text(
+                      AppLocalizations.of(context)!.showConflicts,
+                      style: utils.getBasicTextStyle(),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 130,
+                    child: FilledButton(
+                      style: utils.getButtonStyle(),
+                      onPressed: () {
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (context) => const Conflict()));
+                      },
+                      child: Text(AppLocalizations.of(context)!.show),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
                       AppLocalizations.of(context)!.logs,
                       style: utils.getBasicTextStyle(),
                     ),
@@ -146,9 +195,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       style: utils.getButtonStyle(),
                       onPressed: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LogScreen()));
+                            context, MaterialPageRoute(builder: (context) => const LogScreen()));
                       },
                       child: Text(AppLocalizations.of(context)!.showLogs),
                     ),
@@ -176,10 +223,8 @@ class _SettingsPageState extends State<SettingsPage> {
                           context: context,
                           builder: (context) {
                             return DeleteDialog(
-                              titleText:
-                                  AppLocalizations.of(context)!.deleteLogs,
-                              contentText: AppLocalizations.of(context)!
-                                  .deleteLogsContent,
+                              titleText: AppLocalizations.of(context)!.deleteLogs,
+                              contentText: AppLocalizations.of(context)!.deleteLogsContent,
                               onDelete: () {
                                 clearLogs();
                               },

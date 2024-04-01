@@ -246,5 +246,14 @@
     "synchronize": "Synchronize",
     "@synchronize": {
         "description": "Text of the button to synchronizing the data"
+    },
+    "showConflicts": "Show conflicts",
+    "@showConflicts": {
+        "description": "Description of the action (showing the notes conflicts)"
+    },
+    "show": "SHOW",
+    "@show": {
+        "description": "Text of the button showing something"
     }
+
 }

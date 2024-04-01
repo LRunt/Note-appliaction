@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // Keys for [boxHierachy]
 const String TREE_STORAGE = "TreeView";
 const String NOTES = "notes";
+const String CONFLICT = "conflict";
 // Keys for [boxSynchronization]
 const String TREE_CHANGE = "tree_change";
 const String LOCAL_SYNC = "last_sync";
