@@ -28,6 +28,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _pageType = 0;
   String _noteId = "";
+  Key treeViewKey = UniqueKey();
 
   ClearDatabase db = ClearDatabase();
   UserDatabase userDB = UserDatabase();
@@ -49,6 +50,12 @@ class _MainScreenState extends State<MainScreen> {
       _noteId = id;
       _pageType = screenType;
       log("Page type: $_pageType, Note id: $_noteId");
+    });
+  }
+
+  void reloadTreeView() {
+    setState(() {
+      treeViewKey = UniqueKey();
     });
   }
 
@@ -114,6 +121,7 @@ class _MainScreenState extends State<MainScreen> {
             Expanded(
               child: SingleChildScrollView(
                 child: MyTreeView(
+                  key: treeViewKey,
                   navigateWithParam: (bool isNote, String id) => navigateWithParam(isNote, id),
                 ),
               ),
@@ -121,8 +129,9 @@ class _MainScreenState extends State<MainScreen> {
             Padding(
               padding: const EdgeInsets.all(5),
               child: MyButton(
-                  onTap: () {
-                    firestoreService.synchronize();
+                  onTap: () async {
+                    await firestoreService.synchronize();
+                    reloadTreeView();
                   },
                   text: "Synchronize"),
             )

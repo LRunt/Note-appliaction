@@ -6,7 +6,9 @@ class NotesDatabase {
     for (var note in notes) {
       String noteId = note['noteId'];
       String? content = note['content'];
+      int timestamp = note['timestamp'];
       await boxNotes.put(noteId, content);
+      boxSynchronization.put(noteId, timestamp);
     }
   }
 
@@ -14,12 +16,14 @@ class NotesDatabase {
     final data = boxNotes.get(oldId);
     if (data != null) {
       await boxNotes.put(newId, data);
+      boxSynchronization.put(newId, DateTime.now().microsecondsSinceEpoch);
       await boxNotes.delete(oldId);
     }
   }
 
   void deleteNote(String noteId) async {
-    await boxNotes.delete(noteId);
+    boxNotes.delete(noteId);
+    boxSynchronization.delete(noteId);
   }
 
   String? getNote(String noteId) {
