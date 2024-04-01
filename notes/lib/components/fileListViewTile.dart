@@ -112,7 +112,7 @@ class FileListViewTile extends StatelessWidget {
                 children: [
                   const Icon(Icons.drive_folder_upload_rounded),
                   const SizedBox(width: 10.0),
-                  Text(AppLocalizations.of(context)!.toParentNode)
+                  Text(AppLocalizations.of(context)!.toParentNode),
                 ],
               ),
       ),

@@ -87,19 +87,23 @@ class _MainScreenState extends State<MainScreen> {
 
     return Scaffold(
       backgroundColor: _pageType == DIRECTORY_SCREEN ? Colors.grey[200] : Colors.white,
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.appName), actions: [
-        IconButton(
-          icon: const Icon(Icons.settings),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const SettingsPage(),
-              ),
-            );
-          },
-        )
-      ]),
+      appBar: AppBar(
+          title: _noteId == ""
+              ? Text(AppLocalizations.of(context)!.appName)
+              : FittedBox(child: Text(_noteId)),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SettingsPage(),
+                  ),
+                );
+              },
+            )
+          ]),
       drawer: Drawer(
         child: Column(
           children: <Widget>[
