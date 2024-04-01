@@ -84,29 +84,25 @@ class _MyTreeViewState extends State<MyTreeView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scrollbar(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            TreeView<MyTreeNode>(
-              shrinkWrap: true,
-              treeController: treeController,
-              nodeBuilder: (BuildContext context, TreeEntry<MyTreeNode> entry) {
-                return MyTreeTile(
-                    key: ValueKey(entry.node),
-                    entry: entry,
-                    onTap: () => treeController.toggleExpansion(entry.node),
-                    navigate: () => widget.navigateWithParam(
-                          entry.node.isNote,
-                          entry.node.id,
-                        ),
-                    treeController: treeController,
-                    db: db);
-              },
-            ),
-          ],
+    return Column(
+      children: [
+        TreeView<MyTreeNode>(
+          shrinkWrap: true,
+          treeController: treeController,
+          nodeBuilder: (BuildContext context, TreeEntry<MyTreeNode> entry) {
+            return MyTreeTile(
+                key: ValueKey(entry.node),
+                entry: entry,
+                onTap: () => treeController.toggleExpansion(entry.node),
+                navigate: () => widget.navigateWithParam(
+                      entry.node.isNote,
+                      entry.node.id,
+                    ),
+                treeController: treeController,
+                db: db);
+          },
         ),
-      ),
+      ],
     );
   }
 }

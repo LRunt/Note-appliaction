@@ -108,8 +108,10 @@ class _MainScreenState extends State<MainScreen> {
               firestore: widget.firestore,
             ),
             Expanded(
-              child: MyTreeView(
-                navigateWithParam: (bool isNote, String id) => navigateWithParam(isNote, id),
+              child: SingleChildScrollView(
+                child: MyTreeView(
+                  navigateWithParam: (bool isNote, String id) => navigateWithParam(isNote, id),
+                ),
               ),
             ),
             Padding(
