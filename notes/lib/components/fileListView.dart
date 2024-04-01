@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/dialogs/deleteDialog.dart';
 import 'package:notes/components/dialogs/dropdownMenuDialog.dart';
@@ -191,7 +192,7 @@ class _FileListViewState extends State<FileListView> {
                         createFile: () {},
                         move: () {}),
                   ),
-                Expanded(
+                Center(
                   child: Text(
                     AppLocalizations.of(context)!.emptyFile,
                     style: utils.getBasicTextStyle(),

@@ -242,5 +242,9 @@
     "clearLogsSuccess": "All logs was cleared",
     "@clearLogsSuccess": {
         "description": "Information to the user, that all logs was cleared"
+    },
+    "synchronize": "Synchronize",
+    "@synchronize": {
+        "description": "Text of the button to synchronizing the data"
     }
 }

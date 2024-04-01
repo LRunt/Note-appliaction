@@ -53,5 +53,6 @@
     "emptyFile": "File is empty",
     "toParentNode": "O úroveň výš",
     "deleteDataSuccess": "Všechna data úspěšně smazána",
-    "clearLogsSuccess": "Všechny logy úspěšně smazány"
+    "clearLogsSuccess": "Všechny logy úspěšně smazány",
+    "synchronize": "Synchronizace"
 }

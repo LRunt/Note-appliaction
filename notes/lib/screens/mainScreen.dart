@@ -126,15 +126,16 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(5),
-              child: MyButton(
-                  onTap: () async {
-                    await firestoreService.synchronize();
-                    reloadTreeView();
-                  },
-                  text: "Synchronize"),
-            )
+            if (widget.auth.currentUser != null)
+              Padding(
+                padding: const EdgeInsets.all(5),
+                child: MyButton(
+                    onTap: () async {
+                      await firestoreService.synchronize();
+                      reloadTreeView();
+                    },
+                    text: AppLocalizations.of(context)!.synchronize),
+              )
           ],
         ),
       ),
