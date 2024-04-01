@@ -72,4 +72,14 @@ class HierarchyDatabase {
   void saveNotes(List notes) {
     boxSynchronization.put(NOTES, notes);
   }
+
+  void saveConflictData() {
+    if (roots.length == 1) {
+      MyTreeNode conflict = MyTreeNode(id: '|conflict', title: 'Conflict', isNote: false);
+      roots.add(conflict);
+      conflict.addChild(roots.first);
+    } else {
+      roots[1].children.add(roots.first);
+    }
+  }
 }

@@ -43,11 +43,10 @@ class FirestoreService extends ChangeNotifier {
             var lastSyncLocal = boxSynchronization.get(FIREBASE_LAST_SYNC);
             if (lastSyncCloud == lastSyncLocal) {
               log("same time sync");
-              uploadAllData();
+              await uploadAllData();
             } else {
               log("different time sync");
-              resolveConflicts(lastSyncLocal, lastSyncCloud);
-              // Download data #TODO check conflicts
+              await resolveConflicts(lastSyncLocal, lastSyncCloud);
             }
           }
         } else {
@@ -112,6 +111,9 @@ class FirestoreService extends ChangeNotifier {
       synchronizeNotes(notes, localTimeSync);
     } else {
       // Conflict
+      hierarchyDatabase.saveConflictData();
+      MyTreeNode downloadedHierarchy = await getTreeNode();
+      hierarchyDatabase.saveHierarchy(downloadedHierarchy);
     }
     var now = DateTime.now().microsecondsSinceEpoch;
     await saveSyncTime(now);
