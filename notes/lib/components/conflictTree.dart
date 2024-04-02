@@ -51,6 +51,7 @@ class _ConflictTreeState extends State<ConflictTree> {
         return ConflictTreeTile(
           key: ValueKey(entry.node),
           entry: entry,
+          onTap: () => treeController.toggleExpansion(entry.node),
         );
       },
     );
@@ -59,8 +60,13 @@ class _ConflictTreeState extends State<ConflictTree> {
 
 class ConflictTreeTile extends StatelessWidget {
   final TreeEntry<MyTreeNode> entry;
+  final VoidCallback onTap;
 
-  const ConflictTreeTile({Key? key, required this.entry}) : super(key: key);
+  const ConflictTreeTile({
+    Key? key,
+    required this.entry,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +81,7 @@ class ConflictTreeTile extends StatelessWidget {
               children: [
                 FolderButton(
                   isOpen: !entry.node.isNote ? entry.isExpanded : null,
+                  onPressed: !entry.node.isNote ? onTap : null,
                 ),
                 Expanded(child: Text(entry.node.title)),
                 PopupMenuButton<String>(
@@ -84,9 +91,9 @@ class ConflictTreeTile extends StatelessWidget {
                       onTap: () {},
                       child: Row(
                         children: [
-                          const Icon(Icons.border_color_sharp),
+                          const Icon(Icons.move_down),
                           const SizedBox(width: 4),
-                          Text(AppLocalizations.of(context)!.menuRename),
+                          Text(AppLocalizations.of(context)!.showLogs),
                         ],
                       ),
                     ),

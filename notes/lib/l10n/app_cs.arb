@@ -56,5 +56,7 @@
     "clearLogsSuccess": "Všechny logy úspěšně smazány",
     "synchronize": "Synchronizace",
     "showConflicts": "Show conflicts",
-    "show": "SHOW"
+    "show": "SHOW",
+    "conflicts": "Konflikty",
+    "replace": "Nahradit"
 }

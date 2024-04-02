@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes/components/conflictTree.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Conflict extends StatelessWidget {
   const Conflict({super.key});
@@ -8,7 +9,7 @@ class Conflict extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Conflicts"),
+          title: Text(AppLocalizations.of(context)!.showLogs),
         ),
         body: const SingleChildScrollView(
           child: ConflictTree(),

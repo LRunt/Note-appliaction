@@ -254,6 +254,13 @@
     "show": "SHOW",
     "@show": {
         "description": "Text of the button showing something"
+    },
+    "conflicts": "Conflicts",
+    "@conflicts": {
+        "description": "Ther title of the page with conflicts"
+    },
+    "replace": "Replace",
+    "@replace": {
+        "description": "Text for replacing the actual tree with conflict tree"
     }
-
 }

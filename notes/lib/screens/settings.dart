@@ -197,7 +197,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         Navigator.push(
                             context, MaterialPageRoute(builder: (context) => const LogScreen()));
                       },
-                      child: Text(AppLocalizations.of(context)!.showLogs),
+                      child: Text(AppLocalizations.of(context)!.show),
                     ),
                   ),
                 ],
