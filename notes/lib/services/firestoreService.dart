@@ -26,6 +26,7 @@ class FirestoreService extends ChangeNotifier {
   }
 
   Future<String> synchronize() async {
+    utils.showDefaultToast("Synchronizing data");
     if (isLoggedIn()) {
       String userId = auth.currentUser!.uid;
       try {
@@ -111,9 +112,9 @@ class FirestoreService extends ChangeNotifier {
       synchronizeNotes(notes, localTimeSync);
     } else {
       // Conflict
+      utils.showWarningToast("Possible conflict saved in Settings->Conflicts.");
       hierarchyDatabase.saveConflictData();
-      MyTreeNode downloadedHierarchy = await getTreeNode();
-      hierarchyDatabase.saveHierarchy(downloadedHierarchy);
+      downloadAllData();
     }
     var now = DateTime.now().microsecondsSinceEpoch;
     await saveSyncTime(now);
@@ -135,6 +136,12 @@ class FirestoreService extends ChangeNotifier {
         } else {
           var local = await boxSynchronization.get(noteId);
           if (localTimeSync < cloud && localTimeSync < local) {
+            utils.showWarningToast("Possible conflict saved in Settings->Conflicts.");
+            hierarchyDatabase.saveConflictNote(noteId);
+            String? note = await getNote(noteId);
+            if (note != null) {
+              syncDatabase.saveNote(noteId, note, cloud);
+            }
             // Conflict
           } else if (localTimeSync > cloud) {
             // saving to the cloud

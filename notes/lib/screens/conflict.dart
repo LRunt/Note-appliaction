@@ -9,7 +9,7 @@ class Conflict extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.showLogs),
+          title: Text(AppLocalizations.of(context)!.conflicts),
         ),
         body: const SingleChildScrollView(
           child: ConflictTree(),

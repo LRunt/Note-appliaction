@@ -79,11 +79,23 @@ class HierarchyDatabase {
       initConflictData();
     }
     MyTreeNode conflicts = boxHierachy.get(CONFLICT);
-    String name = CONFLICT + "${DateTime.now()}";
+    String name = CONFLICT + DateTime.now().toString();
     MyTreeNode newConflict = MyTreeNode(id: name, title: name, isNote: false);
     newConflict.addChild(roots.first);
     conflicts.addChild(newConflict);
     boxHierachy.put(CONFLICT, conflicts);
+  }
+
+  void saveConflictNote(String noteId) {
+    if (!boxHierachy.containsKey(CONFLICT) || boxHierachy.get(CONFLICT) == null) {
+      initConflictData();
+    }
+    MyTreeNode conflicts = boxHierachy.get(CONFLICT);
+    String name = CONFLICT + DateTime.now().toString() + DELIMITER + noteId;
+    MyTreeNode newConflict = MyTreeNode(id: name, title: name, isNote: true);
+    conflicts.addChild(newConflict);
+    String noteContent = boxNotes.get(noteId);
+    boxNotes.put(name, noteContent);
   }
 
   void loadConflictData() {

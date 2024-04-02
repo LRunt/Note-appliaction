@@ -49,6 +49,7 @@ const Color COLOR_ERROR = Color.fromRGBO(220, 53, 69, 1.0);
 const Color COLOR_INFO = Color.fromRGBO(13, 111, 253, 1.0);
 const Color COLOR_SUCCESS = Color.fromRGBO(25, 135, 84, 1.0);
 const Color COLOR_WARNING = Color.fromRGBO(255, 193, 7, 1.0);
+const Color COLOR_DEFAULT_TOAST = Color.fromRGBO(100, 100, 100, 1.0);
 
 // Main screen page types
 const int WELCOME_SCREEN = 0;
