@@ -14,4 +14,8 @@ class SynchronizationDatabase {
   int getLastTreeChangeTime() {
     return boxSynchronization.get(TREE_CHANGE);
   }
+
+  int getLastSyncTime() {
+    return boxSynchronization.get(LOCAL_SYNC);
+  }
 }

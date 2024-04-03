@@ -17,6 +17,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notes/screens/settings.dart';
 import 'package:notes/services/firestoreService.dart';
 import 'package:notes/services/nodeService.dart';
+import 'package:notes/services/utilService.dart';
 
 class MainScreen extends StatefulWidget {
   final FirebaseAuth auth;
@@ -32,7 +33,7 @@ class _MainScreenState extends State<MainScreen> {
   int _pageType = 0;
   String _noteId = "";
   Key treeViewKey = UniqueKey();
-  var lastSync;
+  String lastSync = "";
 
   ClearDatabase db = ClearDatabase();
   UserDatabase userDB = UserDatabase();
@@ -51,7 +52,7 @@ class _MainScreenState extends State<MainScreen> {
     authStateSubscription = widget.auth.authStateChanges().listen((event) {
       reloadTreeView();
     });
-    //syncDb.
+    lastSync = UtilService.getFormattedDate(syncDb.getLastTreeChangeTime());
   }
 
   @override
@@ -147,7 +148,7 @@ class _MainScreenState extends State<MainScreen> {
                 padding: const EdgeInsets.all(5),
                 child: Column(
                   children: [
-                    Text("Poslední synchronizace: "),
+                    Text("Poslední synchronizace: $lastSync"),
                     MyButton(
                         onTap: () async {
                           await firestoreService.synchronize();
