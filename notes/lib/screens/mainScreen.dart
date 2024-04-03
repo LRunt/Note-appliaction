@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:notes/components/myButton.dart';
 import 'package:notes/components/myDrawerHeader.dart';
 import 'package:notes/components/richTextEditor.dart';
 import 'package:notes/data/clearDatabase.dart';
+import 'package:notes/data/synchronizationDatabase.dart';
 import 'package:notes/data/userDatabase.dart';
 import 'dart:developer';
 import 'package:notes/components/myTreeview.dart';
@@ -29,19 +32,32 @@ class _MainScreenState extends State<MainScreen> {
   int _pageType = 0;
   String _noteId = "";
   Key treeViewKey = UniqueKey();
+  var lastSync;
 
   ClearDatabase db = ClearDatabase();
   UserDatabase userDB = UserDatabase();
   NodeService nodeService = NodeService();
+  SynchronizationDatabase syncDb = SynchronizationDatabase();
   late final FirestoreService firestoreService;
+  late StreamSubscription<User?> authStateSubscription;
 
   @override
   void initState() {
+    super.initState();
     firestoreService = FirestoreService(
       auth: widget.auth,
       fireStore: widget.firestore,
     );
-    super.initState();
+    authStateSubscription = widget.auth.authStateChanges().listen((event) {
+      reloadTreeView();
+    });
+    //syncDb.
+  }
+
+  @override
+  void dispose() {
+    authStateSubscription.cancel();
+    super.dispose();
   }
 
   void _changeScreen(int screenType, String id) {
@@ -129,12 +145,17 @@ class _MainScreenState extends State<MainScreen> {
             if (widget.auth.currentUser != null)
               Padding(
                 padding: const EdgeInsets.all(5),
-                child: MyButton(
-                    onTap: () async {
-                      await firestoreService.synchronize();
-                      reloadTreeView();
-                    },
-                    text: AppLocalizations.of(context)!.synchronize),
+                child: Column(
+                  children: [
+                    Text("Poslední synchronizace: "),
+                    MyButton(
+                        onTap: () async {
+                          await firestoreService.synchronize();
+                          reloadTreeView();
+                        },
+                        text: AppLocalizations.of(context)!.synchronize),
+                  ],
+                ),
               )
           ],
         ),
