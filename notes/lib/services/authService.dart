@@ -27,6 +27,8 @@ class AuthService extends ChangeNotifier {
   /// Instance of [NotesDatabase] for performing operations on the notes database.
   final NotesDatabase db = NotesDatabase();
 
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
   AuthService({required this.auth, required this.firestore, required this.localizationProvider});
 
   /// Registers a new user with the given email and password.
@@ -72,7 +74,9 @@ class AuthService extends ChangeNotifier {
       idToken: gAuth.idToken,
     );
 
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    await FirebaseAuth.instance.signInWithCredential(credential);
+
+    _firebaseService.synchronize();
   }
 
   /// Logs out the currently signed-in user.
@@ -80,6 +84,7 @@ class AuthService extends ChangeNotifier {
   /// It signs out the user from Firebase Authentication.
   Future<String> logout() async {
     try {
+      await _googleSignIn.signOut();
       await auth.signOut();
       return "Success";
     } on FirebaseAuthException catch (e) {
