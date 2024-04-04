@@ -274,5 +274,21 @@
     "resetPassword": "Click for reset.",
     "@resetPassword": {
         "description": "Text which leads to the page for reset the password"
+    },
+    "resetPasswordTitle": "Reset password",
+    "@resetPasswordTitle": {
+        "description": "The title of the reset password page"
+    },
+    "resetInstructions": "Enter your email. We will send you an email for reseting the password.",
+    "@resetInstructions": {
+        "description": "Instructins for reseting the forgotten password"
+    },
+    "sendResetEmail": "Send email",
+    "@sendResetEmail": {
+        "description": "Text of the button for sending the reset password email"
+    },
+    "emailSentToast": "Email has been sent",
+    "@emailSentToast": {
+        "description": "Toast text when the emal with reset instructions has been sent"
     } 
 }

@@ -8,6 +8,7 @@ import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/myButton.dart';
 import 'package:notes/components/myTextField.dart';
 import 'package:notes/components/squareTile.dart';
+import 'package:notes/screens/resetPassword.dart';
 import 'package:notes/services/authService.dart';
 
 /// A StatefulWidget that provides a user interface for logging in.
@@ -25,7 +26,12 @@ class LoginPage extends StatefulWidget {
   final void Function()? onTap;
 
   /// Constructor of [LoginPage] class.
-  const LoginPage({super.key, required this.auth, required this.firestore, required this.onTap});
+  const LoginPage({
+    super.key,
+    required this.auth,
+    required this.firestore,
+    required this.onTap,
+  });
 
   @override
   State<LoginPage> createState() => _LoginFormState();
@@ -86,7 +92,7 @@ class _LoginFormState extends State<LoginPage> {
     }
   }
 
-  loginWithGoogle() async {
+  void loginWithGoogle() async {
     utils.getProgressIndicator(context);
     try {
       await _authService.signInWithGoogle();
@@ -118,7 +124,10 @@ class _LoginFormState extends State<LoginPage> {
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: Column(
               children: [
-                const Icon(Icons.person, size: 80),
+                const Icon(
+                  Icons.person,
+                  size: 80,
+                ),
                 Text(
                   AppLocalizations.of(context)!.loginText,
                   style: const TextStyle(
@@ -143,18 +152,43 @@ class _LoginFormState extends State<LoginPage> {
                     controller: passwordController,
                     pefIcon: const Icon(Icons.key)),
                 const SizedBox(
-                  height: DEFAULT_GAP_SIZE,
+                  height: SMALL_GAP,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(AppLocalizations.of(context)!.forgotPassword),
+                    Text(
+                      AppLocalizations.of(context)!.forgotPassword,
+                      style: const TextStyle(
+                        fontSize: DEFAULT_TEXT_SIZE,
+                      ),
+                    ),
                     const SizedBox(width: ROW_TEXT_GAP),
-                    Text(AppLocalizations.of(context)!.resetPassword),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ResetPasswordPage(
+                              auth: widget.auth,
+                              firestore: widget.firestore,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        AppLocalizations.of(context)!.resetPassword,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue,
+                          fontSize: DEFAULT_TEXT_SIZE,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(
-                  height: DEFAULT_GAP_SIZE,
+                  height: SMALL_GAP,
                 ),
                 MyButton(
                     onTap: () {
@@ -162,7 +196,7 @@ class _LoginFormState extends State<LoginPage> {
                     },
                     text: AppLocalizations.of(context)!.login),
                 const SizedBox(
-                  height: DEFAULT_GAP_SIZE,
+                  height: SMALL_GAP,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -187,7 +221,9 @@ class _LoginFormState extends State<LoginPage> {
                     ),
                   ],
                 ),
-                const SizedBox(height: DEFAULT_GAP_SIZE),
+                const SizedBox(
+                  height: SMALL_GAP,
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Row(

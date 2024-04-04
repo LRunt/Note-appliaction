@@ -99,9 +99,9 @@ class AuthService extends ChangeNotifier {
       await auth.sendPasswordResetEmail(email: email);
       return "Success";
     } on FirebaseAuthException catch (e) {
-      return e.code;
+      throw e.code;
     } catch (e) {
-      rethrow;
+      throw e.toString();
     }
   }
 

@@ -61,5 +61,9 @@
     "replace": "Nahradit",
     "googleSignDivider": "Ostatní metody autentifikace",
     "forgotPassword": "Zapomenuté heslo?",
-    "resetPassword": "Resetuj zde." 
+    "resetPassword": "Resetuj zde.",
+    "resetPasswordTitle": "Reset password",
+    "resetInstructions": "Enter your email. We will send you an email for reseting the password.",
+    "sendResetEmail": "Send email",
+    "emailSentToast": "Email pro reset hesla odeslán" 
 }

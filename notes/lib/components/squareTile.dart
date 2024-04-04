@@ -32,18 +32,18 @@ class SquareTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: InkWell(
-        child: Image.asset(
-          imagePath,
-          height: 40,
-        ),
-        onTap: onTap,
-      ),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.white),
         borderRadius: BorderRadius.circular(16),
         color: Colors.grey[200],
+      ),
+      child: InkWell(
+        onTap: onTap,
+        child: Image.asset(
+          imagePath,
+          height: 40,
+        ),
       ),
     );
   }

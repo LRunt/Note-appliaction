@@ -41,6 +41,7 @@ const List DISABLED_CHARS = ["|", "/"];
 const String OBSCURE_CHAR = '*';
 const double DEFAULT_TEXT_SIZE = 16.0;
 const double DEFAULT_GAP_SIZE = 30.0;
+const double SMALL_GAP = 15.0;
 const double ROW_TEXT_GAP = 4.0;
 const double BORDER_RADIUS = 10.0;
 const double BUTTON_BORDER_RADIUS = 5.0;
