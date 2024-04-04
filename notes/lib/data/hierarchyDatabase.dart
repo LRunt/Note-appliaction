@@ -14,7 +14,7 @@ class HierarchyDatabase {
 
   // create initial default data
   void createDefaultData() {
-    roots = [MyTreeNode(id: "|Home", title: "Home", isNote: false)];
+    roots = [MyTreeNode(id: "|Home", title: "Home", isNote: false, isLocked: false)];
     boxHierachy.put(TREE_STORAGE, roots.firstOrNull);
     boxSynchronization.put(NOTES, []);
   }
@@ -27,7 +27,7 @@ class HierarchyDatabase {
     if (storedData != null) {
       roots = [storedData];
     } else {
-      roots = [MyTreeNode(id: "|Home", title: "Home", isNote: false)];
+      roots = [MyTreeNode(id: "|Home", title: "Home", isNote: false, isLocked: false)];
     }
   }
 
@@ -80,7 +80,7 @@ class HierarchyDatabase {
     }
     MyTreeNode conflicts = boxHierachy.get(CONFLICT);
     String name = CONFLICT + DateTime.now().toString();
-    MyTreeNode newConflict = MyTreeNode(id: name, title: name, isNote: false);
+    MyTreeNode newConflict = MyTreeNode(id: name, title: name, isNote: false, isLocked: false);
     newConflict.addChild(roots.first);
     conflicts.addChild(newConflict);
     boxHierachy.put(CONFLICT, conflicts);
@@ -92,7 +92,7 @@ class HierarchyDatabase {
     }
     MyTreeNode conflicts = boxHierachy.get(CONFLICT);
     String name = CONFLICT + DateTime.now().toString() + DELIMITER + noteId;
-    MyTreeNode newConflict = MyTreeNode(id: name, title: name, isNote: true);
+    MyTreeNode newConflict = MyTreeNode(id: name, title: name, isNote: true, isLocked: false);
     conflicts.addChild(newConflict);
     String noteContent = boxNotes.get(noteId);
     boxNotes.put(name, noteContent);
@@ -104,7 +104,8 @@ class HierarchyDatabase {
   }
 
   void initConflictData() {
-    MyTreeNode conflictNode = MyTreeNode(id: "Conflicts", title: "Conflicts", isNote: false);
+    MyTreeNode conflictNode =
+        MyTreeNode(id: "Conflicts", title: "Conflicts", isNote: false, isLocked: false);
     boxHierachy.put(CONFLICT, conflictNode);
   }
 }

@@ -18,13 +18,21 @@ class MyTreeNode {
   @HiveField(1)
   String title;
 
-  /// A boolean flag indicationt if this tree node is note (`true`) or directory (`false`).
+  /// A boolean flag indicates if this tree node is note (`true`) or directory (`false`).
   @HiveField(2)
   bool isNote;
 
   /// A list of [MyTreeNode] objects representing the children of this node.
   @HiveField(3)
   List<MyTreeNode> children;
+
+  /// A boolean flag indicates if the node is locked with password or not
+  @HiveField(4)
+  bool isLocked;
+
+  /// Password when the file is locked
+  @HiveField(5)
+  String? password;
 
   /// Constructs a [MyTreeNode] instance with the given [id], [title], [isNote] status,
   /// and an optional list of [children]. If [children] is not provided, it defaults to an empty list.
@@ -33,6 +41,8 @@ class MyTreeNode {
     required this.title,
     required this.isNote,
     List<MyTreeNode>? children,
+    required this.isLocked,
+    this.password,
   }) : children = children ?? [];
 
   /// Adds a [child] node to this node's list of children.
@@ -55,6 +65,8 @@ class MyTreeNode {
       'title': title,
       'isNote': isNote,
       'children': children.map((child) => child.toMap()).toList(),
+      'isLocked': isLocked,
+      'password': password,
     };
   }
 
@@ -68,8 +80,9 @@ class MyTreeNode {
       title: map['title'],
       isNote: map['isNote'],
       children: List<MyTreeNode>.from(
-          map['children']?.map((childMap) => MyTreeNode.fromMap(childMap)) ??
-              []),
+          map['children']?.map((childMap) => MyTreeNode.fromMap(childMap)) ?? []),
+      isLocked: map['isLocked'],
+      password: map['password'], // Consider decrypting this value
     );
   }
 

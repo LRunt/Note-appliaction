@@ -4,11 +4,7 @@ import 'package:notes/model/myTreeNode.dart';
 void main() {
   group('MyTreeNode - toMap Tests', () {
     test('ToMap test - without children', () {
-      final node = MyTreeNode(
-        id: 'node1',
-        title: 'Node 1',
-        isNote: true,
-      );
+      final node = MyTreeNode(id: 'node1', title: 'Node 1', isNote: true, isLocked: false);
 
       final expectedMap = {
         'id': 'node1',
@@ -21,16 +17,13 @@ void main() {
     });
 
     test('ToMap test - one child', () {
-      final childNode = MyTreeNode(
-        id: 'child1',
-        title: 'Child 1',
-        isNote: false,
-      );
+      final childNode = MyTreeNode(id: 'child1', title: 'Child 1', isNote: false, isLocked: false);
 
       final parentNode = MyTreeNode(
         id: 'node1',
         title: 'Node 1',
         isNote: true,
+        isLocked: false,
         children: [childNode],
       );
 
@@ -56,12 +49,14 @@ void main() {
         id: 'child1',
         title: 'Child 1',
         isNote: false,
+        isLocked: false,
       );
 
       final childNode2 = MyTreeNode(
         id: 'child2',
         title: 'Child 2',
         isNote: true,
+        isLocked: false,
       );
 
       final parentNode = MyTreeNode(
@@ -69,6 +64,7 @@ void main() {
         title: 'Node 1',
         isNote: true,
         children: [childNode1, childNode2],
+        isLocked: false,
       );
 
       final expectedMap = {

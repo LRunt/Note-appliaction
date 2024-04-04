@@ -21,13 +21,15 @@ class MyTreeNodeAdapter extends TypeAdapter<MyTreeNode> {
       title: fields[1] as String,
       isNote: fields[2] as bool,
       children: (fields[3] as List?)?.cast<MyTreeNode>(),
+      isLocked: fields[4] as bool,
+      password: fields[5] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, MyTreeNode obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -35,7 +37,11 @@ class MyTreeNodeAdapter extends TypeAdapter<MyTreeNode> {
       ..writeByte(2)
       ..write(obj.isNote)
       ..writeByte(3)
-      ..write(obj.children);
+      ..write(obj.children)
+      ..writeByte(4)
+      ..write(obj.isLocked)
+      ..writeByte(5)
+      ..write(obj.password);
   }
 
   @override
@@ -44,7 +50,5 @@ class MyTreeNodeAdapter extends TypeAdapter<MyTreeNode> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is MyTreeNodeAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is MyTreeNodeAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

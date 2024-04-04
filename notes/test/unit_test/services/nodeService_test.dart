@@ -26,8 +26,7 @@ void main() {
     test('Change file name in the path - simple test', () {
       String newFileName = 'newName';
       String nodeId = "|home|slozka1|slozka2|oldName";
-      expect(nodeService.changeNameInId(nodeId, newFileName),
-          "|home|slozka1|slozka2|newName");
+      expect(nodeService.changeNameInId(nodeId, newFileName), "|home|slozka1|slozka2|newName");
     });
   });
 
@@ -35,8 +34,7 @@ void main() {
     test('Change path in id - simple test', () {
       String path = "|home|slozka1|slozka2|poznamka";
       String newPath = "|home|slozka1|newName";
-      expect(nodeService.changePathInId(path, newPath),
-          "|home|slozka1|newName|poznamka");
+      expect(nodeService.changePathInId(path, newPath), "|home|slozka1|newName|poznamka");
     });
   });
 
@@ -49,13 +47,30 @@ void main() {
 
   group('Getting folders', () {
     setUp(() {
-      MyTreeNode root = MyTreeNode(id: '|Home', title: "Home", isNote: false);
-      MyTreeNode child1 =
-          MyTreeNode(id: '|Home|file1', title: "file1", isNote: false);
-      MyTreeNode child2 =
-          MyTreeNode(id: '|Home|child2', title: "child2", isNote: true);
-      MyTreeNode child3 =
-          MyTreeNode(id: '|Home|file2', title: "file2", isNote: false);
+      MyTreeNode root = MyTreeNode(
+        id: '|Home',
+        title: "Home",
+        isNote: false,
+        isLocked: false,
+      );
+      MyTreeNode child1 = MyTreeNode(
+        id: '|Home|file1',
+        title: "file1",
+        isNote: false,
+        isLocked: false,
+      );
+      MyTreeNode child2 = MyTreeNode(
+        id: '|Home|child2',
+        title: "child2",
+        isNote: true,
+        isLocked: false,
+      );
+      MyTreeNode child3 = MyTreeNode(
+        id: '|Home|file2',
+        title: "file2",
+        isNote: false,
+        isLocked: false,
+      );
       root.addChild(child1);
       root.addChild(child2);
       root.addChild(child3);
@@ -63,11 +78,24 @@ void main() {
     });
 
     test('Getting folders - simple test', () {
-      MyTreeNode root = MyTreeNode(id: '|Home', title: "Home", isNote: false);
-      MyTreeNode child1 =
-          MyTreeNode(id: '|Home|child1', title: "child1", isNote: false);
-      MyTreeNode child2 =
-          MyTreeNode(id: '|Home|child2', title: "child2", isNote: true);
+      MyTreeNode root = MyTreeNode(
+        id: '|Home',
+        title: "Home",
+        isNote: false,
+        isLocked: false,
+      );
+      MyTreeNode child1 = MyTreeNode(
+        id: '|Home|child1',
+        title: "child1",
+        isNote: false,
+        isLocked: false,
+      );
+      MyTreeNode child2 = MyTreeNode(
+        id: '|Home|child2',
+        title: "child2",
+        isNote: true,
+        isLocked: false,
+      );
       root.addChild(child1);
       root.addChild(child2);
       List<String> folders = [];
@@ -83,13 +111,30 @@ void main() {
     });
 
     test('Getting folders without actual position and node - simple test', () {
-      MyTreeNode root = MyTreeNode(id: '|Home', title: "Home", isNote: false);
-      MyTreeNode child1 =
-          MyTreeNode(id: '|Home|file1', title: "file1", isNote: false);
-      MyTreeNode child2 =
-          MyTreeNode(id: '|Home|child2', title: "child2", isNote: true);
-      MyTreeNode child3 =
-          MyTreeNode(id: '|Home|file2', title: "file2", isNote: false);
+      MyTreeNode root = MyTreeNode(
+        id: '|Home',
+        title: "Home",
+        isNote: false,
+        isLocked: false,
+      );
+      MyTreeNode child1 = MyTreeNode(
+        id: '|Home|file1',
+        title: "file1",
+        isNote: false,
+        isLocked: false,
+      );
+      MyTreeNode child2 = MyTreeNode(
+        id: '|Home|child2',
+        title: "child2",
+        isNote: true,
+        isLocked: false,
+      );
+      MyTreeNode child3 = MyTreeNode(
+        id: '|Home|file2',
+        title: "file2",
+        isNote: false,
+        isLocked: false,
+      );
       root.addChild(child1);
       root.addChild(child2);
       root.addChild(child3);
@@ -101,16 +146,30 @@ void main() {
 
   group('Testing if file is root', () {
     setUp(() {
-      MyTreeNode root = MyTreeNode(id: '|Home', title: "Home", isNote: false);
+      MyTreeNode root = MyTreeNode(
+        id: '|Home',
+        title: "Home",
+        isNote: false,
+        isLocked: false,
+      );
       HierarchyDatabase.roots = [root];
     });
 
     test('Is root - simple text', () {
-      MyTreeNode root = MyTreeNode(id: '|Home', title: "Home", isNote: false);
-      MyTreeNode child1 =
-          MyTreeNode(id: '|Home|child1', title: "child1", isNote: false);
+      MyTreeNode root = MyTreeNode(
+        id: '|Home',
+        title: "Home",
+        isNote: false,
+        isLocked: false,
+      );
+      MyTreeNode child1 = MyTreeNode(
+        id: '|Home|child1',
+        title: "child1",
+        isNote: false,
+        isLocked: false,
+      );
       MyTreeNode child2 =
-          MyTreeNode(id: '|Home|child2', title: "child2", isNote: true);
+          MyTreeNode(id: '|Home|child2', title: "child2", isNote: true, isLocked: false);
       root.addChild(child1);
       root.addChild(child2);
       expect(nodeService.isRoot(root.id), true);
