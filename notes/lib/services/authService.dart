@@ -74,7 +74,7 @@ class AuthService extends ChangeNotifier {
       idToken: gAuth.idToken,
     );
 
-    await FirebaseAuth.instance.signInWithCredential(credential);
+    await auth.signInWithCredential(credential);
 
     _firebaseService.synchronize();
   }
@@ -86,6 +86,17 @@ class AuthService extends ChangeNotifier {
     try {
       await _googleSignIn.signOut();
       await auth.signOut();
+      return "Success";
+    } on FirebaseAuthException catch (e) {
+      return e.code;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<String> resetPassword(String email) async {
+    try {
+      await auth.sendPasswordResetEmail(email: email);
       return "Success";
     } on FirebaseAuthException catch (e) {
       return e.code;

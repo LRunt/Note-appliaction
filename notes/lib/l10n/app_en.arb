@@ -262,5 +262,17 @@
     "replace": "Replace",
     "@replace": {
         "description": "Text for replacing the actual tree with conflict tree"
-    }
+    },
+    "googleSignDivider": "Other authentification methods",
+    "@googleSignDivider": {
+        "description": "Divider text for other authentification methods"
+    },
+    "forgotPassword": "Forgot your password?",
+    "@forgotPassword": {
+        "description": "Description text for lost password"
+    },
+    "resetPassword": "Click for reset.",
+    "@resetPassword": {
+        "description": "Text which leads to the page for reset the password"
+    } 
 }

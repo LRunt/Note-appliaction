@@ -145,6 +145,17 @@ class _LoginFormState extends State<LoginPage> {
                 const SizedBox(
                   height: DEFAULT_GAP_SIZE,
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(AppLocalizations.of(context)!.forgotPassword),
+                    const SizedBox(width: ROW_TEXT_GAP),
+                    Text(AppLocalizations.of(context)!.resetPassword),
+                  ],
+                ),
+                const SizedBox(
+                  height: DEFAULT_GAP_SIZE,
+                ),
                 MyButton(
                     onTap: () {
                       login();
@@ -162,7 +173,7 @@ class _LoginFormState extends State<LoginPage> {
                         fontSize: DEFAULT_TEXT_SIZE,
                       ),
                     ),
-                    const SizedBox(width: 4),
+                    const SizedBox(width: ROW_TEXT_GAP),
                     GestureDetector(
                       onTap: widget.onTap,
                       child: Text(
@@ -190,7 +201,7 @@ class _LoginFormState extends State<LoginPage> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: Text(
-                          'Or continue with',
+                          AppLocalizations.of(context)!.googleSignDivider,
                           style: TextStyle(color: Colors.grey[700]),
                         ),
                       ),
@@ -207,7 +218,7 @@ class _LoginFormState extends State<LoginPage> {
                 Center(
                   child: SquareTile(
                     onTap: () => loginWithGoogle(),
-                    imagePath: 'assets/google.png',
+                    imagePath: GOOGLE_AUTH_IMG,
                   ),
                 ),
               ],

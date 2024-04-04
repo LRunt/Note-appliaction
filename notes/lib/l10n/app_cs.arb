@@ -58,5 +58,8 @@
     "showConflicts": "Show conflicts",
     "show": "ZOBRAZ",
     "conflicts": "Konflikty",
-    "replace": "Nahradit"
+    "replace": "Nahradit",
+    "googleSignDivider": "Ostatní metody autentifikace",
+    "forgotPassword": "Zapomenuté heslo?",
+    "resetPassword": "Resetuj zde." 
 }

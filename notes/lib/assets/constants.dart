@@ -41,6 +41,7 @@ const List DISABLED_CHARS = ["|", "/"];
 const String OBSCURE_CHAR = '*';
 const double DEFAULT_TEXT_SIZE = 16.0;
 const double DEFAULT_GAP_SIZE = 30.0;
+const double ROW_TEXT_GAP = 4.0;
 const double BORDER_RADIUS = 10.0;
 const double BUTTON_BORDER_RADIUS = 5.0;
 
@@ -55,3 +56,6 @@ const Color COLOR_DEFAULT_TOAST = Color.fromRGBO(100, 100, 100, 1.0);
 const int WELCOME_SCREEN = 0;
 const int NOTE_SCREEN = 1;
 const int DIRECTORY_SCREEN = 2;
+
+// Pictures paths
+const String GOOGLE_AUTH_IMG = 'assets/google.png';

@@ -207,7 +207,7 @@ class _RegisterFormState extends State<RegisterPage> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: Text(
-                          'Or continue with',
+                          AppLocalizations.of(context)!.googleSignDivider,
                           style: TextStyle(color: Colors.grey[700]),
                         ),
                       ),
@@ -224,7 +224,7 @@ class _RegisterFormState extends State<RegisterPage> {
                 Center(
                   child: SquareTile(
                     onTap: () => registerWithGoogle(),
-                    imagePath: 'assets/google.png',
+                    imagePath: GOOGLE_AUTH_IMG,
                   ),
                 ),
               ],
