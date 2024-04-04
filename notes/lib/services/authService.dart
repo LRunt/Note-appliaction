@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:notes/data/notesDatabase.dart';
 import 'package:notes/services/firestoreService.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -59,6 +60,19 @@ class AuthService extends ChangeNotifier {
     } on FirebaseAuthException catch (e) {
       throw e.code;
     }
+  }
+
+  signInWithGoogle() async {
+    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+
+    final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: gAuth.accessToken,
+      idToken: gAuth.idToken,
+    );
+
+    return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
   /// Logs out the currently signed-in user.

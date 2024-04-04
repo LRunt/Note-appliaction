@@ -97,6 +97,23 @@ class _RegisterFormState extends State<RegisterPage> {
     }
   }
 
+  registerWithGoogle() async {
+    utils.getProgressIndicator(context);
+    try {
+      await _authService.signInWithGoogle();
+      // Pop the CircularProgressIndicator
+      Navigator.pop(context);
+      // Go back to the main screen
+      Navigator.pop(context);
+    } catch (errorCode) {
+      String errorMessage = _authService.getErrorMessage(errorCode.toString(), context);
+      // Pop the CircularProgressIndicator
+      Navigator.pop(context);
+      log(errorMessage.toString());
+      utils.getSnackBarError(context, errorMessage.toString());
+    }
+  }
+
   /// Builds the registration page UI.
   @override
   Widget build(BuildContext context) {
@@ -204,8 +221,11 @@ class _RegisterFormState extends State<RegisterPage> {
                   ),
                 ),
                 const SizedBox(height: DEFAULT_GAP_SIZE),
-                const Center(
-                  child: SquareTile(imagePath: 'assets/google.png'),
+                Center(
+                  child: SquareTile(
+                    onTap: () => registerWithGoogle(),
+                    imagePath: 'assets/google.png',
+                  ),
                 ),
               ],
             ),

@@ -17,6 +17,7 @@ class SquareTile extends StatelessWidget {
   ///
   /// This path should be a valid asset path in the project's pubspec.yaml file.
   final String imagePath;
+  final Function()? onTap;
 
   /// Constructor of the [SquareTile].
   ///
@@ -24,21 +25,25 @@ class SquareTile extends StatelessWidget {
   const SquareTile({
     super.key,
     required this.imagePath,
+    required this.onTap,
   });
 
   // Builds the UI of the [SquareTile].
   @override
   Widget build(BuildContext context) {
     return Container(
+      child: InkWell(
+        child: Image.asset(
+          imagePath,
+          height: 40,
+        ),
+        onTap: onTap,
+      ),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.white),
         borderRadius: BorderRadius.circular(16),
         color: Colors.grey[200],
-      ),
-      child: Image.asset(
-        imagePath,
-        height: 40,
       ),
     );
   }
