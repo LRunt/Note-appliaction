@@ -92,6 +92,7 @@ flutter:
   assets:
     - assets/app_splash_screen.png
     - assets/app_splash_screen_2.png
+    - assets/google.png
 
 flutter_native_splash:
     android: true

@@ -3,9 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:notes/assets/constants.dart';
 import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/myButton.dart';
 import 'package:notes/components/myTextField.dart';
+import 'package:notes/components/squareTile.dart';
 import 'package:notes/services/authService.dart';
 
 /// A StatefulWidget that provides a user interface for registering a new user.
@@ -167,11 +169,43 @@ class _RegisterFormState extends State<RegisterPage> {
                         AppLocalizations.of(context)!.loginHere,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
+                          color: Colors.blue,
                           fontSize: 16,
                         ),
                       ),
                     ),
                   ],
+                ),
+                const SizedBox(height: DEFAULT_GAP_SIZE),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          thickness: 0.5,
+                          color: Colors.grey[400],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Text(
+                          'Or continue with',
+                          style: TextStyle(color: Colors.grey[700]),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          thickness: 0.5,
+                          color: Colors.grey[400],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: DEFAULT_GAP_SIZE),
+                const Center(
+                  child: SquareTile(imagePath: 'assets/google.png'),
                 ),
               ],
             ),
