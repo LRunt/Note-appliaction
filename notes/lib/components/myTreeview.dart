@@ -132,7 +132,7 @@ class _MyTreeViewState extends State<MyTreeView> {
             onPressed: () {
               showCreateDialog(context);
             },
-            child: Text("Add Folder")),
+            child: Text(AppLocalizations.of(context)!.createFile)),
       ],
     );
   }
@@ -286,6 +286,10 @@ class MyTreeTile extends StatelessWidget {
       ),
     );
   }
+
+  /*bool checkPassword() {
+
+  }*/
 
   /// Showing dialog with asking the user if he is sure to delete the node
   void showDeleteDialog(BuildContext context, MyTreeNode node) {

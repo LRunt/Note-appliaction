@@ -3,11 +3,7 @@ import 'package:notes/boxes.dart';
 import 'package:notes/assets/constants.dart';
 import 'dart:developer';
 
-//import 'package:notes/services/firebaseService.dart';
-
 class HierarchyDatabase {
-  //final FirebaseService _firebaseService = FirebaseService();
-
   static List<MyTreeNode> roots = [];
   static List<String> rootList = [];
   static List<String> noteList = [];
@@ -41,6 +37,7 @@ class HierarchyDatabase {
     rootList.add(root.id);
     log("Root list $rootList");
     boxSynchronization.put(ROOT_LIST, rootList);
+    boxSynchronization.put(root.id, DateTime.now().microsecondsSinceEpoch);
     boxHierachy.put(root.id, root);
   }
 
@@ -49,6 +46,7 @@ class HierarchyDatabase {
     rootList.remove(root.id);
     roots.remove(root);
     boxSynchronization.put(ROOT_LIST, rootList);
+    boxSynchronization.delete(root.id);
     boxHierachy.delete(root.id);
     updateDatabase();
   }
@@ -62,7 +60,8 @@ class HierarchyDatabase {
     }
     //boxHierachy.put(TREE_STORAGE, roots.firstOrNull);
     // Adding timestamp of last change
-    boxSynchronization.put(TREE_CHANGE, DateTime.now().microsecondsSinceEpoch);
+    boxSynchronization.put(LAST_CHANGE, DateTime.now().microsecondsSinceEpoch);
+    //boxSynchronization.put(TREE_CHANGE, DateTime.now().microsecondsSinceEpoch);
   }
 
   void saveHierarchy(MyTreeNode hierarchy) {

@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 const String TREE_STORAGE = "TreeView";
 const String CONFLICT = "conflict";
 // Keys for [boxSynchronization]
-const String TREE_CHANGE = "tree_change";
-const String LOCAL_SYNC = "last_sync";
+const String LAST_CHANGE = "lastChange";
+//const String TREE_CHANGE = "treeChange";
+const String LOCAL_SYNC = "lastSync";
 const String NOTE_LIST = "noteList";
 const String ROOT_LIST = "rootList";
 // Keys for [boxNotes]
@@ -18,7 +19,7 @@ const String USER_USERNAME = "username";
 const String USER_PASSWORD = "password";
 
 // Names of boxes
-const String BOX_TREE = "Notes_Database";
+const String BOX_TREE = "NotesDatabase";
 const String BOX_NOTES = "Notes";
 const String BOX_USERS = "User";
 const String BOX_SYNCHRONIZATION = "Synchronization";

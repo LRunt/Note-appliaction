@@ -68,7 +68,7 @@ class FirestoreService extends ChangeNotifier {
 
   // Uploading all data to the cloud
   Future<void> uploadAllData() async {
-    var updateTime = boxSynchronization.get(TREE_CHANGE);
+    var updateTime = boxSynchronization.get(LAST_CHANGE);
     List notes = hierarchyDatabase.getNotes();
     await saveTreeStructure(HierarchyDatabase.roots.first, notes, updateTime);
     await saveAllNotes();
@@ -163,7 +163,7 @@ class FirestoreService extends ChangeNotifier {
   Future<void> synchronizeData() async {
     // Get tree update time
     // Compare times
-    var localTimestamp = boxSynchronization.get(TREE_CHANGE);
+    var localTimestamp = boxSynchronization.get(LAST_CHANGE);
     var cloudTimestamp = await getUpdateTime();
     log("LocalTimestamp $localTimestamp");
     log("CloudTimestamp $cloudTimestamp");

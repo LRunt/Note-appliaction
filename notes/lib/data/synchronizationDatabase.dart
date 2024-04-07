@@ -12,7 +12,7 @@ class SynchronizationDatabase {
   }
 
   int getLastTreeChangeTime() {
-    int? lastChangeTime = boxSynchronization.get(TREE_CHANGE);
+    int? lastChangeTime = boxSynchronization.get(LAST_CHANGE);
     if (lastChangeTime == null) {
       return 0;
     } else {
