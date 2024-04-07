@@ -143,7 +143,7 @@ class _FileListViewState extends State<FileListView> {
   void renameNode(MyTreeNode node) {
     setState(
       () {
-        if (service.renameNode(node, _textDialogController.text.trim())) {
+        if (service.renameNode(node, _textDialogController.text.trim(), context)) {
           closeAndClear();
         }
       },
@@ -153,7 +153,7 @@ class _FileListViewState extends State<FileListView> {
   void createNode(MyTreeNode node, bool isNote) {
     setState(
       () {
-        if (service.createNewNode(node, _textDialogController.text.trim(), isNote)) {
+        if (service.createNewNode(node, _textDialogController.text.trim(), isNote, context)) {
           closeAndClear();
         }
       },
@@ -164,7 +164,7 @@ class _FileListViewState extends State<FileListView> {
     setState(
       () {
         if (newParent != null) {
-          service.moveNode(node, newParent);
+          service.moveNode(node, newParent, context);
           Navigator.of(context).pop();
         }
       },

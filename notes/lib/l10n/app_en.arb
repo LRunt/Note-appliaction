@@ -293,10 +293,22 @@
     },
     "lock": "Lock",
     "@lock": {
-        "description": "Text for locking the file or note"
+        "description": "Text for locking the folder or note"
     },
     "unlock": "Unlock",
     "@unlock": {
-        "description": "Text for unlocking the file or note"
-    } 
+        "description": "Text for unlocking the folder or note"
+    },
+    "siblingWithSameNameToast": "In destination is folder or note with same name",
+    "@siblingWithSameNameToast": {
+        "description": "When user trying to add to the destintion folder or note with same name"
+    },
+    "emptyTextFieldToast": "Empty textfield",
+    "@emptyTextFieldToast": {
+        "description": "Text in toast when user do not fill the textfield"
+    },
+    "disabledCharsToast": "Name contains one of disabled char: | or /",
+    "@disabledCharsToast": {
+        "description": "Text in toast when the user use one of disabled char"
+    }
 }

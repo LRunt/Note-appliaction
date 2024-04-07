@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:notes/assets/constants.dart';
 import 'package:notes/components/componentUtils.dart';
@@ -5,7 +6,10 @@ import 'package:notes/data/hierarchyDatabase.dart';
 import 'package:notes/data/notesDatabase.dart';
 import 'package:notes/logger.dart';
 import 'package:notes/model/myTreeNode.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:developer';
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
 
 /// A [NodeService] class responsible for managing node operations within a hierarchical structure.
 ///
@@ -72,19 +76,19 @@ class NodeService {
   /// - [node]: The node to be renamed.
   /// - [newName]: The new name for the node.
   /// - Returns `true` if the rename operation is successful; otherwise, `false`.
-  bool renameNode(MyTreeNode node, String newName) {
+  bool renameNode(MyTreeNode node, String newName, BuildContext context) {
     AppLogger.log('Renaming node ${node.id}');
     if (newName.isEmpty) {
       AppLogger.log("The name is empty", level: Level.WARNING);
-      utils.showErrorToast("Name is not filled");
+      utils.showErrorToast(AppLocalizations.of(context)!.emptyTextFieldToast);
       return false;
     } else if (containsDisabledChars(newName)) {
       AppLogger.log("Disabled chars", level: Level.WARNING);
-      utils.showErrorToast("Name contains not allowed chars");
+      utils.showErrorToast(AppLocalizations.of(context)!.disabledCharsToast);
       return false;
     } else if (siblingWithSameName(node.id, newName, false)) {
       AppLogger.log("Sibling with same name", level: Level.WARNING);
-      utils.showErrorToast("There exists a node with same name");
+      utils.showErrorToast(AppLocalizations.of(context)!.siblingWithSameNameToast);
       return false;
     } else {
       node.title = newName;
@@ -109,19 +113,19 @@ class NodeService {
   /// - [nodeName]: The name of the new node.
   /// - [nodeType]: The type of the new node (note or folder).
   /// - Returns `true` if the node is successfully created; otherwise, `false`.
-  bool createNewNode(MyTreeNode node, String nodeName, bool nodeType) {
+  bool createNewNode(MyTreeNode node, String nodeName, bool nodeType, BuildContext context) {
     AppLogger.log('Creating new node');
     if (nodeName.isEmpty) {
       AppLogger.log("The name is empty", level: Level.WARNING);
-      utils.showErrorToast("Name is not filled");
+      utils.showErrorToast(AppLocalizations.of(context)!.emptyTextFieldToast);
       return false;
     } else if (containsDisabledChars(nodeName)) {
       AppLogger.log("Disabled chars", level: Level.WARNING);
-      utils.showErrorToast("Name contains not allowed chars");
+      utils.showErrorToast(AppLocalizations.of(context)!.disabledCharsToast);
       return false;
     } else if (siblingWithSameName(node.id, nodeName, true)) {
       AppLogger.log("Sibling with same name", level: Level.WARNING);
-      utils.showErrorToast("There exists a node with same name");
+      utils.showErrorToast(AppLocalizations.of(context)!.siblingWithSameNameToast);
       return false;
     } else {
       String nodeId = node.id + DELIMITER + nodeName;
@@ -142,13 +146,19 @@ class NodeService {
   /// - [node]: The node to be moved.
   /// - [newParent]: The ID of the new parent node.
   /// - Returns `true` if the move operation is successful; otherwise, `false`.
-  bool moveNode(MyTreeNode node, String newParent) {
+  bool moveNode(MyTreeNode node, String newParent, BuildContext context) {
     AppLogger.log('Moving node ${node.id}, new parent: $newParent');
     MyTreeNode? parent = getNode(newParent);
     if (parent == null) {
       return false;
       // return error
     } else {
+      for (var sibling in parent.children) {
+        if (sibling.title == node.title) {
+          utils.showErrorToast(AppLocalizations.of(context)!.siblingWithSameNameToast);
+          return false;
+        }
+      }
       MyTreeNode? oldParent = getParent(node.id);
       if (oldParent != null) {
         oldParent.children.remove(node);
@@ -170,24 +180,41 @@ class NodeService {
     }
   }
 
-  bool createNewRoot(String name) {
+  bool createNewRoot(String name, BuildContext context) {
     String id = DELIMITER + name;
     if (name.isEmpty) {
       AppLogger.log("The name is empty", level: Level.WARNING);
-      utils.showErrorToast("Name is not filled");
+      utils.showErrorToast(AppLocalizations.of(context)!.emptyTextFieldToast);
       return false;
     } else if (containsDisabledChars(name)) {
       AppLogger.log("Disabled chars", level: Level.WARNING);
-      utils.showErrorToast("Name contains not allowed chars");
+      utils.showErrorToast(AppLocalizations.of(context)!.disabledCharsToast);
       return false;
     } else if (HierarchyDatabase.rootList.contains(id)) {
       AppLogger.log("Root with same name", level: Level.WARNING);
-      utils.showErrorToast("There is root with same name");
+      utils.showErrorToast(AppLocalizations.of(context)!.siblingWithSameNameToast);
       return false;
     }
     MyTreeNode newRoot = MyTreeNode(id: id, title: name, isNote: false, isLocked: false);
     hierarchyDb.saveRoot(newRoot);
     return true;
+  }
+
+  bool lockNode(String password, MyTreeNode node) {
+    String hash = generateHash(password);
+    node.isLocked = true;
+    node.password = hash;
+    return true;
+  }
+
+  bool unlockNode(String password, MyTreeNode node) {
+    if (comparePassword(password, node.password!)) {
+      node.isLocked = false;
+      node.password = null;
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /// Retrieves a node from the hierarchy based on its unique ID.
@@ -401,5 +428,16 @@ class NodeService {
       }
     }
     return false;
+  }
+
+  String generateHash(String password) {
+    var bytes = utf8.encode(password);
+    var hash = sha256.convert(bytes);
+    return hash.toString();
+  }
+
+  bool comparePassword(String inputPassword, String storedHash) {
+    var inputHash = generateHash(inputPassword);
+    return inputHash == storedHash;
   }
 }

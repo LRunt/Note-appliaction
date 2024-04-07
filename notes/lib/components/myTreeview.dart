@@ -94,7 +94,7 @@ class _MyTreeViewState extends State<MyTreeView> {
               confirmButtonText: AppLocalizations.of(context)!.create,
               controller: _textDialogController,
               onConfirm: () {
-                if (nodeService.createNewRoot(_textDialogController.text.trim())) {
+                if (nodeService.createNewRoot(_textDialogController.text.trim(), context)) {
                   Navigator.of(context).pop();
                   treeController.rebuild();
                   _textDialogController.clear();
@@ -257,24 +257,24 @@ class MyTreeTile extends StatelessWidget {
                   if (!entry.node.isLocked)
                     PopupMenuItem<String>(
                       value: 'lock',
-                      onTap: () {},
+                      onTap: () => showLockDialog(context, entry.node),
                       child: Row(
                         children: [
                           const Icon(Icons.lock_outline),
                           const SizedBox(width: 4),
-                          Text('Lock')
+                          Text(AppLocalizations.of(context)!.lock)
                         ],
                       ),
                     ),
                   if (entry.node.isLocked)
                     PopupMenuItem<String>(
                       value: 'unlock',
-                      onTap: () {},
+                      onTap: () => showUnlockDialog(context, entry.node),
                       child: Row(
                         children: [
                           const Icon(Icons.lock_open_rounded),
                           const SizedBox(width: 4),
-                          Text('Unlock')
+                          Text(AppLocalizations.of(context)!.unlock)
                         ],
                       ),
                     ),
@@ -332,6 +332,32 @@ class MyTreeTile extends StatelessWidget {
         });
   }
 
+  void showLockDialog(BuildContext context, MyTreeNode node) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return TextFieldDialog(
+              titleText: AppLocalizations.of(context)!.renameNode(node.title),
+              confirmButtonText: AppLocalizations.of(context)!.rename,
+              controller: _textDialogController,
+              onConfirm: () => lockNode(context, node),
+              onCancel: () => closeAndClear(context));
+        });
+  }
+
+  void showUnlockDialog(BuildContext context, MyTreeNode node) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return TextFieldDialog(
+              titleText: AppLocalizations.of(context)!.renameNode(node.title),
+              confirmButtonText: AppLocalizations.of(context)!.rename,
+              controller: _textDialogController,
+              onConfirm: () => unlockNode(context, node),
+              onCancel: () => closeAndClear(context));
+        });
+  }
+
   void showMoveDialog(BuildContext context, MyTreeNode node) {
     String? selectedValue;
     List<String> files = nodeService.getFoldersToMove(node);
@@ -365,7 +391,7 @@ class MyTreeTile extends StatelessWidget {
     log("Moving node ${node.id}");
     MyTreeNode? oldParent = nodeService.getParent(node.id);
     if (newParent != null) {
-      nodeService.moveNode(node, newParent);
+      nodeService.moveNode(node, newParent, context);
       Navigator.of(context).pop();
       if (oldParent == null) {
         treeController.roots = HierarchyDatabase.roots;
@@ -376,7 +402,7 @@ class MyTreeTile extends StatelessWidget {
 
   /// Creating new node as children of [node]
   void createNode(BuildContext context, MyTreeNode node, bool isNote) {
-    if (nodeService.createNewNode(node, _textDialogController.text.trim(), isNote)) {
+    if (nodeService.createNewNode(node, _textDialogController.text.trim(), isNote, context)) {
       treeController.expand(node);
       treeController.rebuild();
       closeAndClear(context);
@@ -386,7 +412,21 @@ class MyTreeTile extends StatelessWidget {
 
   /// Renaming the [node]
   void renameNode(BuildContext context, MyTreeNode node) {
-    if (nodeService.renameNode(node, _textDialogController.text.trim())) {
+    if (nodeService.renameNode(node, _textDialogController.text.trim(), context)) {
+      closeAndClear(context);
+      treeController.rebuild();
+    }
+  }
+
+  void unlockNode(BuildContext context, MyTreeNode node) {
+    if (nodeService.unlockNode(_textDialogController.text.trim(), node)) {
+      closeAndClear(context);
+      treeController.rebuild();
+    }
+  }
+
+  void lockNode(BuildContext context, MyTreeNode node) {
+    if (nodeService.lockNode(_textDialogController.text.trim(), node)) {
       closeAndClear(context);
       treeController.rebuild();
     }
