@@ -41,6 +41,13 @@ class HierarchyDatabase {
     boxHierachy.put(root.id, root);
   }
 
+  void downloadRoot(MyTreeNode root) {
+    roots.add(root);
+    rootList.add(root.id);
+    boxSynchronization.put(ROOT_LIST, rootList);
+    boxHierachy.put(root.id, root);
+  }
+
   void deleteRoot(MyTreeNode root) {
     log("Deleting root");
     rootList.remove(root.id);
@@ -89,6 +96,18 @@ class HierarchyDatabase {
     notes.add(newNoteId);
     log("$notes");
     boxSynchronization.put(NOTE_LIST, notes);
+  }
+
+  int getLastChange() {
+    return boxSynchronization.get(LAST_CHANGE);
+  }
+
+  MyTreeNode getRoot(String rootId) {
+    return boxHierachy.get(rootId);
+  }
+
+  int getRootLastChangeTime(String rootId) {
+    return boxSynchronization.get(rootId);
   }
 
   List getNotes() {

@@ -68,9 +68,8 @@ class FirestoreService extends ChangeNotifier {
 
   // Uploading all data to the cloud
   Future<void> uploadAllData() async {
-    var updateTime = boxSynchronization.get(LAST_CHANGE);
-    List notes = hierarchyDatabase.getNotes();
-    await saveTreeStructure(HierarchyDatabase.roots.first, notes, updateTime);
+    await saveRoots();
+    //await saveTreeStructure(HierarchyDatabase.roots.first, notes, updateTime);
     await saveAllNotes();
     var now = DateTime.now().microsecondsSinceEpoch;
     await saveSyncTime(now);
@@ -80,8 +79,9 @@ class FirestoreService extends ChangeNotifier {
   // Downloading all data from the cloud
   Future<void> downloadAllData() async {
     // Save hierarchy
-    MyTreeNode hierarchy = await getTreeNode();
-    hierarchyDatabase.saveHierarchy(hierarchy);
+    //MyTreeNode hierarchy = await getTreeNode();
+    //hierarchyDatabase.saveHierarchy(hierarchy);
+    await downloadRoots();
     List notes = await getNoteList();
     hierarchyDatabase.saveNotes(notes);
     int syncTime = await getSyncTime();
@@ -218,6 +218,52 @@ class FirestoreService extends ChangeNotifier {
     } else {
       saveNote(noteId);
     }
+  }
+
+  Future<void> saveRoots() async {
+    List<String> roots = HierarchyDatabase.rootList;
+    List<String> notes = HierarchyDatabase.noteList;
+    int lastChange = hierarchyDatabase.getLastChange();
+    String userId = auth.currentUser!.uid;
+    await fireStore.collection(userId).doc(FIREBASE_TREE_PROPERTIES).set({
+      'rootList': roots,
+      'noteList': notes,
+      'lastChange': lastChange,
+    }, SetOptions(merge: true));
+    for (String rootId in roots) {
+      saveRoot(rootId);
+    }
+  }
+
+  Future<void> downloadRoots() async {
+    String userId = auth.currentUser!.uid;
+    var documentSnapshot = await fireStore.collection(userId).doc(FIREBASE_TREE_PROPERTIES).get();
+    if (documentSnapshot.exists) {
+      List rootList = documentSnapshot.get('rootList');
+      for (String rootId in rootList) {
+        MyTreeNode root = await getRoot(rootId);
+        hierarchyDatabase.downloadRoot(root);
+      }
+    }
+  }
+
+  Future<MyTreeNode> getRoot(String rootId) async {
+    String userId = auth.currentUser!.uid;
+    var snapshot = await fireStore.collection(userId).doc(rootId).get();
+    var map = snapshot.data();
+    return MyTreeNode.fromMap(map!);
+  }
+
+  Future<void> saveRoot(String rootId) async {
+    MyTreeNode root = hierarchyDatabase.getRoot(rootId);
+    int lastChange = hierarchyDatabase.getRootLastChangeTime(rootId);
+    var map = root.toMap();
+    String userId = auth.currentUser!.uid;
+    await fireStore.collection(userId).doc(rootId).set(map, SetOptions(merge: true));
+    await fireStore
+        .collection(userId)
+        .doc('rootsLastChanges')
+        .set({rootId: lastChange}, SetOptions(merge: true));
   }
 
   // SAVE hierarchy
