@@ -188,81 +188,99 @@ class MyTreeTile extends StatelessWidget {
         guide: const IndentGuide.connectingLines(indent: 10),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
-          child: GestureDetector(
-            onLongPressStart: (LongPressStartDetails details) {
-              _showPopupMenu(context, details.globalPosition);
-            },
-            child: Row(
-              children: [
-                FolderButton(
-                  isOpen: !entry.node.isNote ? entry.isExpanded : null,
-                  onPressed: !entry.node.isNote ? onTap : null,
-                ),
-                Expanded(child: Text(entry.node.title)),
-                PopupMenuButton<String>(
-                  itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+          child: Row(
+            children: [
+              FolderButton(
+                isOpen: !entry.node.isNote ? entry.isExpanded : null,
+                onPressed: !entry.node.isNote ? onTap : null,
+              ),
+              Expanded(child: Text(entry.node.title)),
+              PopupMenuButton<String>(
+                itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                  PopupMenuItem<String>(
+                    value: 'delete',
+                    onTap: () => showDeleteDialog(context, entry.node),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.delete),
+                        const SizedBox(width: 4),
+                        Text(AppLocalizations.of(context)!.menuDelete),
+                      ],
+                    ),
+                  ),
+                  PopupMenuItem<String>(
+                    value: 'rename',
+                    onTap: () => showRenameDialog(context, entry.node),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.border_color_sharp),
+                        const SizedBox(width: 4),
+                        Text(AppLocalizations.of(context)!.menuRename),
+                      ],
+                    ),
+                  ),
+                  if (!entry.node.isNote)
                     PopupMenuItem<String>(
-                      value: 'delete',
-                      onTap: () => showDeleteDialog(context, entry.node),
+                      value: 'create_note',
+                      onTap: () => showCreateDialog(context, entry.node, true),
                       child: Row(
                         children: [
-                          const Icon(Icons.delete),
+                          const Icon(Icons.article),
                           const SizedBox(width: 4),
-                          Text(AppLocalizations.of(context)!.menuDelete),
+                          Text(AppLocalizations.of(context)!.createNote),
                         ],
                       ),
                     ),
+                  if (!entry.node.isNote)
                     PopupMenuItem<String>(
-                      value: 'rename',
-                      onTap: () => showRenameDialog(context, entry.node),
+                      value: 'create_file',
+                      onTap: () => showCreateDialog(context, entry.node, false),
                       child: Row(
                         children: [
-                          const Icon(Icons.border_color_sharp),
+                          const Icon(Icons.create_new_folder),
                           const SizedBox(width: 4),
-                          Text(AppLocalizations.of(context)!.menuRename),
+                          Text(AppLocalizations.of(context)!.createFile),
                         ],
                       ),
                     ),
-                    if (!entry.node.isNote)
-                      PopupMenuItem<String>(
-                        value: 'create_note',
-                        onTap: () => showCreateDialog(context, entry.node, true),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.article),
-                            const SizedBox(width: 4),
-                            Text(AppLocalizations.of(context)!.createNote),
-                          ],
-                        ),
+                  PopupMenuItem<String>(
+                    value: 'move',
+                    onTap: () => showMoveDialog(context, entry.node),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.move_down),
+                        const SizedBox(width: 4),
+                        Text(AppLocalizations.of(context)!.menuMove),
+                      ],
+                    ),
+                  ),
+                  if (!entry.node.isLocked)
+                    PopupMenuItem<String>(
+                      value: 'lock',
+                      onTap: () {},
+                      child: Row(
+                        children: [
+                          const Icon(Icons.lock_outline),
+                          const SizedBox(width: 4),
+                          Text('Lock')
+                        ],
                       ),
-                    if (!entry.node.isNote)
-                      PopupMenuItem<String>(
-                        value: 'create_file',
-                        onTap: () => showCreateDialog(context, entry.node, false),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.create_new_folder),
-                            const SizedBox(width: 4),
-                            Text(AppLocalizations.of(context)!.createFile),
-                          ],
-                        ),
+                    ),
+                  if (entry.node.isLocked)
+                    PopupMenuItem<String>(
+                      value: 'unlock',
+                      onTap: () {},
+                      child: Row(
+                        children: [
+                          const Icon(Icons.lock_open_rounded),
+                          const SizedBox(width: 4),
+                          Text('Unlock')
+                        ],
                       ),
-                    if (!nodeService.isRoot(entry.node.id))
-                      PopupMenuItem<String>(
-                        value: 'move',
-                        onTap: () => showMoveDialog(context, entry.node),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.move_down),
-                            const SizedBox(width: 4),
-                            Text(AppLocalizations.of(context)!.menuMove),
-                          ],
-                        ),
-                      ),
-                  ],
-                ),
-              ],
-            ),
+                    ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
@@ -304,7 +322,9 @@ class MyTreeTile extends StatelessWidget {
         context: context,
         builder: (context) {
           return TextFieldDialog(
-              titleText: AppLocalizations.of(context)!.newNode,
+              titleText: isNote
+                  ? AppLocalizations.of(context)!.createNote
+                  : AppLocalizations.of(context)!.createFile,
               confirmButtonText: AppLocalizations.of(context)!.create,
               controller: _textDialogController,
               onConfirm: () => createNode(context, node, isNote),
@@ -342,9 +362,14 @@ class MyTreeTile extends StatelessWidget {
   }
 
   void moveNode(MyTreeNode node, String? newParent, BuildContext context) {
+    log("Moving node ${node.id}");
+    MyTreeNode? oldParent = nodeService.getParent(node.id);
     if (newParent != null) {
       nodeService.moveNode(node, newParent);
       Navigator.of(context).pop();
+      if (oldParent == null) {
+        treeController.roots = HierarchyDatabase.roots;
+      }
       treeController.rebuild();
     }
   }
@@ -370,8 +395,15 @@ class MyTreeTile extends StatelessWidget {
   /// Deleting the node
   void deleteNode(BuildContext context, MyTreeNode node) {
     log("deleting node ${node.title}");
-    nodeService.deleteNode(node, entry.parent!.node);
+    MyTreeNode? parent = nodeService.getParent(node.id);
+    nodeService.deleteNode(node, parent);
     Navigator.of(context).pop();
+    if (parent == null) {
+      treeController.roots = HierarchyDatabase.roots;
+    }
+    for (var root in treeController.roots) {
+      log("Root $root");
+    }
     treeController.rebuild();
     //log("${treeController.roots.first}");
   }
@@ -380,45 +412,5 @@ class MyTreeTile extends StatelessWidget {
   void closeAndClear(BuildContext context) {
     _textDialogController.clear();
     Navigator.of(context).pop();
-  }
-
-  ///Showing the menu with items rename, delete and create
-  void _showPopupMenu(BuildContext context, Offset tapPosition) async {
-    final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
-    //showing the menu
-    showMenu(
-      context: context,
-      position: RelativeRect.fromRect(
-        tapPosition & const Size(1.0, 1.0),
-        Offset.zero & overlay.size,
-      ),
-      items: <PopupMenuEntry>[
-        PopupMenuItem(
-          onTap: () => showDeleteDialog(context, entry.node),
-          value: 'delete',
-          child: Text(AppLocalizations.of(context)!.menuDelete),
-        ),
-        PopupMenuItem(
-          onTap: () => showRenameDialog(context, entry.node),
-          value: 'rename',
-          child: Text(AppLocalizations.of(context)!.menuRename),
-        ),
-        PopupMenuItem(
-          onTap: () => showCreateDialog(context, entry.node, true),
-          value: 'create',
-          child: Text(AppLocalizations.of(context)!.createNote),
-        ),
-        PopupMenuItem(
-          onTap: () => showCreateDialog(context, entry.node, false),
-          value: 'create_directory',
-          child: Text(AppLocalizations.of(context)!.createFile),
-        ),
-        PopupMenuItem(
-          onTap: () => showCreateDialog(context, entry.node, false),
-          value: 'move',
-          child: const Text("Move"),
-        ),
-      ],
-    );
   }
 }

@@ -290,5 +290,13 @@
     "emailSentToast": "Email has been sent",
     "@emailSentToast": {
         "description": "Toast text when the emal with reset instructions has been sent"
+    },
+    "lock": "Lock",
+    "@lock": {
+        "description": "Text for locking the file or note"
+    },
+    "unlock": "Unlock",
+    "@unlock": {
+        "description": "Text for unlocking the file or note"
     } 
 }

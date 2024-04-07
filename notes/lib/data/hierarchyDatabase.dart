@@ -30,7 +30,7 @@ class HierarchyDatabase {
     log("Root list: $rootList");
     for (String root in rootList) {
       MyTreeNode node = boxHierachy.get(root);
-      print("Adding node: $root, node: $node");
+      log("Adding node: $root, node: $node");
       roots.add(node);
     }
   }
@@ -44,17 +44,23 @@ class HierarchyDatabase {
     boxHierachy.put(root.id, root);
   }
 
-  void deleteRoot(String rootId) {
+  void deleteRoot(MyTreeNode root) {
     log("Deleting root");
-    rootList.remove(rootId);
-    boxHierachy.delete(rootId);
-    loadData();
+    rootList.remove(root.id);
+    roots.remove(root);
+    boxSynchronization.put(ROOT_LIST, rootList);
+    boxHierachy.delete(root.id);
+    updateDatabase();
   }
 
   // update database
   void updateDatabase() {
     log("Updating database: ${roots.firstOrNull}");
-    boxHierachy.put(TREE_STORAGE, roots.firstOrNull);
+    boxSynchronization.put(ROOT_LIST, rootList);
+    for (MyTreeNode root in roots) {
+      boxHierachy.put(root.id, root);
+    }
+    //boxHierachy.put(TREE_STORAGE, roots.firstOrNull);
     // Adding timestamp of last change
     boxSynchronization.put(TREE_CHANGE, DateTime.now().microsecondsSinceEpoch);
   }

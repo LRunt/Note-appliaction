@@ -47,7 +47,7 @@ class NodeService {
   ///
   /// - [node]: The node to be deleted.
   /// - [parent]: The parent of the node being deleted.
-  void deleteNode(MyTreeNode node, MyTreeNode parent) {
+  void deleteNode(MyTreeNode node, MyTreeNode? parent) {
     AppLogger.log('Deleting node ${node.id}');
     // If node is note, delete note
     if (node.isNote) {
@@ -58,8 +58,12 @@ class NodeService {
     for (MyTreeNode child in node.children) {
       deleteNode(child, node);
     }
-    parent.children.remove(node);
-    hierarchyDb.updateDatabase();
+    if (parent == null) {
+      hierarchyDb.deleteRoot(node);
+    } else {
+      parent.children.remove(node);
+      hierarchyDb.updateDatabase();
+    }
   }
 
   /// Renames a given node in the hierarchy and updates the database accordingly.
@@ -146,7 +150,11 @@ class NodeService {
       // return error
     } else {
       MyTreeNode? oldParent = getParent(node.id);
-      oldParent!.children.remove(node);
+      if (oldParent != null) {
+        oldParent.children.remove(node);
+      } else {
+        hierarchyDb.deleteRoot(node);
+      }
       parent.addChild(node);
       String oldNoteId = node.id;
       node.id = newParent + DELIMITER + node.title;
@@ -387,8 +395,8 @@ class NodeService {
   /// - [nodeId]: The ID of the node to check.
   /// - Returns `true` if the node is a root node; otherwise, `false`.
   bool isRoot(String nodeId) {
-    for (MyTreeNode root in HierarchyDatabase.roots) {
-      if (root.id == nodeId) {
+    for (String root in HierarchyDatabase.rootList) {
+      if (root == nodeId) {
         return true;
       }
     }

@@ -65,5 +65,7 @@
     "resetPasswordTitle": "Obnovení hesla",
     "resetInstructions": "Zadejte svůj email. Bude vám zaslán email s odkazem na obnovení hesla.",
     "sendResetEmail": "Odeslat email",
-    "emailSentToast": "Email pro obovení hesla byl odeslán" 
+    "emailSentToast": "Email pro obovení hesla byl odeslán",
+    "lock": "Uzamknout",
+    "unlock": "Odemknout"
 }
