@@ -10,7 +10,9 @@ void main() {
         'id': 'node1',
         'title': 'Node 1',
         'isNote': true,
+        'isLocked': false,
         'children': [],
+        'password': null,
       };
 
       expect(node.toMap(), equals(expectedMap));
@@ -31,12 +33,16 @@ void main() {
         'id': 'node1',
         'title': 'Node 1',
         'isNote': true,
+        'isLocked': false,
+        'password': null,
         'children': [
           {
             'id': 'child1',
             'title': 'Child 1',
             'isNote': false,
             'children': [],
+            'isLocked': false,
+            'password': null,
           },
         ],
       };
@@ -71,18 +77,24 @@ void main() {
         'id': 'node1',
         'title': 'Node 1',
         'isNote': true,
+        'isLocked': false,
+        'password': null,
         'children': [
           {
             'id': 'child1',
             'title': 'Child 1',
             'isNote': false,
+            'isLocked': false,
             'children': [],
+            'password': null,
           },
           {
             'id': 'child2',
             'title': 'Child 2',
             'isNote': true,
+            'isLocked': false,
             'children': [],
+            'password': null,
           },
         ],
       };
@@ -97,6 +109,7 @@ void main() {
         'id': 'node1',
         'title': 'Node 1',
         'isNote': true,
+        'isLocked': false,
         'children': [],
       };
 
@@ -106,6 +119,7 @@ void main() {
       expect(node.title, equals('Node 1'));
       expect(node.isNote, isTrue);
       expect(node.children, isEmpty);
+      expect(node.isLocked, false);
     });
 
     test('fromMap test - one child', () {
@@ -113,11 +127,13 @@ void main() {
         'id': 'node1',
         'title': 'Node 1',
         'isNote': true,
+        'isLocked': false,
         'children': [
           {
             'id': 'child1',
             'title': 'Child 1',
             'isNote': false,
+            'isLocked': false,
             'children': [],
           },
         ],
@@ -140,17 +156,20 @@ void main() {
         'id': 'node1',
         'title': 'Node 1',
         'isNote': true,
+        'isLocked': false,
         'children': [
           {
             'id': 'child1',
             'title': 'Child 1',
             'isNote': false,
+            'isLocked': false,
             'children': [],
           },
           {
             'id': 'child2',
             'title': 'Child 2',
             'isNote': true,
+            'isLocked': false,
             'children': [],
           },
         ],

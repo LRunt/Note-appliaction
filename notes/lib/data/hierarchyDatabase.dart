@@ -9,26 +9,46 @@ class HierarchyDatabase {
   //final FirebaseService _firebaseService = FirebaseService();
 
   static List<MyTreeNode> roots = [];
-  static List<String> notes = [];
+  static List<String> rootList = [];
+  static List<String> noteList = [];
   static List<MyTreeNode> conflictData = [];
 
   // create initial default data
   void createDefaultData() {
-    roots = [MyTreeNode(id: "|Home", title: "Home", isNote: false, isLocked: false)];
-    boxHierachy.put(TREE_STORAGE, roots.firstOrNull);
-    boxSynchronization.put(NOTES, []);
+    roots = [];
+    rootList = [];
+    boxSynchronization.put(ROOT_LIST, rootList);
+    boxSynchronization.put(NOTE_LIST, []);
   }
 
   // load data if already exists
   void loadData() {
-    MyTreeNode? storedData = boxHierachy.get(TREE_STORAGE);
-    log("Loaded data: ${storedData}");
+    log("Loading data...");
 
-    if (storedData != null) {
-      roots = [storedData];
-    } else {
-      roots = [MyTreeNode(id: "|Home", title: "Home", isNote: false, isLocked: false)];
+    roots = [];
+    rootList = boxSynchronization.get(ROOT_LIST);
+    log("Root list: $rootList");
+    for (String root in rootList) {
+      MyTreeNode node = boxHierachy.get(root);
+      print("Adding node: $root, node: $node");
+      roots.add(node);
     }
+  }
+
+  void saveRoot(MyTreeNode root) {
+    log("Creating root");
+    roots.add(root);
+    rootList.add(root.id);
+    log("Root list $rootList");
+    boxSynchronization.put(ROOT_LIST, rootList);
+    boxHierachy.put(root.id, root);
+  }
+
+  void deleteRoot(String rootId) {
+    log("Deleting root");
+    rootList.remove(rootId);
+    boxHierachy.delete(rootId);
+    loadData();
   }
 
   // update database
@@ -45,33 +65,33 @@ class HierarchyDatabase {
   }
 
   void addNote(String noteId) {
-    List notes = boxSynchronization.get(NOTES);
+    List notes = boxSynchronization.get(NOTE_LIST);
     notes.add(noteId);
     log("$notes");
-    boxSynchronization.put(NOTES, notes);
+    boxSynchronization.put(NOTE_LIST, notes);
   }
 
   void deleteNote(String noteId) {
-    List notes = boxSynchronization.get(NOTES);
+    List notes = boxSynchronization.get(NOTE_LIST);
     notes.remove(noteId);
     log("$notes");
-    boxSynchronization.put(NOTES, notes);
+    boxSynchronization.put(NOTE_LIST, notes);
   }
 
   void updateNote(String oldNoteId, String newNoteId) {
-    List notes = boxSynchronization.get(NOTES);
+    List notes = boxSynchronization.get(NOTE_LIST);
     notes.remove(oldNoteId);
     notes.add(newNoteId);
     log("$notes");
-    boxSynchronization.put(NOTES, notes);
+    boxSynchronization.put(NOTE_LIST, notes);
   }
 
   List getNotes() {
-    return boxSynchronization.get(NOTES);
+    return boxSynchronization.get(NOTE_LIST);
   }
 
   void saveNotes(List notes) {
-    boxSynchronization.put(NOTES, notes);
+    boxSynchronization.put(NOTE_LIST, notes);
   }
 
   void saveConflictData() {

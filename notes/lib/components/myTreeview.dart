@@ -53,19 +53,21 @@ class _MyTreeViewState extends State<MyTreeView> {
   late final TreeController<MyTreeNode> treeController;
 
   /// The database instance for managing note data.
-  HierarchyDatabase db = HierarchyDatabase();
+  HierarchyDatabase hierarchyDb = HierarchyDatabase();
+  final _textDialogController = TextEditingController();
+  NodeService nodeService = NodeService();
 
   @override
   void initState() {
     //there is no initial state, first time the application runs
-    if (!boxHierachy.containsKey(TREE_STORAGE) || boxHierachy.get(TREE_STORAGE) == null) {
+    if (!boxSynchronization.containsKey(ROOT_LIST) || boxSynchronization.get(ROOT_LIST) == null) {
       log("Creating new data!");
-      db.createDefaultData();
+      hierarchyDb.createDefaultData();
     }
     //there are saved data
     else {
       log("Loading data!");
-      db.loadData();
+      hierarchyDb.loadData();
     }
 
     treeController = TreeController<MyTreeNode>(
@@ -82,6 +84,30 @@ class _MyTreeViewState extends State<MyTreeView> {
     super.dispose();
   }
 
+  /// Showing dialog to create new dorectory or node
+  void showCreateDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return TextFieldDialog(
+              titleText: AppLocalizations.of(context)!.createFile,
+              confirmButtonText: AppLocalizations.of(context)!.create,
+              controller: _textDialogController,
+              onConfirm: () {
+                if (nodeService.createNewRoot(_textDialogController.text.trim())) {
+                  Navigator.of(context).pop();
+                  treeController.rebuild();
+                  _textDialogController.clear();
+                }
+              },
+              onCancel: () {
+                _textDialogController.clear();
+                Navigator.of(context).pop();
+              });
+        });
+  }
+
+  // Builds the UI of hierarchical structure.
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -99,9 +125,14 @@ class _MyTreeViewState extends State<MyTreeView> {
                       entry.node.id,
                     ),
                 treeController: treeController,
-                db: db);
+                db: hierarchyDb);
           },
         ),
+        ElevatedButton(
+            onPressed: () {
+              showCreateDialog(context);
+            },
+            child: Text("Add Folder")),
       ],
     );
   }
@@ -170,30 +201,28 @@ class MyTreeTile extends StatelessWidget {
                 Expanded(child: Text(entry.node.title)),
                 PopupMenuButton<String>(
                   itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                    if (!nodeService.isRoot(entry.node.id))
-                      PopupMenuItem<String>(
-                        value: 'delete',
-                        onTap: () => showDeleteDialog(context, entry.node),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.delete),
-                            const SizedBox(width: 4),
-                            Text(AppLocalizations.of(context)!.menuDelete),
-                          ],
-                        ),
+                    PopupMenuItem<String>(
+                      value: 'delete',
+                      onTap: () => showDeleteDialog(context, entry.node),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.delete),
+                          const SizedBox(width: 4),
+                          Text(AppLocalizations.of(context)!.menuDelete),
+                        ],
                       ),
-                    if (!nodeService.isRoot(entry.node.id))
-                      PopupMenuItem<String>(
-                        value: 'rename',
-                        onTap: () => showRenameDialog(context, entry.node),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.border_color_sharp),
-                            const SizedBox(width: 4),
-                            Text(AppLocalizations.of(context)!.menuRename),
-                          ],
-                        ),
+                    ),
+                    PopupMenuItem<String>(
+                      value: 'rename',
+                      onTap: () => showRenameDialog(context, entry.node),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.border_color_sharp),
+                          const SizedBox(width: 4),
+                          Text(AppLocalizations.of(context)!.menuRename),
+                        ],
                       ),
+                    ),
                     if (!entry.node.isNote)
                       PopupMenuItem<String>(
                         value: 'create_note',

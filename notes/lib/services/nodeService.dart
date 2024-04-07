@@ -118,11 +118,11 @@ class NodeService {
     } else if (siblingWithSameName(node.id, nodeName, true)) {
       AppLogger.log("Sibling with same name", level: Level.WARNING);
       utils.showErrorToast("There exists a node with same name");
-      log("Sibling with same name");
       return false;
     } else {
       String nodeId = node.id + DELIMITER + nodeName;
-      MyTreeNode newNode = MyTreeNode(id: nodeId, title: nodeName, isNote: nodeType);
+      MyTreeNode newNode =
+          MyTreeNode(id: nodeId, title: nodeName, isNote: nodeType, isLocked: false);
       node.addChild(newNode);
       hierarchyDb.updateDatabase();
       if (nodeType) {
@@ -160,6 +160,26 @@ class NodeService {
       hierarchyDb.updateDatabase();
       return true;
     }
+  }
+
+  bool createNewRoot(String name) {
+    String id = DELIMITER + name;
+    if (name.isEmpty) {
+      AppLogger.log("The name is empty", level: Level.WARNING);
+      utils.showErrorToast("Name is not filled");
+      return false;
+    } else if (containsDisabledChars(name)) {
+      AppLogger.log("Disabled chars", level: Level.WARNING);
+      utils.showErrorToast("Name contains not allowed chars");
+      return false;
+    } else if (HierarchyDatabase.rootList.contains(id)) {
+      AppLogger.log("Root with same name", level: Level.WARNING);
+      utils.showErrorToast("There is root with same name");
+      return false;
+    }
+    MyTreeNode newRoot = MyTreeNode(id: id, title: name, isNote: false, isLocked: false);
+    hierarchyDb.saveRoot(newRoot);
+    return true;
   }
 
   /// Retrieves a node from the hierarchy based on its unique ID.

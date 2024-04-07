@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 // Keys for [boxHierachy]
 const String TREE_STORAGE = "TreeView";
-const String NOTES = "notes";
 const String CONFLICT = "conflict";
 // Keys for [boxSynchronization]
 const String TREE_CHANGE = "tree_change";
 const String LOCAL_SYNC = "last_sync";
+const String NOTE_LIST = "noteList";
+const String ROOT_LIST = "rootList";
 // Keys for [boxNotes]
-const String NOTE_LIST = "note_list";
 // Keys for [boxUser]
 const String LOCALE = "locale";
 
