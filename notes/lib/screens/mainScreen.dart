@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/assets/constants.dart';
+import 'package:notes/components/componentUtils.dart';
+import 'package:notes/components/dialogs/textFieldDialog.dart';
 import 'package:notes/components/fileListView.dart';
 import 'package:notes/components/myButton.dart';
 import 'package:notes/components/myDrawerHeader.dart';
@@ -14,6 +16,7 @@ import 'package:notes/data/userDatabase.dart';
 import 'dart:developer';
 import 'package:notes/components/myTreeview.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:notes/model/myTreeNode.dart';
 import 'package:notes/screens/settings.dart';
 import 'package:notes/services/firestoreService.dart';
 import 'package:notes/services/nodeService.dart';
@@ -42,6 +45,7 @@ class _MainScreenState extends State<MainScreen> {
   SynchronizationDatabase syncDb = SynchronizationDatabase();
   late final FirestoreService firestoreService;
   late StreamSubscription<User?> authStateSubscription;
+  final _textDialogController = TextEditingController();
 
   @override
   void initState() {
@@ -59,8 +63,46 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void dispose() {
     authStateSubscription.cancel();
+    _textDialogController.dispose();
     super.dispose();
   }
+
+  void checkLock(int screenType, String id) {
+    if (screenType != NOTE_SCREEN) {
+      _changeScreen(screenType, id);
+    } else {
+      MyTreeNode? node = nodeService.getNode(id);
+      if (node!.isLocked) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return TextFieldDialog(
+                  titleText: node.isNote
+                      ? AppLocalizations.of(context)!.createNote
+                      : AppLocalizations.of(context)!.createFile,
+                  confirmButtonText: AppLocalizations.of(context)!.create,
+                  controller: _textDialogController,
+                  onConfirm: () {
+                    if (nodeService.comparePassword(_textDialogController.text, node.password!)) {
+                      _textDialogController.clear();
+                      Navigator.of(context).pop();
+                      _changeScreen(screenType, id);
+                    } else {
+                      ComponentUtils.showErrorToast("Chybné heslo");
+                    }
+                  },
+                  onCancel: () {
+                    _textDialogController.clear();
+                    Navigator.of(context).pop();
+                  });
+            });
+      } else {
+        _changeScreen(screenType, id);
+      }
+    }
+  }
+
+  void controlPassword() {}
 
   void _changeScreen(int screenType, String id) {
     setState(() {

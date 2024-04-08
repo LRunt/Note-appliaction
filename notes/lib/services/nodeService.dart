@@ -80,15 +80,15 @@ class NodeService {
     AppLogger.log('Renaming node ${node.id}');
     if (newName.isEmpty) {
       AppLogger.log("The name is empty", level: Level.WARNING);
-      utils.showErrorToast(AppLocalizations.of(context)!.emptyTextFieldToast);
+      ComponentUtils.showErrorToast(AppLocalizations.of(context)!.emptyTextFieldToast);
       return false;
     } else if (containsDisabledChars(newName)) {
       AppLogger.log("Disabled chars", level: Level.WARNING);
-      utils.showErrorToast(AppLocalizations.of(context)!.disabledCharsToast);
+      ComponentUtils.showErrorToast(AppLocalizations.of(context)!.disabledCharsToast);
       return false;
     } else if (siblingWithSameName(node.id, newName, false)) {
       AppLogger.log("Sibling with same name", level: Level.WARNING);
-      utils.showErrorToast(AppLocalizations.of(context)!.siblingWithSameNameToast);
+      ComponentUtils.showErrorToast(AppLocalizations.of(context)!.siblingWithSameNameToast);
       return false;
     } else {
       node.title = newName;
@@ -117,15 +117,15 @@ class NodeService {
     AppLogger.log('Creating new node');
     if (nodeName.isEmpty) {
       AppLogger.log("The name is empty", level: Level.WARNING);
-      utils.showErrorToast(AppLocalizations.of(context)!.emptyTextFieldToast);
+      ComponentUtils.showErrorToast(AppLocalizations.of(context)!.emptyTextFieldToast);
       return false;
     } else if (containsDisabledChars(nodeName)) {
       AppLogger.log("Disabled chars", level: Level.WARNING);
-      utils.showErrorToast(AppLocalizations.of(context)!.disabledCharsToast);
+      ComponentUtils.showErrorToast(AppLocalizations.of(context)!.disabledCharsToast);
       return false;
     } else if (siblingWithSameName(node.id, nodeName, true)) {
       AppLogger.log("Sibling with same name", level: Level.WARNING);
-      utils.showErrorToast(AppLocalizations.of(context)!.siblingWithSameNameToast);
+      ComponentUtils.showErrorToast(AppLocalizations.of(context)!.siblingWithSameNameToast);
       return false;
     } else {
       String nodeId = node.id + DELIMITER + nodeName;
@@ -155,7 +155,7 @@ class NodeService {
     } else {
       for (var sibling in parent.children) {
         if (sibling.title == node.title) {
-          utils.showErrorToast(AppLocalizations.of(context)!.siblingWithSameNameToast);
+          ComponentUtils.showErrorToast(AppLocalizations.of(context)!.siblingWithSameNameToast);
           return false;
         }
       }
@@ -184,15 +184,15 @@ class NodeService {
     String id = DELIMITER + name;
     if (name.isEmpty) {
       AppLogger.log("The name is empty", level: Level.WARNING);
-      utils.showErrorToast(AppLocalizations.of(context)!.emptyTextFieldToast);
+      ComponentUtils.showErrorToast(AppLocalizations.of(context)!.emptyTextFieldToast);
       return false;
     } else if (containsDisabledChars(name)) {
       AppLogger.log("Disabled chars", level: Level.WARNING);
-      utils.showErrorToast(AppLocalizations.of(context)!.disabledCharsToast);
+      ComponentUtils.showErrorToast(AppLocalizations.of(context)!.disabledCharsToast);
       return false;
     } else if (HierarchyDatabase.rootList.contains(id)) {
       AppLogger.log("Root with same name", level: Level.WARNING);
-      utils.showErrorToast(AppLocalizations.of(context)!.siblingWithSameNameToast);
+      ComponentUtils.showErrorToast(AppLocalizations.of(context)!.siblingWithSameNameToast);
       return false;
     }
     MyTreeNode newRoot = MyTreeNode(id: id, title: name, isNote: false, isLocked: false);

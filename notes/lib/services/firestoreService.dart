@@ -66,7 +66,7 @@ class FirestoreService extends ChangeNotifier {
         return "$e";
       }
     } else {
-      utils.showErrorToast("Not logged user");
+      ComponentUtils.showErrorToast("Not logged user");
       return "not-logged-user";
     }
   }

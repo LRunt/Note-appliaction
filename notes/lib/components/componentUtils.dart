@@ -74,7 +74,7 @@ class ComponentUtils {
     );
   }
 
-  void showErrorToast(String message) {
+  static void showErrorToast(String message) {
     showCenteredToast(message, COLOR_ERROR);
   }
 
@@ -90,7 +90,7 @@ class ComponentUtils {
     showCenteredToast(message, COLOR_WARNING);
   }
 
-  void showCenteredToast(String message, Color color) {
+  static void showCenteredToast(String message, Color color) {
     Fluttertoast.showToast(
         msg: message,
         toastLength: Toast.LENGTH_SHORT,

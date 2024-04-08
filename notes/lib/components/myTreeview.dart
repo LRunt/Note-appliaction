@@ -262,7 +262,7 @@ class MyTreeTile extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (!entry.node.isLocked)
+                  if (!entry.node.isLocked && entry.node.isNote)
                     PopupMenuItem<String>(
                       value: 'lock',
                       onTap: () => showLockDialog(context, entry.node),
@@ -274,7 +274,7 @@ class MyTreeTile extends StatelessWidget {
                         ],
                       ),
                     ),
-                  if (entry.node.isLocked)
+                  if (entry.node.isLocked && entry.node.isNote)
                     PopupMenuItem<String>(
                       value: 'unlock',
                       onTap: () => showUnlockDialog(context, entry.node),
