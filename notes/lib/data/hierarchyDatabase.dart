@@ -39,6 +39,7 @@ class HierarchyDatabase {
     boxSynchronization.put(ROOT_LIST, rootList);
     boxSynchronization.put(root.id, DateTime.now().microsecondsSinceEpoch);
     boxHierachy.put(root.id, root);
+    boxSynchronization.put(LAST_CHANGE, DateTime.now().microsecondsSinceEpoch);
   }
 
   void downloadRoot(MyTreeNode root) {

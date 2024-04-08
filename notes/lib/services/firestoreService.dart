@@ -42,7 +42,9 @@ class FirestoreService extends ChangeNotifier {
             log("document exist");
             Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
             var lastSyncCloud = data[LAST_SYNC_FIELD];
-            var lastSyncLocal = boxSynchronization.get(FIREBASE_LAST_SYNC);
+            log("Cloud sync: $lastSyncCloud");
+            var lastSyncLocal = boxSynchronization.get(LOCAL_SYNC);
+            log("Local sync: $lastSyncLocal");
             // Last synchronization was from actual device -> upload changes
             if (lastSyncCloud == lastSyncLocal) {
               log("same time sync");
@@ -76,7 +78,7 @@ class FirestoreService extends ChangeNotifier {
     await saveAllNotes();
     var now = DateTime.now().microsecondsSinceEpoch;
     await saveSyncTime(now);
-    boxSynchronization.put(FIREBASE_LAST_SYNC, now);
+    syncDatabase.synchronization(now);
   }
 
   // Downloading all data from the cloud
@@ -121,7 +123,7 @@ class FirestoreService extends ChangeNotifier {
     }
     var now = DateTime.now().microsecondsSinceEpoch;
     await saveSyncTime(now);
-    boxSynchronization.put(FIREBASE_LAST_SYNC, now);
+    syncDatabase.synchronization(now);
   }
 
   Future<void> synchronizeRoots(List rootIds, int localTimeSync) async {
