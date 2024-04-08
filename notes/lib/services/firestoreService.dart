@@ -31,10 +31,11 @@ class FirestoreService extends ChangeNotifier {
       String userId = auth.currentUser!.uid;
       try {
         var documentSnapshot = await fireStore.collection(userId).doc(FIREBASE_LAST_SYNC).get();
-        // if the user have data on account, but he is connected first time
+        // if the user have data on account, but he is connected first time -> upload all data
         if (documentSnapshot.exists) {
           if (!boxSynchronization.containsKey(LOCAL_SYNC) ||
               boxSynchronization.get(LOCAL_SYNC) == null) {
+            // If there are no prevous synchronization -> download all data
             log("Downloading data");
             downloadAllData();
           } else {
@@ -42,10 +43,12 @@ class FirestoreService extends ChangeNotifier {
             Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
             var lastSyncCloud = data[LAST_SYNC_FIELD];
             var lastSyncLocal = boxSynchronization.get(FIREBASE_LAST_SYNC);
+            // Last synchronization was from actual device -> upload changes
             if (lastSyncCloud == lastSyncLocal) {
               log("same time sync");
               await uploadAllData();
             } else {
+              // Last synchronization wasnt form actual device -> check versions, resolve conflicts
               log("different time sync");
               await resolveConflicts(lastSyncLocal, lastSyncCloud);
             }
@@ -119,6 +122,34 @@ class FirestoreService extends ChangeNotifier {
     var now = DateTime.now().microsecondsSinceEpoch;
     await saveSyncTime(now);
     boxSynchronization.put(FIREBASE_LAST_SYNC, now);
+  }
+
+  Future<void> synchronizeRoots(List rootIds, int localTimeSync) async {
+    String userId = auth.currentUser!.uid;
+    var documentSnapshot = await fireStore.collection(userId).doc("rootsLastChange").get();
+    if (documentSnapshot.exists) {
+      for (var root in rootIds) {
+        if (!boxHierachy.containsKey(root) || boxHierachy.get(root) == null) {
+          MyTreeNode downloadedRoot = await getRoot(root);
+          hierarchyDatabase.downloadRoot(downloadedRoot);
+        } else {
+          var cloud = documentSnapshot.get(root);
+          var local = syncDatabase.getLastChangeTime(root);
+          // Conflict
+          if (localTimeSync < cloud && localTimeSync < local) {
+            utils.showWarningToast("Possible conflict saved in Settings->Conflicts.");
+            hierarchyDatabase.saveConflictRoot(root);
+          } else if (localTimeSync > cloud) {
+            // saving to the cloud
+            saveRoot(root);
+          } else if (localTimeSync > local) {
+            // saving to the local
+            MyTreeNode downloadedRoot = await getRoot(root);
+            hierarchyDatabase.downloadRoot(downloadedRoot);
+          }
+        }
+      }
+    }
   }
 
   Future<void> synchronizeNotes(List noteIds, int localTimeSync) async {
@@ -334,7 +365,7 @@ class FirestoreService extends ChangeNotifier {
     try {
       var documentSnapshot = await fireStore.collection(userId).doc(FIREBASE_TREE_PROPERTIES).get();
       if (documentSnapshot.exists) {
-        return documentSnapshot.get('updateTime');
+        return documentSnapshot.get('lastChange');
       } else {
         log("Document does not exist");
         return 0;

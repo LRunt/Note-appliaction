@@ -142,6 +142,16 @@ class HierarchyDatabase {
     boxNotes.put(name, noteContent);
   }
 
+  void saveConflictRoot(String rootId) {
+    if (!boxHierachy.containsKey(CONFLICT) || boxHierachy.get(CONFLICT) == null) {
+      initConflictData();
+    }
+    MyTreeNode conflicts = boxHierachy.get(CONFLICT);
+    String name = CONFLICT + DateTime.now().toString() + DELIMITER + rootId;
+    MyTreeNode newConflict = MyTreeNode(id: name, title: name, isNote: false, isLocked: false);
+    conflicts.addChild(newConflict);
+  }
+
   void loadConflictData() {
     MyTreeNode conflicts = boxHierachy.get(CONFLICT);
     conflictData = [conflicts];

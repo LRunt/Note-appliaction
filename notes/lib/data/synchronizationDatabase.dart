@@ -23,4 +23,8 @@ class SynchronizationDatabase {
   int? getLastSyncTime() {
     return boxSynchronization.get(LOCAL_SYNC);
   }
+
+  int getLastChangeTime(String id) {
+    return boxSynchronization.get(id);
+  }
 }
