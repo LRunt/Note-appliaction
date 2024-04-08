@@ -52,7 +52,7 @@ class _MainScreenState extends State<MainScreen> {
     authStateSubscription = widget.auth.authStateChanges().listen((event) {
       reloadTreeView();
     });
-    lastSync = UtilService.getFormattedDate(syncDb.getLastTreeChangeTime());
+    lastSync = UtilService.getFormattedDate(syncDb.getLastSyncTime());
   }
 
   @override
@@ -73,6 +73,7 @@ class _MainScreenState extends State<MainScreen> {
   void reloadTreeView() {
     setState(() {
       treeViewKey = UniqueKey();
+      lastSync = UtilService.getFormattedDate(syncDb.getLastSyncTime());
     });
   }
 
