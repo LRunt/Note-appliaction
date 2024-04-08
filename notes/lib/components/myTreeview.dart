@@ -38,10 +38,13 @@ class MyTreeView extends StatefulWidget {
   /// The function takes an type of the page as integer and a noteId as string as parameters.
   final void Function(bool, String) navigateWithParam;
 
+  final VoidCallback onChange;
+
   /// Constructor of the [MyTreeView] class.
   const MyTreeView({
     super.key,
     required this.navigateWithParam,
+    required this.onChange,
   });
 
   @override
@@ -124,6 +127,7 @@ class _MyTreeViewState extends State<MyTreeView> {
                       entry.node.isNote,
                       entry.node.id,
                     ),
+                onChange: () => widget.onChange(),
                 treeController: treeController,
                 db: hierarchyDb);
           },
@@ -157,6 +161,9 @@ class MyTreeTile extends StatelessWidget {
   /// Reaction on the tap on the node.
   final VoidCallback navigate;
 
+  /// Reaction on the change of the hieararchy.
+  final VoidCallback onChange;
+
   /// Controller of the hierarchy.
   final TreeController treeController;
 
@@ -173,6 +180,7 @@ class MyTreeTile extends StatelessWidget {
       required this.entry,
       required this.onTap,
       required this.navigate,
+      required this.onChange,
       required this.treeController,
       required this.db});
 
@@ -401,6 +409,7 @@ class MyTreeTile extends StatelessWidget {
         treeController.roots = HierarchyDatabase.roots;
       }
       treeController.rebuild();
+      onChange();
     }
   }
 
@@ -410,6 +419,7 @@ class MyTreeTile extends StatelessWidget {
       treeController.expand(node);
       treeController.rebuild();
       closeAndClear(context);
+      onChange();
     }
     //log("${treeController.roots}");
   }
@@ -419,6 +429,7 @@ class MyTreeTile extends StatelessWidget {
     if (nodeService.renameNode(node, _textDialogController.text.trim(), context)) {
       closeAndClear(context);
       treeController.rebuild();
+      onChange();
     }
   }
 
@@ -426,6 +437,7 @@ class MyTreeTile extends StatelessWidget {
     if (nodeService.unlockNode(_textDialogController.text.trim(), node)) {
       closeAndClear(context);
       treeController.rebuild();
+      onChange();
     }
   }
 
@@ -433,6 +445,7 @@ class MyTreeTile extends StatelessWidget {
     if (nodeService.lockNode(_textDialogController.text.trim(), node)) {
       closeAndClear(context);
       treeController.rebuild();
+      onChange();
     }
   }
 

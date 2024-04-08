@@ -55,7 +55,7 @@ const Color COLOR_WARNING = Color.fromRGBO(255, 193, 7, 1.0);
 const Color COLOR_DEFAULT_TOAST = Color.fromRGBO(100, 100, 100, 1.0);
 
 // Main screen page types
-const int WELCOME_SCREEN = 0;
+const int MAIN_SCREEN = 0;
 const int NOTE_SCREEN = 1;
 const int DIRECTORY_SCREEN = 2;
 

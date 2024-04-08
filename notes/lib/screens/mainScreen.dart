@@ -34,6 +34,7 @@ class _MainScreenState extends State<MainScreen> {
   String _noteId = "";
   Key treeViewKey = UniqueKey();
   String lastSync = "";
+  int mainScreenCount = 0;
 
   ClearDatabase db = ClearDatabase();
   UserDatabase userDB = UserDatabase();
@@ -86,20 +87,35 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
+  void onChange() {
+    log("On change");
+    mainScreenCount++;
+    _changeScreen(MAIN_SCREEN, "");
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Widget> _widgetTypes = <Widget>[
       Container(
         padding: const EdgeInsets.all(50),
         child: FittedBox(
-          child: Text(
-            AppLocalizations.of(context)!.welcome,
-            style: const TextStyle(
-              color: Colors.grey,
-              fontSize: 32.0,
-            ),
-            textAlign: TextAlign.center,
-          ),
+          child: mainScreenCount == 0
+              ? Text(
+                  AppLocalizations.of(context)!.welcome,
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 32.0,
+                  ),
+                  textAlign: TextAlign.center,
+                )
+              : const Text(
+                  "Home screen",
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 32.0,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
         ),
       ),
       RichTextEditor(noteId: _noteId, key: ValueKey(_noteId)),
@@ -141,6 +157,7 @@ class _MainScreenState extends State<MainScreen> {
                 child: MyTreeView(
                   key: treeViewKey,
                   navigateWithParam: (bool isNote, String id) => navigateWithParam(isNote, id),
+                  onChange: () => onChange(),
                 ),
               ),
             ),
