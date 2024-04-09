@@ -310,5 +310,15 @@
     "disabledCharsToast": "Name contains one of disabled char: | or /",
     "@disabledCharsToast": {
         "description": "Text in toast when the user use one of disabled char"
+    },
+    "lastSynchronization": "Last synchronization: {lastSync}",
+    "@lastSynchronization": {
+        "description": "Info about the time of the last synchronization",
+        "placeholders": {
+            "lastSync": {
+                "type": "String",
+                "example": "14:10 01.03.2024"
+            }
+        }
     }
 }

@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/assets/constants.dart';
 import 'package:notes/components/componentUtils.dart';
-import 'package:notes/components/dialogs/textFieldDialog.dart';
+import 'package:notes/components/dialogs/enterPasswordDialog.dart';
 import 'package:notes/components/fileListView.dart';
 import 'package:notes/components/myButton.dart';
 import 'package:notes/components/myDrawerHeader.dart';
@@ -67,16 +67,16 @@ class _MainScreenState extends State<MainScreen> {
     super.dispose();
   }
 
-  void checkLock(int screenType, String id) {
-    if (screenType != NOTE_SCREEN) {
-      _changeScreen(screenType, id);
+  void checkLock(bool isNote, String id) {
+    if (!isNote) {
+      _changeScreen(DIRECTORY_SCREEN, id);
     } else {
       MyTreeNode? node = nodeService.getNode(id);
       if (node!.isLocked) {
         showDialog(
             context: context,
             builder: (context) {
-              return TextFieldDialog(
+              return EnterPasswordDialog(
                   titleText: node.isNote
                       ? AppLocalizations.of(context)!.createNote
                       : AppLocalizations.of(context)!.createFile,
@@ -86,9 +86,9 @@ class _MainScreenState extends State<MainScreen> {
                     if (nodeService.comparePassword(_textDialogController.text, node.password!)) {
                       _textDialogController.clear();
                       Navigator.of(context).pop();
-                      _changeScreen(screenType, id);
+                      _changeScreen(NOTE_SCREEN, id);
                     } else {
-                      ComponentUtils.showErrorToast("Chybné heslo");
+                      ComponentUtils.showErrorToast(AppLocalizations.of(context)!.wrongPassword);
                     }
                   },
                   onCancel: () {
@@ -97,7 +97,7 @@ class _MainScreenState extends State<MainScreen> {
                   });
             });
       } else {
-        _changeScreen(screenType, id);
+        _changeScreen(NOTE_SCREEN, id);
       }
     }
   }
@@ -198,7 +198,7 @@ class _MainScreenState extends State<MainScreen> {
               child: SingleChildScrollView(
                 child: MyTreeView(
                   key: treeViewKey,
-                  navigateWithParam: (bool isNote, String id) => navigateWithParam(isNote, id),
+                  navigateWithParam: (bool isNote, String id) => checkLock(isNote, id),
                   onChange: () => onChange(),
                 ),
               ),
@@ -208,7 +208,7 @@ class _MainScreenState extends State<MainScreen> {
                 padding: const EdgeInsets.all(5),
                 child: Column(
                   children: [
-                    Text("Poslední synchronizace: $lastSync"),
+                    Text(AppLocalizations.of(context)!.lastSynchronization(lastSync)),
                     MyButton(
                         onTap: () async {
                           await firestoreService.synchronize();

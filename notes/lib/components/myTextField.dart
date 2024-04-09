@@ -54,9 +54,7 @@ class _MyTextFieldState extends State<MyTextField> {
         suffixIcon: widget.isPasswordField
             ? IconButton(
                 onPressed: changeVisibility,
-                icon: isVisible
-                    ? const Icon(Icons.visibility)
-                    : const Icon(Icons.visibility_off),
+                icon: isVisible ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off),
               )
             : null,
         prefixIcon: widget.pefIcon,

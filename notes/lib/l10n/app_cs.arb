@@ -70,5 +70,6 @@
     "unlock": "Odemknout",
     "siblingWithSameNameToast": "V umístění se nachází soubor se stejným jménem",
     "emptyTextFieldToast": "Prázdné pole s názvem",
-    "disabledCharsToast": "Název obsahuje jeden ze zakázaných znaků: | or /"
+    "disabledCharsToast": "Název obsahuje jeden ze zakázaných znaků: | or /",
+    "lastSynchronization": "Poslední synchronizace: {lastSync}"
 }

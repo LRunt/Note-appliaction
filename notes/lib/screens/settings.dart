@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes/components/componentUtils.dart';
+import 'package:notes/components/dialogs/aboutAppDialog.dart';
 import 'package:notes/components/dialogs/deleteDialog.dart';
 import 'package:notes/data/clearDatabase.dart';
 import 'package:notes/data/userDatabase.dart';
@@ -48,6 +49,7 @@ class _SettingsPageState extends State<SettingsPage> {
   UserDatabase userDB = UserDatabase();
   ClearDatabase clearDB = ClearDatabase();
   ComponentUtils utils = ComponentUtils();
+  bool isSwitched = false;
 
   void clearData() {
     clearDB.clearAllData();
@@ -242,6 +244,65 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
             const Divider(),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "Tmavý mód",
+                      style: utils.getBasicTextStyle(),
+                    ),
+                  ),
+                  Switch(
+                    value: isSwitched,
+                    onChanged: (value) {
+                      // This is called when the user toggles the switch.
+                      setState(() {
+                        // Update the state of the switch.
+                        isSwitched = value;
+                      });
+                    },
+                    // Colors for the Switch when it's on and off.
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            const Divider(),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "O aplikaci",
+                      style: utils.getBasicTextStyle(),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 130,
+                    child: FilledButton(
+                      style: utils.getButtonStyle(),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AboutAppDialog(
+                              onClose: () {
+                                Navigator.of(context).pop();
+                              },
+                            );
+                          },
+                        );
+                      },
+                      child: Text(AppLocalizations.of(context)!.show),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

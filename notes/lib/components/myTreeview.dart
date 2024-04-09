@@ -4,6 +4,7 @@ import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
 import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/dialogs/deleteDialog.dart';
 import 'package:notes/components/dialogs/dropdownMenuDialog.dart';
+import 'package:notes/components/dialogs/enterPasswordDialog.dart';
 import 'package:notes/components/dialogs/textFieldDialog.dart';
 import 'package:notes/data/hierarchyDatabase.dart';
 import 'package:notes/model/myTreeNode.dart';
@@ -361,7 +362,7 @@ class MyTreeTile extends StatelessWidget {
     showDialog(
         context: context,
         builder: (context) {
-          return TextFieldDialog(
+          return EnterPasswordDialog(
               titleText: AppLocalizations.of(context)!.renameNode(node.title),
               confirmButtonText: AppLocalizations.of(context)!.rename,
               controller: _textDialogController,
