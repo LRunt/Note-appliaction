@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
 import 'package:notes/components/componentUtils.dart';
+import 'package:notes/components/dialogs/createPasswordDialog.dart';
 import 'package:notes/components/dialogs/deleteDialog.dart';
 import 'package:notes/components/dialogs/dropdownMenuDialog.dart';
 import 'package:notes/components/dialogs/enterPasswordDialog.dart';
@@ -316,6 +317,7 @@ class MyTreeTile extends StatelessWidget {
 
   /// Showing dialog to rename the node
   final _textDialogController = TextEditingController();
+  final _textDialogController2 = TextEditingController();
   void showRenameDialog(BuildContext context, MyTreeNode node) {
     showDialog(
         context: context,
@@ -349,10 +351,11 @@ class MyTreeTile extends StatelessWidget {
     showDialog(
         context: context,
         builder: (context) {
-          return TextFieldDialog(
-              titleText: AppLocalizations.of(context)!.renameNode(node.title),
-              confirmButtonText: AppLocalizations.of(context)!.rename,
-              controller: _textDialogController,
+          return CreatePasswordDialog(
+              titleText: AppLocalizations.of(context)!.lock + " " + node.title,
+              confirmButtonText: AppLocalizations.of(context)!.lock,
+              controller1: _textDialogController,
+              controller2: _textDialogController2,
               onConfirm: () => lockNode(context, node),
               onCancel: () => closeAndClear(context));
         });
@@ -443,10 +446,14 @@ class MyTreeTile extends StatelessWidget {
   }
 
   void lockNode(BuildContext context, MyTreeNode node) {
-    if (nodeService.lockNode(_textDialogController.text.trim(), node)) {
-      closeAndClear(context);
-      treeController.rebuild();
-      onChange();
+    if (_textDialogController.text == _textDialogController2.text) {
+      if (nodeService.lockNode(_textDialogController.text.trim(), node)) {
+        closeAndClear(context);
+        treeController.rebuild();
+        onChange();
+      }
+    } else {
+      ComponentUtils.showErrorToast(AppLocalizations.of(context)!.differentPasswords);
     }
   }
 
@@ -469,6 +476,7 @@ class MyTreeTile extends StatelessWidget {
   /// Closes dialogs and clears controllers
   void closeAndClear(BuildContext context) {
     _textDialogController.clear();
+    _textDialogController2.clear();
     Navigator.of(context).pop();
   }
 }

@@ -12,6 +12,8 @@ class FileListViewTile extends StatelessWidget {
   final VoidCallback createNote;
   final VoidCallback createFile;
   final VoidCallback move;
+  final VoidCallback lock;
+  final VoidCallback unlock;
 
   FileListViewTile({
     super.key,
@@ -22,6 +24,8 @@ class FileListViewTile extends StatelessWidget {
     required this.createNote,
     required this.createFile,
     required this.move,
+    required this.lock,
+    required this.unlock,
   });
 
   @override
@@ -103,7 +107,31 @@ class FileListViewTile extends StatelessWidget {
                             Text(AppLocalizations.of(context)!.menuMove),
                           ],
                         ),
-                      )
+                      ),
+                      if (node!.isNote && !node!.isLocked)
+                        PopupMenuItem<String>(
+                          value: 'lock',
+                          onTap: () => lock(),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.lock_outline),
+                              const SizedBox(width: 4),
+                              Text(AppLocalizations.of(context)!.lock),
+                            ],
+                          ),
+                        ),
+                      if (node!.isNote && node!.isLocked)
+                        PopupMenuItem<String>(
+                          value: 'unlock',
+                          onTap: () => unlock(),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.lock_open_rounded),
+                              const SizedBox(width: 4),
+                              Text(AppLocalizations.of(context)!.unlock),
+                            ],
+                          ),
+                        )
                     ],
                   ),
                 ],

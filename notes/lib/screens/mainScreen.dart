@@ -164,7 +164,7 @@ class _MainScreenState extends State<MainScreen> {
       FileListView(
         nodeId: _noteId,
         key: ValueKey(_noteId),
-        navigateWithParam: (isNote, nodeId) => navigateWithParam(isNote, nodeId),
+        navigateWithParam: (isNote, nodeId) => checkLock(isNote, nodeId),
       ),
     ];
 

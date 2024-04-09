@@ -61,7 +61,7 @@
     "replace": "Nahradit",
     "googleSignDivider": "Ostatní metody autentifikace",
     "forgotPassword": "Zapomenuté heslo?",
-    "resetPassword": "Resetuj zde.",
+    "resetPassword": "Obnovit heslo.",
     "resetPasswordTitle": "Obnovení hesla",
     "resetInstructions": "Zadejte svůj email. Bude vám zaslán email s odkazem na obnovení hesla.",
     "sendResetEmail": "Odeslat email",
@@ -71,5 +71,7 @@
     "siblingWithSameNameToast": "V umístění se nachází soubor se stejným jménem",
     "emptyTextFieldToast": "Prázdné pole s názvem",
     "disabledCharsToast": "Název obsahuje jeden ze zakázaných znaků: | or /",
-    "lastSynchronization": "Poslední synchronizace: {lastSync}"
+    "lastSynchronization": "Poslední synchronizace: {lastSync}",
+    "close": "ZAVŘÍT",
+    "open": "Otevřít"
 }

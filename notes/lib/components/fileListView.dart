@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/dialogs/deleteDialog.dart';
 import 'package:notes/components/dialogs/dropdownMenuDialog.dart';
+import 'package:notes/components/dialogs/enterPasswordDialog.dart';
 import 'package:notes/components/dialogs/textFieldDialog.dart';
 import 'package:notes/components/fileListViewTile.dart';
 import 'package:notes/model/myTreeNode.dart';
@@ -127,6 +128,32 @@ class _FileListViewState extends State<FileListView> {
     );
   }
 
+  void showUnlockDialog(MyTreeNode node) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return EnterPasswordDialog(
+              titleText: AppLocalizations.of(context)!.renameNode(node.title),
+              confirmButtonText: AppLocalizations.of(context)!.rename,
+              controller: _textDialogController,
+              onConfirm: () => unlockNode(node),
+              onCancel: () => closeAndClear());
+        });
+  }
+
+  void showLockDialog(MyTreeNode node) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return TextFieldDialog(
+              titleText: AppLocalizations.of(context)!.lock,
+              confirmButtonText: AppLocalizations.of(context)!.lock,
+              controller: _textDialogController,
+              onConfirm: () => lockNode(node),
+              onCancel: () => closeAndClear());
+        });
+  }
+
   void closeAndClear() {
     Navigator.of(context).pop();
     _textDialogController.clear();
@@ -170,6 +197,22 @@ class _FileListViewState extends State<FileListView> {
     );
   }
 
+  void unlockNode(MyTreeNode node) {
+    setState(() {
+      if (service.unlockNode(_textDialogController.text.trim(), node)) {
+        closeAndClear();
+      }
+    });
+  }
+
+  void lockNode(MyTreeNode node) {
+    setState(() {
+      if (service.lockNode(_textDialogController.text.trim(), node)) {
+        closeAndClear();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -180,16 +223,19 @@ class _FileListViewState extends State<FileListView> {
                   Padding(
                     padding: const EdgeInsets.all(7),
                     child: FileListViewTile(
-                        node: null,
-                        touch: () => widget.navigateWithParam(
-                              false,
-                              service.getParentPath(widget.nodeId),
-                            ),
-                        delete: () {},
-                        rename: () {},
-                        createNote: () {},
-                        createFile: () {},
-                        move: () {}),
+                      node: null,
+                      touch: () => widget.navigateWithParam(
+                        false,
+                        service.getParentPath(widget.nodeId),
+                      ),
+                      delete: () {},
+                      rename: () {},
+                      createNote: () {},
+                      createFile: () {},
+                      move: () {},
+                      lock: () {},
+                      unlock: () {},
+                    ),
                   ),
                 Center(
                   child: Text(
@@ -219,6 +265,8 @@ class _FileListViewState extends State<FileListView> {
                           createNote: () {},
                           createFile: () {},
                           move: () {},
+                          lock: () {},
+                          unlock: () {},
                         ),
                       ListView.builder(
                         itemCount: children.length,
@@ -238,6 +286,8 @@ class _FileListViewState extends State<FileListView> {
                               createNote: () => showCreateDialog(children[index], true),
                               createFile: () => showCreateDialog(children[index], false),
                               move: () => showMoveDialog(children[index]),
+                              lock: () => showLockDialog(children[index]),
+                              unlock: () => showUnlockDialog(children[index]),
                             ),
                           );
                         },

@@ -60,21 +60,28 @@ class CreatePasswordDialog extends StatelessWidget {
       ),
       backgroundColor: Colors.white,
       title: Text(titleText),
-      content: Column(
-        children: [
-          MyTextField(
-            isPasswordField: true,
-            hint: "Heslo",
-            controller: controller1,
-            pefIcon: const Icon(Icons.key),
-          ),
-          MyTextField(
-            isPasswordField: true,
-            hint: "Heslo",
-            controller: controller2,
-            pefIcon: const Icon(Icons.key),
-          )
-        ],
+      content: SizedBox(
+        width: 200,
+        height: 150,
+        child: Column(
+          children: [
+            MyTextField(
+              isPasswordField: true,
+              hint: AppLocalizations.of(context)!.password,
+              controller: controller1,
+              pefIcon: const Icon(Icons.key),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            MyTextField(
+              isPasswordField: true,
+              hint: AppLocalizations.of(context)!.passwordConfirm,
+              controller: controller2,
+              pefIcon: const Icon(Icons.key),
+            )
+          ],
+        ),
       ),
       actions: [
         TextButton(

@@ -320,5 +320,13 @@
                 "example": "14:10 01.03.2024"
             }
         }
-    }
+    },
+    "close": "CLOSE",
+    "@close": {
+        "description": "The text of the button to the close window or dialog"
+    },
+    "open": "Open",
+    "@open": {
+        "description": "The text of to open something"
+    } 
 }
