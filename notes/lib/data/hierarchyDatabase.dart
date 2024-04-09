@@ -6,7 +6,7 @@ import 'dart:developer';
 class HierarchyDatabase {
   static List<MyTreeNode> roots = [];
   static List<String> rootList = [];
-  static List<String> noteList = [];
+  static List noteList = [];
   static List<MyTreeNode> conflictData = [];
 
   // create initial default data
@@ -59,6 +59,18 @@ class HierarchyDatabase {
     updateDatabase();
   }
 
+  void updateRoot(String oldRootId, String newRootId) {
+    log("Update root");
+    rootList = boxSynchronization.get(ROOT_LIST);
+    rootList.remove(oldRootId);
+    rootList.add(newRootId);
+    log("$rootList");
+    boxSynchronization.delete(oldRootId);
+    boxSynchronization.put(newRootId, DateTime.now().microsecondsSinceEpoch);
+    boxSynchronization.put(LAST_CHANGE, DateTime.now().microsecondsSinceEpoch);
+    boxSynchronization.put(ROOT_LIST, rootList);
+  }
+
   // update database
   void updateDatabase() {
     log("Updating database: ${roots.firstOrNull}");
@@ -66,10 +78,8 @@ class HierarchyDatabase {
     for (MyTreeNode root in roots) {
       boxHierachy.put(root.id, root);
     }
-    //boxHierachy.put(TREE_STORAGE, roots.firstOrNull);
     // Adding timestamp of last change
     boxSynchronization.put(LAST_CHANGE, DateTime.now().microsecondsSinceEpoch);
-    //boxSynchronization.put(TREE_CHANGE, DateTime.now().microsecondsSinceEpoch);
   }
 
   void saveHierarchy(MyTreeNode hierarchy) {
@@ -78,25 +88,25 @@ class HierarchyDatabase {
   }
 
   void addNote(String noteId) {
-    List notes = boxSynchronization.get(NOTE_LIST);
-    notes.add(noteId);
-    log("$notes");
-    boxSynchronization.put(NOTE_LIST, notes);
+    noteList = boxSynchronization.get(NOTE_LIST);
+    noteList.add(noteId);
+    log("$noteList");
+    boxSynchronization.put(NOTE_LIST, noteList);
   }
 
   void deleteNote(String noteId) {
-    List notes = boxSynchronization.get(NOTE_LIST);
-    notes.remove(noteId);
-    log("$notes");
-    boxSynchronization.put(NOTE_LIST, notes);
+    noteList = boxSynchronization.get(NOTE_LIST);
+    noteList.remove(noteId);
+    log("$noteList");
+    boxSynchronization.put(NOTE_LIST, noteList);
   }
 
   void updateNote(String oldNoteId, String newNoteId) {
-    List notes = boxSynchronization.get(NOTE_LIST);
-    notes.remove(oldNoteId);
-    notes.add(newNoteId);
-    log("$notes");
-    boxSynchronization.put(NOTE_LIST, notes);
+    noteList = boxSynchronization.get(NOTE_LIST);
+    noteList.remove(oldNoteId);
+    noteList.add(newNoteId);
+    log("$noteList");
+    boxSynchronization.put(NOTE_LIST, noteList);
   }
 
   int getLastChange() {

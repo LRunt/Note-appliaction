@@ -97,6 +97,9 @@ class NodeService {
         notesDatabase.changeNoteId(node.id, newId);
         hierarchyDb.updateNote(node.id, newId);
       }
+      if (isRoot(node.id)) {
+        hierarchyDb.updateRoot(node.id, newId);
+      }
       node.id = newId;
       for (MyTreeNode child in node.children) {
         changeId(child, newId);
@@ -331,6 +334,7 @@ class NodeService {
     String newId = changePathInId(node.id, path);
     if (node.isNote) {
       notesDatabase.changeNoteId(node.id, newId);
+      hierarchyDb.updateNote(node.id, newId);
     }
     node.id = newId;
     for (MyTreeNode child in node.children) {

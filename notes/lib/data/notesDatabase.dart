@@ -1,5 +1,4 @@
 import 'package:notes/boxes.dart';
-//import 'package:notes/services/firebaseService.dart';
 
 class NotesDatabase {
   void saveAllNotes(List<Map<String, dynamic>> notes) async {

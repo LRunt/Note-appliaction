@@ -74,7 +74,6 @@ class FirestoreService extends ChangeNotifier {
   // Uploading all data to the cloud
   Future<void> uploadAllData() async {
     await saveRoots();
-    //await saveTreeStructure(HierarchyDatabase.roots.first, notes, updateTime);
     await saveAllNotes();
     var now = DateTime.now().microsecondsSinceEpoch;
     await saveSyncTime(now);
@@ -83,9 +82,6 @@ class FirestoreService extends ChangeNotifier {
 
   // Downloading all data from the cloud
   Future<void> downloadAllData() async {
-    // Save hierarchy
-    //MyTreeNode hierarchy = await getTreeNode();
-    //hierarchyDatabase.saveHierarchy(hierarchy);
     await downloadRoots();
     List notes = await getNoteList();
     hierarchyDatabase.saveNotes(notes);
@@ -255,7 +251,8 @@ class FirestoreService extends ChangeNotifier {
 
   Future<void> saveRoots() async {
     List<String> roots = HierarchyDatabase.rootList;
-    List<String> notes = HierarchyDatabase.noteList;
+    List notes = HierarchyDatabase.noteList;
+    log("Saving roots: $notes");
     int lastChange = hierarchyDatabase.getLastChange();
     String userId = auth.currentUser!.uid;
     await fireStore.collection(userId).doc(FIREBASE_TREE_PROPERTIES).set({
