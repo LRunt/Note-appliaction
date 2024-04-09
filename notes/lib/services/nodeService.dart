@@ -62,6 +62,7 @@ class NodeService {
     for (MyTreeNode child in node.children) {
       deleteNode(child, node);
     }
+    updateRootLastChange(node.id);
     if (parent == null) {
       hierarchyDb.deleteRoot(node);
     } else {
@@ -105,6 +106,7 @@ class NodeService {
         changeId(child, newId);
       }
       hierarchyDb.updateDatabase();
+      updateRootLastChange(node.id);
       return true;
     }
   }
@@ -140,6 +142,7 @@ class NodeService {
         notesDatabase.createNote(nodeId);
         hierarchyDb.addNote(nodeId);
       }
+      updateRootLastChange(node.id);
       return true;
     }
   }
@@ -179,6 +182,7 @@ class NodeService {
         changeId(child, node.id);
       }
       hierarchyDb.updateDatabase();
+      updateRootLastChange(node.id);
       return true;
     }
   }
@@ -443,5 +447,11 @@ class NodeService {
   bool comparePassword(String inputPassword, String storedHash) {
     var inputHash = generateHash(inputPassword);
     return inputHash == storedHash;
+  }
+
+  void updateRootLastChange(String nodeId) {
+    List<String> splittedPath = nodeId.split(DELIMITER);
+    String rootId = DELIMITER + splittedPath[1];
+    hierarchyDb.updateRootLastChangeTime(rootId);
   }
 }

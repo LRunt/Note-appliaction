@@ -71,6 +71,11 @@ class HierarchyDatabase {
     boxSynchronization.put(ROOT_LIST, rootList);
   }
 
+  updateRootLastChangeTime(String rootId) {
+    boxSynchronization.put(rootId, DateTime.now().microsecondsSinceEpoch);
+    boxSynchronization.put(LAST_CHANGE, DateTime.now().microsecondsSinceEpoch);
+  }
+
   // update database
   void updateDatabase() {
     log("Updating database: ${roots.firstOrNull}");
