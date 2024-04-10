@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+//------------------------------------------------------------------------------
+//                          DATABASE CONSTANTS
+//------------------------------------------------------------------------------
+//                             HIVE DATABASE
+//------------------------------------------------------------------------------
 // Keys for [boxHierachy]
 const String TREE_STORAGE = "TreeView";
 const String CONFLICT = "conflict";
@@ -24,6 +29,9 @@ const String BOX_NOTES = "Notes";
 const String BOX_USERS = "User";
 const String BOX_SYNCHRONIZATION = "Synchronization";
 
+//------------------------------------------------------------------------------
+//                             FIREBASE DATABASE
+//------------------------------------------------------------------------------
 // Firebase cloud constants
 const String FIREBASE_TREE = "user_tree";
 const String FIREBASE_TREE_TIME = "tree_time";
@@ -35,9 +43,9 @@ const String FIREBASE_TREE_PROPERTIES = "properties";
 // Firebase fields
 const String LAST_SYNC_FIELD = "Sync_timestamp";
 
-const String DELIMITER = "|";
-const List DISABLED_CHARS = ["|", "/"];
-
+//------------------------------------------------------------------------------
+//                          DESIGN CONSTANTS
+//------------------------------------------------------------------------------
 // Widgets decorative constants
 const String OBSCURE_CHAR = '*';
 const double DEFAULT_TEXT_SIZE = 16.0;
@@ -54,10 +62,18 @@ const Color COLOR_SUCCESS = Color.fromRGBO(25, 135, 84, 1.0);
 const Color COLOR_WARNING = Color.fromRGBO(255, 193, 7, 1.0);
 const Color COLOR_DEFAULT_TOAST = Color.fromRGBO(100, 100, 100, 1.0);
 
+//------------------------------------------------------------------------------
+//                          LOGIC CONSTANTS
+//------------------------------------------------------------------------------
 // Main screen page types
 const int MAIN_SCREEN = 0;
 const int NOTE_SCREEN = 1;
 const int DIRECTORY_SCREEN = 2;
 
-// Pictures paths
+const String DELIMITER = "|";
+const List DISABLED_CHARS = ["|", "/"];
+
+//------------------------------------------------------------------------------
+//                          PICTURE PATHS
+//------------------------------------------------------------------------------
 const String GOOGLE_AUTH_IMG = 'assets/google.png';

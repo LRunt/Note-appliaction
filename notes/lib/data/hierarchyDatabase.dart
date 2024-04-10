@@ -5,7 +5,7 @@ import 'dart:developer';
 
 class HierarchyDatabase {
   static List<MyTreeNode> roots = [];
-  static List<String> rootList = [];
+  static List rootList = [];
   static List noteList = [];
   static List<MyTreeNode> conflictData = [];
 
@@ -42,10 +42,15 @@ class HierarchyDatabase {
     boxSynchronization.put(LAST_CHANGE, DateTime.now().microsecondsSinceEpoch);
   }
 
-  void downloadRoot(MyTreeNode root) {
-    roots.add(root);
-    rootList.add(root.id);
+  void saveRootList(List rootList) {
+    log("Saving rootList: $rootList");
     boxSynchronization.put(ROOT_LIST, rootList);
+    rootList = boxSynchronization.get(ROOT_LIST);
+    log("Rootlist after synchronization: ");
+  }
+
+  void downloadRoot(MyTreeNode root, int lastChangeTime) {
+    boxSynchronization.put(root.id, lastChangeTime);
     boxHierachy.put(root.id, root);
   }
 
@@ -128,6 +133,10 @@ class HierarchyDatabase {
 
   List getNotes() {
     return boxSynchronization.get(NOTE_LIST);
+  }
+
+  List getRoots() {
+    return boxSynchronization.get(ROOT_LIST);
   }
 
   void saveNotes(List notes) {

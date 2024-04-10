@@ -452,6 +452,7 @@ class NodeService {
   void updateRootLastChange(String nodeId) {
     List<String> splittedPath = nodeId.split(DELIMITER);
     String rootId = DELIMITER + splittedPath[1];
+    log("Changing root change time: $rootId");
     hierarchyDb.updateRootLastChangeTime(rootId);
   }
 }

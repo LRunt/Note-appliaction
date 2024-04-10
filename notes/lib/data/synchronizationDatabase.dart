@@ -11,7 +11,7 @@ class SynchronizationDatabase {
     boxSynchronization.put(noteId, updateTime);
   }
 
-  int getLastTreeChangeTime() {
+  int getLastHierarchyChangeTime() {
     int? lastChangeTime = boxSynchronization.get(LAST_CHANGE);
     if (lastChangeTime == null) {
       return 0;
@@ -25,6 +25,11 @@ class SynchronizationDatabase {
   }
 
   int getLastChangeTime(String id) {
-    return boxSynchronization.get(id);
+    int? lastChangeTime = boxSynchronization.get(id);
+    if (lastChangeTime != null) {
+      return boxSynchronization.get(id);
+    } else {
+      return 0;
+    }
   }
 }

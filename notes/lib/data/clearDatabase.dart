@@ -1,4 +1,5 @@
 import 'package:notes/boxes.dart';
+import 'package:notes/data/hierarchyDatabase.dart';
 
 /// `ClearDatabase` provides methods to clear Hive boxes, so the data in the application's local database.
 ///
@@ -17,6 +18,10 @@ class ClearDatabase {
     await boxNotes.clear();
     await boxUser.clear();
     await boxSynchronization.clear();
+    HierarchyDatabase.noteList = [];
+    HierarchyDatabase.rootList = [];
+    HierarchyDatabase.roots = [];
+    HierarchyDatabase.conflictData = [];
   }
 
   /// Clears only the hierarchy structure data from the application database.

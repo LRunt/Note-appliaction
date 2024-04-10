@@ -95,20 +95,21 @@ class FirestoreService extends ChangeNotifier {
 
   Future<void> resolveConflicts(int localTimeSync, int cloudTimeSync) async {
     int treeChangeTimeCloud = await getUpdateTime();
-    int treeChangeTimeLocal = syncDatabase.getLastTreeChangeTime();
+    int treeChangeTimeLocal = syncDatabase.getLastHierarchyChangeTime();
     if (localTimeSync > treeChangeTimeCloud && localTimeSync > treeChangeTimeLocal) {
       // Only synchronize notes, because hierarchy is not changed
       List notes = hierarchyDatabase.getNotes();
       synchronizeNotes(notes, localTimeSync);
-    } else if (localTimeSync > treeChangeTimeCloud) {
-      // Upload hierarchy
-      List notes = hierarchyDatabase.getNotes();
-      saveTreeStructure(HierarchyDatabase.roots.first, notes, treeChangeTimeLocal);
-      synchronizeNotes(notes, localTimeSync);
     } else if (localTimeSync > treeChangeTimeLocal) {
-      // Download hierarchy
-      MyTreeNode downloadedHierarchy = await getTreeNode();
-      hierarchyDatabase.saveHierarchy(downloadedHierarchy);
+      List roots = await getUserRoots();
+      synchronizeRoots(roots, localTimeSync);
+      List notes = await getUserNoteList();
+      synchronizeNotes(notes, localTimeSync);
+    } else if (localTimeSync > treeChangeTimeCloud) {
+      // Local or cloud is not changed
+      List roots = hierarchyDatabase.getRoots();
+      saveRoots();
+      synchronizeRoots(roots, localTimeSync);
       List notes = hierarchyDatabase.getNotes();
       synchronizeNotes(notes, localTimeSync);
     } else {
@@ -122,16 +123,39 @@ class FirestoreService extends ChangeNotifier {
     syncDatabase.synchronization(now);
   }
 
+  Future<List> getUserRoots() async {
+    String userId = auth.currentUser!.uid;
+    var documentSnapshot = await fireStore.collection(userId).doc(FIREBASE_TREE_PROPERTIES).get();
+    if (documentSnapshot.exists) {
+      return documentSnapshot.get('rootList');
+    } else {
+      log("Document does not exist");
+      return [];
+    }
+  }
+
+  Future<List> getUserNoteList() async {
+    String userId = auth.currentUser!.uid;
+    var documentSnapshot = await fireStore.collection(userId).doc(FIREBASE_TREE_PROPERTIES).get();
+    if (documentSnapshot.exists) {
+      return documentSnapshot.get('noteList');
+    } else {
+      log("Document does not exist");
+      return [];
+    }
+  }
+
   Future<void> synchronizeRoots(List rootIds, int localTimeSync) async {
     String userId = auth.currentUser!.uid;
+    hierarchyDatabase.saveRootList(rootIds);
     var documentSnapshot = await fireStore.collection(userId).doc("rootsLastChange").get();
     if (documentSnapshot.exists) {
       for (var root in rootIds) {
+        var cloud = documentSnapshot.get(root);
         if (!boxHierachy.containsKey(root) || boxHierachy.get(root) == null) {
           MyTreeNode downloadedRoot = await getRoot(root);
-          hierarchyDatabase.downloadRoot(downloadedRoot);
+          hierarchyDatabase.downloadRoot(downloadedRoot, cloud);
         } else {
-          var cloud = documentSnapshot.get(root);
           var local = syncDatabase.getLastChangeTime(root);
           // Conflict
           if (localTimeSync < cloud && localTimeSync < local) {
@@ -143,7 +167,7 @@ class FirestoreService extends ChangeNotifier {
           } else if (localTimeSync > local) {
             // saving to the local
             MyTreeNode downloadedRoot = await getRoot(root);
-            hierarchyDatabase.downloadRoot(downloadedRoot);
+            hierarchyDatabase.downloadRoot(downloadedRoot, cloud);
           }
         }
       }
@@ -250,7 +274,7 @@ class FirestoreService extends ChangeNotifier {
   }
 
   Future<void> saveRoots() async {
-    List<String> roots = HierarchyDatabase.rootList;
+    List roots = HierarchyDatabase.rootList;
     List notes = HierarchyDatabase.noteList;
     log("Saving roots: $notes");
     int lastChange = hierarchyDatabase.getLastChange();
@@ -268,11 +292,14 @@ class FirestoreService extends ChangeNotifier {
   Future<void> downloadRoots() async {
     String userId = auth.currentUser!.uid;
     var documentSnapshot = await fireStore.collection(userId).doc(FIREBASE_TREE_PROPERTIES).get();
-    if (documentSnapshot.exists) {
+    var documentChangeTimes = await fireStore.collection(userId).doc("rootsLastChange").get();
+    if (documentSnapshot.exists && documentChangeTimes.exists) {
       List rootList = documentSnapshot.get('rootList');
+      hierarchyDatabase.saveRootList(rootList);
       for (String rootId in rootList) {
         MyTreeNode root = await getRoot(rootId);
-        hierarchyDatabase.downloadRoot(root);
+        var lastChange = documentChangeTimes.get(rootId);
+        hierarchyDatabase.downloadRoot(root, lastChange);
       }
     }
   }
@@ -292,7 +319,7 @@ class FirestoreService extends ChangeNotifier {
     await fireStore.collection(userId).doc(rootId).set(map, SetOptions(merge: true));
     await fireStore
         .collection(userId)
-        .doc('rootsLastChanges')
+        .doc('rootsLastChange')
         .set({rootId: lastChange}, SetOptions(merge: true));
   }
 
@@ -329,7 +356,7 @@ class FirestoreService extends ChangeNotifier {
     try {
       var documentSnapshot = await fireStore.collection(userId).doc(FIREBASE_TREE_PROPERTIES).get();
       if (documentSnapshot.exists) {
-        return documentSnapshot.get('notes');
+        return documentSnapshot.get('noteList');
       } else {
         log("Document does not exist");
         return [];
