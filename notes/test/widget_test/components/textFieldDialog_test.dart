@@ -5,8 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   group('TextFieldDialog Tests', () {
-    testWidgets('Confirm button triggers onConfirm callback',
-        (WidgetTester tester) async {
+    testWidgets('Confirm button triggers onConfirm callback', (WidgetTester tester) async {
       bool confirmPressed = false;
       await tester.pumpWidget(MaterialApp(
         home: TextFieldDialog(
@@ -15,6 +14,7 @@ void main() {
           titleText: 'Test Title',
           confirmButtonText: 'Confirm',
           controller: TextEditingController(),
+          hint: "hint",
         ),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
@@ -26,8 +26,7 @@ void main() {
       expect(confirmPressed, isTrue);
     });
 
-    testWidgets('Cancel button triggers onCancel callback',
-        (WidgetTester tester) async {
+    testWidgets('Cancel button triggers onCancel callback', (WidgetTester tester) async {
       bool cancelPressed = false;
       await tester.pumpWidget(MaterialApp(
         home: TextFieldDialog(
@@ -36,6 +35,7 @@ void main() {
           titleText: 'Test Title',
           confirmButtonText: 'Confirm',
           controller: TextEditingController(),
+          hint: "hint",
         ),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,

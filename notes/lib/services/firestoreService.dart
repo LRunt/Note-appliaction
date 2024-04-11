@@ -189,13 +189,13 @@ class FirestoreService extends ChangeNotifier {
         } else {
           var local = await boxSynchronization.get(noteId);
           if (localTimeSync < cloud && localTimeSync < local) {
+            // Conflict
             utils.showWarningToast("Possible conflict saved in Settings->Conflicts.");
             hierarchyDatabase.saveConflictNote(noteId);
             String? note = await getNote(noteId);
             if (note != null) {
               syncDatabase.saveNote(noteId, note, cloud);
             }
-            // Conflict
           } else if (localTimeSync > cloud) {
             // saving to the cloud
             saveNote(noteId);

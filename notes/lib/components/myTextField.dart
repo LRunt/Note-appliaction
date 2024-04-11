@@ -16,7 +16,7 @@ class MyTextField extends StatefulWidget {
   final TextEditingController controller;
 
   /// Icon that will be displayed at the beginning of the textField.
-  final Icon pefIcon;
+  final Icon? pefIcon;
 
   /// Constructor of the class [MyTextField]
   const MyTextField(

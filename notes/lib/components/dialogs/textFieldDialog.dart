@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notes/components/componentUtils.dart';
+import 'package:notes/components/myTextField.dart';
 
 /// A custom dialog widget that contains a text field for input.
 ///
@@ -24,6 +25,8 @@ class TextFieldDialog extends StatelessWidget {
   /// The text for the confirmation button.
   final String confirmButtonText;
 
+  final String hint;
+
   /// Controller for managing the text field's content.
   final TextEditingController controller;
 
@@ -36,13 +39,15 @@ class TextFieldDialog extends StatelessWidget {
   /// behavior on respective actions. Also requires [titleText],
   /// [confirmButtonText] for labeling, and a [TextEditingController]
   /// [controller] to manage the input field's state.
-  TextFieldDialog(
-      {super.key,
-      required this.onConfirm,
-      required this.onCancel,
-      required this.titleText,
-      required this.confirmButtonText,
-      required this.controller});
+  TextFieldDialog({
+    super.key,
+    required this.onConfirm,
+    required this.onCancel,
+    required this.titleText,
+    required this.confirmButtonText,
+    required this.controller,
+    required this.hint,
+  });
 
   // Builds the UI of the textfield dialog.
   @override
@@ -55,9 +60,11 @@ class TextFieldDialog extends StatelessWidget {
       ),
       backgroundColor: Colors.white,
       title: Text(titleText),
-      content: TextField(
+      content: MyTextField(
+        isPasswordField: false,
         controller: controller,
-        decoration: const InputDecoration(),
+        pefIcon: null,
+        hint: hint,
       ),
       actions: [
         TextButton(

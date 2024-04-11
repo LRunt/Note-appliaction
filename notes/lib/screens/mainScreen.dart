@@ -213,6 +213,7 @@ class _MainScreenState extends State<MainScreen> {
                         onTap: () async {
                           await firestoreService.synchronize();
                           reloadTreeView();
+                          onChange();
                         },
                         text: AppLocalizations.of(context)!.synchronize),
                   ],

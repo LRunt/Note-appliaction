@@ -74,11 +74,13 @@ class _FileListViewState extends State<FileListView> {
       context: context,
       builder: (context) {
         return TextFieldDialog(
-            titleText: AppLocalizations.of(context)!.renameNode(node.title),
-            confirmButtonText: AppLocalizations.of(context)!.rename,
-            controller: _textDialogController,
-            onConfirm: () => renameNode(node),
-            onCancel: () => closeAndClear());
+          titleText: AppLocalizations.of(context)!.renameNode(node.title),
+          confirmButtonText: AppLocalizations.of(context)!.rename,
+          controller: _textDialogController,
+          onConfirm: () => renameNode(node),
+          onCancel: () => closeAndClear(),
+          hint: "",
+        );
       },
     );
   }
@@ -94,7 +96,8 @@ class _FileListViewState extends State<FileListView> {
             confirmButtonText: AppLocalizations.of(context)!.create,
             controller: _textDialogController,
             onConfirm: () => createNode(node, isNote),
-            onCancel: () => closeAndClear());
+            onCancel: () => closeAndClear(),
+            hint: "");
       },
     );
   }
@@ -146,11 +149,13 @@ class _FileListViewState extends State<FileListView> {
         context: context,
         builder: (context) {
           return TextFieldDialog(
-              titleText: AppLocalizations.of(context)!.lock,
-              confirmButtonText: AppLocalizations.of(context)!.lock,
-              controller: _textDialogController,
-              onConfirm: () => lockNode(node),
-              onCancel: () => closeAndClear());
+            titleText: AppLocalizations.of(context)!.lock,
+            confirmButtonText: AppLocalizations.of(context)!.lock,
+            controller: _textDialogController,
+            onConfirm: () => lockNode(node),
+            onCancel: () => closeAndClear(),
+            hint: "",
+          );
         });
   }
 

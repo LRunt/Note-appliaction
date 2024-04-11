@@ -95,20 +95,22 @@ class _MyTreeViewState extends State<MyTreeView> {
         context: context,
         builder: (context) {
           return TextFieldDialog(
-              titleText: AppLocalizations.of(context)!.createFile,
-              confirmButtonText: AppLocalizations.of(context)!.create,
-              controller: _textDialogController,
-              onConfirm: () {
-                if (nodeService.createNewRoot(_textDialogController.text.trim(), context)) {
-                  Navigator.of(context).pop();
-                  treeController.rebuild();
-                  _textDialogController.clear();
-                }
-              },
-              onCancel: () {
-                _textDialogController.clear();
+            titleText: AppLocalizations.of(context)!.createFile,
+            confirmButtonText: AppLocalizations.of(context)!.create,
+            controller: _textDialogController,
+            onConfirm: () {
+              if (nodeService.createNewRoot(_textDialogController.text.trim(), context)) {
                 Navigator.of(context).pop();
-              });
+                treeController.rebuild();
+                _textDialogController.clear();
+              }
+            },
+            onCancel: () {
+              _textDialogController.clear();
+              Navigator.of(context).pop();
+            },
+            hint: "",
+          );
         });
   }
 
@@ -323,11 +325,13 @@ class MyTreeTile extends StatelessWidget {
         context: context,
         builder: (context) {
           return TextFieldDialog(
-              titleText: AppLocalizations.of(context)!.renameNode(node.title),
-              confirmButtonText: AppLocalizations.of(context)!.rename,
-              controller: _textDialogController,
-              onConfirm: () => renameNode(context, node),
-              onCancel: () => closeAndClear(context));
+            titleText: AppLocalizations.of(context)!.renameNode(node.title),
+            confirmButtonText: AppLocalizations.of(context)!.rename,
+            controller: _textDialogController,
+            onConfirm: () => renameNode(context, node),
+            onCancel: () => closeAndClear(context),
+            hint: "nové jméno",
+          );
         });
   }
 
@@ -337,13 +341,15 @@ class MyTreeTile extends StatelessWidget {
         context: context,
         builder: (context) {
           return TextFieldDialog(
-              titleText: isNote
-                  ? AppLocalizations.of(context)!.createNote
-                  : AppLocalizations.of(context)!.createFile,
-              confirmButtonText: AppLocalizations.of(context)!.create,
-              controller: _textDialogController,
-              onConfirm: () => createNode(context, node, isNote),
-              onCancel: () => closeAndClear(context));
+            titleText: isNote
+                ? AppLocalizations.of(context)!.createNote
+                : AppLocalizations.of(context)!.createFile,
+            confirmButtonText: AppLocalizations.of(context)!.create,
+            controller: _textDialogController,
+            onConfirm: () => createNode(context, node, isNote),
+            onCancel: () => closeAndClear(context),
+            hint: isNote ? "Jméno poznámky" : "Jméno složky",
+          );
         });
   }
 
