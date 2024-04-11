@@ -44,7 +44,7 @@ void main() {
       expect(themeProvider.darkScheme, DARK_COLOR_SCHEME);
 
       // New color scheme
-      ColorScheme newScheme = ColorScheme.dark();
+      const ColorScheme newScheme = ColorScheme.dark();
 
       // Act
       themeProvider.setDarkScheme(newScheme);
@@ -62,7 +62,7 @@ void main() {
       expect(themeProvider.lightScheme, LIGHT_COLOR_SCHEME);
 
       // New color scheme
-      ColorScheme newScheme = ColorScheme.light();
+      const ColorScheme newScheme = ColorScheme.light();
 
       // Act
       themeProvider.setLightScheme(newScheme);

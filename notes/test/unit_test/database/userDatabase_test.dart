@@ -50,12 +50,20 @@ void main() {
       expect(result.languageCode, equals(langCode));
     });
 
-    test('saveTheme stores theme string', () {
+    test('saveTheme stores theme string - light', () {
       // Act
       userDatabase.saveTheme(ThemeMode.light);
 
       // Assert
       verify(mockBox.put(THEME, LIGHT)).called(1);
+    });
+
+    test('saveTheme stores theme string - dark', () {
+      // Act
+      userDatabase.saveTheme(ThemeMode.dark);
+
+      // Assert
+      verify(mockBox.put(THEME, DARK)).called(1);
     });
 
     test('loadTheme returns correct ThemeMode - light', () {

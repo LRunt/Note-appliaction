@@ -37,17 +37,24 @@ class Language {
   /// Finds a Language by its ISO language code.
   /// Returns the matching Language object, or null if no match is found.
   static Language? getByLangCode(String code) {
-    return languageList().firstWhere((language) => language.langCode == code);
+    try {
+      return languageList().firstWhere((language) => language.langCode == code);
+    } catch (e) {
+      return null;
+    }
   }
 
+  // Operator for comparing two objects
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is Language && runtimeType == other.runtimeType && langCode == other.langCode;
 
+  // Hash function of the object
   @override
   int get hashCode => langCode.hashCode;
 
+  // Text representation of the object
   @override
   String toString() {
     return "$flag  $name";

@@ -23,10 +23,11 @@ class ThemeProvider with ChangeNotifier {
   /// The database used to save and load theme settings.
   final UserDatabase userDb;
 
-  /// Constructs a [ThemeProvider] with an initial theme mode and a user database for persistence.
+  /// Constructor for creating a [ThemeProvider] with an initial theme mode and a user database for persistence.
   ///
-  /// The [themeMode] parameter sets the initial theme mode for the application.
-  /// The [userDb] parameter is the [UserDatabase] instance used for persisting theme preferences.
+  /// Requires two positional arguments:
+  /// - [themeMode] representing the initial theme mode for the application.
+  /// - [userDb] representing the [UserDatabase] instance used for persisting theme preferences.
   ThemeProvider({required ThemeMode themeMode, required this.userDb}) : _themeMode = themeMode;
 
   /// Returns the current theme mode.
