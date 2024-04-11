@@ -37,7 +37,7 @@ class FirestoreService extends ChangeNotifier {
               boxSynchronization.get(LOCAL_SYNC) == null) {
             // If there are no prevous synchronization -> download all data
             log("Downloading data");
-            downloadAllData();
+            await downloadAllData();
           } else {
             log("document exist");
             Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
@@ -98,7 +98,7 @@ class FirestoreService extends ChangeNotifier {
     int treeChangeTimeLocal = syncDatabase.getLastHierarchyChangeTime();
     if (localTimeSync > treeChangeTimeCloud && localTimeSync > treeChangeTimeLocal) {
       // Only synchronize notes, because hierarchy is not changed
-      List notes = hierarchyDatabase.getNotes();
+      List notes = await getUserNoteList();
       synchronizeNotes(notes, localTimeSync);
     } else if (localTimeSync > treeChangeTimeLocal) {
       List roots = await getUserRoots();

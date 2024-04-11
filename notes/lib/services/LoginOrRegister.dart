@@ -19,9 +19,16 @@ class LoginOrRegister extends StatefulWidget {
   /// What page will be shown first.
   final bool showLoginPage;
 
+  final VoidCallback loginSuccess;
+
   /// Constructor of [LoginOrRegister] class.
-  const LoginOrRegister(
-      {super.key, required this.auth, required this.firestore, required this.showLoginPage});
+  const LoginOrRegister({
+    super.key,
+    required this.auth,
+    required this.firestore,
+    required this.showLoginPage,
+    required this.loginSuccess,
+  });
 
   @override
   State<LoginOrRegister> createState() => _LoginOrRegisterState();
@@ -55,7 +62,12 @@ class _LoginOrRegisterState extends State<LoginOrRegister> {
   @override
   Widget build(BuildContext context) {
     if (showLoginPage) {
-      return LoginPage(auth: widget.auth, firestore: widget.firestore, onTap: togglePages);
+      return LoginPage(
+        auth: widget.auth,
+        firestore: widget.firestore,
+        onTap: togglePages,
+        loginSuccess: widget.loginSuccess,
+      );
     } else {
       return RegisterPage(auth: widget.auth, firestore: widget.firestore, onTap: togglePages);
     }

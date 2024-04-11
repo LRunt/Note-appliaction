@@ -114,6 +114,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void reloadTreeView() {
+    log("reloading tree");
     setState(() {
       treeViewKey = UniqueKey();
       lastSync = UtilService.getFormattedDate(syncDb.getLastSyncTime());
@@ -131,6 +132,12 @@ class _MainScreenState extends State<MainScreen> {
 
   void onChange() {
     log("On change");
+    mainScreenCount++;
+    _changeScreen(MAIN_SCREEN, "");
+  }
+
+  void deleteData() {
+    lastSync = "";
     mainScreenCount++;
     _changeScreen(MAIN_SCREEN, "");
   }
@@ -181,7 +188,9 @@ class _MainScreenState extends State<MainScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const SettingsPage(),
+                    builder: (context) => SettingsPage(
+                      onCleanDataAction: () => deleteData(),
+                    ),
                   ),
                 );
               },
@@ -193,6 +202,10 @@ class _MainScreenState extends State<MainScreen> {
             UserDrawerHeader(
               auth: widget.auth,
               firestore: widget.firestore,
+              loginSuccess: () {
+                log("login success");
+                reloadTreeView();
+              },
             ),
             Expanded(
               child: SingleChildScrollView(
@@ -214,6 +227,7 @@ class _MainScreenState extends State<MainScreen> {
                           await firestoreService.synchronize();
                           reloadTreeView();
                           onChange();
+                          log(lastSync);
                         },
                         text: AppLocalizations.of(context)!.synchronize),
                   ],

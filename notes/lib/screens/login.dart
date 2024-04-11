@@ -25,12 +25,15 @@ class LoginPage extends StatefulWidget {
   /// This function can be used to navigate the user to the registration page.
   final void Function()? onTap;
 
+  final VoidCallback loginSuccess;
+
   /// Constructor of [LoginPage] class.
   const LoginPage({
     super.key,
     required this.auth,
     required this.firestore,
     required this.onTap,
+    required this.loginSuccess,
   });
 
   @override
@@ -81,6 +84,7 @@ class _LoginFormState extends State<LoginPage> {
       await _authService.login(emailController.text.trim(), passwordController.text.trim());
       // Pop the CircularProgressIndicator
       Navigator.pop(context);
+      widget.loginSuccess();
       // Go back to the main screen
       Navigator.pop(context);
     } catch (errorCode) {
@@ -97,6 +101,7 @@ class _LoginFormState extends State<LoginPage> {
     try {
       await _authService.signInWithGoogle();
       // Pop the CircularProgressIndicator
+      widget.loginSuccess;
       Navigator.pop(context);
       // Go back to the main screen
       Navigator.pop(context);

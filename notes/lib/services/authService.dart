@@ -57,7 +57,7 @@ class AuthService extends ChangeNotifier {
       UserCredential userCredential =
           await auth.signInWithEmailAndPassword(email: email, password: password);
       // Synchronization after login
-      _firebaseService.synchronize();
+      await _firebaseService.synchronize();
       return userCredential;
     } on FirebaseAuthException catch (e) {
       throw e.code;
@@ -76,7 +76,7 @@ class AuthService extends ChangeNotifier {
 
     await auth.signInWithCredential(credential);
 
-    _firebaseService.synchronize();
+    await _firebaseService.synchronize();
   }
 
   /// Logs out the currently signed-in user.

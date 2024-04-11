@@ -19,8 +19,11 @@ class UserDrawerHeader extends StatefulWidget {
   /// Instance of firebase firestore.
   final FirebaseFirestore firestore;
 
+  final VoidCallback loginSuccess;
+
   /// Constructor of [UserDrawerHeader] class.
-  const UserDrawerHeader({super.key, required this.auth, required this.firestore});
+  const UserDrawerHeader(
+      {super.key, required this.auth, required this.firestore, required this.loginSuccess});
 
   @override
   State<UserDrawerHeader> createState() => _UserDrawerHeaderState();
@@ -120,7 +123,11 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => LoginOrRegister(
-                              auth: widget.auth, firestore: widget.firestore, showLoginPage: true),
+                            auth: widget.auth,
+                            firestore: widget.firestore,
+                            showLoginPage: true,
+                            loginSuccess: widget.loginSuccess,
+                          ),
                         ),
                       );
                     },
@@ -136,7 +143,11 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => LoginOrRegister(
-                              auth: widget.auth, firestore: widget.firestore, showLoginPage: false),
+                            auth: widget.auth,
+                            firestore: widget.firestore,
+                            showLoginPage: false,
+                            loginSuccess: widget.loginSuccess,
+                          ),
                         ),
                       );
                     },

@@ -39,7 +39,9 @@ import 'package:notes/screens/logs.dart';
 /// actions that may result in data loss, ensuring that the user has a chance to cancel
 /// the action if it was selected by mistake.
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({super.key});
+  final VoidCallback onCleanDataAction;
+
+  const SettingsPage({super.key, required this.onCleanDataAction});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -54,6 +56,7 @@ class _SettingsPageState extends State<SettingsPage> {
   void clearData() {
     clearDB.clearAllData();
     Navigator.of(context).pop();
+    widget.onCleanDataAction();
     utils.getSnackBarSuccess(context, AppLocalizations.of(context)!.deleteDataSuccess);
   }
 
