@@ -8,6 +8,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:notes/assets/constants.dart';
 import 'package:notes/data/userDatabase.dart';
 import 'package:notes/logger.dart';
+import 'package:notes/model/theme.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 import 'package:notes/screens/mainScreen.dart';
@@ -85,14 +87,24 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Note-taking application',
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      locale: _locale,
-      home: MainScreen(
-        auth: _auth,
-        firestore: _firestore,
+    return ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) {
+          return MaterialApp(
+            title: 'Note-taking application',
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            theme: ThemeData(useMaterial3: true, colorScheme: themeProvider.lightScheme),
+            darkTheme: ThemeData(useMaterial3: true, colorScheme: themeProvider.darkScheme),
+            themeMode: themeProvider.themeMode,
+            locale: _locale,
+            home: MainScreen(
+              auth: _auth,
+              firestore: _firestore,
+            ),
+          );
+        },
       ),
     );
   }

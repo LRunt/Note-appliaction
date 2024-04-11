@@ -8,8 +8,10 @@ import 'package:notes/logger.dart';
 import 'package:notes/main.dart';
 import 'package:notes/model/language.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:notes/model/theme.dart';
 import 'package:notes/screens/conflict.dart';
 import 'package:notes/screens/logs.dart';
+import 'package:provider/provider.dart';
 
 /// A [SettingsPage] widget that provides an interface for application settings.
 ///
@@ -51,7 +53,6 @@ class _SettingsPageState extends State<SettingsPage> {
   UserDatabase userDB = UserDatabase();
   ClearDatabase clearDB = ClearDatabase();
   ComponentUtils utils = ComponentUtils();
-  bool isSwitched = false;
 
   void clearData() {
     clearDB.clearAllData();
@@ -74,6 +75,14 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Get the current theme mode from the provider
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    bool isSwitched = themeProvider.themeMode == ThemeMode.dark;
+
+    void toggleTheme(bool isOn) {
+      themeProvider.setThemeMode(isOn ? ThemeMode.dark : ThemeMode.light);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.settings),
@@ -260,13 +269,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   Switch(
                     value: isSwitched,
                     onChanged: (value) {
-                      // This is called when the user toggles the switch.
                       setState(() {
-                        // Update the state of the switch.
-                        isSwitched = value;
+                        toggleTheme(value);
                       });
                     },
-                    // Colors for the Switch when it's on and off.
                     activeColor: Theme.of(context).primaryColor,
                     inactiveThumbColor: Theme.of(context).primaryColor,
                   ),

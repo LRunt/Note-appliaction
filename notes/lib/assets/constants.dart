@@ -62,7 +62,7 @@ const Color COLOR_SUCCESS = Color.fromRGBO(25, 135, 84, 1.0);
 const Color COLOR_WARNING = Color.fromRGBO(255, 193, 7, 1.0);
 const Color COLOR_DEFAULT_TOAST = Color.fromRGBO(100, 100, 100, 1.0);
 
-const lightColorScheme = ColorScheme(
+const LIGHT_COLOR_SCHEME = ColorScheme(
   brightness: Brightness.light,
   primary: Color(0xFF00658F),
   onPrimary: Color(0xFFFFFFFF),
@@ -96,7 +96,7 @@ const lightColorScheme = ColorScheme(
   scrim: Color(0xFF000000),
 );
 
-const darkColorScheme = ColorScheme(
+const DARK_COLOR_SCHEME = ColorScheme(
   brightness: Brightness.dark,
   primary: Color(0xFF87CEFF),
   onPrimary: Color(0xFF00344D),
