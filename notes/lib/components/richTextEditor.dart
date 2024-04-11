@@ -98,7 +98,7 @@ class _RichTextEditorState extends State<RichTextEditor> {
         onPressed: () {
           showControls();
         },
-        child: _controlsVisible ? const Icon(Icons.chrome_reader_mode) : const Icon(Icons.edit),
+        child: _controlsVisible ? const Icon(Icons.arrow_upward) : const Icon(Icons.arrow_downward),
       ),
     );
   }

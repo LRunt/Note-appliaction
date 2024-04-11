@@ -53,14 +53,13 @@ class AboutAppDialog extends StatelessWidget {
         ),
       ),
       backgroundColor: Colors.white,
-      title: Text("Informace o aplikaci"),
-      content: Text(
-          "Aplikace pro tvorbu poznámek\nAutor: Lukáš Runt\nVerze: 1.0.0\nDatum vydání: 15. 04. 2024"),
+      title: Text(AppLocalizations.of(context)!.aboutApp),
+      content: Text(AppLocalizations.of(context)!.informationsAboutApp),
       actions: [
         FilledButton(
           onPressed: onClose,
           style: utils.getButtonStyle(),
-          child: Text(AppLocalizations.of(context)!.cancel),
+          child: Text(AppLocalizations.of(context)!.close),
         ),
       ],
     );

@@ -65,18 +65,24 @@ class AuthService extends ChangeNotifier {
   }
 
   signInWithGoogle() async {
-    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+    try {
+      final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
 
-    final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+      final GoogleSignInAuthentication gAuth = await gUser!.authentication;
 
-    final credential = GoogleAuthProvider.credential(
-      accessToken: gAuth.accessToken,
-      idToken: gAuth.idToken,
-    );
+      final credential = GoogleAuthProvider.credential(
+        accessToken: gAuth.accessToken,
+        idToken: gAuth.idToken,
+      );
 
-    await auth.signInWithCredential(credential);
+      await auth.signInWithCredential(credential);
 
-    await _firebaseService.synchronize();
+      await _firebaseService.synchronize();
+    } on FirebaseAuthException catch (e) {
+      throw e.code;
+    } catch (e) {
+      throw Exception('Failed sign in with Google');
+    }
   }
 
   /// Logs out the currently signed-in user.

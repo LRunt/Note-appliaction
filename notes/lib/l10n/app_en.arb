@@ -328,5 +328,17 @@
     "open": "Open",
     "@open": {
         "description": "The text of to open something"
-    } 
+    },
+    "darkMode": "Dark mode",
+    "@darkMode": {
+        "description": "The label for dark mode settings"
+    },
+    "aboutApp": "About application",
+    "@aboutApp": {
+        "description": "The label about application in the settings"
+    },
+    "informationsAboutApp": "Note-taking application\nAuthor: Lukáš Runt\nVersion: 1.0.3\nPublish date: 11. 04. 2024",
+    "@informationsAboutApp": {
+        "description": "The information about application, about author, publish date and version"
+    }
 }

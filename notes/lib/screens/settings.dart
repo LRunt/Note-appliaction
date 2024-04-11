@@ -253,7 +253,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 children: [
                   Expanded(
                     child: Text(
-                      "Tmavý mód",
+                      AppLocalizations.of(context)!.darkMode,
                       style: utils.getBasicTextStyle(),
                     ),
                   ),
@@ -267,8 +267,8 @@ class _SettingsPageState extends State<SettingsPage> {
                       });
                     },
                     // Colors for the Switch when it's on and off.
-                    activeColor: Colors.green,
-                    inactiveThumbColor: Colors.red,
+                    activeColor: Theme.of(context).primaryColor,
+                    inactiveThumbColor: Theme.of(context).primaryColor,
                   ),
                 ],
               ),
@@ -280,7 +280,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 children: [
                   Expanded(
                     child: Text(
-                      "O aplikaci",
+                      AppLocalizations.of(context)!.aboutApp,
                       style: utils.getBasicTextStyle(),
                     ),
                   ),
