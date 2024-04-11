@@ -1,19 +1,17 @@
 import 'package:notes/boxes.dart';
 import 'package:notes/data/hierarchyDatabase.dart';
 
-/// `ClearDatabase` provides methods to clear Hive boxes, so the data in the application's local database.
+/// Manages the clearing of stored data within the application's local database.
 ///
-/// This class provides some methods to clear storage form necesery data.
-///
-/// Author: Lukas Runt
-/// Date: 2024-02-27
-/// Version: 1.0.0
+/// Provides methods to clear data from various Hive boxes, which are used to store
+/// different types of application data such as hierarchy structures, notes, and user settings.
 class ClearDatabase {
-  /// Clears all data from the application database.
+  /// Clears all stored data from the application's database.
   ///
-  /// This method asynchronously clears all stored data by calling individual
-  /// clear methods for hierarchy structures, notes, user data, and synchronization timestamps.
-  void clearAllData() async {
+  /// This method clears data across all categories including hierarchy structures,
+  /// notes, user preferences, and synchronization data. It is typically used for
+  /// resetting the application or during major updates that require a clean state.
+  Future<void> clearAllData() async {
     await boxHierachy.clear();
     await boxNotes.clear();
     await boxUser.clear();
@@ -24,23 +22,34 @@ class ClearDatabase {
     HierarchyDatabase.conflictData = [];
   }
 
-  /// Clears only the hierarchy structure data from the application database.
-  void clearHierarchyStructure() async {
+  /// Clears data related to the hierarchy structures from the database.
+  ///
+  /// Targets only the data stored in the hierarchy box, making it useful for
+  /// specific reset operations related to app content structure.
+  Future<void> clearHierarchyStructure() async {
     await boxHierachy.clear();
   }
 
-  /// Clears all note data from the application database.
-  void clearNoteData() async {
+  /// Clears all note-related data from the database.
+  ///
+  /// Focuses on clearing entries from the notes box, effectively removing all stored notes.
+  Future<void> clearNoteData() async {
     await boxNotes.clear();
   }
 
-  /// Clears all user data and preferences from the application database.
-  void clearUserData() async {
+  /// Clears user-specific data and preferences from the database.
+  ///
+  /// This action deletes all information held in the user preferences box, suitable
+  /// for privacy resets or preparing the app for a new user.
+  Future<void> clearUserData() async {
     await boxUser.clear();
   }
 
-  /// Clears all timestamps of synchronization from the application database.
-  void clearSyncTimes() async {
+  /// Clears synchronization timestamps from the database.
+  ///
+  /// Removes all entries related to synchronization times, useful for troubleshooting
+  /// or resetting sync mechanisms.
+  Future<void> clearSyncTimes() async {
     await boxSynchronization.clear();
   }
 }
