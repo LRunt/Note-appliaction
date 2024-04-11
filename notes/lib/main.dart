@@ -90,7 +90,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ThemeProvider(themeMode: initialThemeMode),
+      create: (context) => ThemeProvider(themeMode: initialThemeMode, userDb: db),
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
           return MaterialApp(
