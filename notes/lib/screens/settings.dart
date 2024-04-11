@@ -273,8 +273,6 @@ class _SettingsPageState extends State<SettingsPage> {
                         toggleTheme(value);
                       });
                     },
-                    activeColor: Theme.of(context).primaryColor,
-                    inactiveThumbColor: Theme.of(context).primaryColor,
                   ),
                 ],
               ),

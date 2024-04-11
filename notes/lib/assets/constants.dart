@@ -17,6 +17,7 @@ const String ROOT_LIST = "rootList";
 // Keys for [boxNotes]
 // Keys for [boxUser]
 const String LOCALE = "locale";
+const String THEME = "theme";
 
 // User database constants (keys)
 const String USER_LOGGED = "isLogged";
@@ -98,7 +99,7 @@ const LIGHT_COLOR_SCHEME = ColorScheme(
 
 const DARK_COLOR_SCHEME = ColorScheme(
   brightness: Brightness.dark,
-  primary: Color(0xFF87CEFF),
+  primary: Color(0xFFCAE0E4),
   onPrimary: Color(0xFF00344D),
   primaryContainer: Color(0xFF004C6D),
   onPrimaryContainer: Color(0xFFC8E6FF),
@@ -140,6 +141,11 @@ const int DIRECTORY_SCREEN = 2;
 
 const String DELIMITER = "|";
 const List DISABLED_CHARS = ["|", "/"];
+
+// Theme constants
+const String LIGHT = "light";
+const String DARK = "dark";
+const String SYSTEM = "system";
 
 //------------------------------------------------------------------------------
 //                          PICTURE PATHS

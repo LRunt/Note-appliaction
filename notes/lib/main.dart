@@ -62,6 +62,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Locale? _locale;
   UserDatabase db = UserDatabase();
+  ThemeMode initialThemeMode = ThemeMode.system;
 
   /// An instance of firebase authentification, created in main because of testing.
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -82,13 +83,14 @@ class _MyAppState extends State<MyApp> {
       Locale locale = db.loadLocale();
       setLocale(locale);
     }
+    initialThemeMode = db.loadTheme();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
+      create: (context) => ThemeProvider(themeMode: initialThemeMode),
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
           return MaterialApp(

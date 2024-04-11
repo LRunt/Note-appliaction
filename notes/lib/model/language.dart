@@ -30,7 +30,7 @@ class Language {
   static List<Language> languageList() {
     return <Language>[
       Language("🇬🇧", "English", "en"),
-      Language("🇨🇿", "Czech", "cs")
+      Language("🇨🇿", "Čeština", "cs"),
     ];
   }
 
@@ -43,9 +43,7 @@ class Language {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Language &&
-          runtimeType == other.runtimeType &&
-          langCode == other.langCode;
+      other is Language && runtimeType == other.runtimeType && langCode == other.langCode;
 
   @override
   int get hashCode => langCode.hashCode;
