@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:notes/components/componentUtils.dart';
+import 'package:notes/assets/widgetConstants.dart';
 
 /// A [DropdownMenuDialog] widget that presents a dropdown menu inside an alert dialog.
 ///
@@ -45,7 +45,6 @@ import 'package:notes/components/componentUtils.dart';
 ///
 /// This dialog leverages [AlertDialog] to present its content, providing a consistent and familiar UI for users.
 // ignore: must_be_immutable
-// ignore: must_be_immutable
 class DropdownMenuDialog extends StatelessWidget {
   /// A callback function that is called when the user presses the confirm button.
   ///
@@ -72,9 +71,6 @@ class DropdownMenuDialog extends StatelessWidget {
   ///  A callback that is executed when a new item is selected from the dropdown.
   final Function(String?) onSelect;
 
-  /// An instance of [ComponentUtils] for utility functions and styling.
-  final utils = ComponentUtils();
-
   /// Constructor of the [DropdownMenuDialog]
   ///
   /// [onConfirm] and [onCancel] must not be null. They define the callback functions
@@ -95,13 +91,7 @@ class DropdownMenuDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(10.0),
-        ),
-      ),
-      backgroundColor: Colors.white,
-      title: Text(titleText),
+      shape: dialogBorder,
       content: DropdownButtonFormField<String>(
         value: selectedValue,
         items: items,
@@ -118,12 +108,13 @@ class DropdownMenuDialog extends StatelessWidget {
         TextButton(
           key: const Key('cancelButton'),
           onPressed: onCancel,
-          style: utils.getButtonStyle(),
+          style: defaultButtonStyle,
           child: Text(AppLocalizations.of(context)!.cancel),
         ),
         FilledButton(
+          key: const Key('confirmButton'),
           onPressed: onConfirm,
-          style: utils.getButtonStyle(),
+          style: defaultButtonStyle,
           child: Text(confirmButtonText),
         ),
       ],

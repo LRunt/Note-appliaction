@@ -1,13 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:notes/components/componentUtils.dart';
+import 'package:notes/assets/constants.dart';
+import 'package:notes/assets/widgetConstants.dart';
 import 'package:notes/components/myTextField.dart';
 
-/// A custom dialog widget that contains a text field for input.
+/// A dialog widget designed for password creation, featuring two password fields.
 ///
-/// This dialog is designed to capture user input, providing options
-/// for confirmation and cancellation. It uses [AlertDialog] as its
-/// base structure and includes custom styling and localization support.
+/// This custom dialog uses an [AlertDialog] as its base structure and incorporates
+/// two [MyTextField] widgets for password and password confirmation inputs. It provides
+/// localized text support and custom styling defined in widget constants. The dialog
+/// facilitates user interaction by offering confirm and cancel actions.
+///
+/// Parameters:
+/// - [onConfirm]: A callback that is invoked when the confirm button is pressed.
+///   It defines the action taken after user confirmation.
+/// - [onCancel]: A callback that is invoked when the cancel button is pressed.
+///   It defines the action taken if the user decides to cancel the operation.
+/// - [titleText]: Text displayed as the dialog's title.
+/// - [confirmButtonText]: Text displayed on the confirmation button.
+/// - [controller1]: Controller for the first password input field.
+/// - [controller2]: Controller for the password confirmation input field.
+///
+/// Usage Example:
+/// ```dart
+/// CreatePasswordDialog(
+///   onConfirm: () {
+///     // Handle confirmation action
+///   },
+///   onCancel: () {
+///     // Handle cancellation action
+///   },
+///   titleText: 'Set Your Password',
+///   confirmButtonText: 'Confirm',
+///   controller1: TextEditingController(),
+///   controller2: TextEditingController(),
+/// )
+/// ```
 class CreatePasswordDialog extends StatelessWidget {
   /// A callback function that is called when the user presses the confirm button.
   ///
@@ -25,21 +53,24 @@ class CreatePasswordDialog extends StatelessWidget {
   /// The text for the confirmation button.
   final String confirmButtonText;
 
-  /// Controller for managing the text field's content.
+  /// Controller for managing the upper text field's content.
   final TextEditingController controller1;
 
+  /// Controller for managing the lower text field's content.
   final TextEditingController controller2;
 
-  /// A utility object for styling the widget.
-  final utils = ComponentUtils();
-
-  /// Constructs a [TextFieldDialog].
+  /// Constructor of the [CreatePasswordDialog].
   ///
-  /// Requires [onConfirm] and [onCancel] callbacks to define the dialog's
-  /// behavior on respective actions. Also requires [titleText],
-  /// [confirmButtonText] for labeling, and a [TextEditingController]
-  /// [controller] to manage the input field's state.
-  CreatePasswordDialog({
+  /// Requires six positional arguments:
+  /// - [onConfirm] A callback that is invoked when the confirm button is pressed.
+  ///   It defines the action taken after user confirmation.
+  /// - [onCancel] A callback that is invoked when the cancel button is pressed.
+  ///   It defines the action taken if the user decides to cancel the operation.
+  /// - [titleText] text which will be displayed in the dialog's title.
+  /// - [confirmButtonText] text displayed on the confirmation button.
+  /// - [controller1] controller for the first password input field.
+  /// - [controller2]  controller for the password confirmation input field.
+  const CreatePasswordDialog({
     super.key,
     required this.onConfirm,
     required this.onCancel,
@@ -53,12 +84,8 @@ class CreatePasswordDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(10.0),
-        ),
-      ),
-      backgroundColor: Colors.white,
+      shape: dialogBorder,
+      backgroundColor: Theme.of(context).dialogBackgroundColor,
       title: Text(titleText),
       content: SizedBox(
         width: 200,
@@ -72,7 +99,7 @@ class CreatePasswordDialog extends StatelessWidget {
               pefIcon: const Icon(Icons.key),
             ),
             const SizedBox(
-              height: 15,
+              height: SMALL_GAP,
             ),
             MyTextField(
               isPasswordField: true,
@@ -87,12 +114,13 @@ class CreatePasswordDialog extends StatelessWidget {
         TextButton(
           key: const Key('cancelButton'),
           onPressed: onCancel,
-          style: utils.getButtonStyle(),
+          style: defaultButtonStyle,
           child: Text(AppLocalizations.of(context)!.cancel),
         ),
         FilledButton(
+          key: const Key('confirmButton'),
           onPressed: onConfirm,
-          style: utils.getButtonStyle(),
+          style: defaultButtonStyle,
           child: Text(confirmButtonText),
         ),
       ],

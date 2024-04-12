@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:notes/components/componentUtils.dart';
+import 'package:notes/assets/widgetConstants.dart';
 import 'package:notes/components/myTextField.dart';
 
 /// A custom dialog widget that contains a text field for input.
@@ -30,16 +30,13 @@ class TextFieldDialog extends StatelessWidget {
   /// Controller for managing the text field's content.
   final TextEditingController controller;
 
-  /// A utility object for styling the widget.
-  final utils = ComponentUtils();
-
   /// Constructs a [TextFieldDialog].
   ///
   /// Requires [onConfirm] and [onCancel] callbacks to define the dialog's
   /// behavior on respective actions. Also requires [titleText],
   /// [confirmButtonText] for labeling, and a [TextEditingController]
   /// [controller] to manage the input field's state.
-  TextFieldDialog({
+  const TextFieldDialog({
     super.key,
     required this.onConfirm,
     required this.onCancel,
@@ -53,13 +50,8 @@ class TextFieldDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(10.0),
-        ),
-      ),
-      backgroundColor: Colors.white,
-      title: Text(titleText),
+      shape: dialogBorder,
+      backgroundColor: Theme.of(context).dialogBackgroundColor,
       content: MyTextField(
         isPasswordField: false,
         controller: controller,
@@ -70,12 +62,12 @@ class TextFieldDialog extends StatelessWidget {
         TextButton(
           key: const Key('cancelButton'),
           onPressed: onCancel,
-          style: utils.getButtonStyle(),
+          style: defaultButtonStyle,
           child: Text(AppLocalizations.of(context)!.cancel),
         ),
         FilledButton(
           onPressed: onConfirm,
-          style: utils.getButtonStyle(),
+          style: defaultButtonStyle,
           child: Text(confirmButtonText),
         ),
       ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:notes/components/componentUtils.dart';
+import 'package:notes/assets/widgetConstants.dart';
 
 /// A [DeleteDialog] widget that displays an alert dialog for confirming deletion.
 ///
@@ -44,15 +44,14 @@ class DeleteDialog extends StatelessWidget {
   /// The text to be displayed in the content of the dialog.
   final String contentText;
 
-  /// A utility object for styling the widget.
-  final utils = ComponentUtils();
-
   /// Constructor of the [DeleteDialog].
   ///
-  /// [onDelete] and [onCancel] must not be null. They define the callback functions
-  /// for the delete and cancel actions, respectively. [titleText] and [contentText]
-  /// provide the text displayed in the dialog.
-  DeleteDialog(
+  /// Requires four positional arguments:
+  /// - [onDelete] a callback function which confirms delete.
+  /// - [onCancel] a callback function which cancel delete.
+  /// - [titleText] a text which will be shown in the title.
+  /// - [contentText] a text which will be shown in the content.
+  const DeleteDialog(
       {super.key,
       required this.onDelete,
       required this.onCancel,
@@ -63,23 +62,19 @@ class DeleteDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(10.0),
-        ),
-      ),
-      backgroundColor: Colors.white,
+      shape: dialogBorder,
+      backgroundColor: Theme.of(context).dialogBackgroundColor,
       title: Text(titleText),
       content: Text(contentText),
       actions: [
         TextButton(
           onPressed: onCancel,
-          style: utils.getButtonStyle(),
+          style: defaultButtonStyle,
           child: Text(AppLocalizations.of(context)!.cancel),
         ),
         FilledButton(
           onPressed: onDelete,
-          style: utils.getButtonStyle(),
+          style: defaultButtonStyle,
           child: Text(AppLocalizations.of(context)!.delete),
         ),
       ],

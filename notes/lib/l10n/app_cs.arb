@@ -76,6 +76,7 @@
     "close": "ZAVŘÍT",
     "open": "Otevřít",
     "darkMode": "Tmavý mód",
-    "aboutApp": "O aplikaci",
-    "informationsAboutApp": "Aplikace pro tvorbu poznámek\nAutor: Lukáš Runt\nVerze: 1.0.3\nDatum vydání: 11. 04. 2024"
+    "aboutApp": "Informace o aplikaci",
+    "informationsAboutApp": "Aplikace pro tvorbu poznámek\nAutor: Lukáš Runt\nVerze: 1.0.3\nDatum vydání: 11. 04. 2024",
+    "lockButton": "UZAMKNOUT"
 }
