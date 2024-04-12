@@ -147,6 +147,9 @@ const String LIGHT = "light";
 const String DARK = "dark";
 const String SYSTEM = "system";
 
+// Success
+const String SUCCESS = "Success";
+
 //------------------------------------------------------------------------------
 //                          PICTURE PATHS
 //------------------------------------------------------------------------------

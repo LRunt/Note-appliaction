@@ -1,35 +1,43 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:notes/assets/constants.dart';
 import 'package:notes/data/notesDatabase.dart';
-import 'package:notes/services/firestoreService.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// A service class for handling authentication operations with Firebase Authentication.
 ///
 /// This class provides methods to register, login, and logout users using Firebase Authentication.
 /// It extends [ChangeNotifier] to allow widgets to be rebuilt in response to authentication state changes.
-/// Author: Lukas Runt
-/// Date: 2024-02-29
-/// Version: 1.0.0
 class AuthService extends ChangeNotifier {
   /// The [FirebaseAuth] instance for interacting getting authentification data.
   final FirebaseAuth auth;
 
-  /// The [FirebaseFirestore] instance
-  final FirebaseFirestore firestore;
+  /// A function that provides localizations based on the current build context.
+  /// This is used to retrieve localized strings throughout the authentication process.
   final AppLocalizations Function(BuildContext) localizationProvider;
-
-  /// Instance of [FirestoreService] for accessing Firebase-related services.
-  late final FirestoreService _firebaseService = FirestoreService(auth: auth, fireStore: firestore);
 
   /// Instance of [NotesDatabase] for performing operations on the notes database.
   final NotesDatabase db = NotesDatabase();
 
+  /// The Google Sign-In instance used for authenticating users via Google OAuth.
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  AuthService({required this.auth, required this.firestore, required this.localizationProvider});
+  /// Constructor for creating a [AuthService] instance.
+  ///
+  /// Requires:
+  ///   - [auth] representing the [FirebaseAuth] instance for authentication operations.
+  ///   - [localizationProvider] representing a function that returns [AppLocalizations] for the given [BuildContext].
+  ///
+  /// Example:
+  /// ```
+  ///   AuthService authService = AuthService(
+  ///    auth: FirebaseAuth.instance,
+  ///    firestore: FirebaseFirestore.instance,
+  ///    localizationProvider: (BuildContext context) => AppLocalizations.of(context)!,
+  //    );
+  /// ```
+  AuthService({required this.auth, required this.localizationProvider});
 
   /// Registers a new user with the given email and password.
   ///
@@ -40,7 +48,6 @@ class AuthService extends ChangeNotifier {
     try {
       UserCredential userCredential =
           await auth.createUserWithEmailAndPassword(email: email, password: password);
-      _firebaseService.synchronize();
       return userCredential;
     } on FirebaseAuthException catch (e) {
       throw e.code;
@@ -57,31 +64,30 @@ class AuthService extends ChangeNotifier {
       UserCredential userCredential =
           await auth.signInWithEmailAndPassword(email: email, password: password);
       // Synchronization after login
-      await _firebaseService.synchronize();
       return userCredential;
     } on FirebaseAuthException catch (e) {
       throw e.code;
     }
   }
 
-  signInWithGoogle() async {
+  /// Signs in a user using their Google account and synchronizes their data.
+  ///
+  /// Returns `true` on successful sign-in and synchronization,
+  /// throws an `google-sing-error` error otherwise.
+  Future<bool> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
-
       final GoogleSignInAuthentication gAuth = await gUser!.authentication;
-
       final credential = GoogleAuthProvider.credential(
         accessToken: gAuth.accessToken,
         idToken: gAuth.idToken,
       );
-
       await auth.signInWithCredential(credential);
-
-      await _firebaseService.synchronize();
+      return true;
     } on FirebaseAuthException catch (e) {
       throw e.code;
     } catch (e) {
-      throw Exception('Failed sign in with Google');
+      throw 'google-sign-error';
     }
   }
 
@@ -92,18 +98,21 @@ class AuthService extends ChangeNotifier {
     try {
       await _googleSignIn.signOut();
       await auth.signOut();
-      return "Success";
+      return SUCCESS;
     } on FirebaseAuthException catch (e) {
       return e.code;
     } catch (e) {
-      rethrow;
+      throw 'unexpected-logout-error';
     }
   }
 
-  Future<String> resetPassword(String email) async {
+  /// Sends a password reset email to the given email address.
+  ///
+  /// Returns `true` if the email was sent successfully, throws an error if not.
+  Future<bool> resetPassword(String email) async {
     try {
       await auth.sendPasswordResetEmail(email: email);
-      return "Success";
+      return true;
     } on FirebaseAuthException catch (e) {
       throw e.code;
     } catch (e) {
@@ -126,6 +135,7 @@ class AuthService extends ChangeNotifier {
       'invalid-email': (ctx) => localizations.invalidEmail,
       'weak-password': (ctx) => localizations.weakPassword,
       'email-already-in-use': (ctx) => localizations.accountWithEmailExists,
+      'google-sign-error': (ctx) => localizations.googleSignFailed,
     };
     // Default error message for unspecified errors
     String defaultErrorMessage = "$errorCode.";

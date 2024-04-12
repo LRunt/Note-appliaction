@@ -51,7 +51,6 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
     user = widget.auth.currentUser;
     _authService = AuthService(
       auth: widget.auth,
-      firestore: widget.firestore,
       localizationProvider: (BuildContext context) => AppLocalizations.of(context)!,
     );
     authSubscription = widget.auth.authStateChanges().listen(

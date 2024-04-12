@@ -44,7 +44,6 @@ class _ResetPasswordState extends State<ResetPasswordPage> {
     super.initState();
     _authService = AuthService(
       auth: widget.auth,
-      firestore: widget.firestore,
       localizationProvider: (BuildContext context) => AppLocalizations.of(context)!,
     );
   }

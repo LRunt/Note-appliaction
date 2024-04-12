@@ -9,6 +9,7 @@ import 'package:notes/components/myButton.dart';
 import 'package:notes/components/myTextField.dart';
 import 'package:notes/components/squareTile.dart';
 import 'package:notes/services/authService.dart';
+import 'package:notes/services/firestoreService.dart';
 
 /// A StatefulWidget that provides a user interface for registering a new user.
 ///
@@ -32,7 +33,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterPage> {
   late final AuthService _authService;
-
+  late final FirestoreService _firebaseService;
   final ComponentUtils utils = ComponentUtils();
 
   /// Controller for the email input field.
@@ -49,9 +50,9 @@ class _RegisterFormState extends State<RegisterPage> {
     super.initState();
     _authService = AuthService(
       auth: widget.auth,
-      firestore: widget.firestore,
       localizationProvider: (BuildContext context) => AppLocalizations.of(context)!,
     );
+    _firebaseService = FirestoreService(auth: widget.auth, fireStore: widget.firestore);
   }
 
   ///Clean up the controllers when widget is removed from the tree.
@@ -78,6 +79,7 @@ class _RegisterFormState extends State<RegisterPage> {
       try {
         await _authService.register(emailController.text.trim(), password);
         log("New user created!");
+        await _firebaseService.uploadAllData();
         // Pop the CircularProgressIndicator
         Navigator.pop(context);
         // Go back to the main screen
@@ -101,6 +103,7 @@ class _RegisterFormState extends State<RegisterPage> {
     utils.getProgressIndicator(context);
     try {
       await _authService.signInWithGoogle();
+      await _firebaseService.uploadAllData();
       // Pop the CircularProgressIndicator
       Navigator.pop(context);
       // Go back to the main screen

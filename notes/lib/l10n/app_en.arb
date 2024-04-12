@@ -191,6 +191,10 @@
     "@fieldsAreNotFilled": {
         "description": "When user do not fill one or more fields."
     },
+    "googleSignFailed": "Google sign in failed",
+    "@googleSignFailed": {
+        "description": "When sign in with google account fail."
+    },
     "settings": "Settings",
     "@settings": {
         "description": "Allows user to set up the application."
@@ -271,7 +275,7 @@
     "@forgotPassword": {
         "description": "Description text for lost password"
     },
-    "resetPassword": "Click for reset.",
+    "resetPassword": "Click for reset",
     "@resetPassword": {
         "description": "Text which leads to the page for reset the password"
     },

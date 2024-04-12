@@ -10,6 +10,7 @@ import 'package:notes/components/myTextField.dart';
 import 'package:notes/components/squareTile.dart';
 import 'package:notes/screens/resetPassword.dart';
 import 'package:notes/services/authService.dart';
+import 'package:notes/services/firestoreService.dart';
 
 /// A StatefulWidget that provides a user interface for logging in.
 ///
@@ -42,6 +43,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginFormState extends State<LoginPage> {
   late final AuthService _authService;
+  late final FirestoreService _firebaseService;
   final ComponentUtils utils = ComponentUtils();
 
   /// Controller for the email input field.
@@ -55,9 +57,9 @@ class _LoginFormState extends State<LoginPage> {
     super.initState();
     _authService = AuthService(
       auth: widget.auth,
-      firestore: widget.firestore,
       localizationProvider: (BuildContext context) => AppLocalizations.of(context)!,
     );
+    _firebaseService = FirestoreService(auth: widget.auth, fireStore: widget.firestore);
   }
 
   /// Cleans up the controllers when the widget is removed from the widget tree.
@@ -82,9 +84,10 @@ class _LoginFormState extends State<LoginPage> {
     utils.getProgressIndicator(context);
     try {
       await _authService.login(emailController.text.trim(), passwordController.text.trim());
+      await _firebaseService.synchronize();
+      widget.loginSuccess();
       // Pop the CircularProgressIndicator
       Navigator.pop(context);
-      widget.loginSuccess();
       // Go back to the main screen
       Navigator.pop(context);
     } catch (errorCode) {
@@ -101,6 +104,7 @@ class _LoginFormState extends State<LoginPage> {
     try {
       await _authService.signInWithGoogle();
       // Pop the CircularProgressIndicator
+      await _firebaseService.synchronize();
       widget.loginSuccess;
       Navigator.pop(context);
       // Go back to the main screen
