@@ -1,64 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:notes/components/componentUtils.dart';
+import 'package:notes/assets/widgetConstants.dart';
 
-/// A [DeleteDialog] widget that displays an alert dialog for confirming deletion.
+/// A [AboutAppDialog] widget that displays an dialog with information abou application.
 ///
-/// It presents a customizable title and content along with Cancel and Delete buttons
-/// to either abort or proceed with the deletion process, respectively. The appearance
-/// and behavior of the dialog are defined by the passed parameters and utility methods.
+/// This dialog displays important application details fetched from localized resources
+/// and provides a single button to close the dialog. The dialog design includes a rounded
+/// border and customized button styling using utility methods.
 ///
 /// Parameters:
-/// - [onDelete]: Callback function to execute when the Delete button is pressed.
-/// - [onCancel]: Callback function to execute when the Cancel button is pressed.
-/// - [titleText]: The text displayed in the title section of the dialog.
-/// - [contentText]: The text displayed in the content section of the dialog.
+/// - [onClose]: A callback function that is executed when the close button is pressed.
 ///
-/// Usage example:
+/// Usage Example:
 /// ```dart
-/// DeleteDialog(
-///   onDelete: () {
-///     // Handle delete action
+/// AboutAppDialog(
+///   onClose: () {
+///     // Define action when the close button is clicked
 ///   },
-///   onCancel: () {
-///     // Handle cancel action
-///   },
-///   titleText: 'Confirm Delete',
-///   contentText: 'Are you sure you want to delete this item?',
 /// )
 /// ```
 class AboutAppDialog extends StatelessWidget {
-  /// A callback function that is called when the user presses the delete button.
+  /// A callback function that is called when the user presses the close button.
   ///
-  /// Use this to define the action that should be taken when the user confirms the deletion.
+  /// This function should handle the closure of the dialog.
   final VoidCallback onClose;
 
-  /// A utility object for styling the widget.
-  final utils = ComponentUtils();
-
-  /// Constructor of the [DeleteDialog].
+  /// Constructor of the [AboutAppDialog] widget.
   ///
-  /// [onDelete] and [onCancel] must not be null. They define the callback functions
-  /// for the delete and cancel actions, respectively. [titleText] and [contentText]
-  /// provide the text displayed in the dialog.
-  AboutAppDialog({super.key, required this.onClose});
+  //// Requires a non-null [onClose] callback to define the action for closing the dialog.
+  /// The dialog content and title are defined by the localized resources.
+  const AboutAppDialog({super.key, required this.onClose});
 
-  // Builds the UI of the delete confirm dialog.
+  // Builds the UI of the aboutAppDialog dialog.
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(10.0),
-        ),
+      shape: dialogBorder,
+      backgroundColor: Theme.of(context).dialogBackgroundColor,
+      title: Text(
+        AppLocalizations.of(context)!.aboutApp,
+        key: const Key('title'),
       ),
-      backgroundColor: Colors.white,
-      title: Text(AppLocalizations.of(context)!.aboutApp),
-      content: Text(AppLocalizations.of(context)!.informationsAboutApp),
+      content: Text(
+        AppLocalizations.of(context)!.informationsAboutApp,
+        key: const Key('content'),
+      ),
       actions: [
         FilledButton(
+          key: const Key('closeButton'),
           onPressed: onClose,
-          style: utils.getButtonStyle(),
+          style: defaultButtonStyle,
           child: Text(AppLocalizations.of(context)!.close),
         ),
       ],
