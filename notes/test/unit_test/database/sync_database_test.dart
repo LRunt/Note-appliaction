@@ -16,7 +16,7 @@ class MockBox extends Mock implements Box {
   @override
   dynamic get(key, {dynamic defaultValue}) {
     if (key == LOCAL_SYNC) {
-      return 1234567890; // Sample last sync time for testing
+      return 1234567890;
     }
     return super.noSuchMethod(Invocation.method(#get, [key], {#defaultValue: defaultValue}));
   }
@@ -49,7 +49,7 @@ void main() {
       final result = syncDatabase.getLastSyncTime();
 
       // Assert
-      expect(result, 1234567890); // Mocked last sync time
+      expect(result, 1234567890);
     });
 
     test('getLastHierarchyChangeTime - simple test', () {

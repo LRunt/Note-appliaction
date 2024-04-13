@@ -7,7 +7,7 @@ import 'package:notes/components/dialogs/deleteDialog.dart';
 import 'package:notes/components/dialogs/dropdownMenuDialog.dart';
 import 'package:notes/components/dialogs/enterPasswordDialog.dart';
 import 'package:notes/components/dialogs/textFieldDialog.dart';
-import 'package:notes/data/hierarchyDatabase.dart';
+import 'package:notes/data/local_databases.dart';
 import 'package:notes/model/myTreeNode.dart';
 import 'package:notes/boxes.dart';
 import 'package:notes/assets/constants.dart';

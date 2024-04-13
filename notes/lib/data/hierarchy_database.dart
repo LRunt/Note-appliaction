@@ -1,15 +1,25 @@
-import 'package:notes/model/myTreeNode.dart';
-import 'package:notes/boxes.dart';
-import 'package:notes/assets/constants.dart';
-import 'dart:developer';
+part of local_databases;
 
+/// Class [HierarchyDatabase] manages hierarchical data in the local storage.
+///
+/// This database class provides methods for creating, updating, and deleting hierarchical data,
+/// such as roots and notes, in the local database.
 class HierarchyDatabase {
+  /// List of root nodes in the hierarchy database.
   static List<MyTreeNode> roots = [];
+
+  /// List of root node IDs stored in the hierarchy database.
   static List rootList = [];
+
+  /// List of note IDs stored in the hierarchy database.
   static List noteList = [];
+
+  /// List of conflict data nodes in the hierarchy database.
   static List<MyTreeNode> conflictData = [];
 
-  // create initial default data
+  /// Creates default data for the database.
+  ///
+  /// Initializes lists and stores them in the local database.
   void createDefaultData() {
     roots = [];
     rootList = [];
@@ -17,7 +27,9 @@ class HierarchyDatabase {
     boxSynchronization.put(NOTE_LIST, []);
   }
 
-  // load data if already exists
+  /// Loads data from the local database.
+  ///
+  /// Retrieves root list from the database and initializes roots accordingly.
   void loadData() {
     log("Loading data...");
 
@@ -31,6 +43,9 @@ class HierarchyDatabase {
     }
   }
 
+  /// Saves a root node to the local database.
+  ///
+  /// [root] is the root node to be saved.
   void saveRoot(MyTreeNode root) {
     log("Creating root");
     roots.add(root);
@@ -42,6 +57,9 @@ class HierarchyDatabase {
     boxSynchronization.put(LAST_CHANGE, DateTime.now().microsecondsSinceEpoch);
   }
 
+  /// Saves a list of root nodes to the local database.
+  ///
+  /// [rootList] is the list of root nodes to be saved.
   void saveRootList(List rootList) {
     log("Saving rootList: $rootList");
     boxSynchronization.put(ROOT_LIST, rootList);
@@ -49,11 +67,18 @@ class HierarchyDatabase {
     log("Rootlist after synchronization: ");
   }
 
+  /// Downloads a root node from an external source and saves it to the local database.
+  ///
+  /// [root] is the root node to be downloaded.
+  /// [lastChangeTime] is the timestamp of the last change for the root node.
   void downloadRoot(MyTreeNode root, int lastChangeTime) {
     boxSynchronization.put(root.id, lastChangeTime);
     boxHierachy.put(root.id, root);
   }
 
+  /// Deletes a root node from the local database.
+  ///
+  /// [root] is the root node to be deleted.
   void deleteRoot(MyTreeNode root) {
     log("Deleting root");
     rootList.remove(root.id);
@@ -64,6 +89,10 @@ class HierarchyDatabase {
     updateDatabase();
   }
 
+  /// Updates the ID of a root node in the local database.
+  ///
+  /// [oldRootId] is the old ID of the root node.
+  /// [newRootId] is the new ID of the root node.
   void updateRoot(String oldRootId, String newRootId) {
     log("Update root");
     rootList = boxSynchronization.get(ROOT_LIST);
@@ -76,12 +105,15 @@ class HierarchyDatabase {
     boxSynchronization.put(ROOT_LIST, rootList);
   }
 
+  /// Updates the last change time of a root node in the local database.
+  ///
+  /// [rootId] is the ID of the root node.
   updateRootLastChangeTime(String rootId) {
     boxSynchronization.put(rootId, DateTime.now().microsecondsSinceEpoch);
     boxSynchronization.put(LAST_CHANGE, DateTime.now().microsecondsSinceEpoch);
   }
 
-  // update database
+  /// Updates the entire database with the current root nodes and their hierarchy.
   void updateDatabase() {
     log("Updating database: ${roots.firstOrNull}");
     boxSynchronization.put(ROOT_LIST, rootList);
@@ -92,11 +124,9 @@ class HierarchyDatabase {
     boxSynchronization.put(LAST_CHANGE, DateTime.now().microsecondsSinceEpoch);
   }
 
-  void saveHierarchy(MyTreeNode hierarchy) {
-    roots[0] = hierarchy;
-    updateDatabase();
-  }
-
+  /// Adds a note to the list of notes in the local database.
+  ///
+  /// [noteId] is the ID of the note to be added.
   void addNote(String noteId) {
     noteList = boxSynchronization.get(NOTE_LIST);
     noteList.add(noteId);
@@ -104,6 +134,9 @@ class HierarchyDatabase {
     boxSynchronization.put(NOTE_LIST, noteList);
   }
 
+  /// Deletes a note from the list of notes in the local database.
+  ///
+  /// [noteId] is the ID of the note to be deleted.
   void deleteNote(String noteId) {
     noteList = boxSynchronization.get(NOTE_LIST);
     noteList.remove(noteId);
@@ -111,6 +144,10 @@ class HierarchyDatabase {
     boxSynchronization.put(NOTE_LIST, noteList);
   }
 
+  /// Updates the ID of a note in the list of notes in the local database.
+  ///
+  /// [oldNoteId] is the old ID of the note.
+  /// [newNoteId] is the new ID of the note.
   void updateNote(String oldNoteId, String newNoteId) {
     noteList = boxSynchronization.get(NOTE_LIST);
     noteList.remove(oldNoteId);
@@ -119,30 +156,43 @@ class HierarchyDatabase {
     boxSynchronization.put(NOTE_LIST, noteList);
   }
 
+  /// Retrieves the timestamp of the last change in the local database.
   int getLastChange() {
     return boxSynchronization.get(LAST_CHANGE);
   }
 
+  /// Retrieves a root node from the local database based on its ID.
+  ///
+  /// [rootId] is the ID of the root node to be retrieved.
   MyTreeNode getRoot(String rootId) {
     return boxHierachy.get(rootId);
   }
 
+  /// Retrieves the last change time of a root node from the local database.
+  ///
+  /// [rootId] is the ID of the root node.
   int getRootLastChangeTime(String rootId) {
     return boxSynchronization.get(rootId);
   }
 
+  /// Retrieves the list of notes from the local database.
   List getNotes() {
     return boxSynchronization.get(NOTE_LIST);
   }
 
+  /// Retrieves the list of root nodes from the local database.
   List getRoots() {
     return boxSynchronization.get(ROOT_LIST);
   }
 
+  /// Saves the list of notes to the local database.
+  ///
+  /// [notes] is the list of notes to be saved.
   void saveNotes(List notes) {
     boxSynchronization.put(NOTE_LIST, notes);
   }
 
+  /// Saves conflict data to the local database.
   void saveConflictData() {
     if (!boxHierachy.containsKey(CONFLICT) || boxHierachy.get(CONFLICT) == null) {
       initConflictData();
@@ -155,6 +205,9 @@ class HierarchyDatabase {
     boxHierachy.put(CONFLICT, conflicts);
   }
 
+  /// Saves conflict note to the local database.
+  ///
+  /// [noteId] is the ID of the note to be saved as a conflict.
   void saveConflictNote(String noteId) {
     if (!boxHierachy.containsKey(CONFLICT) || boxHierachy.get(CONFLICT) == null) {
       initConflictData();
@@ -167,6 +220,9 @@ class HierarchyDatabase {
     boxNotes.put(name, noteContent);
   }
 
+  /// Saves conflict root to the local database.
+  ///
+  /// [rootId] is the ID of the root node to be saved as a conflict.
   void saveConflictRoot(String rootId) {
     if (!boxHierachy.containsKey(CONFLICT) || boxHierachy.get(CONFLICT) == null) {
       initConflictData();
@@ -177,14 +233,27 @@ class HierarchyDatabase {
     conflicts.addChild(newConflict);
   }
 
+  /// Loads conflict data from the local database.
   void loadConflictData() {
     MyTreeNode conflicts = boxHierachy.get(CONFLICT);
     conflictData = [conflicts];
   }
 
+  /// Initializes conflict data in the local database.
   void initConflictData() {
     MyTreeNode conflictNode =
         MyTreeNode(id: "Conflicts", title: "Conflicts", isNote: false, isLocked: false);
     boxHierachy.put(CONFLICT, conflictNode);
+  }
+
+//------------------------------------------------------------------------------
+//                             PROBABLY BAD METHODS
+//------------------------------------------------------------------------------
+  /// Saves the hierarchy to the local database.
+  ///
+  /// [hierarchy] is the hierarchy to be saved.
+  void saveHierarchy(MyTreeNode hierarchy) {
+    roots[0] = hierarchy;
+    updateDatabase();
   }
 }

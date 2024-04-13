@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:hive/hive.dart';
 import 'package:notes/boxes.dart';
-import 'package:notes/data/hierarchyDatabase.dart';
 import 'package:notes/data/local_databases.dart';
 import 'package:notes/model/myTreeNode.dart';
 

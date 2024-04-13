@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:notes/assets/constants.dart';
 import 'package:notes/components/componentUtils.dart';
-import 'package:notes/data/hierarchyDatabase.dart';
 import 'package:notes/data/local_databases.dart';
 import 'package:notes/logger.dart';
 import 'package:notes/model/myTreeNode.dart';

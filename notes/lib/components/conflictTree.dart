@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
 import 'package:notes/assets/constants.dart';
 import 'package:notes/boxes.dart';
-import 'package:notes/data/hierarchyDatabase.dart';
+import 'package:notes/data/local_databases.dart';
 import 'package:notes/model/myTreeNode.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
