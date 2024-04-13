@@ -6,7 +6,7 @@ import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/myButton.dart';
 import 'package:notes/components/myTextField.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:notes/services/authService.dart';
+import 'package:notes/services/services.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   final FirebaseAuth auth;

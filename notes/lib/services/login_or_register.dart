@@ -1,8 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:notes/screens/login.dart';
-import 'package:notes/screens/register.dart';
+part of services;
 
 /// A StatefulWidget that toggles between the login and register screens.
 ///
@@ -19,6 +15,7 @@ class LoginOrRegister extends StatefulWidget {
   /// What page will be shown first.
   final bool showLoginPage;
 
+  /// Returns a signal when the login is success.
   final VoidCallback loginSuccess;
 
   /// Constructor of [LoginOrRegister] class.
@@ -69,7 +66,11 @@ class _LoginOrRegisterState extends State<LoginOrRegister> {
         loginSuccess: widget.loginSuccess,
       );
     } else {
-      return RegisterPage(auth: widget.auth, firestore: widget.firestore, onTap: togglePages);
+      return RegisterPage(
+        auth: widget.auth,
+        firestore: widget.firestore,
+        onTap: togglePages,
+      );
     }
   }
 }

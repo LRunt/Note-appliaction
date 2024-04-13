@@ -16,7 +16,11 @@ import 'package:notes/screens/mainScreen.dart';
 import 'package:notes/model/myTreeNode.dart';
 import 'boxes.dart';
 
-/// main - entry point of the program
+/// A Flutter application for note-taking.
+///
+/// This application provides functionality for taking notes, managing hierarchical data,
+/// and synchronizing data with Firebase Firestore. It supports multiple themes and
+/// internationalization.
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -46,13 +50,16 @@ void main() async {
   runApp(const MyApp());
 }
 
-/// Class [MyApp] starts the entire appliaction
+/// The root widget of the application.
+///
+/// This widget initializes the entire application and handles changes in locale and theme.
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
 
+  /// Sets the locale for the application.
   static void setLocale(BuildContext context, Locale newLocale) {
     _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
     state?.setLocale(newLocale);
@@ -70,6 +77,7 @@ class _MyAppState extends State<MyApp> {
   /// An instance of firebase firestore to store data, create in main because of testing.
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  /// Sets the locale for the application.
   setLocale(Locale locale) {
     setState(() {
       _locale = locale;

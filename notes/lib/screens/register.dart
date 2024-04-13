@@ -8,8 +8,7 @@ import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/myButton.dart';
 import 'package:notes/components/myTextField.dart';
 import 'package:notes/components/squareTile.dart';
-import 'package:notes/services/authService.dart';
-import 'package:notes/services/firestoreService.dart';
+import 'package:notes/services/services.dart';
 
 /// A StatefulWidget that provides a user interface for registering a new user.
 ///

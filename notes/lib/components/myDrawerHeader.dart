@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:notes/services/authService.dart';
-import 'package:notes/services/loginOrRegister.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:developer';
+
+import 'package:notes/services/services.dart';
 
 /// A StatefulWidget that creates a drawer header showing the user's login status.
 ///

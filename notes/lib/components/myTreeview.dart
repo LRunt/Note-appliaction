@@ -12,7 +12,7 @@ import 'package:notes/model/myTreeNode.dart';
 import 'package:notes/boxes.dart';
 import 'package:notes/assets/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:notes/services/nodeService.dart';
+import 'package:notes/services/services.dart';
 
 /// A custom implementation of a tree view for displaying hierarchical structures.
 ///

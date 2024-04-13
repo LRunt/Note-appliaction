@@ -1,14 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:logging/logging.dart';
-import 'package:notes/assets/constants.dart';
-import 'package:notes/components/componentUtils.dart';
-import 'package:notes/data/local_databases.dart';
-import 'package:notes/logger.dart';
-import 'package:notes/model/myTreeNode.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'dart:developer';
-import 'dart:convert';
-import 'package:crypto/crypto.dart';
+part of services;
 
 /// A [NodeService] class responsible for managing node operations within a hierarchical structure.
 ///
