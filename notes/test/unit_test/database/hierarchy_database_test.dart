@@ -65,5 +65,71 @@ void main() {
       // Assert
       expect(HierarchyDatabase.roots.length, 2);
     });
+
+    test('getRoot - simple test', () {
+      // Arrange
+      String rootId = 'root1';
+      MyTreeNode expectedNode = MyTreeNode(
+        id: 'root1',
+        title: 'Root Node',
+        isNote: false,
+        isLocked: false,
+      );
+      when(mockBoxHierarchy.get(rootId)).thenReturn(expectedNode);
+
+      // Act
+      final result = hierarchyDatabase.getRoot(rootId);
+
+      // Assert
+      expect(result, expectedNode);
+    });
+
+    test('getRootLastChangeTime - simple test', () {
+      // Arrange
+      String rootId = 'root1';
+      int expectedLastChangeTime = 1618296000000;
+      when(mockBoxSynchronization.get(rootId)).thenReturn(expectedLastChangeTime);
+
+      // Act
+      final result = hierarchyDatabase.getRootLastChangeTime(rootId);
+
+      // Assert
+      expect(result, expectedLastChangeTime);
+    });
+
+    test('getNoteList - simple test', () {
+      // Arrange
+      final List<String> expectedNoteList = ['note1', 'note2'];
+      when(mockBoxSynchronization.get(NOTE_LIST)).thenReturn(expectedNoteList);
+
+      // Act
+      final result = hierarchyDatabase.getNoteList();
+
+      // Assert
+      expect(result, expectedNoteList);
+    });
+
+    test('getRootList - simple test', () {
+      // Arrange
+      final List<String> expectedRootList = ['root1', 'root2'];
+      when(mockBoxSynchronization.get(ROOT_LIST)).thenReturn(expectedRootList);
+
+      // Act
+      final result = hierarchyDatabase.getRootList();
+
+      // Assert
+      expect(result, expectedRootList);
+    });
+
+    test('saveNoteList - simple test', () {
+      // Arrange
+      final List<String> notes = ['note1', 'note2'];
+
+      // Act
+      hierarchyDatabase.saveNoteList(notes);
+
+      // Assert
+      verify(mockBoxSynchronization.put(NOTE_LIST, notes)).called(1);
+    });
   });
 }

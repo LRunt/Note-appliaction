@@ -74,5 +74,16 @@ void main() {
       // Assert
       expect(result, 987654321);
     });
+
+    test('getLastChange - simple test', () {
+      // Arrange
+      when(mockBox.get(LAST_CHANGE)).thenReturn(987654321);
+
+      // Act
+      final result = syncDatabase.getLastChange();
+
+      // Assert
+      expect(result, 987654321);
+    });
   });
 }

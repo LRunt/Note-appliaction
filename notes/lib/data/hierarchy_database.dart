@@ -156,11 +156,6 @@ class HierarchyDatabase {
     boxSynchronization.put(NOTE_LIST, noteList);
   }
 
-  /// Retrieves the timestamp of the last change in the local database.
-  int getLastChange() {
-    return boxSynchronization.get(LAST_CHANGE);
-  }
-
   /// Retrieves a root node from the local database based on its ID.
   ///
   /// [rootId] is the ID of the root node to be retrieved.
@@ -176,21 +171,25 @@ class HierarchyDatabase {
   }
 
   /// Retrieves the list of notes from the local database.
-  List getNotes() {
+  List getNoteList() {
     return boxSynchronization.get(NOTE_LIST);
   }
 
   /// Retrieves the list of root nodes from the local database.
-  List getRoots() {
+  List getRootList() {
     return boxSynchronization.get(ROOT_LIST);
   }
 
   /// Saves the list of notes to the local database.
   ///
   /// [notes] is the list of notes to be saved.
-  void saveNotes(List notes) {
+  void saveNoteList(List notes) {
     boxSynchronization.put(NOTE_LIST, notes);
   }
+
+//------------------------------------------------------------------------------
+//                             CONFLICT DATA
+//------------------------------------------------------------------------------
 
   /// Saves conflict data to the local database.
   void saveConflictData() {
@@ -244,16 +243,5 @@ class HierarchyDatabase {
     MyTreeNode conflictNode =
         MyTreeNode(id: "Conflicts", title: "Conflicts", isNote: false, isLocked: false);
     boxHierachy.put(CONFLICT, conflictNode);
-  }
-
-//------------------------------------------------------------------------------
-//                             PROBABLY BAD METHODS
-//------------------------------------------------------------------------------
-  /// Saves the hierarchy to the local database.
-  ///
-  /// [hierarchy] is the hierarchy to be saved.
-  void saveHierarchy(MyTreeNode hierarchy) {
-    roots[0] = hierarchy;
-    updateDatabase();
   }
 }

@@ -74,7 +74,7 @@ class FirestoreService extends ChangeNotifier {
   Future<void> downloadAllData() async {
     await downloadRoots();
     List notes = await getNoteList();
-    hierarchyDatabase.saveNotes(notes);
+    hierarchyDatabase.saveNoteList(notes);
     int syncTime = await getSyncTime();
     log("Sync time: $syncTime");
     syncDatabase.saveLastSyncTime(syncTime);
@@ -97,10 +97,10 @@ class FirestoreService extends ChangeNotifier {
       synchronizeNotes(notes, localTimeSync);
     } else if (localTimeSync > treeChangeTimeCloud) {
       // Local or cloud is not changed
-      List roots = hierarchyDatabase.getRoots();
+      List roots = hierarchyDatabase.getRootList();
       saveRoots();
       synchronizeRoots(roots, localTimeSync);
-      List notes = hierarchyDatabase.getNotes();
+      List notes = hierarchyDatabase.getNoteList();
       synchronizeNotes(notes, localTimeSync);
     } else {
       // Conflict
@@ -203,37 +203,6 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
-  Future<void> synchronizeData() async {
-    // Get tree update time
-    // Compare times
-    var localTimestamp = boxSynchronization.get(LAST_CHANGE);
-    var cloudTimestamp = await getUpdateTime();
-    log("LocalTimestamp $localTimestamp");
-    log("CloudTimestamp $cloudTimestamp");
-    if (localTimestamp > cloudTimestamp) {
-      List notes = hierarchyDatabase.getNotes();
-      saveTreeStructure(HierarchyDatabase.roots.first, notes, localTimestamp);
-      var keys = boxNotes.keys;
-      for (var key in keys) {
-        await synchronizeNote(key);
-      }
-    } else if (localTimestamp < cloudTimestamp) {
-      MyTreeNode downloadedHierarchy = await getTreeNode();
-      hierarchyDatabase.saveHierarchy(downloadedHierarchy);
-      String userId = auth.currentUser!.uid;
-      var collectionId = userId + FIREBASE_NOTES;
-      var querySnapshot = await fireStore.collection(collectionId).get();
-      for (var doc in querySnapshot.docs) {
-        synchronizeNote(doc.id);
-      }
-    } else {
-      var keys = boxNotes.keys;
-      for (var key in keys) {
-        await synchronizeNote(key);
-      }
-    }
-  }
-
   Future<void> synchronizeNote(String noteId) async {
     log("Synchronizing note $noteId");
     String userId = auth.currentUser!.uid;
@@ -267,7 +236,7 @@ class FirestoreService extends ChangeNotifier {
     List roots = HierarchyDatabase.rootList;
     List notes = HierarchyDatabase.noteList;
     log("Saving roots: $notes");
-    int lastChange = hierarchyDatabase.getLastChange();
+    int lastChange = syncDatabase.getLastChange();
     String userId = auth.currentUser!.uid;
     await fireStore.collection(userId).doc(FIREBASE_TREE_PROPERTIES).set({
       'rootList': roots,
