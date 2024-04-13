@@ -1,16 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:notes/components/componentUtils.dart';
-import 'package:notes/components/dialogs/aboutAppDialog.dart';
-import 'package:notes/components/dialogs/deleteDialog.dart';
-import 'package:notes/data/local_databases.dart';
-import 'package:notes/logger.dart';
-import 'package:notes/main.dart';
-import 'package:notes/model/language.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:notes/model/theme.dart';
-import 'package:notes/screens/conflict.dart';
-import 'package:notes/screens/logs.dart';
-import 'package:provider/provider.dart';
+part of screens;
 
 /// A [SettingsPage] widget that provides an interface for application settings.
 ///
@@ -40,19 +28,32 @@ import 'package:provider/provider.dart';
 /// actions that may result in data loss, ensuring that the user has a chance to cancel
 /// the action if it was selected by mistake.
 class SettingsPage extends StatefulWidget {
+  /// Callback function to be executed after data is cleared.
   final VoidCallback onCleanDataAction;
 
+  /// Constructor of the [SettingsPage] widget.
+  ///
+  /// Requires a [VoidCallback] parameter [onCleanDataAction] which is invoked
+  /// after user data is cleared from the application.
   const SettingsPage({super.key, required this.onCleanDataAction});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
+/// The State class for [SettingsPage] handling the logic and state of the settings UI.
 class _SettingsPageState extends State<SettingsPage> {
+  /// Database handler for user-related data operations.
   UserDatabase userDB = UserDatabase();
+
+  /// Database handler for clearing all application data.
   ClearDatabase clearDB = ClearDatabase();
   ComponentUtils utils = ComponentUtils();
 
+  /// Clears all user data from the application, notifies success, and invokes a callback.
+  ///
+  /// This method clears the application's data, returns to the previous screen, executes
+  /// a callback to handle additional cleanup, and displays a success message via a SnackBar.
   void clearData() {
     clearDB.clearAllData();
     Navigator.of(context).pop();
@@ -60,6 +61,10 @@ class _SettingsPageState extends State<SettingsPage> {
     utils.getSnackBarSuccess(context, AppLocalizations.of(context)!.deleteDataSuccess);
   }
 
+  /// Asynchronously clears and recreates the application's log files, notifying success.
+  ///
+  /// Deletes the current log file, creates a new one for continuous logging, and informs
+  /// the user of the successful operation through a SnackBar message.
   void clearLogs() async {
     await AppLogger.deleteLogFile();
     AppLogger.createLogFileIfNotExist();
@@ -67,11 +72,17 @@ class _SettingsPageState extends State<SettingsPage> {
     utils.getSnackBarSuccess(context, AppLocalizations.of(context)!.clearLogsSuccess);
   }
 
+  /// Returns the [Language] corresponding to the current locale's language code.
+  ///
+  /// Extracts the language code from the context's locale and retrieves the matching
+  /// [Language] object. If no match is found, returns `null`.
   Language? actualLanguage() {
     Locale actualLocale = Localizations.localeOf(context);
     return Language.getByLangCode(actualLocale.languageCode);
   }
 
+  // Builds the UI elements for the settings page including theme mode switcher and
+  // data/log management options.
   @override
   Widget build(BuildContext context) {
     // Get the current theme mode from the provider
@@ -90,8 +101,9 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Column(
           children: [
             const Divider(),
+            //Language
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(DEFAULT_PADDING),
               child: Row(
                 children: [
                   Expanded(
@@ -129,8 +141,57 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
             const Divider(),
+            // Dark mode
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(DEFAULT_PADDING),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      AppLocalizations.of(context)!.darkMode,
+                      style: utils.getBasicTextStyle(),
+                    ),
+                  ),
+                  Switch(
+                    value: isSwitched,
+                    onChanged: (value) {
+                      setState(() {
+                        toggleTheme(value);
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+            const Divider(),
+            // Conflicts
+            Padding(
+              padding: const EdgeInsets.all(DEFAULT_PADDING),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      AppLocalizations.of(context)!.showConflicts,
+                      style: utils.getBasicTextStyle(),
+                    ),
+                  ),
+                  SizedBox(
+                    width: SETTINGS_BUTTON_SIZE,
+                    child: FilledButton(
+                      style: utils.getButtonStyle(),
+                      onPressed: () {
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (context) => const Conflict()));
+                      },
+                      child: Text(AppLocalizations.of(context)!.show),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(),
+            Padding(
+              padding: const EdgeInsets.all(DEFAULT_PADDING),
               child: Row(
                 children: [
                   Expanded(
@@ -140,7 +201,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                   SizedBox(
-                    width: 130,
+                    width: SETTINGS_BUTTON_SIZE,
                     child: FilledButton(
                       style: utils.getButtonStyle(),
                       onPressed: () {
@@ -168,32 +229,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             const Divider(),
             Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      AppLocalizations.of(context)!.showConflicts,
-                      style: utils.getBasicTextStyle(),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 130,
-                    child: FilledButton(
-                      style: utils.getButtonStyle(),
-                      onPressed: () {
-                        Navigator.push(
-                            context, MaterialPageRoute(builder: (context) => const Conflict()));
-                      },
-                      child: Text(AppLocalizations.of(context)!.show),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Divider(),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(DEFAULT_PADDING),
               child: Row(
                 children: [
                   Expanded(
@@ -203,7 +239,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                   SizedBox(
-                    width: 130,
+                    width: SETTINGS_BUTTON_SIZE,
                     child: FilledButton(
                       style: utils.getButtonStyle(),
                       onPressed: () {
@@ -218,7 +254,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             const Divider(),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(DEFAULT_PADDING),
               child: Row(
                 children: [
                   Expanded(
@@ -228,7 +264,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                   SizedBox(
-                    width: 130,
+                    width: SETTINGS_BUTTON_SIZE,
                     child: FilledButton(
                       style: utils.getButtonStyle(),
                       onPressed: () {
@@ -256,29 +292,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             const Divider(),
             Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      AppLocalizations.of(context)!.darkMode,
-                      style: utils.getBasicTextStyle(),
-                    ),
-                  ),
-                  Switch(
-                    value: isSwitched,
-                    onChanged: (value) {
-                      setState(() {
-                        toggleTheme(value);
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
-            const Divider(),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(DEFAULT_PADDING),
               child: Row(
                 children: [
                   Expanded(
@@ -288,7 +302,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                   SizedBox(
-                    width: 130,
+                    width: SETTINGS_BUTTON_SIZE,
                     child: FilledButton(
                       style: utils.getButtonStyle(),
                       onPressed: () {
