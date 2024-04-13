@@ -176,7 +176,9 @@ class _MainScreenState extends State<MainScreen> {
     ];
 
     return Scaffold(
-      backgroundColor: _pageType == DIRECTORY_SCREEN ? Colors.grey[200] : Colors.white,
+      backgroundColor: _pageType == DIRECTORY_SCREEN
+          ? Theme.of(context).colorScheme.surfaceVariant
+          : Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
           title: _noteId == ""
               ? Text(AppLocalizations.of(context)!.appName)

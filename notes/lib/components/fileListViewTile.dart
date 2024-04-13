@@ -35,8 +35,9 @@ class FileListViewTile extends StatelessWidget {
       child: Ink(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).dialogBackgroundColor,
           borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Theme.of(context).dividerColor),
         ),
         child: node != null
             ? Row(
