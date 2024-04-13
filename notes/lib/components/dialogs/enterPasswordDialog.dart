@@ -3,11 +3,35 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notes/assets/widgetConstants.dart';
 import 'package:notes/components/myTextField.dart';
 
-/// A custom dialog widget that contains a text field for input.
+/// A [EnterPasswordDialog] widget that presents a dialog with a text field for capturing a password.
 ///
-/// This dialog is designed to capture user input, providing options
+/// This widget is designed to capture a password input from the user, offering options
 /// for confirmation and cancellation. It uses [AlertDialog] as its
 /// base structure and includes custom styling and localization support.
+///
+/// Parameters:
+/// - [onConfirm]: A callback function that is executed when the confirm button is pressed.
+/// - [onCancel]: A callback function that is executed when the cancel button is pressed.
+/// - [titleText]: Text to display as the title of the dialog.
+/// - [confirmButtonText]: Text to display on the confirm button.
+/// - [controller]: Controller for managing the text field's content.
+///
+/// Usage example:
+/// ```dart
+/// EnterPasswordDialog(
+///   onConfirm: () {
+///     // Handle confirmation action
+///   },
+///   onCancel: () {
+///     // Handle cancellation action
+///   },
+///   titleText: 'Enter Password',
+///   confirmButtonText: 'Confirm',
+///   controller: myTextController,
+/// )
+/// ```
+///
+/// This dialog leverages [AlertDialog] to present its content, providing a consistent and familiar UI for users.
 class EnterPasswordDialog extends StatelessWidget {
   /// A callback function that is called when the user presses the confirm button.
   ///
@@ -22,18 +46,20 @@ class EnterPasswordDialog extends StatelessWidget {
   /// The title text to be displayed in the title of the dialog.
   final String titleText;
 
-  /// The text for the confirmation button.
+  /// The text of the confirmation button.
   final String confirmButtonText;
 
   /// Controller for managing the text field's content.
   final TextEditingController controller;
 
-  /// Constructs a [TextFieldDialog].
+  /// Constructor of the [EnterPasswordDialog].
   ///
-  /// Requires [onConfirm] and [onCancel] callbacks to define the dialog's
-  /// behavior on respective actions. Also requires [titleText],
-  /// [confirmButtonText] for labeling, and a [TextEditingController]
-  /// [controller] to manage the input field's state.
+  /// Requires five positional arguments:
+  /// - [onConfirm] a callback function that is executed when the confirm button is pressed.
+  /// - [onCancel] a callback function that is executed when the cancel button is pressed.
+  /// - [titleText] a text to display as the title of the dialog.
+  /// - [confirmButtonText] a text to display on the confirm button.
+  /// - [controller] a controller for managing the text field's content.
   const EnterPasswordDialog(
       {super.key,
       required this.onConfirm,
