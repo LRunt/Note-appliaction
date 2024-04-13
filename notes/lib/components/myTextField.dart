@@ -51,7 +51,6 @@ class _MyTextFieldState extends State<MyTextField> {
       obscuringCharacter: OBSCURE_CHAR,
       decoration: InputDecoration(
         labelText: widget.hint,
-        hintText: widget.hint,
         suffixIcon: widget.isPasswordField
             ? IconButton(
                 onPressed: changeVisibility,
