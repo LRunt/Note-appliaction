@@ -11,7 +11,6 @@ import 'package:notes/components/myButton.dart';
 import 'package:notes/components/myDrawerHeader.dart';
 import 'package:notes/components/richTextEditor.dart';
 import 'package:notes/data/local_databases.dart';
-import 'package:notes/data/synchronizationDatabase.dart';
 import 'dart:developer';
 import 'package:notes/components/myTreeview.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

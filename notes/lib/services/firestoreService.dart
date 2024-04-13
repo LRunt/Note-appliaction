@@ -6,7 +6,6 @@ import 'package:notes/boxes.dart';
 import 'package:notes/components/componentUtils.dart';
 import 'package:notes/data/hierarchyDatabase.dart';
 import 'package:notes/data/local_databases.dart';
-import 'package:notes/data/synchronizationDatabase.dart';
 import 'package:notes/model/myTreeNode.dart';
 import 'dart:developer';
 
@@ -77,7 +76,7 @@ class FirestoreService extends ChangeNotifier {
     await saveAllNotes();
     var now = DateTime.now().microsecondsSinceEpoch;
     await saveSyncTime(now);
-    syncDatabase.synchronization(now);
+    syncDatabase.saveLastSyncTime(now);
   }
 
   // Downloading all data from the cloud
@@ -87,7 +86,7 @@ class FirestoreService extends ChangeNotifier {
     hierarchyDatabase.saveNotes(notes);
     int syncTime = await getSyncTime();
     log("Sync time: $syncTime");
-    syncDatabase.synchronization(syncTime);
+    syncDatabase.saveLastSyncTime(syncTime);
     // Save notes
     List<Map<String, dynamic>> allNotes = await getAllNotes();
     notesDatabase.saveAllNotes(allNotes);
@@ -120,7 +119,7 @@ class FirestoreService extends ChangeNotifier {
     }
     var now = DateTime.now().microsecondsSinceEpoch;
     await saveSyncTime(now);
-    syncDatabase.synchronization(now);
+    syncDatabase.saveLastSyncTime(now);
   }
 
   Future<List> getUserRoots() async {
@@ -156,7 +155,7 @@ class FirestoreService extends ChangeNotifier {
           MyTreeNode downloadedRoot = await getRoot(root);
           hierarchyDatabase.downloadRoot(downloadedRoot, cloud);
         } else {
-          var local = syncDatabase.getLastChangeTime(root);
+          var local = syncDatabase.getLastNoteChangeTime(root);
           // Conflict
           if (localTimeSync < cloud && localTimeSync < local) {
             utils.showWarningToast("Possible conflict saved in Settings->Conflicts.");
@@ -184,7 +183,7 @@ class FirestoreService extends ChangeNotifier {
         if (!boxSynchronization.containsKey(noteId) || boxSynchronization.get(noteId) == null) {
           String? note = await getNote(noteId);
           if (note != null) {
-            syncDatabase.saveNote(noteId, note, cloud);
+            notesDatabase.saveNote(noteId, note, cloud);
           }
         } else {
           var local = await boxSynchronization.get(noteId);
@@ -194,7 +193,7 @@ class FirestoreService extends ChangeNotifier {
             hierarchyDatabase.saveConflictNote(noteId);
             String? note = await getNote(noteId);
             if (note != null) {
-              syncDatabase.saveNote(noteId, note, cloud);
+              notesDatabase.saveNote(noteId, note, cloud);
             }
           } else if (localTimeSync > cloud) {
             // saving to the cloud
@@ -203,7 +202,7 @@ class FirestoreService extends ChangeNotifier {
             // saving to the local
             String? note = await getNote(noteId);
             if (note != null) {
-              syncDatabase.saveNote(noteId, note, cloud);
+              notesDatabase.saveNote(noteId, note, cloud);
             }
           }
         }
@@ -254,7 +253,7 @@ class FirestoreService extends ChangeNotifier {
       if (!boxSynchronization.containsKey(noteId) || boxSynchronization.get(noteId) == null) {
         String? note = await getNote(noteId);
         if (note != null) {
-          syncDatabase.saveNote(noteId, note, cloud);
+          notesDatabase.saveNote(noteId, note, cloud);
         }
       } else {
         var local = await boxSynchronization.get(noteId);
@@ -263,7 +262,7 @@ class FirestoreService extends ChangeNotifier {
         } else {
           String? note = await getNote(noteId);
           if (note != null) {
-            syncDatabase.saveNote(noteId, note, cloud);
+            notesDatabase.saveNote(noteId, note, cloud);
           }
         }
       }

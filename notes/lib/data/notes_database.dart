@@ -17,6 +17,16 @@ class NotesDatabase {
     }
   }
 
+  /// Saves the note content and its update time to the local database.
+  ///
+  /// [noteId] is the ID of the note.
+  /// [content] is the content of the note.
+  /// [updateTime] is the time of the note's last update.
+  void saveNote(String noteId, String content, int updateTime) {
+    boxNotes.put(noteId, content);
+    boxSynchronization.put(noteId, updateTime);
+  }
+
   /// Changes the ID of a note from [oldId] to [newId] in the local database.
   ///
   /// The content of the note remains unchanged. Timestamp of the note is updated to the current time.

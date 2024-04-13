@@ -59,6 +59,20 @@ void main() {
       verify(mockBoxSynchronization.put('note2', 987654321)).called(1);
     });
 
+    test('saveNote - simple test', () {
+      // Arrange
+      const String noteId = '123';
+      const String content = 'Sample content';
+      const int updateTime = 987654321;
+
+      // Act
+      notesDatabase.saveNote(noteId, content, updateTime);
+
+      // Assert
+      verify(mockBoxNotes.put(noteId, content)).called(1);
+      verify(mockBoxSynchronization.put(noteId, updateTime)).called(1);
+    });
+
     test('changeNoteId - simple test', () async {
       // Arrange
       when(mockBoxNotes.get('oldId')).thenReturn('Old Content');
