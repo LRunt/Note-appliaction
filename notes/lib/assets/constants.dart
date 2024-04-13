@@ -47,7 +47,7 @@ const String LAST_SYNC_FIELD = "Sync_timestamp";
 // Firebase note fields
 const String NOTE_ID = "noteId";
 const String CONTENT = "content";
-const String NOTE_TIMESTAMP = "timestamp";
+const String NOTE_TIMESTAMP = "";
 
 //------------------------------------------------------------------------------
 //                          DESIGN CONSTANTS
@@ -78,7 +78,7 @@ const LIGHT_COLOR_SCHEME = ColorScheme(
   onSecondary: Color(0xFFFFFFFF),
   secondaryContainer: Color(0xFF97F0FF),
   onSecondaryContainer: Color(0xFF001F24),
-  tertiary: Color(0xFF006874),
+  tertiary: Color(0xFF00658F),
   onTertiary: Color(0xFFFFFFFF),
   tertiaryContainer: Color(0xFF97F0FF),
   onTertiaryContainer: Color(0xFF001F24),
@@ -112,7 +112,7 @@ const DARK_COLOR_SCHEME = ColorScheme(
   onSecondary: Color(0xFF00363D),
   secondaryContainer: Color(0xFF004F58),
   onSecondaryContainer: Color(0xFF97F0FF),
-  tertiary: Color(0xFF4FD8EB),
+  tertiary: Color(0xFF004C6D),
   onTertiary: Color(0xFF00363D),
   tertiaryContainer: Color(0xFF004F58),
   onTertiaryContainer: Color(0xFF97F0FF),
