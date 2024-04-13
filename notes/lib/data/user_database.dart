@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:notes/assets/constants.dart';
-import 'package:notes/boxes.dart';
+part of local_databases;
 
 /// Class [UserDatabase] saves user preferences to the local storage.
 ///

@@ -1,5 +1,4 @@
-import 'package:notes/boxes.dart';
-import 'package:notes/data/hierarchyDatabase.dart';
+part of local_databases;
 
 /// Manages the clearing of stored data within the application's local database.
 ///
