@@ -1,20 +1,41 @@
 part of services;
 
+/// Service class for interacting with Firestore database.
 class FirestoreService extends ChangeNotifier {
-  //get instance of auth and firestore
+  /// Instance of FirebaseAuth for authentication.
   final FirebaseAuth auth;
+
+  /// Instance of FirebaseFirestore for Firestore database operations.
   final FirebaseFirestore fireStore;
+
+  /// Database instance for managing hierarchy data.
   HierarchyDatabase hierarchyDatabase = HierarchyDatabase();
+
+  /// Database instance for managing notes data.
   NotesDatabase notesDatabase = NotesDatabase();
+
+  /// Database instance for managing synchronization data.
   SynchronizationDatabase syncDatabase = SynchronizationDatabase();
+
   ComponentUtils utils = ComponentUtils();
 
+  /// Constructor for FirestoreService.
+  ///
+  /// Required:
+  /// - [auth] is the instance of FirebaseAuth.
+  /// - [fireStore] is the instance of FirebaseFirestore.
   FirestoreService({required this.auth, required this.fireStore});
 
+  /// Checks if a user is logged in.
+  ///
+  /// Returns `true` if a user is logged in, otherwise `false`.
   bool isLoggedIn() {
     return auth.currentUser != null;
   }
 
+  /// Synchronizes data between local and cloud databases.
+  ///
+  /// Returns a string indicating the synchronization status.
   Future<String> synchronize() async {
     utils.showDefaultToast("Synchronizing data");
     if (isLoggedIn()) {
@@ -61,7 +82,9 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
-  // Uploading all data to the cloud
+  /// Uploads all data to the cloud.
+  ///
+  /// This method saves root nodes, notes, and sync time to the cloud Firestore database.
   Future<void> uploadAllData() async {
     await saveRoots();
     await saveAllNotes();
@@ -70,7 +93,10 @@ class FirestoreService extends ChangeNotifier {
     syncDatabase.saveLastSyncTime(now);
   }
 
-  // Downloading all data from the cloud
+  /// Downloads all data from the cloud.
+  ///
+  /// This method retrieves root nodes, notes, sync time, and all notes from the cloud Firestore database
+  /// and saves them locally in the hierarchy and notes databases.
   Future<void> downloadAllData() async {
     await downloadRoots();
     List notes = await getNoteList();
@@ -83,6 +109,14 @@ class FirestoreService extends ChangeNotifier {
     notesDatabase.saveAllNotes(allNotes);
   }
 
+  /// Resolves conflicts between local and cloud data.
+  ///
+  /// This method compares the synchronization times between local and cloud data
+  /// to determine the appropriate synchronization strategy. It synchronizes roots and notes
+  /// based on the comparison results and handles conflicts if detected.
+  ///
+  /// [localTimeSync] The local synchronization time.
+  /// [cloudTimeSync] The cloud synchronization time.
   Future<void> resolveConflicts(int localTimeSync, int cloudTimeSync) async {
     int treeChangeTimeCloud = await getUpdateTime();
     int treeChangeTimeLocal = syncDatabase.getLastHierarchyChangeTime();
@@ -113,6 +147,12 @@ class FirestoreService extends ChangeNotifier {
     syncDatabase.saveLastSyncTime(now);
   }
 
+  /// Retrieves the list of root nodes associated with the current user from Firestore.
+  ///
+  /// This method fetches the root nodes stored in the Firestore database for the current user.
+  ///
+  /// Returns a Future that resolves to a List containing the IDs of the root nodes,
+  /// or an empty List if no root nodes are found or an error occurs.
   Future<List> getUserRoots() async {
     String userId = auth.currentUser!.uid;
     var documentSnapshot = await fireStore.collection(userId).doc(FIREBASE_TREE_PROPERTIES).get();
@@ -124,6 +164,12 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
+  /// Retrieves the list of user notes associated with the current user from Firestore.
+  ///
+  /// This method fetches the user notes stored in the Firestore database for the current user.
+  ///
+  /// Returns a Future that resolves to a List containing the IDs of the user notes,
+  /// or an empty List if no user notes are found or an error occurs.
   Future<List> getUserNoteList() async {
     String userId = auth.currentUser!.uid;
     var documentSnapshot = await fireStore.collection(userId).doc(FIREBASE_TREE_PROPERTIES).get();
@@ -135,6 +181,17 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
+  /// Synchronizes the root nodes between the local database and Firestore.
+  ///
+  /// This method synchronizes the root nodes stored in the local database with
+  /// their corresponding data in the Firestore database. It compares the local
+  /// and cloud versions of each root node to detect conflicts and resolve them
+  /// accordingly.
+  ///
+  /// [rootIds] is a List containing the IDs of the root nodes to synchronize.
+  /// [localTimeSync] is the local timestamp representing the synchronization time.
+  ///
+  /// Throws an error if there's an issue during synchronization.
   Future<void> synchronizeRoots(List rootIds, int localTimeSync) async {
     String userId = auth.currentUser!.uid;
     hierarchyDatabase.saveRootList(rootIds);
@@ -164,6 +221,16 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
+  /// Synchronizes the notes between the local database and Firestore.
+  ///
+  /// This method synchronizes the notes stored in the local database with their
+  /// corresponding data in the Firestore database. It compares the local and cloud
+  /// versions of each note to detect conflicts and resolve them accordingly.
+  ///
+  /// [noteIds] is a List containing the IDs of the notes to synchronize.
+  /// [localTimeSync] is the local timestamp representing the synchronization time.
+  ///
+  /// Throws an error if there's an issue during synchronization.
   Future<void> synchronizeNotes(List noteIds, int localTimeSync) async {
     for (var noteId in noteIds) {
       String userId = auth.currentUser!.uid;
@@ -203,6 +270,20 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
+  /// Synchronizes a single note between the local database and Firestore.
+  ///
+  /// This method synchronizes a single note identified by [noteId] between the local
+  /// database and the Firestore database. It compares the local and cloud versions
+  /// of the note to detect conflicts and resolves them accordingly.
+  ///
+  /// If the note exists in the Firestore database, its content and timestamp are
+  /// compared with the local version. If conflicts are detected, they are resolved
+  /// based on the timestamps. If the note does not exist in the Firestore database,
+  /// it is saved to Firestore.
+  ///
+  /// [noteId] is the ID of the note to synchronize.
+  ///
+  /// Throws an error if there's an issue during synchronization.
   Future<void> synchronizeNote(String noteId) async {
     log("Synchronizing note $noteId");
     String userId = auth.currentUser!.uid;
@@ -232,6 +313,15 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
+  /// Saves the root nodes and associated notes to the Firestore database.
+  ///
+  /// This method saves the root nodes and their associated notes to the Firestore
+  /// database. It retrieves the root list and note list from the [HierarchyDatabase]
+  /// and saves them along with the last change timestamp to the Firestore document
+  /// specified by [FIREBASE_TREE_PROPERTIES]. Additionally, it iterates through
+  /// each root node to individually save them to Firestore.
+  ///
+  /// Throws an error if there's an issue during the saving process.
   Future<void> saveRoots() async {
     List roots = HierarchyDatabase.rootList;
     List notes = HierarchyDatabase.noteList;
@@ -248,6 +338,10 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
+  /// Downloads root nodes and their data from Firestore.
+  ///
+  /// Retrieves root list and last change timestamps from Firestore.
+  /// Downloads root nodes and updates local database.
   Future<void> downloadRoots() async {
     String userId = auth.currentUser!.uid;
     var documentSnapshot = await fireStore.collection(userId).doc(FIREBASE_TREE_PROPERTIES).get();
@@ -263,6 +357,10 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
+  /// Retrieves a root node from Firestore.
+  ///
+  /// Retrieves the root node with the specified [rootId] from Firestore
+  /// and returns it as a [MyTreeNode] object.
   Future<MyTreeNode> getRoot(String rootId) async {
     String userId = auth.currentUser!.uid;
     var snapshot = await fireStore.collection(userId).doc(rootId).get();
@@ -270,6 +368,11 @@ class FirestoreService extends ChangeNotifier {
     return MyTreeNode.fromMap(map!);
   }
 
+  /// Saves a root node and its last change time to Firestore.
+  ///
+  /// Retrieves the root node with the specified [rootId] from the hierarchy database
+  /// and its last change time. The retrieved data is then merged with the existing
+  /// data in Firestore using the provided [rootId].
   Future<void> saveRoot(String rootId) async {
     MyTreeNode root = hierarchyDatabase.getRoot(rootId);
     int lastChange = hierarchyDatabase.getRootLastChangeTime(rootId);
@@ -282,7 +385,11 @@ class FirestoreService extends ChangeNotifier {
         .set({rootId: lastChange}, SetOptions(merge: true));
   }
 
-  // SAVE hierarchy
+  /// Saves the tree structure and associated notes to Firestore.
+  ///
+  /// [treeViewData] is the tree structure data to be saved.
+  /// [notes] is the list of notes associated with the tree structure.
+  /// [updateTime] is the time to be updated for the tree structure.
   Future<void> saveTreeStructure(MyTreeNode treeViewData, List notes, var updateTime) async {
     var map = treeViewData.toMap();
     String userId = auth.currentUser!.uid;
@@ -293,7 +400,9 @@ class FirestoreService extends ChangeNotifier {
     });
   }
 
-  // SAVE hierarchy sync time
+  /// Saves the synchronization time to Firestore.
+  ///
+  /// [time] is the synchronization time to be saved.
   Future<void> saveSyncTime(time) async {
     String userId = auth.currentUser!.uid;
     await fireStore.collection(userId).doc(FIREBASE_LAST_SYNC).set({
@@ -301,8 +410,9 @@ class FirestoreService extends ChangeNotifier {
     }, SetOptions(merge: true));
   }
 
-  // GET hierarchy
-  // not a realtime for now (not using stream builder)
+  /// Retrieves the tree node from Firestore.
+  ///
+  /// Returns the tree node retrieved from Firestore.
   Future<MyTreeNode> getTreeNode() async {
     String userId = auth.currentUser!.uid;
     var snapshot = await fireStore.collection(userId).doc(FIREBASE_TREE).get();
@@ -310,6 +420,9 @@ class FirestoreService extends ChangeNotifier {
     return MyTreeNode.fromMap(map!);
   }
 
+  /// Retrieves the list of notes from Firestore.
+  ///
+  /// Returns the list of notes retrieved from Firestore.
   Future<List> getNoteList() async {
     String userId = auth.currentUser!.uid;
     try {
@@ -326,7 +439,9 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
-  // Get hierarchy sync time
+  /// Retrieves the synchronization time from Firestore.
+  ///
+  /// Returns the synchronization time retrieved from Firestore.
   Future<int> getSyncTime() async {
     String userId = auth.currentUser!.uid;
     try {
@@ -344,7 +459,9 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
-  // Get hierarchy sync time
+  /// Retrieves the update time for the hierarchy from Firestore.
+  ///
+  /// Returns the update time for the hierarchy retrieved from Firestore.
   Future<int> getUpdateTime() async {
     String userId = auth.currentUser!.uid;
     try {
@@ -361,8 +478,7 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
-  // SAVE notes
-  /// Saving all notes
+  /// Saves all notes to Firestore.
   Future<void> saveAllNotes() async {
     var keys = boxNotes.keys;
     for (var key in keys) {
@@ -370,7 +486,9 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
-  // SAVE note
+  /// Saves a note to Firestore.
+  ///
+  /// [noteId] is the ID of the note to be saved.
   Future<void> saveNote(String noteId) async {
     var value = boxNotes.get(noteId);
     var timestamp = boxSynchronization.get(noteId);
@@ -383,7 +501,9 @@ class FirestoreService extends ChangeNotifier {
         .set({'content': value, 'timestamp': timestamp});
   }
 
-  // GET notes
+  /// Retrieves all notes from Firestore.
+  ///
+  /// Returns a list of maps containing information about each note.
   Future<List<Map<String, dynamic>>> getAllNotes() async {
     String userId = auth.currentUser!.uid;
     var collectionId = userId + FIREBASE_NOTES;
@@ -402,7 +522,11 @@ class FirestoreService extends ChangeNotifier {
     return notes;
   }
 
-  // GET note
+  /// Retrieves a specific note from Firestore.
+  ///
+  /// [noteId] is the ID of the note to be retrieved.
+  ///
+  /// Returns the content of the note if it exists, otherwise returns null.
   Future<String?> getNote(String noteId) async {
     String userId = auth.currentUser!.uid;
     var collectionId = userId + FIREBASE_NOTES;
