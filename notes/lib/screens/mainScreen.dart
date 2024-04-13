@@ -18,7 +18,7 @@ import 'package:notes/model/myTreeNode.dart';
 import 'package:notes/screens/settings.dart';
 import 'package:notes/services/firestoreService.dart';
 import 'package:notes/services/nodeService.dart';
-import 'package:notes/services/utilService.dart';
+import 'package:notes/services/services.dart';
 
 class MainScreen extends StatefulWidget {
   final FirebaseAuth auth;
