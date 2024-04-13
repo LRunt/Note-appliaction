@@ -79,7 +79,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     // Loading user preferences
-    if (boxUser.containsKey(LOCALE) && boxUser.get(LOCALE) != null) {
+    if (db.localePreferenceExist()) {
       Locale locale = db.loadLocale();
       setLocale(locale);
     }

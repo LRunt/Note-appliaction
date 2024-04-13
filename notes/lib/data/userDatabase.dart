@@ -6,6 +6,13 @@ import 'package:notes/boxes.dart';
 ///
 /// Database class working with local storage and provides to save and get user prefered language.
 class UserDatabase {
+  /// Checks if a locale preference exists in the local database.
+  ///
+  /// Returns `true` if a locale preference exists, otherwise `false`.
+  bool localePreferenceExist() {
+    return boxUser.containsKey(LOCALE) && boxUser.get(LOCALE) != null;
+  }
+
   /// Saves the given language code to the local database.
   ///
   /// [langCode] is a string representing the language code (e.g., 'en', 'es').
