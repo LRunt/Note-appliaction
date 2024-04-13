@@ -1,9 +1,9 @@
 //import 'package:flutter_quill/flutter_quill.dart';
 //import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:notes/data/local_databases.dart';
 //import 'package:notes/components/richTextEditor.dart';
 //import 'package:flutter/material.dart';
-import 'package:notes/data/notesDatabase.dart';
 
 class MockNotesDatabase extends Mock implements NotesDatabase {}
 

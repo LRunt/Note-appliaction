@@ -2,9 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:notes/data/local_databases.dart';
 import 'dart:developer';
-
-import 'package:notes/data/notesDatabase.dart';
 
 /// Class [RichTextEditor] creates rich text editor from the flutter_quill library.
 class RichTextEditor extends StatefulWidget {

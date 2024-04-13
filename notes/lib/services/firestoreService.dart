@@ -5,7 +5,7 @@ import 'package:notes/assets/constants.dart';
 import 'package:notes/boxes.dart';
 import 'package:notes/components/componentUtils.dart';
 import 'package:notes/data/hierarchyDatabase.dart';
-import 'package:notes/data/notesDatabase.dart';
+import 'package:notes/data/local_databases.dart';
 import 'package:notes/data/synchronizationDatabase.dart';
 import 'package:notes/model/myTreeNode.dart';
 import 'dart:developer';

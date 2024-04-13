@@ -44,6 +44,11 @@ const String FIREBASE_TREE_PROPERTIES = "properties";
 // Firebase fields
 const String LAST_SYNC_FIELD = "Sync_timestamp";
 
+// Firebase note fields
+const String NOTE_ID = "noteId";
+const String CONTENT = "content";
+const String NOTE_TIMESTAMP = "timestamp";
+
 //------------------------------------------------------------------------------
 //                          DESIGN CONSTANTS
 //------------------------------------------------------------------------------

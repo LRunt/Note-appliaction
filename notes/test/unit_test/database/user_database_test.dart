@@ -14,6 +14,20 @@ class MockBox extends Mock implements Box {
         returnValue: Future.value(),
         returnValueForMissingStub: Future.value(),
       );
+
+  @override
+  bool containsKey(key) => super.noSuchMethod(
+        Invocation.method(#containsKey, [key]),
+        returnValue: true,
+        returnValueForMissingStub: false,
+      );
+
+  @override
+  dynamic get(key, {dynamic defaultValue}) => super.noSuchMethod(
+        Invocation.method(#get, [key], {#defaultValue: defaultValue}),
+        returnValue: 'en',
+        returnValueForMissingStub: null,
+      );
 }
 
 void main() {
@@ -25,6 +39,39 @@ void main() {
       mockBox = MockBox();
       userDatabase = UserDatabase();
       boxUser = mockBox;
+    });
+
+    test('localePreferenceExist - simple test', () {
+      when(mockBox.containsKey(LOCALE)).thenReturn(true);
+      when(mockBox.get(LOCALE)).thenReturn("en");
+      // Act
+      final result = userDatabase.localePreferenceExist();
+
+      // Assert
+      expect(result, true);
+    });
+
+    test('localePreferenceExist - false -> locale preference dont exists', () {
+      // Arrange
+      when(mockBox.containsKey(LOCALE)).thenReturn(false);
+
+      // Act
+      final result = userDatabase.localePreferenceExist();
+
+      // Assert
+      expect(result, false);
+    });
+
+    test('localePreferenceExist - false -> locale preference is null', () {
+      // Arrange
+      when(mockBox.containsKey(LOCALE)).thenReturn(true);
+      when(mockBox.get(LOCALE)).thenReturn(null);
+
+      // Act
+      final result = userDatabase.localePreferenceExist();
+
+      // Assert
+      expect(result, false);
     });
 
     test('saveLocale saves the locale string', () {
