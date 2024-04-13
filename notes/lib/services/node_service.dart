@@ -176,6 +176,12 @@ class NodeService {
     }
   }
 
+  /// Creates a new root node with the given name.
+  ///
+  /// - [name] is the name of the new root node.
+  /// - [context] is the build context for accessing localized strings.
+  ///
+  /// Returns true if the root node is successfully created, otherwise returns false.
   bool createNewRoot(String name, BuildContext context) {
     String id = DELIMITER + name;
     if (name.isEmpty) {
@@ -196,6 +202,12 @@ class NodeService {
     return true;
   }
 
+  /// Locks the specified node with the given password.
+  ///
+  /// - [password] is the password used to lock the node.
+  /// - [node] is the node to be locked.
+  ///
+  /// Returns true if the node is successfully locked, otherwise returns false.
   bool lockNode(String password, MyTreeNode node) {
     String hash = generateHash(password);
     node.isLocked = true;
@@ -203,6 +215,12 @@ class NodeService {
     return true;
   }
 
+  /// Unlocks the specified node with the given password.
+  ///
+  /// - [password] is the password used to unlock the node.
+  /// - [node] is the node to be unlocked.
+  ///
+  /// Returns true if the node is successfully unlocked, otherwise returns false.
   bool unlockNode(String password, MyTreeNode node) {
     if (comparePassword(password, node.password!)) {
       node.isLocked = false;
@@ -427,17 +445,31 @@ class NodeService {
     return false;
   }
 
+  /// Generates a SHA-256 hash for the given password.
+  ///
+  /// [password] is the password to be hashed.
+  ///
+  /// Returns the hashed password as a string.
   String generateHash(String password) {
     var bytes = utf8.encode(password);
     var hash = sha256.convert(bytes);
     return hash.toString();
   }
 
+  /// Compares the input password with the stored hash.
+  ///
+  /// [inputPassword] is the password provided by the user.
+  /// [storedHash] is the hashed password stored in the database.
+  ///
+  /// Returns true if the input password matches the stored hash, otherwise returns false.
   bool comparePassword(String inputPassword, String storedHash) {
     var inputHash = generateHash(inputPassword);
     return inputHash == storedHash;
   }
 
+  /// Updates the last change time for the root node identified by [nodeId].
+  ///
+  /// [nodeId] is the identifier of the node whose root's change time needs to be updated.
   void updateRootLastChange(String nodeId) {
     List<String> splittedPath = nodeId.split(DELIMITER);
     String rootId = DELIMITER + splittedPath[1];
