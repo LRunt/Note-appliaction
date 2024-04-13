@@ -25,7 +25,9 @@ void main() {
     testWidgets('AboutAppDialog - CallBack functions', (WidgetTester tester) async {
       bool closePressed = false;
       await tester.pumpWidget(MaterialApp(
-        home: AboutAppDialog(onClose: () => closePressed = true),
+        home: AboutAppDialog(
+          onClose: () => closePressed = true,
+        ),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
       ));
