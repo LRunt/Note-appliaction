@@ -5,12 +5,22 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:notes/data/local_databases.dart';
 import 'dart:developer';
 
-/// Class [RichTextEditor] creates rich text editor from the flutter_quill library.
+/// A rich text editor widget for creating and editing notes.
+///
+/// This widget uses the flutter_quill library to provide a rich text editing experience.
+///
+/// Example:
+/// ```dart
+/// final editor = RichTextEditor(noteId: 'note_1');
+/// ```
 class RichTextEditor extends StatefulWidget {
   /// Id of the note what will be loaded and edited.
   final String noteId;
 
   /// Constrictor of the [RichTextEditor] class.
+  ///
+  /// Required:
+  /// - [noteId] a Id of the note.
   const RichTextEditor({super.key, required this.noteId});
 
   /// States of the [RichTextEditor].
@@ -23,8 +33,10 @@ class _RichTextEditorState extends State<RichTextEditor> {
   /// Controller of the rich text editor.
   QuillController _controller = QuillController.basic();
 
+  /// Instance of [NotesDatabase] for managing note data.
   NotesDatabase notesDatabase = NotesDatabase();
 
+  // Is the controls visible or not.
   late bool _controlsVisible;
 
   /// Inicialization of the class.
@@ -46,6 +58,7 @@ class _RichTextEditorState extends State<RichTextEditor> {
     super.dispose();
   }
 
+  /// Toggles the visibility of editing controls.
   void showControls() {
     setState(() {
       _controlsVisible = !_controlsVisible;

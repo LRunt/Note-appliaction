@@ -92,6 +92,7 @@ class DropdownMenuDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: dialogBorder,
+      title: Text(titleText),
       content: DropdownButtonFormField<String>(
         value: selectedValue,
         items: items,
