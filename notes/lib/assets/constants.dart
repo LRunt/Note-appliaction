@@ -62,6 +62,7 @@ const double BORDER_RADIUS = 10.0;
 const double BUTTON_BORDER_RADIUS = 5.0;
 const double DEFAULT_PADDING = 10.0;
 const double SETTINGS_BUTTON_SIZE = 130.0;
+const double DEFAULT_PAGE_PADDING = 25.0;
 
 // Bootstrap Colors
 const Color COLOR_ERROR = Color.fromRGBO(220, 53, 69, 1.0);

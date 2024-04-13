@@ -14,3 +14,5 @@ RoundedRectangleBorder dialogBorder = const RoundedRectangleBorder(
     Radius.circular(BORDER_RADIUS),
   ),
 );
+
+TextStyle defaultTextStyle = const TextStyle(fontSize: DEFAULT_TEXT_SIZE);

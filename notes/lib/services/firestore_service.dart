@@ -17,8 +17,6 @@ class FirestoreService extends ChangeNotifier {
   /// Database instance for managing synchronization data.
   SynchronizationDatabase syncDatabase = SynchronizationDatabase();
 
-  ComponentUtils utils = ComponentUtils();
-
   /// Constructor for FirestoreService.
   ///
   /// Required:
@@ -37,7 +35,7 @@ class FirestoreService extends ChangeNotifier {
   ///
   /// Returns a string indicating the synchronization status.
   Future<String> synchronize() async {
-    utils.showDefaultToast("Synchronizing data");
+    ComponentUtils.showDefaultToast("Synchronizing data");
     if (isLoggedIn()) {
       String userId = auth.currentUser!.uid;
       try {
@@ -70,7 +68,7 @@ class FirestoreService extends ChangeNotifier {
           log("Document does not exist");
           await uploadAllData();
         }
-        utils.showSuccesToast("Data synchronized");
+        ComponentUtils.showSuccesToast("Data synchronized");
         return "Succes";
       } catch (e) {
         log("Error fetching document: $e");
@@ -138,7 +136,7 @@ class FirestoreService extends ChangeNotifier {
       synchronizeNotes(notes, localTimeSync);
     } else {
       // Conflict
-      utils.showWarningToast("Possible conflict saved in Settings->Conflicts.");
+      ComponentUtils.showWarningToast("Possible conflict saved in Settings->Conflicts.");
       hierarchyDatabase.saveConflictData();
       downloadAllData();
     }
@@ -206,7 +204,7 @@ class FirestoreService extends ChangeNotifier {
           var local = syncDatabase.getLastNoteChangeTime(root);
           // Conflict
           if (localTimeSync < cloud && localTimeSync < local) {
-            utils.showWarningToast("Possible conflict saved in Settings->Conflicts.");
+            ComponentUtils.showWarningToast("Possible conflict saved in Settings->Conflicts.");
             hierarchyDatabase.saveConflictRoot(root);
           } else if (localTimeSync > cloud) {
             // saving to the cloud
@@ -247,7 +245,7 @@ class FirestoreService extends ChangeNotifier {
           var local = await boxSynchronization.get(noteId);
           if (localTimeSync < cloud && localTimeSync < local) {
             // Conflict
-            utils.showWarningToast("Possible conflict saved in Settings->Conflicts.");
+            ComponentUtils.showWarningToast("Possible conflict saved in Settings->Conflicts.");
             hierarchyDatabase.saveConflictNote(noteId);
             String? note = await getNote(noteId);
             if (note != null) {

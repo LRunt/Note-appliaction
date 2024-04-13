@@ -1,15 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'dart:developer';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:notes/assets/constants.dart';
-import 'package:notes/components/componentUtils.dart';
-import 'package:notes/components/myButton.dart';
-import 'package:notes/components/myTextField.dart';
-import 'package:notes/components/squareTile.dart';
-import 'package:notes/screens/resetPassword.dart';
-import 'package:notes/services/services.dart';
+part of screens;
 
 /// A StatefulWidget that provides a user interface for logging in.
 ///
@@ -17,7 +6,10 @@ import 'package:notes/services/services.dart';
 /// It utilizes Firebase Authentication for secure login functionality and provides
 /// feedback in case of errors such as incorrect email or password.
 class LoginPage extends StatefulWidget {
+  /// Instance of [FirebaseAuth] for handling user authentication processes.
   final FirebaseAuth auth;
+
+  /// Instance of [FirebaseFirestore] for database interactions, included for potential future use.
   final FirebaseFirestore firestore;
 
   /// A callback function that is triggered when the user taps on the 'Create Account' text.
@@ -80,7 +72,7 @@ class _LoginFormState extends State<LoginPage> {
   /// Errors during the login process are logged for debugging purposes.
   void login() async {
     log('Loging user: ${emailController.text}, password: ${passwordController.text}');
-    utils.getProgressIndicator(context);
+    ComponentUtils.getProgressIndicator(context);
     try {
       await _authService.login(emailController.text.trim(), passwordController.text.trim());
       await _firebaseService.synchronize();
@@ -94,12 +86,12 @@ class _LoginFormState extends State<LoginPage> {
       // Pop the CircularProgressIndicator
       Navigator.pop(context);
       log(errorMessage.toString());
-      utils.getSnackBarError(context, errorMessage.toString());
+      ComponentUtils.getSnackBarError(context, errorMessage.toString());
     }
   }
 
   void loginWithGoogle() async {
-    utils.getProgressIndicator(context);
+    ComponentUtils.getProgressIndicator(context);
     try {
       await _authService.signInWithGoogle();
       // Pop the CircularProgressIndicator
@@ -113,7 +105,7 @@ class _LoginFormState extends State<LoginPage> {
       // Pop the CircularProgressIndicator
       Navigator.pop(context);
       log(errorMessage.toString());
-      utils.getSnackBarError(context, errorMessage.toString());
+      ComponentUtils.getSnackBarError(context, errorMessage.toString());
     }
   }
 
@@ -179,7 +171,6 @@ class _LoginFormState extends State<LoginPage> {
                           MaterialPageRoute(
                             builder: (context) => ResetPasswordPage(
                               auth: widget.auth,
-                              firestore: widget.firestore,
                             ),
                           ),
                         );

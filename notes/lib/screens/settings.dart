@@ -48,7 +48,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
   /// Database handler for clearing all application data.
   ClearDatabase clearDB = ClearDatabase();
-  ComponentUtils utils = ComponentUtils();
 
   /// Clears all user data from the application, notifies success, and invokes a callback.
   ///
@@ -58,7 +57,7 @@ class _SettingsPageState extends State<SettingsPage> {
     clearDB.clearAllData();
     Navigator.of(context).pop();
     widget.onCleanDataAction();
-    utils.getSnackBarSuccess(context, AppLocalizations.of(context)!.deleteDataSuccess);
+    ComponentUtils.getSnackBarSuccess(context, AppLocalizations.of(context)!.deleteDataSuccess);
   }
 
   /// Asynchronously clears and recreates the application's log files, notifying success.
@@ -69,7 +68,7 @@ class _SettingsPageState extends State<SettingsPage> {
     await AppLogger.deleteLogFile();
     AppLogger.createLogFileIfNotExist();
     Navigator.of(context).pop();
-    utils.getSnackBarSuccess(context, AppLocalizations.of(context)!.clearLogsSuccess);
+    ComponentUtils.getSnackBarSuccess(context, AppLocalizations.of(context)!.clearLogsSuccess);
   }
 
   /// Returns the [Language] corresponding to the current locale's language code.
@@ -109,7 +108,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Expanded(
                     child: Text(
                       AppLocalizations.of(context)!.language,
-                      style: utils.getBasicTextStyle(),
+                      style: defaultTextStyle,
                     ),
                   ),
                   DropdownButton<Language>(
@@ -149,7 +148,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Expanded(
                     child: Text(
                       AppLocalizations.of(context)!.darkMode,
-                      style: utils.getBasicTextStyle(),
+                      style: defaultTextStyle,
                     ),
                   ),
                   Switch(
@@ -172,13 +171,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   Expanded(
                     child: Text(
                       AppLocalizations.of(context)!.showConflicts,
-                      style: utils.getBasicTextStyle(),
+                      style: defaultTextStyle,
                     ),
                   ),
                   SizedBox(
                     width: SETTINGS_BUTTON_SIZE,
                     child: FilledButton(
-                      style: utils.getButtonStyle(),
+                      style: defaultButtonStyle,
                       onPressed: () {
                         Navigator.push(
                             context, MaterialPageRoute(builder: (context) => const Conflict()));
@@ -197,13 +196,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   Expanded(
                     child: Text(
                       AppLocalizations.of(context)!.deleteApplicationData,
-                      style: utils.getBasicTextStyle(),
+                      style: defaultTextStyle,
                     ),
                   ),
                   SizedBox(
                     width: SETTINGS_BUTTON_SIZE,
                     child: FilledButton(
-                      style: utils.getButtonStyle(),
+                      style: defaultButtonStyle,
                       onPressed: () {
                         showDialog(
                           context: context,
@@ -235,13 +234,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   Expanded(
                     child: Text(
                       AppLocalizations.of(context)!.logs,
-                      style: utils.getBasicTextStyle(),
+                      style: defaultTextStyle,
                     ),
                   ),
                   SizedBox(
                     width: SETTINGS_BUTTON_SIZE,
                     child: FilledButton(
-                      style: utils.getButtonStyle(),
+                      style: defaultButtonStyle,
                       onPressed: () {
                         Navigator.push(
                             context, MaterialPageRoute(builder: (context) => const LogScreen()));
@@ -260,13 +259,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   Expanded(
                     child: Text(
                       AppLocalizations.of(context)!.deleteLogs,
-                      style: utils.getBasicTextStyle(),
+                      style: defaultTextStyle,
                     ),
                   ),
                   SizedBox(
                     width: SETTINGS_BUTTON_SIZE,
                     child: FilledButton(
-                      style: utils.getButtonStyle(),
+                      style: defaultButtonStyle,
                       onPressed: () {
                         showDialog(
                           context: context,
@@ -298,13 +297,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   Expanded(
                     child: Text(
                       AppLocalizations.of(context)!.aboutApp,
-                      style: utils.getBasicTextStyle(),
+                      style: defaultTextStyle,
                     ),
                   ),
                   SizedBox(
                     width: SETTINGS_BUTTON_SIZE,
                     child: FilledButton(
-                      style: utils.getButtonStyle(),
+                      style: defaultButtonStyle,
                       onPressed: () {
                         showDialog(
                           context: context,

@@ -20,7 +20,7 @@ class ComponentUtils {
   /// Shows a modal progress indicator dialog, useful during long-running tasks.
   ///
   /// - `context`: BuildContext for widget tree location.
-  void getProgressIndicator(BuildContext context) {
+  static void getProgressIndicator(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) {
@@ -35,7 +35,7 @@ class ComponentUtils {
   ///
   /// - `context`: BuildContext for finding the Scaffold.
   /// - `errorMessage`: The message to display.
-  void getSnackBarError(BuildContext context, String errorMessage) {
+  static void getSnackBarError(BuildContext context, String errorMessage) {
     getSnackBar(context, errorMessage, COLOR_ERROR);
   }
 
@@ -43,7 +43,7 @@ class ComponentUtils {
   ///
   /// - `context`: BuildContext for finding the Scaffold.
   /// - `successMessage`: The message to display.
-  void getSnackBarSuccess(BuildContext context, String successMessage) {
+  static void getSnackBarSuccess(BuildContext context, String successMessage) {
     getSnackBar(context, successMessage, COLOR_SUCCESS);
   }
 
@@ -51,7 +51,7 @@ class ComponentUtils {
   ///
   /// - `context`: BuildContext for finding the Scaffold.
   /// - `infoMessage`: The message to display.
-  void getSnackBarInfo(BuildContext context, String infoMessage) {
+  static void getSnackBarInfo(BuildContext context, String infoMessage) {
     getSnackBar(context, infoMessage, COLOR_INFO);
   }
 
@@ -60,7 +60,7 @@ class ComponentUtils {
   /// - `context`: The BuildContext for finding the Scaffold.
   /// - `message`: The error message to display.
   /// - `color`: Background color for the snack bar.
-  void getSnackBar(BuildContext context, String message, Color color) {
+  static void getSnackBar(BuildContext context, String message, Color color) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Center(
@@ -78,15 +78,15 @@ class ComponentUtils {
     showCenteredToast(message, COLOR_ERROR);
   }
 
-  void showSuccesToast(String message) {
+  static void showSuccesToast(String message) {
     showCenteredToast(message, COLOR_SUCCESS);
   }
 
-  void showDefaultToast(String message) {
+  static void showDefaultToast(String message) {
     showCenteredToast(message, COLOR_DEFAULT_TOAST);
   }
 
-  void showWarningToast(String message) {
+  static void showWarningToast(String message) {
     showCenteredToast(message, COLOR_WARNING);
   }
 

@@ -2,6 +2,7 @@ library screens;
 
 import 'package:flutter/material.dart';
 import 'package:notes/assets/constants.dart';
+import 'package:notes/assets/widgetConstants.dart';
 import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/dialogs/aboutAppDialog.dart';
 import 'package:notes/components/dialogs/deleteDialog.dart';
@@ -14,5 +15,15 @@ import 'package:notes/model/theme.dart';
 import 'package:notes/screens/conflict.dart';
 import 'package:notes/screens/logs.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:notes/components/myButton.dart';
+import 'package:notes/components/myTextField.dart';
+import 'package:notes/services/services.dart';
+import 'dart:developer';
+import 'package:notes/components/squareTile.dart';
 
 part 'settings.dart';
+part 'login.dart';
+part 'register.dart';
+part 'reset_password.dart';

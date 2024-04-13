@@ -1,44 +1,67 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:notes/assets/constants.dart';
-import 'package:notes/components/componentUtils.dart';
-import 'package:notes/components/myButton.dart';
-import 'package:notes/components/myTextField.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:notes/services/services.dart';
+part of screens;
 
+/// A StatefulWidget that facilitates password reset functionality for users.
+///
+/// This page utilizes Firebase Authentication and Firestore to reset a user's password.
+/// It provides a form where users can enter their email address to receive a password reset link.
+///
+/// Attributes:
+/// - `auth`: An instance of [FirebaseAuth] used for authentication processes.
+/// - `firestore`: An instance of [FirebaseFirestore] used for database interactions (not directly used here but included for potential extensions).
+///
+/// Usage:
+/// This widget should be used in scenarios where the user needs to reset their forgotten password.
+/// It is typically pushed onto the navigator stack when the user selects a "Forgot Password?" option.
+///
+/// ```dart
+/// Navigator.push(
+///   context,
+///   MaterialPageRoute(builder: (context) => ResetPasswordPage(auth: FirebaseAuth.instance, firestore: FirebaseFirestore.instance)),
+/// );
+/// ```
 class ResetPasswordPage extends StatefulWidget {
+  /// Instance of [FirebaseAuth] for handling user authentication processes.
   final FirebaseAuth auth;
-  final FirebaseFirestore firestore;
 
+  /// Constructor of the [ResetPasswordPage] widget.
+  ///
+  /// Requires one positional argument:
+  /// - [FirebaseAuth] - for handling user authentication processes.
   const ResetPasswordPage({
     super.key,
     required this.auth,
-    required this.firestore,
   });
 
   @override
   State<ResetPasswordPage> createState() => _ResetPasswordState();
 }
 
+/// State class for [ResetPasswordPage] handling the password reset logic.
 class _ResetPasswordState extends State<ResetPasswordPage> {
+  /// Service responsible for authentication operations.
   late final AuthService _authService;
-  final ComponentUtils utils = ComponentUtils();
 
+  /// Controller for the email input field.
   final emailController = TextEditingController();
 
+  /// Initiates the password reset process.
+  ///
+  /// This method attempts to reset the user's password via the authentication service
+  /// using the email provided in the [emailController]. If successful, it navigates
+  /// back and shows a success toast. In case of an error, it displays an error message
+  /// using a SnackBar.
   void resetPassword() async {
     try {
       await _authService.resetPassword(emailController.text.trim());
       Navigator.pop(context);
-      utils.showDefaultToast(AppLocalizations.of(context)!.emailSentToast);
+      ComponentUtils.showDefaultToast(AppLocalizations.of(context)!.emailSentToast);
     } catch (errorCode) {
       String errorMessage = _authService.getErrorMessage(errorCode.toString(), context);
-      utils.getSnackBarError(context, errorMessage.toString());
+      ComponentUtils.getSnackBarError(context, errorMessage.toString());
     }
   }
 
+  // Initializing the page
   @override
   void initState() {
     super.initState();
@@ -48,12 +71,14 @@ class _ResetPasswordState extends State<ResetPasswordPage> {
     );
   }
 
+  // Dispose after closing
   @override
   void dispose() {
     emailController.dispose();
     super.dispose();
   }
 
+  // UI of the page.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +88,7 @@ class _ResetPasswordState extends State<ResetPasswordPage> {
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            padding: const EdgeInsets.symmetric(horizontal: DEFAULT_PAGE_PADDING),
             child: Column(
               children: [
                 const Icon(

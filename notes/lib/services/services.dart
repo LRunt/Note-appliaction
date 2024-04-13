@@ -4,8 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:notes/screens/login.dart';
-import 'package:notes/screens/register.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:notes/assets/constants.dart';
 import 'package:notes/data/local_databases.dart';
@@ -18,6 +16,7 @@ import 'package:logging/logging.dart';
 import 'package:notes/logger.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
+import 'package:notes/screens/screens.dart';
 
 part 'auth_service.dart';
 part 'firestore_service.dart';

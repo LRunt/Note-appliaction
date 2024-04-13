@@ -1,21 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'dart:developer';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:notes/assets/constants.dart';
-import 'package:notes/components/componentUtils.dart';
-import 'package:notes/components/myButton.dart';
-import 'package:notes/components/myTextField.dart';
-import 'package:notes/components/squareTile.dart';
-import 'package:notes/services/services.dart';
+part of screens;
 
 /// A StatefulWidget that provides a user interface for registering a new user.
 ///
 /// This page displays a form where users can input their email, password, and confirm their password
 /// to create a new account. It uses Firebase Authentication for the registration process.
 class RegisterPage extends StatefulWidget {
+  /// Instance of [FirebaseAuth] for handling user authentication processes.
   final FirebaseAuth auth;
+
+  /// Instance of [FirebaseFirestore] for database interactions, included for potential future use.
   final FirebaseFirestore firestore;
 
   /// Callback function to navigate to another page.
@@ -73,7 +66,7 @@ class _RegisterFormState extends State<RegisterPage> {
     String password = passwordController.text.trim();
     String confirmPassword = confirmPasswordController.text.trim();
     String errorMessage = "";
-    utils.getProgressIndicator(context);
+    ComponentUtils.getProgressIndicator(context);
     if (password == confirmPassword) {
       try {
         await _authService.register(emailController.text.trim(), password);
@@ -88,18 +81,18 @@ class _RegisterFormState extends State<RegisterPage> {
         // Pop the CircularProgressIndicator
         Navigator.pop(context);
         log("Error: $errorMessage");
-        utils.getSnackBarError(context, errorMessage.toString());
+        ComponentUtils.getSnackBarError(context, errorMessage.toString());
       }
     } else {
       Navigator.pop(context);
       errorMessage = AppLocalizations.of(context)!.differentPasswords;
-      utils.getSnackBarError(context, errorMessage.toString());
+      ComponentUtils.getSnackBarError(context, errorMessage.toString());
       log("Error: $errorMessage");
     }
   }
 
   registerWithGoogle() async {
-    utils.getProgressIndicator(context);
+    ComponentUtils.getProgressIndicator(context);
     try {
       await _authService.signInWithGoogle();
       await _firebaseService.uploadAllData();
@@ -112,7 +105,7 @@ class _RegisterFormState extends State<RegisterPage> {
       // Pop the CircularProgressIndicator
       Navigator.pop(context);
       log(errorMessage.toString());
-      utils.getSnackBarError(context, errorMessage.toString());
+      ComponentUtils.getSnackBarError(context, errorMessage.toString());
     }
   }
 
@@ -138,7 +131,7 @@ class _RegisterFormState extends State<RegisterPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: DEFAULT_GAP_SIZE,
                 ),
                 MyTextField(
                     isPasswordField: false,
@@ -146,7 +139,7 @@ class _RegisterFormState extends State<RegisterPage> {
                     controller: emailController,
                     pefIcon: const Icon(Icons.email)),
                 const SizedBox(
-                  height: 30,
+                  height: DEFAULT_GAP_SIZE,
                 ),
                 MyTextField(
                     isPasswordField: true,
@@ -154,7 +147,7 @@ class _RegisterFormState extends State<RegisterPage> {
                     controller: passwordController,
                     pefIcon: const Icon(Icons.key)),
                 const SizedBox(
-                  height: 30,
+                  height: DEFAULT_GAP_SIZE,
                 ),
                 MyTextField(
                     isPasswordField: true,
@@ -162,7 +155,7 @@ class _RegisterFormState extends State<RegisterPage> {
                     controller: confirmPasswordController,
                     pefIcon: const Icon(Icons.key)),
                 const SizedBox(
-                  height: 30,
+                  height: DEFAULT_GAP_SIZE,
                 ),
                 MyButton(
                     onTap: () {
@@ -170,7 +163,7 @@ class _RegisterFormState extends State<RegisterPage> {
                     },
                     text: AppLocalizations.of(context)!.registration),
                 const SizedBox(
-                  height: 30,
+                  height: DEFAULT_GAP_SIZE,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
