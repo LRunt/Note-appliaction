@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:notes/assets/constants.dart';
-import 'package:notes/assets/widgetConstants.dart';
-import 'package:notes/components/myTextField.dart';
+part of dialogs;
 
 /// A dialog widget designed for password creation, featuring two password fields.
 ///

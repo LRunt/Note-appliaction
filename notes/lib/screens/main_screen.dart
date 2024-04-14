@@ -1,22 +1,4 @@
-import 'dart:async';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:notes/assets/constants.dart';
-import 'package:notes/components/componentUtils.dart';
-import 'package:notes/components/dialogs/enterPasswordDialog.dart';
-import 'package:notes/components/fileListView.dart';
-import 'package:notes/components/myButton.dart';
-import 'package:notes/components/myDrawerHeader.dart';
-import 'package:notes/components/richTextEditor.dart';
-import 'package:notes/data/local_databases.dart';
-import 'dart:developer';
-import 'package:notes/components/myTreeview.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:notes/model/myTreeNode.dart';
-import 'package:notes/screens/screens.dart';
-import 'package:notes/services/services.dart';
+part of screens;
 
 class MainScreen extends StatefulWidget {
   final FirebaseAuth auth;

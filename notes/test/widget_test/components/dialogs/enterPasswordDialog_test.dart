@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:notes/components/dialogs/enterPasswordDialog.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:notes/components/dialogs/dialogs.dart';
 
 void main() {
   testWidgets('EnterPasswordDialog - dialog have correct content', (WidgetTester tester) async {
@@ -18,8 +18,8 @@ void main() {
             controller: controller,
           ),
         ),
-         localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
       ),
     );
 

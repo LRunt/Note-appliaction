@@ -1,11 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:notes/assets/widgetConstants.dart';
-import 'package:notes/components/myTextField.dart';
+part of dialogs;
 
-/// A [TextFieldDialog] widget that presents a dialog with a text field for capturing input.
+/// A [EnterPasswordDialog] widget that presents a dialog with a text field for capturing a password.
 ///
-/// This widget is designed to capture user input, offering options
+/// This widget is designed to capture a password input from the user, offering options
 /// for confirmation and cancellation. It uses [AlertDialog] as its
 /// base structure and includes custom styling and localization support.
 ///
@@ -15,26 +12,24 @@ import 'package:notes/components/myTextField.dart';
 /// - [titleText]: Text to display as the title of the dialog.
 /// - [confirmButtonText]: Text to display on the confirm button.
 /// - [controller]: Controller for managing the text field's content.
-/// - [hint]: The hint text to display in the text field.
 ///
 /// Usage example:
 /// ```dart
-/// TextFieldDialog(
+/// EnterPasswordDialog(
 ///   onConfirm: () {
 ///     // Handle confirmation action
 ///   },
 ///   onCancel: () {
 ///     // Handle cancellation action
 ///   },
-///   titleText: 'Enter Text',
+///   titleText: 'Enter Password',
 ///   confirmButtonText: 'Confirm',
 ///   controller: myTextController,
-///   hint: 'Enter your text here',
 /// )
 /// ```
 ///
 /// This dialog leverages [AlertDialog] to present its content, providing a consistent and familiar UI for users.
-class TextFieldDialog extends StatelessWidget {
+class EnterPasswordDialog extends StatelessWidget {
   /// A callback function that is called when the user presses the confirm button.
   ///
   /// Use this to define the action that will be executed when the confirm action is triggered.
@@ -48,33 +43,27 @@ class TextFieldDialog extends StatelessWidget {
   /// The title text to be displayed in the title of the dialog.
   final String titleText;
 
-  /// The text for the confirmation button.
+  /// The text of the confirmation button.
   final String confirmButtonText;
-
-  /// The hint text to display in the text field.
-  final String hint;
 
   /// Controller for managing the text field's content.
   final TextEditingController controller;
 
-  /// Constructor of the [TextFieldDialog].
+  /// Constructor of the [EnterPasswordDialog].
   ///
-  /// Requires six positional arguments:
+  /// Requires five positional arguments:
   /// - [onConfirm] a callback function that is executed when the confirm button is pressed.
   /// - [onCancel] a callback function that is executed when the cancel button is pressed.
   /// - [titleText] a text to display as the title of the dialog.
   /// - [confirmButtonText] a text to display on the confirm button.
   /// - [controller] a controller for managing the text field's content.
-  /// - [hint] the hint text to display in the text field.
-  const TextFieldDialog({
-    super.key,
-    required this.onConfirm,
-    required this.onCancel,
-    required this.titleText,
-    required this.confirmButtonText,
-    required this.controller,
-    required this.hint,
-  });
+  const EnterPasswordDialog(
+      {super.key,
+      required this.onConfirm,
+      required this.onCancel,
+      required this.titleText,
+      required this.confirmButtonText,
+      required this.controller});
 
   // Builds the UI of the textfield dialog.
   @override
@@ -84,10 +73,10 @@ class TextFieldDialog extends StatelessWidget {
       backgroundColor: Theme.of(context).dialogBackgroundColor,
       title: Text(titleText),
       content: MyTextField(
-        isPasswordField: false,
+        isPasswordField: true,
+        hint: AppLocalizations.of(context)!.password,
         controller: controller,
-        pefIcon: null,
-        hint: hint,
+        pefIcon: const Icon(Icons.key),
       ),
       actions: [
         TextButton(
@@ -97,6 +86,7 @@ class TextFieldDialog extends StatelessWidget {
           child: Text(AppLocalizations.of(context)!.cancel),
         ),
         FilledButton(
+          key: const Key('confirmButton'),
           onPressed: onConfirm,
           style: defaultButtonStyle,
           child: Text(confirmButtonText),

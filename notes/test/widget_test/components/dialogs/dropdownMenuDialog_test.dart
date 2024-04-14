@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:notes/components/dialogs/dropdownMenuDialog.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:notes/components/dialogs/dialogs.dart';
 
 void main() {
   // Define test widgets and necessary mock callbacks

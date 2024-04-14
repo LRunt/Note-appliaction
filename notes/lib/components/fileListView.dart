@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes/components/componentUtils.dart';
-import 'package:notes/components/dialogs/deleteDialog.dart';
-import 'package:notes/components/dialogs/dropdownMenuDialog.dart';
-import 'package:notes/components/dialogs/enterPasswordDialog.dart';
-import 'package:notes/components/dialogs/textFieldDialog.dart';
+import 'package:notes/components/dialogs/dialogs.dart';
 import 'package:notes/components/fileListViewTile.dart';
 import 'package:notes/model/myTreeNode.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

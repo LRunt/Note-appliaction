@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:notes/components/dialogs/deleteDialog.dart';
+import 'package:notes/components/dialogs/dialogs.dart';
 
 void main() {
   testWidgets('DeleteDialog Test', (WidgetTester tester) async {
@@ -29,13 +29,11 @@ void main() {
     await tester.pumpAndSettle();
 
     // Use AppLocalizations to get the correct localized text
-    final AppLocalizations loc =
-        AppLocalizations.of(tester.element(find.byType(DeleteDialog)))!;
+    final AppLocalizations loc = AppLocalizations.of(tester.element(find.byType(DeleteDialog)))!;
 
     // Verify the title and content texts are displayed
     expect(find.text('Delete app data'), findsOneWidget);
-    expect(find.text('Are you sure you want to delete all application data?'),
-        findsOneWidget);
+    expect(find.text('Are you sure you want to delete all application data?'), findsOneWidget);
 
     // Tap the delete button and verify onDelete is called
     await tester.tap(find.text(loc.delete));
