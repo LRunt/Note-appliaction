@@ -384,5 +384,21 @@
     "newNoteHint": "Note name",
     "@newNoteHint": {
         "description": "The hint for create new note textField"
+    },
+    "synchronizingStart": "Synchronizing data...",
+    "@synchronizingStart": {
+        "description": "Information to the user, that synchronization have started"
+    },
+    "synchronizingSuccess": "Data synchronized",
+    "@synchronizingSuccess": {
+        "description": "Information to the user, that data was sucessfully synchronized"
+    },
+    "synchronizingFailed": "Error during synchronizing",
+    "@synchronizingFailed": {
+        "description": "Information to the user, that synchronization failed"
+    },
+    "synchronizationConflict": "Possible conflict saved in Settings->Conflicts.",
+    "@synchronizationConflict": {
+        "description": "Information to the user, that there were found conflicts and where can he found that."
     }
 }

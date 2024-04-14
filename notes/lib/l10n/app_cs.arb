@@ -84,5 +84,9 @@
     "lockButton": "Uzamknout",
     "renameHint": "Nový název",
     "newDirectoryHint": "Název složky",
-    "newNoteHint": "Název poznámky"
+    "newNoteHint": "Název poznámky",
+    "synchronizingStart": "Synchronizování dat...",
+    "synchronizingSuccess": "Data synchronizována",
+    "synchronizingFailed": "Při synchronizování se naskytla chyba",
+    "synchronizationConflict": "Možné konflikty byly uloženy do Nastavení->Konflikty."
 }

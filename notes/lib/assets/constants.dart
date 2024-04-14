@@ -34,20 +34,23 @@ const String BOX_SYNCHRONIZATION = "Synchronization";
 //                             FIREBASE DATABASE
 //------------------------------------------------------------------------------
 // Firebase cloud constants
-const String FIREBASE_TREE = "user_tree";
-const String FIREBASE_TREE_TIME = "tree_time";
 const String FIREBASE_NOTES = "user_notes";
-const String FIREBASE_LAST_SYNC = "last_sync";
-const String FIREBASE_NOTES_LIST = "notes";
+const String FIREBASE_LAST_SYNC = "lastSync";
 const String FIREBASE_TREE_PROPERTIES = "properties";
+const String ROOTS_LAST_CHANGE = "rootsLastChange";
+const String FIREBASE_ROOT_LIST = "rootList";
 
 // Firebase fields
 const String LAST_SYNC_FIELD = "Sync_timestamp";
 
+// Firebase sync fields
+const String FIREBASE_LAST_CHANGE = "lastChange";
+
 // Firebase note fields
+const String NOTES_LIST = "noteList";
 const String NOTE_ID = "noteId";
 const String CONTENT = "content";
-const String NOTE_TIMESTAMP = "";
+const String NOTE_TIMESTAMP = "timestamp";
 
 //------------------------------------------------------------------------------
 //                          DESIGN CONSTANTS

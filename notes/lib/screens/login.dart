@@ -75,7 +75,7 @@ class _LoginFormState extends State<LoginPage> {
     ComponentUtils.getProgressIndicator(context);
     try {
       await _authService.login(emailController.text.trim(), passwordController.text.trim());
-      await _firebaseService.synchronize();
+      await _firebaseService.synchronize(context);
       widget.loginSuccess();
       // Pop the CircularProgressIndicator
       Navigator.pop(context);
@@ -95,7 +95,7 @@ class _LoginFormState extends State<LoginPage> {
     try {
       await _authService.signInWithGoogle();
       // Pop the CircularProgressIndicator
-      await _firebaseService.synchronize();
+      await _firebaseService.synchronize(context);
       widget.loginSuccess;
       Navigator.pop(context);
       // Go back to the main screen

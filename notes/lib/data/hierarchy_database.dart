@@ -191,9 +191,16 @@ class HierarchyDatabase {
 //                             CONFLICT DATA
 //------------------------------------------------------------------------------
 
+  /// Checks if a conflict data exists in the local database.
+  ///
+  /// Returns `true` if a conflict data not exists, otherwise `false`.
+  bool conflictDataNotExist() {
+    return !boxHierachy.containsKey(CONFLICT) || boxHierachy.get(CONFLICT) == null;
+  }
+
   /// Saves conflict data to the local database.
   void saveConflictData() {
-    if (!boxHierachy.containsKey(CONFLICT) || boxHierachy.get(CONFLICT) == null) {
+    if (conflictDataNotExist()) {
       initConflictData();
     }
     MyTreeNode conflicts = boxHierachy.get(CONFLICT);
@@ -208,7 +215,7 @@ class HierarchyDatabase {
   ///
   /// [noteId] is the ID of the note to be saved as a conflict.
   void saveConflictNote(String noteId) {
-    if (!boxHierachy.containsKey(CONFLICT) || boxHierachy.get(CONFLICT) == null) {
+    if (conflictDataNotExist()) {
       initConflictData();
     }
     MyTreeNode conflicts = boxHierachy.get(CONFLICT);
@@ -223,7 +230,7 @@ class HierarchyDatabase {
   ///
   /// [rootId] is the ID of the root node to be saved as a conflict.
   void saveConflictRoot(String rootId) {
-    if (!boxHierachy.containsKey(CONFLICT) || boxHierachy.get(CONFLICT) == null) {
+    if (conflictDataNotExist()) {
       initConflictData();
     }
     MyTreeNode conflicts = boxHierachy.get(CONFLICT);
