@@ -301,7 +301,7 @@
     },
     "lockNode": "Lock {noteName}",
     "@lockNode": {
-        "description": "Text for locking the folder or note",
+        "description": "Text for locking the note",
         "placeholders": {
             "noteName": {
                 "type": "String",
@@ -309,9 +309,23 @@
             }
         }
     },
-    "unlock": "Unlock",
+    "unlockNode": "Unlock {noteName}",
+    "@unlockNode": {
+        "description": "Text for unlocking the note",
+        "placeholders": {
+            "noteName": {
+                "type": "String",
+                "example": "Note name"
+            }
+        }
+    },
+    "unlock": "UNLOCK",
     "@unlock": {
         "description": "Text for unlocking the folder or note"
+    },
+    "unlockMenu": "Odemnknout",
+    "@unlockMenu": {
+        "description": "Text in menu for inlocking the note"
     },
     "siblingWithSameNameToast": "In destination is folder or note with same name",
     "@siblingWithSameNameToast": {
@@ -355,7 +369,7 @@
     "@informationsAboutApp": {
         "description": "The information about application, about author, publish date and version"
     },
-    "lockButton": "LOCK",
+    "lockButton": "Lock",
     "@lockButton": {
         "description": "The confirm button in lock dialog"
     },

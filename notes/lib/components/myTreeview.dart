@@ -105,7 +105,7 @@ class _MyTreeViewState extends State<MyTreeView> {
               _textDialogController.clear();
               Navigator.of(context).pop();
             },
-            hint: "",
+            hint: AppLocalizations.of(context)!.newNoteHint,
           );
         });
   }
@@ -270,7 +270,7 @@ class MyTreeTile extends StatelessWidget {
                         children: [
                           const Icon(Icons.lock_outline),
                           const SizedBox(width: 4),
-                          Text(AppLocalizations.of(context)!.lock)
+                          Text(AppLocalizations.of(context)!.lockButton)
                         ],
                       ),
                     ),
@@ -294,10 +294,6 @@ class MyTreeTile extends StatelessWidget {
       ),
     );
   }
-
-  /*bool checkPassword() {
-
-  }*/
 
   /// Showing dialog with asking the user if he is sure to delete the node
   void showDeleteDialog(BuildContext context, MyTreeNode node) {

@@ -117,7 +117,7 @@ class FileListViewTile extends StatelessWidget {
                             children: [
                               const Icon(Icons.lock_outline),
                               const SizedBox(width: 4),
-                              Text(AppLocalizations.of(context)!.lock),
+                              Text(AppLocalizations.of(context)!.lockButton),
                             ],
                           ),
                         ),

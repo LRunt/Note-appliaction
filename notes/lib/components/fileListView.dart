@@ -25,6 +25,7 @@ class FileListView extends StatefulWidget {
 
 class _FileListViewState extends State<FileListView> {
   final _textDialogController = TextEditingController();
+  final _textDialogController2 = TextEditingController();
   List<MyTreeNode> children = [];
   final utils = ComponentUtils();
   NodeService service = NodeService();
@@ -38,6 +39,7 @@ class _FileListViewState extends State<FileListView> {
     if (node != null) {
       children = node.children;
     }
+    log("Reolading: $node");
     super.initState();
   }
 
@@ -77,7 +79,7 @@ class _FileListViewState extends State<FileListView> {
           controller: _textDialogController,
           onConfirm: () => renameNode(node),
           onCancel: () => closeAndClear(),
-          hint: "",
+          hint: AppLocalizations.of(context)!.renameHint,
         );
       },
     );
@@ -95,7 +97,9 @@ class _FileListViewState extends State<FileListView> {
             controller: _textDialogController,
             onConfirm: () => createNode(node, isNote),
             onCancel: () => closeAndClear(),
-            hint: "");
+            hint: isNote
+                ? AppLocalizations.of(context)!.newNoteHint
+                : AppLocalizations.of(context)!.newDirectoryHint);
       },
     );
   }
@@ -134,8 +138,8 @@ class _FileListViewState extends State<FileListView> {
         context: context,
         builder: (context) {
           return EnterPasswordDialog(
-              titleText: AppLocalizations.of(context)!.renameNode(node.title),
-              confirmButtonText: AppLocalizations.of(context)!.rename,
+              titleText: AppLocalizations.of(context)!.unlockNode(node.title),
+              confirmButtonText: AppLocalizations.of(context)!.unlock,
               controller: _textDialogController,
               onConfirm: () => unlockNode(node),
               onCancel: () => closeAndClear());
@@ -146,13 +150,13 @@ class _FileListViewState extends State<FileListView> {
     showDialog(
         context: context,
         builder: (context) {
-          return TextFieldDialog(
-            titleText: AppLocalizations.of(context)!.lock,
+          return CreatePasswordDialog(
+            titleText: AppLocalizations.of(context)!.lockNode(node.title),
             confirmButtonText: AppLocalizations.of(context)!.lock,
-            controller: _textDialogController,
+            controller1: _textDialogController,
+            controller2: _textDialogController2,
             onConfirm: () => lockNode(node),
             onCancel: () => closeAndClear(),
-            hint: "",
           );
         });
   }
@@ -184,6 +188,12 @@ class _FileListViewState extends State<FileListView> {
       () {
         if (service.createNewNode(node, _textDialogController.text.trim(), isNote, context)) {
           closeAndClear();
+          log("Creating node: $node");
+          MyTreeNode? widgetNode = service.getNode(widget.nodeId);
+          log("$widgetNode");
+          if (widgetNode != null) {
+            children = node.children;
+          }
         }
       },
     );
