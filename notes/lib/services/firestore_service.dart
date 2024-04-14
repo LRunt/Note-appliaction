@@ -231,9 +231,10 @@ class FirestoreService extends ChangeNotifier {
   ///
   /// Throws an error if there's an issue during synchronization.
   Future<void> synchronizeNotes(List noteIds, int localTimeSync, BuildContext context) async {
+    hierarchyDatabase.saveNoteList(noteIds);
+    String userId = auth.currentUser!.uid;
+    var collectionId = userId + FIREBASE_NOTES;
     for (var noteId in noteIds) {
-      String userId = auth.currentUser!.uid;
-      var collectionId = userId + FIREBASE_NOTES;
       var documentSnapshot = await fireStore.collection(collectionId).doc(noteId).get();
       if (documentSnapshot.exists) {
         var cloud = documentSnapshot.get(NOTE_TIMESTAMP);
@@ -344,7 +345,7 @@ class FirestoreService extends ChangeNotifier {
   Future<void> downloadRoots() async {
     String userId = auth.currentUser!.uid;
     var documentSnapshot = await fireStore.collection(userId).doc(FIREBASE_TREE_PROPERTIES).get();
-    var documentChangeTimes = await fireStore.collection(userId).doc("rootsLastChange").get();
+    var documentChangeTimes = await fireStore.collection(userId).doc(ROOTS_LAST_CHANGE).get();
     if (documentSnapshot.exists && documentChangeTimes.exists) {
       List rootList = documentSnapshot.get(FIREBASE_ROOT_LIST);
       hierarchyDatabase.saveRootList(rootList);

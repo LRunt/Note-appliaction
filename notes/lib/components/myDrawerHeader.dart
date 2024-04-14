@@ -19,6 +19,7 @@ class UserDrawerHeader extends StatefulWidget {
   /// Instance of firebase firestore.
   final FirebaseFirestore firestore;
 
+  /// Callback when the login of the user is successfull
   final VoidCallback loginSuccess;
 
   /// Constructor of [UserDrawerHeader] class.

@@ -192,6 +192,7 @@ class HierarchyDatabase {
   ///
   /// [notes] is the list of notes to be saved.
   void saveNoteList(List notes) {
+    noteList = notes;
     boxSynchronization.put(NOTE_LIST, notes);
   }
 

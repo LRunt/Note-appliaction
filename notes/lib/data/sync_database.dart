@@ -46,6 +46,11 @@ class SynchronizationDatabase {
 
   /// Retrieves the timestamp of the last change in the local database.
   int getLastChange() {
-    return boxSynchronization.get(LAST_CHANGE);
+    int? lastChange = boxSynchronization.get(LAST_CHANGE);
+    if (lastChange == null) {
+      return 0;
+    } else {
+      return lastChange;
+    }
   }
 }
