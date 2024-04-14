@@ -1,19 +1,8 @@
-<!DOCTYPE html><html><head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Base Configuration -->
   <base href="$FLUTTER_BASE_HREF">
-
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="A new Flutter project.">
@@ -29,50 +18,35 @@
 
   <title>notes</title>
   <link rel="manifest" href="manifest.json">
-
-  <script>
-    // The value below is injected by flutter build, do not touch.
-    const serviceWorkerVersion = null;
-  </script>
-  <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter.js" defer=""></script>
   <link rel="stylesheet" type="text/css" href="splash/style.css">
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-  <script src="splash/splash.js"></script>
-
-   <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
-  </head>
-<body>
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-
-   <!-- Add Firebase products that you want to use -->
-   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
-   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
-   <!-- Firebase Initialization -->
-   <script>
-    const firebaseConfig = {
-      apiKey: 'AIzaSyATPz_4XG0Nk9jLSpXINcZbidN3vtpz_TI',
-      authDomain: 'note-taking-application-7c5e4.firebaseapp.com',
-      projectId: 'note-taking-application-7c5e4',
-      storageBucket: 'note-taking-application-7c5e4.appspot.com',
-      messagingSenderId: '61772139773',
-      appId: '1:61772139773:web:db0e9f389e6aa60301c294'
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-  </script>
   
+  <!-- Viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <!-- Load Firebase libraries; Ensure firebase-app.js is loaded first -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-messaging.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-analytics.js"></script>
+
+</head>
+<body>
   <picture id="splash">
-      <source srcset="splash/img/light-1x.png 1x, splash/img/light-2x.png 2x, splash/img/light-3x.png 3x, splash/img/light-4x.png 4x" media="(prefers-color-scheme: light)">
-      <source srcset="splash/img/dark-1x.png 1x, splash/img/dark-2x.png 2x, splash/img/dark-3x.png 3x, splash/img/dark-4x.png 4x" media="(prefers-color-scheme: dark)">
-      <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="">
-  </picture>    
+    <source srcset="splash/img/light-1x.png 1x, splash/img/light-2x.png 2x, splash/img/light-3x.png 3x, splash/img/light-4x.png 4x" media="(prefers-color-scheme: light)">
+    <source srcset="splash/img/dark-1x.png 1x, splash/img/dark-2x.png 2x, splash/img/dark-3x.png 3x, splash/img/dark-4x.png 4x" media="(prefers-color-scheme: dark)">
+    <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="Loading...">
+  </picture>
+
+  <script src="flutter.js" defer></script>
+  
   <script>
     window.addEventListener('load', function(ev) {
-      // Download main.dart.js
+      // Initialize Flutter application
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
+          serviceWorkerVersion: null, // Set to null or specify dynamically as needed
         },
         onEntrypointLoaded: function(engineInitializer) {
           engineInitializer.initializeEngine().then(function(appRunner) {
@@ -82,6 +56,6 @@
       });
     });
   </script>
+</body>
+</html>
 
-
-</body></html>

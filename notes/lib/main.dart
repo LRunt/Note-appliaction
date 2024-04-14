@@ -11,6 +11,7 @@ import 'package:notes/logger.dart';
 import 'package:notes/model/theme.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'package:notes/screens/mainScreen.dart';
 import 'package:notes/model/myTreeNode.dart';
@@ -25,9 +26,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initializing the logger
-  await AppLogger.init();
+  // await AppLogger.init();
 
-  AppLogger.log("Inicializing the application");
+  //AppLogger.log("Inicializing the application");
   // initialize hive
   await Hive.initFlutter();
 
@@ -40,12 +41,34 @@ void main() async {
   boxUser = await Hive.openBox(BOX_USERS);
   boxSynchronization = await Hive.openBox(BOX_SYNCHRONIZATION);
 
+  try {
+    if (kIsWeb) {
+      await Firebase.initializeApp(
+        options: const FirebaseOptions(
+          apiKey: "AIzaSyATPz_4XG0Nk9jLSpXINcZbidN3vtpz_TI",
+          appId: "1:61772139773:web:db0e9f389e6aa60301c294",
+          messagingSenderId: "61772139773",
+          projectId: "note-taking-application-7c5e4",
+        ),
+      );
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    } else {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+    }
+  } catch (e) {
+    print("Firebase failed to initialize: $e");
+    return; // Exit if Firebase initialization fails
+  }
   // Initializing Firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
 
-  AppLogger.log("Running the application");
+  if (!kIsWeb) {
+    // Only set persistence on platforms that support it; check documentation for more info
+    await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
+  }
+
+  //AppLogger.log("Running the application");
   // Running the application
   runApp(const MyApp());
 }

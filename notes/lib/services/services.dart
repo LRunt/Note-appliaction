@@ -12,8 +12,6 @@ import 'package:notes/boxes.dart';
 import 'package:notes/components/componentUtils.dart';
 import 'package:notes/model/myTreeNode.dart';
 import 'dart:developer';
-import 'package:logging/logging.dart';
-import 'package:notes/logger.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:notes/screens/screens.dart';

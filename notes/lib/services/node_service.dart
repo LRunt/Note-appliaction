@@ -41,7 +41,7 @@ class NodeService {
   /// - [node]: The node to be deleted.
   /// - [parent]: The parent of the node being deleted.
   void deleteNode(MyTreeNode node, MyTreeNode? parent) {
-    AppLogger.log('Deleting node ${node.id}');
+    //AppLogger.log('Deleting node ${node.id}');
     // If node is note, delete note
     if (node.isNote) {
       notesDatabase.deleteNote(node.id);
@@ -67,17 +67,17 @@ class NodeService {
   /// - [newName]: The new name for the node.
   /// - Returns `true` if the rename operation is successful; otherwise, `false`.
   bool renameNode(MyTreeNode node, String newName, BuildContext context) {
-    AppLogger.log('Renaming node ${node.id}');
+    //AppLogger.log('Renaming node ${node.id}');
     if (newName.isEmpty) {
-      AppLogger.log("The name is empty", level: Level.WARNING);
+      //AppLogger.log("The name is empty", level: Level.WARNING);
       ComponentUtils.showErrorToast(AppLocalizations.of(context)!.emptyTextFieldToast);
       return false;
     } else if (containsDisabledChars(newName)) {
-      AppLogger.log("Disabled chars", level: Level.WARNING);
+      //AppLogger.log("Disabled chars", level: Level.WARNING);
       ComponentUtils.showErrorToast(AppLocalizations.of(context)!.disabledCharsToast);
       return false;
     } else if (siblingWithSameName(node.id, newName, false)) {
-      AppLogger.log("Sibling with same name", level: Level.WARNING);
+      //AppLogger.log("Sibling with same name", level: Level.WARNING);
       ComponentUtils.showErrorToast(AppLocalizations.of(context)!.siblingWithSameNameToast);
       return false;
     } else {
@@ -108,17 +108,17 @@ class NodeService {
   /// - [nodeType]: The type of the new node (note or folder).
   /// - Returns `true` if the node is successfully created; otherwise, `false`.
   bool createNewNode(MyTreeNode node, String nodeName, bool nodeType, BuildContext context) {
-    AppLogger.log('Creating new node');
+    //AppLogger.log('Creating new node');
     if (nodeName.isEmpty) {
-      AppLogger.log("The name is empty", level: Level.WARNING);
+      //AppLogger.log("The name is empty", level: Level.WARNING);
       ComponentUtils.showErrorToast(AppLocalizations.of(context)!.emptyTextFieldToast);
       return false;
     } else if (containsDisabledChars(nodeName)) {
-      AppLogger.log("Disabled chars", level: Level.WARNING);
+      //AppLogger.log("Disabled chars", level: Level.WARNING);
       ComponentUtils.showErrorToast(AppLocalizations.of(context)!.disabledCharsToast);
       return false;
     } else if (siblingWithSameName(node.id, nodeName, true)) {
-      AppLogger.log("Sibling with same name", level: Level.WARNING);
+      //AppLogger.log("Sibling with same name", level: Level.WARNING);
       ComponentUtils.showErrorToast(AppLocalizations.of(context)!.siblingWithSameNameToast);
       return false;
     } else {
@@ -142,7 +142,7 @@ class NodeService {
   /// - [newParent]: The ID of the new parent node.
   /// - Returns `true` if the move operation is successful; otherwise, `false`.
   bool moveNode(MyTreeNode node, String newParent, BuildContext context) {
-    AppLogger.log('Moving node ${node.id}, new parent: $newParent');
+    //AppLogger.log('Moving node ${node.id}, new parent: $newParent');
     MyTreeNode? parent = getNode(newParent);
     if (parent == null) {
       return false;
@@ -185,15 +185,15 @@ class NodeService {
   bool createNewRoot(String name, BuildContext context) {
     String id = DELIMITER + name;
     if (name.isEmpty) {
-      AppLogger.log("The name is empty", level: Level.WARNING);
+      //AppLogger.log("The name is empty", level: Level.WARNING);
       ComponentUtils.showErrorToast(AppLocalizations.of(context)!.emptyTextFieldToast);
       return false;
     } else if (containsDisabledChars(name)) {
-      AppLogger.log("Disabled chars", level: Level.WARNING);
+      //AppLogger.log("Disabled chars", level: Level.WARNING);
       ComponentUtils.showErrorToast(AppLocalizations.of(context)!.disabledCharsToast);
       return false;
     } else if (HierarchyDatabase.rootList.contains(id)) {
-      AppLogger.log("Root with same name", level: Level.WARNING);
+      //AppLogger.log("Root with same name", level: Level.WARNING);
       ComponentUtils.showErrorToast(AppLocalizations.of(context)!.siblingWithSameNameToast);
       return false;
     }
