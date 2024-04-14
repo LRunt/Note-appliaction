@@ -5,8 +5,6 @@ import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/dialogs/dialogs.dart';
 import 'package:notes/data/local_databases.dart';
 import 'package:notes/model/myTreeNode.dart';
-import 'package:notes/boxes.dart';
-import 'package:notes/assets/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notes/services/services.dart';
 
@@ -61,7 +59,7 @@ class _MyTreeViewState extends State<MyTreeView> {
   @override
   void initState() {
     //there is no initial state, first time the application runs
-    if (!boxSynchronization.containsKey(ROOT_LIST) || boxSynchronization.get(ROOT_LIST) == null) {
+    if (hierarchyDb.rootDataNotExist()) {
       log("Creating new data!");
       hierarchyDb.createDefaultData();
     }

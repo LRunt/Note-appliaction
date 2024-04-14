@@ -17,14 +17,22 @@ class HierarchyDatabase {
   /// List of conflict data nodes in the hierarchy database.
   static List<MyTreeNode> conflictData = [];
 
+  /// Checks if a root data exists in the local database.
+  ///
+  /// Returns `true` if a root data not exists, otherwise `false`.
+  bool rootDataNotExist() {
+    return !boxSynchronization.containsKey(ROOT_LIST) || boxSynchronization.get(ROOT_LIST) == null;
+  }
+
   /// Creates default data for the database.
   ///
   /// Initializes lists and stores them in the local database.
   void createDefaultData() {
-    roots = [];
-    rootList = [];
-    boxSynchronization.put(ROOT_LIST, rootList);
+    boxSynchronization.put(ROOT_LIST, []);
     boxSynchronization.put(NOTE_LIST, []);
+    MyTreeNode conflictNode =
+        MyTreeNode(id: CONFLICT, title: CONFLICT, isNote: false, isLocked: false);
+    boxSynchronization.put(CONFLICT, conflictNode);
   }
 
   /// Loads data from the local database.
@@ -242,13 +250,13 @@ class HierarchyDatabase {
   /// Loads conflict data from the local database.
   void loadConflictData() {
     MyTreeNode conflicts = boxHierachy.get(CONFLICT);
-    conflictData = [conflicts];
+    conflictData = conflicts.children;
   }
 
   /// Initializes conflict data in the local database.
   void initConflictData() {
     MyTreeNode conflictNode =
-        MyTreeNode(id: "Conflicts", title: "Conflicts", isNote: false, isLocked: false);
+        MyTreeNode(id: CONFLICT, title: CONFLICT, isNote: false, isLocked: false);
     boxHierachy.put(CONFLICT, conflictNode);
   }
 }

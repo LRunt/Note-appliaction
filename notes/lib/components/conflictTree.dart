@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
-import 'package:notes/assets/constants.dart';
-import 'package:notes/boxes.dart';
 import 'package:notes/data/local_databases.dart';
 import 'package:notes/model/myTreeNode.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -10,7 +8,7 @@ class ConflictTree extends StatefulWidget {
   const ConflictTree({Key? key}) : super(key: key);
 
   @override
-  _ConflictTreeState createState() => _ConflictTreeState();
+  State<ConflictTree> createState() => _ConflictTreeState();
 }
 
 class _ConflictTreeState extends State<ConflictTree> {
@@ -21,7 +19,7 @@ class _ConflictTreeState extends State<ConflictTree> {
 
   @override
   void initState() {
-    if (!boxHierachy.containsKey(CONFLICT) || boxHierachy.get(CONFLICT) == null) {
+    if (db.conflictDataNotExist()) {
       db.initConflictData();
     }
     //there are saved data
@@ -44,17 +42,19 @@ class _ConflictTreeState extends State<ConflictTree> {
 
   @override
   Widget build(BuildContext context) {
-    return TreeView<MyTreeNode>(
-      shrinkWrap: true,
-      treeController: treeController,
-      nodeBuilder: (BuildContext context, TreeEntry<MyTreeNode> entry) {
-        return ConflictTreeTile(
-          key: ValueKey(entry.node),
-          entry: entry,
-          onTap: () => treeController.toggleExpansion(entry.node),
-        );
-      },
-    );
+    return treeController.roots.isEmpty
+        ? const Center(child: Text("Žádné konflikty"))
+        : TreeView<MyTreeNode>(
+            shrinkWrap: true,
+            treeController: treeController,
+            nodeBuilder: (BuildContext context, TreeEntry<MyTreeNode> entry) {
+              return ConflictTreeTile(
+                key: ValueKey(entry.node),
+                entry: entry,
+                onTap: () => treeController.toggleExpansion(entry.node),
+              );
+            },
+          );
   }
 }
 
