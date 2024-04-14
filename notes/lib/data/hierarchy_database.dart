@@ -227,7 +227,7 @@ class HierarchyDatabase {
       initConflictData();
     }
     MyTreeNode conflicts = boxHierachy.get(CONFLICT);
-    String name = CONFLICT + DateTime.now().toString() + DELIMITER + noteId;
+    String name = CONFLICT + noteId + DateTime.now().toString();
     MyTreeNode newConflict = MyTreeNode(id: name, title: name, isNote: true, isLocked: false);
     conflicts.addChild(newConflict);
     String noteContent = boxNotes.get(noteId);

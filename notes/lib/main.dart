@@ -39,6 +39,7 @@ void main() async {
   boxUser = await Hive.openBox(BOX_USERS);
   boxSynchronization = await Hive.openBox(BOX_SYNCHRONIZATION);
 
+  // Initializing Firebase
   try {
     if (kIsWeb) {
       await Firebase.initializeApp(
@@ -49,7 +50,6 @@ void main() async {
           projectId: "note-taking-application-7c5e4",
         ),
       );
-      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
     } else {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
@@ -57,13 +57,7 @@ void main() async {
     }
   } catch (e) {
     print("Firebase failed to initialize: $e");
-    return; // Exit if Firebase initialization fails
-  }
-  // Initializing Firebase
-
-  if (!kIsWeb) {
-    // Only set persistence on platforms that support it; check documentation for more info
-    await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
+    return;
   }
 
   //AppLogger.log("Running the application");
