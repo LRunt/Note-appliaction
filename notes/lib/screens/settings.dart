@@ -86,7 +86,9 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     // Get the current theme mode from the provider
     final themeProvider = Provider.of<ThemeProvider>(context);
-    bool isSwitched = themeProvider.themeMode == ThemeMode.dark;
+    bool isSwitched = themeProvider.themeMode == ThemeMode.dark ||
+        (themeProvider.themeMode == ThemeMode.system &&
+            MediaQuery.of(context).platformBrightness == Brightness.dark);
 
     void toggleTheme(bool isOn) {
       themeProvider.setThemeMode(isOn ? ThemeMode.dark : ThemeMode.light);

@@ -295,9 +295,19 @@
     "@emailSentToast": {
         "description": "Toast text when the emal with reset instructions has been sent"
     },
-    "lock": "Lock",
+    "lock": "LOCK",
     "@lock": {
-        "description": "Text for locking the folder or note"
+        "description": "Label for the button to lock the note"
+    },
+    "lockNode": "Lock {noteName}",
+    "@lockNode": {
+        "description": "Text for locking the folder or note",
+        "placeholders": {
+            "noteName": {
+                "type": "String",
+                "example": "Note name"
+            }
+        }
     },
     "unlock": "Unlock",
     "@unlock": {
@@ -348,5 +358,17 @@
     "lockButton": "LOCK",
     "@lockButton": {
         "description": "The confirm button in lock dialog"
+    },
+    "renameHint": "New name",
+    "@renameHint": {
+        "description": "The hint shown in the rename node textField."
+    },
+    "newDirectoryHint": "Folder name",
+    "@newDirectoryHint": {
+        "description": "The hint for create new direcory textField."
+    },
+    "newNoteHint": "Note name",
+    "@newNoteHint": {
+        "description": "The hint for create new note textField"
     }
 }

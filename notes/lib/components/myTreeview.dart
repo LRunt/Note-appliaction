@@ -326,7 +326,7 @@ class MyTreeTile extends StatelessWidget {
             controller: _textDialogController,
             onConfirm: () => renameNode(context, node),
             onCancel: () => closeAndClear(context),
-            hint: "nové jméno",
+            hint: AppLocalizations.of(context)!.renameHint,
           );
         });
   }
@@ -344,7 +344,9 @@ class MyTreeTile extends StatelessWidget {
             controller: _textDialogController,
             onConfirm: () => createNode(context, node, isNote),
             onCancel: () => closeAndClear(context),
-            hint: isNote ? "Jméno poznámky" : "Jméno složky",
+            hint: isNote
+                ? AppLocalizations.of(context)!.newNoteHint
+                : AppLocalizations.of(context)!.newDirectoryHint,
           );
         });
   }
@@ -354,7 +356,7 @@ class MyTreeTile extends StatelessWidget {
         context: context,
         builder: (context) {
           return CreatePasswordDialog(
-              titleText: AppLocalizations.of(context)!.lock + " " + node.title,
+              titleText: AppLocalizations.of(context)!.lockNode(node.title),
               confirmButtonText: AppLocalizations.of(context)!.lock,
               controller1: _textDialogController,
               controller2: _textDialogController2,

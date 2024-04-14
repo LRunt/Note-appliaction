@@ -67,7 +67,8 @@
     "resetInstructions": "Zadejte svůj email. Bude vám zaslán email s odkazem na obnovení hesla.",
     "sendResetEmail": "Odeslat email",
     "emailSentToast": "Email pro obovení hesla byl odeslán",
-    "lock": "Uzamknout",
+    "lock": "UZAMKNOUT",
+    "lockNode": "Uzamknout {noteName}",
     "unlock": "Odemknout",
     "siblingWithSameNameToast": "V umístění se nachází soubor se stejným jménem",
     "emptyTextFieldToast": "Prázdné pole s názvem",
@@ -78,5 +79,8 @@
     "darkMode": "Tmavý mód",
     "aboutApp": "Informace o aplikaci",
     "informationsAboutApp": "Aplikace pro tvorbu poznámek\nAutor: Lukáš Runt\nVerze: 1.0.3\nDatum vydání: 11. 04. 2024",
-    "lockButton": "UZAMKNOUT"
+    "lockButton": "UZAMKNOUT",
+    "renameHint": "Nový název",
+    "newDirectoryHint": "Název složky",
+    "newNoteHint": "Název poznámky"
 }
