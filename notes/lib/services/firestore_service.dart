@@ -17,6 +17,8 @@ class FirestoreService extends ChangeNotifier {
   /// Database instance for managing synchronization data.
   SynchronizationDatabase syncDatabase = SynchronizationDatabase();
 
+  NodeService nodeService = NodeService();
+
   /// Constructor for FirestoreService.
   ///
   /// Required:
@@ -138,7 +140,7 @@ class FirestoreService extends ChangeNotifier {
     } else {
       // Conflict
       ComponentUtils.showWarningToast(AppLocalizations.of(context)!.synchronizationConflict);
-      hierarchyDatabase.saveConflictData();
+      nodeService.saveAllConflictData();
       downloadAllData();
     }
     var now = DateTime.now().microsecondsSinceEpoch;
@@ -206,7 +208,7 @@ class FirestoreService extends ChangeNotifier {
           // Conflict
           if (localTimeSync < cloud && localTimeSync < local) {
             ComponentUtils.showWarningToast(AppLocalizations.of(context)!.synchronizationConflict);
-            hierarchyDatabase.saveConflictRoot(root);
+            nodeService.saveConflictRoot(root);
           } else if (localTimeSync > cloud) {
             // saving to the cloud
             saveRoot(root);
@@ -248,7 +250,7 @@ class FirestoreService extends ChangeNotifier {
           if (localTimeSync < cloud && localTimeSync < local) {
             // Conflict
             ComponentUtils.showWarningToast(AppLocalizations.of(context)!.synchronizationConflict);
-            hierarchyDatabase.saveConflictNote(noteId);
+            nodeService.saveConflictNote(noteId);
             String? note = await getNote(noteId);
             if (note != null) {
               notesDatabase.saveNote(noteId, note, cloud);

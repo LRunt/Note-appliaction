@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
+import 'package:notes/assets/constants.dart';
+import 'package:notes/components/dialogs/dialogs.dart';
+import 'package:notes/components/richTextEditor.dart';
 import 'package:notes/data/local_databases.dart';
 import 'package:notes/model/myTreeNode.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:notes/services/services.dart';
 
 class ConflictTree extends StatefulWidget {
   const ConflictTree({Key? key}) : super(key: key);
@@ -43,7 +47,9 @@ class _ConflictTreeState extends State<ConflictTree> {
   @override
   Widget build(BuildContext context) {
     return treeController.roots.isEmpty
-        ? const Center(child: Text("Žádné konflikty"))
+        ? Center(
+            child: Text(AppLocalizations.of(context)!.noConflicts),
+          )
         : TreeView<MyTreeNode>(
             shrinkWrap: true,
             treeController: treeController,
@@ -52,6 +58,7 @@ class _ConflictTreeState extends State<ConflictTree> {
                 key: ValueKey(entry.node),
                 entry: entry,
                 onTap: () => treeController.toggleExpansion(entry.node),
+                treeController: treeController,
               );
             },
           );
@@ -61,21 +68,58 @@ class _ConflictTreeState extends State<ConflictTree> {
 class ConflictTreeTile extends StatelessWidget {
   final TreeEntry<MyTreeNode> entry;
   final VoidCallback onTap;
+  final TreeController treeController;
+  final NodeService nodeService = NodeService();
 
-  const ConflictTreeTile({
+  ConflictTreeTile({
     Key? key,
     required this.entry,
     required this.onTap,
+    required this.treeController,
   }) : super(key: key);
+
+  void showDeleteDialog(BuildContext context, MyTreeNode node) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return DeleteDialog(
+            titleText: AppLocalizations.of(context)!.deleteNode(node.title),
+            contentText: AppLocalizations.of(context)!.deleteContent(node.title),
+            onDelete: () => deleteConflict(context, node),
+            onCancel: () => Navigator.of(context).pop(),
+          );
+        });
+  }
+
+  void deleteConflict(BuildContext context, MyTreeNode node) {
+    nodeService.deleteConflict(node);
+    Navigator.of(context).pop();
+    treeController.rebuild();
+  }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: () {
+        if (entry.node.isNote) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => RichTextEditor(noteId: entry.node.id),
+            ),
+          );
+        }
+      },
       child: TreeIndentation(
         entry: entry,
         guide: const IndentGuide.connectingLines(indent: 10),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
+          padding: const EdgeInsets.fromLTRB(
+            TREE_VIEW_PADDING,
+            TREE_VIEW_PADDING,
+            TREE_VIEW_PADDING,
+            TREE_VIEW_PADDING,
+          ),
           child: GestureDetector(
             child: Row(
               children: [
@@ -87,13 +131,15 @@ class ConflictTreeTile extends StatelessWidget {
                 PopupMenuButton<String>(
                   itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                     PopupMenuItem<String>(
-                      value: 'replace',
-                      onTap: () {},
+                      value: 'delete',
+                      onTap: () {
+                        entry.node;
+                      },
                       child: Row(
                         children: [
-                          const Icon(Icons.move_down),
-                          const SizedBox(width: 4),
-                          Text(AppLocalizations.of(context)!.showLogs),
+                          const Icon(Icons.delete),
+                          const SizedBox(width: ROW_TEXT_GAP),
+                          Text(AppLocalizations.of(context)!.menuDelete),
                         ],
                       ),
                     ),

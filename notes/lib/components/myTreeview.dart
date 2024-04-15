@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
+import 'package:notes/assets/constants.dart';
 import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/dialogs/dialogs.dart';
 import 'package:notes/data/local_databases.dart';
@@ -193,7 +194,12 @@ class MyTreeTile extends StatelessWidget {
         entry: entry,
         guide: const IndentGuide.connectingLines(indent: 10),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
+          padding: const EdgeInsets.fromLTRB(
+            TREE_VIEW_PADDING,
+            TREE_VIEW_PADDING,
+            TREE_VIEW_PADDING,
+            TREE_VIEW_PADDING,
+          ),
           child: Row(
             children: [
               FolderButton(
@@ -209,7 +215,7 @@ class MyTreeTile extends StatelessWidget {
                     child: Row(
                       children: [
                         const Icon(Icons.delete),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: ROW_TEXT_GAP),
                         Text(AppLocalizations.of(context)!.menuDelete),
                       ],
                     ),
@@ -220,7 +226,7 @@ class MyTreeTile extends StatelessWidget {
                     child: Row(
                       children: [
                         const Icon(Icons.border_color_sharp),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: ROW_TEXT_GAP),
                         Text(AppLocalizations.of(context)!.menuRename),
                       ],
                     ),
@@ -232,7 +238,7 @@ class MyTreeTile extends StatelessWidget {
                       child: Row(
                         children: [
                           const Icon(Icons.article),
-                          const SizedBox(width: 4),
+                          const SizedBox(width: ROW_TEXT_GAP),
                           Text(AppLocalizations.of(context)!.createNote),
                         ],
                       ),
@@ -244,7 +250,7 @@ class MyTreeTile extends StatelessWidget {
                       child: Row(
                         children: [
                           const Icon(Icons.create_new_folder),
-                          const SizedBox(width: 4),
+                          const SizedBox(width: ROW_TEXT_GAP),
                           Text(AppLocalizations.of(context)!.createFile),
                         ],
                       ),
@@ -255,7 +261,7 @@ class MyTreeTile extends StatelessWidget {
                     child: Row(
                       children: [
                         const Icon(Icons.move_down),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: ROW_TEXT_GAP),
                         Text(AppLocalizations.of(context)!.menuMove),
                       ],
                     ),
@@ -267,7 +273,7 @@ class MyTreeTile extends StatelessWidget {
                       child: Row(
                         children: [
                           const Icon(Icons.lock_outline),
-                          const SizedBox(width: 4),
+                          const SizedBox(width: ROW_TEXT_GAP),
                           Text(AppLocalizations.of(context)!.lockButton)
                         ],
                       ),
@@ -279,7 +285,7 @@ class MyTreeTile extends StatelessWidget {
                       child: Row(
                         children: [
                           const Icon(Icons.lock_open_rounded),
-                          const SizedBox(width: 4),
+                          const SizedBox(width: ROW_TEXT_GAP),
                           Text(AppLocalizations.of(context)!.unlock)
                         ],
                       ),

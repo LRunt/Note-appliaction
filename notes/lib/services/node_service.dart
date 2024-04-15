@@ -476,4 +476,66 @@ class NodeService {
     log("Changing root change time: $rootId");
     hierarchyDb.updateRootLastChangeTime(rootId);
   }
+
+  void saveAllConflictData() {
+    String conflictName = CONFLICT + DateTime.now().toString();
+    MyTreeNode newConflict = MyTreeNode(
+      id: conflictName,
+      title: conflictName,
+      isNote: false,
+      isLocked: false,
+    );
+    for (MyTreeNode root in HierarchyDatabase.roots) {
+      changeId(root, conflictName);
+      newConflict.addChild(root);
+    }
+    hierarchyDb.saveConflict(newConflict);
+  }
+
+  void saveConflictRoot(String rootId) {
+    String conflictName = rootId + DateTime.now().toString();
+    MyTreeNode conflictRoot = hierarchyDb.getRoot(rootId);
+    String newId = changeNameInId(conflictRoot.id, conflictName);
+    for (MyTreeNode child in conflictRoot.children) {
+      changeId(child, newId);
+    }
+    hierarchyDb.saveConflict(conflictRoot);
+  }
+
+  void saveConflictNote(String noteId) {
+    String conflictName = noteId + DateTime.now().toString();
+    MyTreeNode conflictNote =
+        MyTreeNode(id: conflictName, title: conflictName, isNote: true, isLocked: false);
+    hierarchyDb.saveConflictNote(conflictNote, noteId);
+  }
+
+  void deleteConflict(MyTreeNode conflictNode) {
+    if (conflictNode.isNote) {
+      deleteConflictNote(conflictNode);
+    }
+    List<String> path = conflictNode.id.split(DELIMITER);
+    MyTreeNode conflitRoot = hierarchyDb.getConflictNode();
+    int level = 0;
+    deleteConflictNode(level, conflitRoot, path);
+    hierarchyDb.saveConflictNode(conflitRoot);
+  }
+
+  void deleteConflictNote(MyTreeNode conflictNode) {
+    if (conflictNode.isNote) {
+      hierarchyDb.deleteConflictNote(conflictNode.id);
+    }
+    for (MyTreeNode child in conflictNode.children) {
+      deleteConflictNote(child);
+    }
+  }
+
+  void deleteConflictNode(int level, MyTreeNode parent, List<String> path) {
+    for (MyTreeNode child in parent.children) {
+      if (child.id == path[level] && level == path.length) {
+        parent.children.remove(child);
+      } else if (child.id == path[level]) {
+        deleteConflictNode(level + 1, child, path);
+      }
+    }
+  }
 }

@@ -400,5 +400,9 @@
     "synchronizationConflict": "Possible conflict saved in Settings->Conflicts.",
     "@synchronizationConflict": {
         "description": "Information to the user, that there were found conflicts and where can he found that."
+    },
+    "noConflicts": "No conflicts",
+    "@noConflicts": {
+        "description": "Label that the user has no conflicts"
     }
 }

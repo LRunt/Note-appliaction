@@ -220,19 +220,27 @@ class HierarchyDatabase {
     boxHierachy.put(CONFLICT, conflicts);
   }
 
-  /// Saves conflict note to the local database.
-  ///
-  /// [noteId] is the ID of the note to be saved as a conflict.
-  void saveConflictNote(String noteId) {
+  void saveConflict(MyTreeNode node) {
     if (conflictDataNotExist()) {
       initConflictData();
     }
-    MyTreeNode conflicts = boxHierachy.get(CONFLICT);
-    String name = CONFLICT + noteId + DateTime.now().toString();
-    MyTreeNode newConflict = MyTreeNode(id: name, title: name, isNote: true, isLocked: false);
-    conflicts.addChild(newConflict);
-    String noteContent = boxNotes.get(noteId);
-    boxNotes.put(name, noteContent);
+    MyTreeNode conflict = boxHierachy.get(CONFLICT);
+    conflict.addChild(node);
+    boxHierachy.put(CONFLICT, conflict);
+  }
+
+  /// Saves conflict note to the local database.
+  ///
+  /// [noteId] is the ID of the note to be saved as a conflict.
+  void saveConflictNote(MyTreeNode note, String noteId) {
+    if (conflictDataNotExist()) {
+      initConflictData();
+    }
+    MyTreeNode conflict = boxHierachy.get(CONFLICT);
+    conflict.addChild(note);
+    boxHierachy.put(CONFLICT, conflict);
+    String content = boxNotes.get(noteId);
+    boxNotes.put(note.id, content);
   }
 
   /// Saves conflict root to the local database.
@@ -259,5 +267,18 @@ class HierarchyDatabase {
     MyTreeNode conflictNode =
         MyTreeNode(id: CONFLICT, title: CONFLICT, isNote: false, isLocked: false);
     boxHierachy.put(CONFLICT, conflictNode);
+  }
+
+  MyTreeNode getConflictNode() {
+    return boxHierachy.get(CONFLICT);
+  }
+
+  void deleteConflictNote(String conflictNoteId) {
+    boxNotes.delete(conflictNoteId);
+  }
+
+  void saveConflictNode(MyTreeNode node) {
+    conflictData = node.children;
+    boxHierachy.put(CONFLICT, node);
   }
 }
