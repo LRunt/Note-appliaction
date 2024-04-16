@@ -106,18 +106,24 @@ class _ResetPasswordState extends State<ResetPasswordPage> {
                 const SizedBox(
                   height: DEFAULT_GAP_SIZE,
                 ),
-                MyTextField(
+                SizedBox(
+                  width: MAX_WIDGET_WIDTH,
+                  child: MyTextField(
                     isPasswordField: false,
                     hint: AppLocalizations.of(context)!.email,
                     controller: emailController,
-                    pefIcon: const Icon(Icons.email)),
+                    pefIcon: const Icon(Icons.email),
+                  ),
+                ),
                 const SizedBox(
                   height: DEFAULT_GAP_SIZE,
                 ),
-                MyButton(
-                  onTap: () => resetPassword(),
-                  text: AppLocalizations.of(context)!.sendResetEmail,
-                )
+                SizedBox(
+                  child: MyButton(
+                    onTap: () => resetPassword(),
+                    text: AppLocalizations.of(context)!.sendResetEmail,
+                  ),
+                ),
               ],
             ),
           ),

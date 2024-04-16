@@ -138,19 +138,27 @@ class _LoginFormState extends State<LoginPage> {
                 const SizedBox(
                   height: DEFAULT_GAP_SIZE,
                 ),
-                MyTextField(
+                SizedBox(
+                  width: MAX_WIDGET_WIDTH,
+                  child: MyTextField(
                     isPasswordField: false,
                     hint: AppLocalizations.of(context)!.email,
                     controller: emailController,
-                    pefIcon: const Icon(Icons.email)),
+                    pefIcon: const Icon(Icons.email),
+                  ),
+                ),
                 const SizedBox(
                   height: DEFAULT_GAP_SIZE,
                 ),
-                MyTextField(
+                SizedBox(
+                  width: MAX_WIDGET_WIDTH,
+                  child: MyTextField(
                     isPasswordField: true,
                     hint: AppLocalizations.of(context)!.password,
                     controller: passwordController,
-                    pefIcon: const Icon(Icons.key)),
+                    pefIcon: const Icon(Icons.key),
+                  ),
+                ),
                 const SizedBox(
                   height: SMALL_GAP,
                 ),
@@ -189,11 +197,15 @@ class _LoginFormState extends State<LoginPage> {
                 const SizedBox(
                   height: SMALL_GAP,
                 ),
-                MyButton(
+                SizedBox(
+                  width: MAX_WIDGET_WIDTH,
+                  child: MyButton(
                     onTap: () {
                       login();
                     },
-                    text: AppLocalizations.of(context)!.login),
+                    text: AppLocalizations.of(context)!.login,
+                  ),
+                ),
                 const SizedBox(
                   height: SMALL_GAP,
                 ),
@@ -225,28 +237,31 @@ class _LoginFormState extends State<LoginPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.grey[400],
+                  child: SizedBox(
+                    width: MAX_WIDGET_WIDTH,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Divider(
+                            thickness: 0.5,
+                            color: Colors.grey[400],
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Text(
-                          AppLocalizations.of(context)!.googleSignDivider,
-                          style: TextStyle(color: Colors.grey[700]),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Text(
+                            AppLocalizations.of(context)!.googleSignDivider,
+                            style: TextStyle(color: Colors.grey[700]),
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.grey[400],
+                        Expanded(
+                          child: Divider(
+                            thickness: 0.5,
+                            color: Colors.grey[400],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: DEFAULT_GAP_SIZE),
