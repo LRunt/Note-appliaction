@@ -503,13 +503,15 @@ class NodeService {
   }
 
   void saveConflictNote(String noteId) {
-    String conflictName = noteId + DateTime.now().toString();
+    List<String> path = noteId.split(DELIMITER);
+    String conflictName = path[path.length - 1] + DateTime.now().toString();
     MyTreeNode conflictNote =
         MyTreeNode(id: conflictName, title: conflictName, isNote: true, isLocked: false);
     hierarchyDb.saveConflictNote(conflictNote, noteId);
   }
 
   void deleteConflict(MyTreeNode conflictNode) {
+    log("Deleting: ${conflictNode.id}");
     if (conflictNode.isNote) {
       deleteConflictNote(conflictNode);
     }
@@ -530,12 +532,19 @@ class NodeService {
   }
 
   void deleteConflictNode(int level, MyTreeNode parent, List<String> path) {
+    bool found = false;
+    MyTreeNode? foundedNode;
     for (MyTreeNode child in parent.children) {
-      if (child.id == path[level] && level == path.length) {
-        parent.children.remove(child);
-      } else if (child.id == path[level]) {
+      log("Child: ${child.id}, Path: $path, Level: $level");
+      if (child.title == path[level] && level == path.length - 1) {
+        found = true;
+        foundedNode = child;
+      } else if (child.title == path[level]) {
         deleteConflictNode(level + 1, child, path);
       }
+    }
+    if (found) {
+      parent.children.remove(foundedNode);
     }
   }
 }

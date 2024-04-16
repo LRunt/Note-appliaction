@@ -105,7 +105,12 @@ class ConflictTreeTile extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => RichTextEditor(noteId: entry.node.id),
+              builder: (context) => Scaffold(
+                appBar: AppBar(
+                  title: Text(entry.node.title),
+                ),
+                body: RichTextEditor(noteId: entry.node.id),
+              ),
             ),
           );
         }
@@ -133,7 +138,7 @@ class ConflictTreeTile extends StatelessWidget {
                     PopupMenuItem<String>(
                       value: 'delete',
                       onTap: () {
-                        entry.node;
+                        showDeleteDialog(context, entry.node);
                       },
                       child: Row(
                         children: [
