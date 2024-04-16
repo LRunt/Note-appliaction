@@ -365,7 +365,7 @@
     "@aboutApp": {
         "description": "The label about application in the settings"
     },
-    "informationsAboutApp": "Note-taking application\nAuthor: Lukáš Runt\nVersion: 1.0.3\nPublish date: 11. 04. 2024",
+    "informationsAboutApp": "Note-taking application\nAuthor: Lukáš Runt\nVersion: 1.0.5\nPublish date: 16. 04. 2024",
     "@informationsAboutApp": {
         "description": "The information about application, about author, publish date and version"
     },
