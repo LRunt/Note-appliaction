@@ -107,7 +107,7 @@ class ConflictTreeTile extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) => Scaffold(
                 appBar: AppBar(
-                  title: Text(entry.node.title),
+                  title: FittedBox(child: Text(entry.node.title)),
                 ),
                 body: RichTextEditor(noteId: entry.node.id),
               ),
