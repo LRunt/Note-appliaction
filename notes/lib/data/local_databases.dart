@@ -1,7 +1,7 @@
 library local_databases;
 
 import 'package:flutter/material.dart';
-import 'package:notes/assets/constants.dart';
+import 'package:notes/constants.dart';
 import 'package:notes/boxes.dart';
 import 'package:notes/model/myTreeNode.dart';
 import 'dart:developer';

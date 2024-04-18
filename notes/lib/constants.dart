@@ -10,7 +10,6 @@ const String TREE_STORAGE = "TreeView";
 const String CONFLICT = "Conflict";
 // Keys for [boxSynchronization]
 const String LAST_CHANGE = "lastChange";
-//const String TREE_CHANGE = "treeChange";
 const String LOCAL_SYNC = "lastSync";
 const String NOTE_LIST = "noteList";
 const String ROOT_LIST = "rootList";
@@ -67,7 +66,7 @@ const double DEFAULT_PADDING = 10.0;
 const double SETTINGS_BUTTON_SIZE = 130.0;
 const double DEFAULT_PAGE_PADDING = 25.0;
 const double TREE_VIEW_PADDING = 4.0;
-const double MAX_WIDGET_WIDTH = 400.0;
+const double MAX_WIDGET_WIDTH = 500.0;
 
 // Bootstrap Colors
 const Color COLOR_ERROR = Color.fromRGBO(220, 53, 69, 1.0);
@@ -162,6 +161,25 @@ const String SYSTEM = "system";
 
 // Success
 const String SUCCESS = "Success";
+
+//------------------------------------------------------------------------------
+//                            WIDGETS
+//------------------------------------------------------------------------------
+ButtonStyle defaultButtonStyle = ButtonStyle(
+  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+    RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(BUTTON_BORDER_RADIUS),
+    ),
+  ),
+);
+
+RoundedRectangleBorder dialogBorder = const RoundedRectangleBorder(
+  borderRadius: BorderRadius.all(
+    Radius.circular(BORDER_RADIUS),
+  ),
+);
+
+TextStyle defaultTextStyle = const TextStyle(fontSize: DEFAULT_TEXT_SIZE);
 
 //------------------------------------------------------------------------------
 //                          PICTURE PATHS

@@ -133,6 +133,7 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
                     },
                   ),
                 ),
+                const SizedBox(height: 10),
                 SizedBox(
                   width: 200,
                   child: ElevatedButton.icon(

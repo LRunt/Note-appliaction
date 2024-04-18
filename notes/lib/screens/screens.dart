@@ -1,8 +1,7 @@
 library screens;
 
 import 'package:flutter/material.dart';
-import 'package:notes/assets/constants.dart';
-import 'package:notes/assets/widgetConstants.dart';
+import 'package:notes/constants.dart';
 import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/dialogs/dialogs.dart';
 import 'package:notes/data/local_databases.dart';

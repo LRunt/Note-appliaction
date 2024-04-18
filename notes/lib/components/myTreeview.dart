@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
-import 'package:notes/assets/constants.dart';
+import 'package:notes/constants.dart';
 import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/dialogs/dialogs.dart';
 import 'package:notes/data/local_databases.dart';

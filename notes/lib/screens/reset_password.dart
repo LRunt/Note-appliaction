@@ -119,6 +119,7 @@ class _ResetPasswordState extends State<ResetPasswordPage> {
                   height: DEFAULT_GAP_SIZE,
                 ),
                 SizedBox(
+                  width: MAX_WIDGET_WIDTH,
                   child: MyButton(
                     onTap: () => resetPassword(),
                     text: AppLocalizations.of(context)!.sendResetEmail,
