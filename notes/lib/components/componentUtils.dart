@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:notes/assets/constants.dart';
+import 'package:notes/constants.dart';
 
 /// Utility class [ComponentUtils] for common UI components customization in Flutter applications.
 ///

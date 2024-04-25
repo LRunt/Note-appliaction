@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:notes/boxes.dart';
-import 'package:notes/assets/constants.dart';
+import 'package:notes/constants.dart';
 import 'package:hive/hive.dart';
 import 'package:notes/data/local_databases.dart';
 

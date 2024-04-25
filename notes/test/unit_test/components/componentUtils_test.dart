@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:notes/assets/constants.dart';
+import 'package:notes/constants.dart';
 import 'package:notes/components/componentUtils.dart';
 
 void main() {

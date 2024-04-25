@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notes/assets/constants.dart';
+import 'package:notes/constants.dart';
 
 /// Class [MyButton] creates styled button.
 ///

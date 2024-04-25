@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:notes/assets/constants.dart';
+import 'package:notes/constants.dart';
 
 /// Class [MyTextField] create styled [TextField].
 ///

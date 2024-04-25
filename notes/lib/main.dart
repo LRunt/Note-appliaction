@@ -5,7 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:notes/assets/constants.dart';
+import 'package:notes/constants.dart';
 import 'package:notes/data/local_databases.dart';
 import 'package:notes/model/theme.dart';
 import 'package:notes/screens/screens.dart';
