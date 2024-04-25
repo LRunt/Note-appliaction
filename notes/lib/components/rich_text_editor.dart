@@ -1,9 +1,4 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
-import 'package:notes/data/local_databases.dart';
-import 'dart:developer';
+part of components;
 
 /// A rich text editor widget for creating and editing notes.
 ///
@@ -86,6 +81,7 @@ class _RichTextEditorState extends State<RichTextEditor> {
     //boxNotes.put(widget.noteId, json);
   }
 
+  /// Builds the UI of the [RichTextEditor].
   @override
   Widget build(BuildContext context) {
     return Scaffold(

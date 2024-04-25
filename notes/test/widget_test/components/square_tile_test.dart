@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:notes/components/squareTile.dart';
+import 'package:notes/components/components.dart';
 
 void main() {
   testWidgets('SquareTile widget test', (WidgetTester tester) async {

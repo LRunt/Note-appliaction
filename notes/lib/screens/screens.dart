@@ -1,6 +1,7 @@
 library screens;
 
 import 'package:flutter/material.dart';
+import 'package:notes/components/components.dart';
 import 'package:notes/constants.dart';
 import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/dialogs/dialogs.dart';
@@ -9,7 +10,6 @@ import 'package:notes/main.dart';
 import 'package:notes/model/language.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notes/model/theme.dart';
-import 'package:notes/screens/conflict.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,11 +17,9 @@ import 'package:notes/components/myButton.dart';
 import 'package:notes/components/myTextField.dart';
 import 'package:notes/services/services.dart';
 import 'dart:developer';
-import 'package:notes/components/squareTile.dart';
 import 'dart:async';
 import 'package:notes/components/fileListView.dart';
 import 'package:notes/components/myDrawerHeader.dart';
-import 'package:notes/components/richTextEditor.dart';
 import 'package:notes/components/myTreeview.dart';
 import 'package:notes/model/myTreeNode.dart';
 
@@ -30,3 +28,4 @@ part 'login.dart';
 part 'register.dart';
 part 'reset_password.dart';
 part 'main_screen.dart';
+part 'conflict.dart';

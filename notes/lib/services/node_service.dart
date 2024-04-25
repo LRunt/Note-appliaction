@@ -477,6 +477,8 @@ class NodeService {
     hierarchyDb.updateRootLastChangeTime(rootId);
   }
 
+  /// Saves a conflict version of all root nodes to the database with
+  ///  a unique identifier based on the current date and time.
   void saveAllConflictData() {
     String conflictName = CONFLICT + DateTime.now().toString();
     MyTreeNode newConflict = MyTreeNode(
@@ -492,6 +494,9 @@ class NodeService {
     hierarchyDb.saveConflict(newConflict);
   }
 
+  /// Saves a conflict version of a specific root node, identified by [rootId], with a unique identifier based on the current date and time.
+  ///
+  /// [rootId] is ID of the root node to save as a conflict.
   void saveConflictRoot(String rootId) {
     String conflictName = rootId + DateTime.now().toString();
     MyTreeNode conflictRoot = hierarchyDb.getRoot(rootId);
@@ -502,6 +507,9 @@ class NodeService {
     hierarchyDb.saveConflict(conflictRoot);
   }
 
+  /// Saves a conflict version of a specific note, identified by [noteId], with a unique identifier based on the current date and time.
+  ///
+  /// [noteId] is ID of the note to save as a conflict.
   void saveConflictNote(String noteId) {
     List<String> path = noteId.split(DELIMITER);
     String conflictName = path[path.length - 1] + DateTime.now().toString();
@@ -510,6 +518,9 @@ class NodeService {
     hierarchyDb.saveConflictNote(conflictNote, noteId);
   }
 
+  /// Deletes a conflict node from the database.
+  ///
+  /// [conflictNode] is conflict node to delete.
   void deleteConflict(MyTreeNode conflictNode) {
     log("Deleting: ${conflictNode.id}");
     if (conflictNode.isNote) {
@@ -522,6 +533,9 @@ class NodeService {
     hierarchyDb.saveConflictNode(conflitRoot);
   }
 
+  /// Deletes a conflict note recursively from the database.
+  ///
+  /// [conflictNode] The conflict note to delete.
   void deleteConflictNote(MyTreeNode conflictNode) {
     if (conflictNode.isNote) {
       hierarchyDb.deleteConflictNote(conflictNode.id);
@@ -531,6 +545,11 @@ class NodeService {
     }
   }
 
+  /// Recursively deletes a conflict node matching a specific path from the parent node.
+  ///
+  /// [level] is current level of depth in the hierarchy being checked.
+  /// [parent] is parent node containing children to check against.
+  /// [path]: is a list representing the path to match for deletion.
   void deleteConflictNode(int level, MyTreeNode parent, List<String> path) {
     bool found = false;
     MyTreeNode? foundedNode;

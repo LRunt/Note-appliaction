@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of components;
 
 /// A custom widget that displays an image within a styled square tile.
 ///
@@ -34,7 +34,7 @@ class SquareTile extends StatelessWidget {
     required this.onTap,
   });
 
-  // Builds the UI of the [SquareTile].
+  /// Builds the UI of the [SquareTile].
   @override
   Widget build(BuildContext context) {
     return Container(

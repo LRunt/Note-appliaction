@@ -1,49 +1,64 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
-import 'package:notes/constants.dart';
-import 'package:notes/components/dialogs/dialogs.dart';
-import 'package:notes/components/richTextEditor.dart';
-import 'package:notes/data/local_databases.dart';
-import 'package:notes/model/myTreeNode.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:notes/services/services.dart';
+part of components;
 
+/// A StatefulWidget that manages and displays a tree view of conflicts.
+///
+/// This widget is responsible for presenting hierarchical conflict data, typically retrieved
+/// from a `HierarchyDatabase`. It dynamically creates and manages a tree structure through
+/// the use of a `TreeController`, allowing users to interact with and visualize different levels
+/// of conflict details.
+///
+/// Parameters:
+/// - [key]: The widget key, used to control how one widget replaces another widget in the tree.
+///
+/// Usage Example:
+/// ```dart
+/// ConflictTree()
+/// ```
 class ConflictTree extends StatefulWidget {
-  const ConflictTree({Key? key}) : super(key: key);
+  /// Constructor of the [ConflictTree]
+  ///
+  /// - [key] a key associated with this widget.
+  const ConflictTree({super.key});
 
   @override
   State<ConflictTree> createState() => _ConflictTreeState();
 }
 
 class _ConflictTreeState extends State<ConflictTree> {
-  /// Controller of the hierarchical tree.
+  /// Manages the state and interaction of the tree nodes.
   late final TreeController<MyTreeNode> treeController;
 
+  /// Database for accessing and manipulating conflict data.
   HierarchyDatabase db = HierarchyDatabase();
 
+  //Initializing the widget
   @override
   void initState() {
+    super.initState();
+    initializeData();
+  }
+
+  /// Initializes conflict data and sets up the tree controller for node management.
+  void initializeData() {
     if (db.conflictDataNotExist()) {
       db.initConflictData();
-    }
-    //there are saved data
-    else {
+    } else {
       db.loadConflictData();
     }
-
     treeController = TreeController<MyTreeNode>(
       roots: HierarchyDatabase.conflictData,
       childrenProvider: (MyTreeNode node) => node.children,
     );
-    super.initState();
   }
 
+  // Disposing the widget
   @override
   void dispose() {
     treeController.dispose();
     super.dispose();
   }
 
+  // Builds the UI of the conflict tree.
   @override
   Widget build(BuildContext context) {
     return treeController.roots.isEmpty
@@ -65,12 +80,44 @@ class _ConflictTreeState extends State<ConflictTree> {
   }
 }
 
+/// A StatelessWidget that represents a single node within a `ConflictTree`.
+///
+/// This widget handles user interactions and displays contextual actions
+/// for each node, such as deleting or expanding a node.
+///
+/// Parameters:
+/// - [key]: The widget key.
+/// - [entry]: Provides the details about the tree node.
+/// - [onTap]: Callback for when the node is interacted with.
+/// - [treeController]: Controller to manage tree state.
+///
+/// Usage Example:
+/// ```dart
+/// ConflictTreeTile(
+///   entry: entryNode,
+///   onTap: () {},
+///   treeController: treeController,
+/// )
+/// ```
 class ConflictTreeTile extends StatelessWidget {
+  /// The details about the tree node.
   final TreeEntry<MyTreeNode> entry;
+
+  /// Callback for when the node is interacted with.
   final VoidCallback onTap;
+
+  /// Controller to manage tree state and interactions with tree.
   final TreeController treeController;
+
+  /// Instance of [NodeService] used for performing node-specific operations.
   final NodeService nodeService = NodeService();
 
+  /// Constructor of the [ConflictTreeTile]
+  ///
+  /// - [key] a key associated with this widget.
+  /// - [entry] is a data and state of the node this tile represents.
+  /// - [onTap] is function to call when the tile is tapped.
+  /// - [treeController] is controller for managing tree updates.
   ConflictTreeTile({
     Key? key,
     required this.entry,
@@ -78,6 +125,10 @@ class ConflictTreeTile extends StatelessWidget {
     required this.treeController,
   }) : super(key: key);
 
+  /// Displays a deletion confirmation dialog for the node.
+  ///
+  /// - [context]: The build context from which this method is invoked.
+  /// - [node]: The node to potentially delete.
   void showDeleteDialog(BuildContext context, MyTreeNode node) {
     showDialog(
         context: context,
@@ -91,12 +142,17 @@ class ConflictTreeTile extends StatelessWidget {
         });
   }
 
+  /// Deletes the specified node and refreshes the tree view.
+  ///
+  /// - [context]: The build context from which this method is invoked.
+  /// - [node]: The node to delete.
   void deleteConflict(BuildContext context, MyTreeNode node) {
     nodeService.deleteConflict(node);
     Navigator.of(context).pop();
     treeController.rebuild();
   }
 
+  // Builds the UI of the conflict tree tile.
   @override
   Widget build(BuildContext context) {
     return InkWell(
