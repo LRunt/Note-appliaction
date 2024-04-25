@@ -60,17 +60,6 @@ class _SettingsPageState extends State<SettingsPage> {
     ComponentUtils.getSnackBarSuccess(context, AppLocalizations.of(context)!.deleteDataSuccess);
   }
 
-  /// Asynchronously clears and recreates the application's log files, notifying success.
-  ///
-  /// Deletes the current log file, creates a new one for continuous logging, and informs
-  /// the user of the successful operation through a SnackBar message.
-  void clearLogs() async {
-    await AppLogger.deleteLogFile();
-    AppLogger.createLogFileIfNotExist();
-    Navigator.of(context).pop();
-    ComponentUtils.getSnackBarSuccess(context, AppLocalizations.of(context)!.clearLogsSuccess);
-  }
-
   /// Returns the [Language] corresponding to the current locale's language code.
   ///
   /// Extracts the language code from the context's locale and retrieves the matching
@@ -235,69 +224,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 children: [
                   Expanded(
                     child: Text(
-                      AppLocalizations.of(context)!.logs,
-                      style: defaultTextStyle,
-                    ),
-                  ),
-                  SizedBox(
-                    width: SETTINGS_BUTTON_SIZE,
-                    child: FilledButton(
-                      style: defaultButtonStyle,
-                      onPressed: () {
-                        Navigator.push(
-                            context, MaterialPageRoute(builder: (context) => const LogScreen()));
-                      },
-                      child: Text(AppLocalizations.of(context)!.show),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Divider(),
-            Padding(
-              padding: const EdgeInsets.all(DEFAULT_PADDING),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      AppLocalizations.of(context)!.deleteLogs,
-                      style: defaultTextStyle,
-                    ),
-                  ),
-                  SizedBox(
-                    width: SETTINGS_BUTTON_SIZE,
-                    child: FilledButton(
-                      style: defaultButtonStyle,
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return DeleteDialog(
-                              titleText: AppLocalizations.of(context)!.deleteLogs,
-                              contentText: AppLocalizations.of(context)!.deleteLogsContent,
-                              onDelete: () {
-                                clearLogs();
-                              },
-                              onCancel: () {
-                                Navigator.of(context).pop();
-                              },
-                            );
-                          },
-                        );
-                      },
-                      child: Text(AppLocalizations.of(context)!.delete),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Divider(),
-            Padding(
-              padding: const EdgeInsets.all(DEFAULT_PADDING),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
                       AppLocalizations.of(context)!.aboutApp,
                       style: defaultTextStyle,
                     ),
@@ -324,6 +250,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ],
               ),
             ),
+            const Divider(),
           ],
         ),
       ),
