@@ -4,7 +4,32 @@ part of screens;
 ///
 /// This page allows users to enter their email and password to log in to their account.
 /// It utilizes Firebase Authentication for secure login functionality and provides
-/// feedback in case of errors such as incorrect email or password.
+/// feedback in case of errors such as incorrect email or password. This widget can be
+/// used in any part of the application where user authentication is required.
+///
+/// ## Parameters:
+/// - `auth`: An instance of [FirebaseAuth] used for handling user authentication processes.
+///   This is required to facilitate the login operations.
+/// - `firestore`: An instance of [FirebaseFirestore], included here for potential future use,
+///   such as logging audit data or reading user settings post-login.
+/// - `onTap`: A callback that is triggered when the user taps on the 'Create Account' text.
+///   This should typically be used to navigate the user to a registration or sign-up page.
+/// - `loginSuccess`: A callback that is executed when the user successfully logs in.
+///   This can be used to navigate the user to a different part of the application, such as the homepage or dashboard.
+///
+/// ## Example Usage:
+/// ```dart
+/// LoginPage(
+///   auth: FirebaseAuth.instance,
+///   firestore: FirebaseFirestore.instance,
+///   onTap: () {
+///     Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationPage()));
+///   },
+///   loginSuccess: () {
+///     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+///   },
+/// )
+/// ```
 class LoginPage extends StatefulWidget {
   /// Instance of [FirebaseAuth] for handling user authentication processes.
   final FirebaseAuth auth;
@@ -17,9 +42,15 @@ class LoginPage extends StatefulWidget {
   /// This function can be used to navigate the user to the registration page.
   final void Function()? onTap;
 
+  /// Callback function that is called when the login process succeeds.
   final VoidCallback loginSuccess;
 
-  /// Constructor of [LoginPage] class.
+  /// Constructor of a [LoginPage].
+  ///
+  /// - `auth`: The [FirebaseAuth] instance for managing authentication.
+  /// - `firestore`: The [FirebaseFirestore] instance for handling database operations.
+  /// - `onTap`: A callback for when the user chooses to navigate to the registration page.
+  /// - `loginSuccess`: A callback for when the login process successfully completes.
   const LoginPage({
     super.key,
     required this.auth,
@@ -32,10 +63,17 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginFormState();
 }
 
+/// Manages the state and interactions for [LoginPage].
+///
+/// This state class handles user authentication, leveraging Firebase Authentication services,
+/// and manages text input for user credentials. It also communicates with a Firestore service
+/// for additional user data management post-login.
 class _LoginFormState extends State<LoginPage> {
+  /// Instance of [FirebaseAuth] for handling user authentication processes.
   late final AuthService _authService;
+
+  /// Instance of [FirebaseFirestore] for database interactions, included for potential future use.
   late final FirestoreService _firebaseService;
-  final ComponentUtils utils = ComponentUtils();
 
   /// Controller for the email input field.
   final emailController = TextEditingController();
@@ -90,6 +128,14 @@ class _LoginFormState extends State<LoginPage> {
     }
   }
 
+  /// Initiates a Google sign-in process using Firebase Authentication.
+  ///
+  /// This method attempts to log in the user via their Google account. It displays a progress indicator while
+  /// the sign-in process is ongoing. Upon successful authentication, it synchronizes data with Firestore and
+  /// navigates the user back to the main screen. If an error occurs, it provides feedback to the user via a snack bar.
+  ///
+  /// The method handles errors by logging them and displaying an error message, ensuring the user is informed of any
+  /// issues during the login process.
   void loginWithGoogle() async {
     ComponentUtils.getProgressIndicator(context);
     try {

@@ -1,30 +1,73 @@
 part of screens;
 
+/// A StatefulWidget that serves as the main screen of the application.
+///
+/// This screen is responsible for coordinating interactions between various services such as authentication,
+/// database interactions, and managing the user interface for different parts of the application.
+/// It provides a scaffold where different pages or views can be loaded based on user interactions.
 class MainScreen extends StatefulWidget {
+  /// FirebaseAuth instance for managing authentication.
   final FirebaseAuth auth;
+
+  /// FirebaseFirestore instance for managing cloud database operations.
   final FirebaseFirestore firestore;
 
-  const MainScreen({super.key, required this.auth, required this.firestore});
+  /// Constructs a MainScreen widget which initializes Firebase services.
+  ///
+  /// - `auth`: Firebase Authentication instance to handle user authentication.
+  /// - `firestore`: Firebase Firestore instance for database interactions.
+  const MainScreen({
+    super.key,
+    required this.auth,
+    required this.firestore,
+  });
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
+/// The state class for the MainScreen widget, responsible for managing its state and behavior.
+///
+/// This class implements the functionality for handling user interactions, navigating between screens,
+/// controlling synchronization, and managing the UI components displayed on the main screen of the application.
 class _MainScreenState extends State<MainScreen> {
+  /// Integer variable representing the type of the current page.
   int _pageType = 0;
+
+  /// String variable representing the ID of the current note.
   String _noteId = "";
+
+  /// Key variable for the tree view, initialized with a unique key.
   Key treeViewKey = UniqueKey();
+
+  /// String variable representing the last synchronization time.
   String lastSync = "";
+
+  /// Integer variable representing the count of main screen interactions.
   int mainScreenCount = 0;
 
+  /// Database instance for managing data clearance.
   ClearDatabase db = ClearDatabase();
+
+  /// Database instance for managing user data.
   UserDatabase userDB = UserDatabase();
+
+  /// Service instance for managing nodes.
   NodeService nodeService = NodeService();
+
+  /// Database instance for managing synchronization.
   SynchronizationDatabase syncDb = SynchronizationDatabase();
+
+  /// Firestore service instance for interacting with Firestore.
   late final FirestoreService firestoreService;
+
+  /// Stream subscription for listening to authentication state changes.
   late StreamSubscription<User?> authStateSubscription;
+
+  /// Controller for handling text input in dialogs.
   final _textDialogController = TextEditingController();
 
+  // Initializes the state of the widget.
   @override
   void initState() {
     super.initState();
@@ -38,6 +81,7 @@ class _MainScreenState extends State<MainScreen> {
     lastSync = UtilService.getFormattedDate(syncDb.getLastSyncTime());
   }
 
+  /// Disposes resources used by the widget.
   @override
   void dispose() {
     authStateSubscription.cancel();
@@ -45,6 +89,10 @@ class _MainScreenState extends State<MainScreen> {
     super.dispose();
   }
 
+  /// Checks if a note is locked and handles screen navigation accordingly.
+  ///
+  /// - [isNote]: A boolean indicating whether the item is a note.
+  /// - [id]: The ID of the item.
   void checkLock(bool isNote, String id) {
     if (!isNote) {
       _changeScreen(DIRECTORY_SCREEN, id);
@@ -80,8 +128,9 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
-  void controlPassword() {}
-
+  /// Changes the screen to the specified type and ID.
+  /// - [screenType]: The type of the screen to change to.
+  /// - [id]: The ID of the note.
   void _changeScreen(int screenType, String id) {
     setState(() {
       log("Changing screen");
@@ -91,6 +140,9 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  /// Reloads the tree view.
+  ///
+  /// Sets the state to generate a new unique key for the tree view and updates the last synchronization time.
   void reloadTreeView() {
     log("reloading tree");
     setState(() {
@@ -99,6 +151,10 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  /// Navigates to a screen with the given parameters.
+  ///
+  /// - [isNote]: A boolean indicating whether the item is a note.
+  /// - [id]: The ID of the item.
   void navigateWithParam(bool isNote, String id) {
     log("Navigation $id");
     if (isNote) {
@@ -108,18 +164,23 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
+  /// Handles the 'onChange' event.
+  ///
+  /// Increments the mainScreenCount and changes the screen to the main screen.
   void onChange() {
     log("On change");
     mainScreenCount++;
     _changeScreen(MAIN_SCREEN, "");
   }
 
+  /// Deletes data and resets the state.
   void deleteData() {
     lastSync = "";
     mainScreenCount++;
     _changeScreen(MAIN_SCREEN, "");
   }
 
+  // Builds the UI of the main screen.
   @override
   Widget build(BuildContext context) {
     List<Widget> _widgetTypes = <Widget>[

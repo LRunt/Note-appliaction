@@ -14,19 +14,16 @@ import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'boxes.dart';
+import 'dart:developer';
 
-/// A Flutter application for note-taking.
+/// Initializes and runs a Flutter application for note-taking with Firebase integration.
 ///
-/// This application provides functionality for taking notes, managing hierarchical data,
-/// and synchronizing data with Firebase Firestore. It supports multiple themes and
-/// internationalization.
+/// This function sets up essential services such as Firebase, Hive for local storage, and handles
+/// asynchronous initialization tasks required before the application can start.
 void main() async {
+  // Required for async operations before runApp.
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initializing the logger
-  // await AppLogger.init();
-
-  //AppLogger.log("Inicializing the application");
   // initialize hive
   await Hive.initFlutter();
 
@@ -56,25 +53,27 @@ void main() async {
       );
     }
   } catch (e) {
-    print("Firebase failed to initialize: $e");
+    log("Firebase failed to initialize: $e");
     return;
   }
 
-  //AppLogger.log("Running the application");
   // Running the application
   runApp(const MyApp());
 }
 
-/// The root widget of the application.
+/// The root widget of the application that initializes and configures the overall app theme, localization, and navigation structure.
 ///
-/// This widget initializes the entire application and handles changes in locale and theme.
+/// `MyApp` manages state related to locale and theme, responding to user preferences and system settings.
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
 
-  /// Sets the locale for the application.
+  /// Sets the locale for the application dynamically from anywhere within the app.
+  ///
+  /// - `context`: The BuildContext from where the locale needs to be set.
+  /// - `newLocale`: The new Locale to be set.
   static void setLocale(BuildContext context, Locale newLocale) {
     _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
     state?.setLocale(newLocale);
@@ -82,8 +81,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  /// Holds the current locale for the app.
   Locale? _locale;
+
+  /// Instance of the user database for managing user data.
   UserDatabase db = UserDatabase();
+
+  /// Initial theme mode, defaulting to system settings.
   ThemeMode initialThemeMode = ThemeMode.system;
 
   /// An instance of firebase authentification, created in main because of testing.
@@ -92,7 +96,9 @@ class _MyAppState extends State<MyApp> {
   /// An instance of firebase firestore to store data, create in main because of testing.
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  /// Sets the locale for the application.
+  /// Updates the locale state of the app.
+  ///
+  /// - `locale`: The new locale to set.
   setLocale(Locale locale) {
     setState(() {
       _locale = locale;
@@ -110,6 +116,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
+  // Builds the UI of the whole aplication.
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

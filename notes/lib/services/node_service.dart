@@ -7,11 +7,11 @@ part of services;
 /// their position or existence within the hierarchy. The service interacts with both the hierarchy
 /// database and the notes database to ensure data consistency.
 ///
-/// Usage:
+/// ## Usage:
 /// Instantiate `NodeService` with optional custom [HierarchyDatabase] and [NotesDatabase] instances
 /// for managing the hierarchy and notes.
 ///
-/// Example:
+/// ## Example:
 /// ```dart
 /// NodeService nodeService = NodeService();
 /// MyTreeNode parentNode = ...; // Assuming parentNode is already defined

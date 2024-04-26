@@ -24,9 +24,11 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterPage> {
+  /// The authentication service instance.
   late final AuthService _authService;
+
+  /// The Firestore service instance.
   late final FirestoreService _firebaseService;
-  final ComponentUtils utils = ComponentUtils();
 
   /// Controller for the email input field.
   final emailController = TextEditingController();
@@ -37,6 +39,7 @@ class _RegisterFormState extends State<RegisterPage> {
   /// Controller for the confirm password input field.
   final confirmPasswordController = TextEditingController();
 
+  // Initialization of the widget
   @override
   void initState() {
     super.initState();
@@ -91,6 +94,14 @@ class _RegisterFormState extends State<RegisterPage> {
     }
   }
 
+  /// Registers the user with Google authentication.
+  ///
+  /// Displays a progress indicator while attempting to sign in with Google and upload data to Firebase.
+  /// Upon successful registration, dismisses the progress indicator and navigates back to the main screen.
+  /// If an error occurs during registration, dismisses the progress indicator, logs the error message,
+  /// and displays a snackbar with the error message.
+  ///
+  /// This method is asynchronous.
   registerWithGoogle() async {
     ComponentUtils.getProgressIndicator(context);
     try {
