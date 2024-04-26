@@ -4,7 +4,7 @@ part of components;
 ///
 /// This widget uses the flutter_quill library to provide a rich text editing experience.
 ///
-/// Example:
+/// Usage Example:
 /// ```dart
 /// final editor = RichTextEditor(noteId: 'note_1');
 /// ```
@@ -16,7 +16,10 @@ class RichTextEditor extends StatefulWidget {
   ///
   /// Required:
   /// - [noteId] a Id of the note.
-  const RichTextEditor({super.key, required this.noteId});
+  const RichTextEditor({
+    super.key,
+    required this.noteId,
+  });
 
   /// States of the [RichTextEditor].
   @override

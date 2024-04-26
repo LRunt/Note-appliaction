@@ -67,6 +67,7 @@ const double SETTINGS_BUTTON_SIZE = 130.0;
 const double DEFAULT_PAGE_PADDING = 25.0;
 const double TREE_VIEW_PADDING = 4.0;
 const double MAX_WIDGET_WIDTH = 500.0;
+const double MENU_SIZE_BOX = 10.0;
 
 // Bootstrap Colors
 const Color COLOR_ERROR = Color.fromRGBO(220, 53, 69, 1.0);
@@ -165,7 +166,7 @@ const String SUCCESS = "Success";
 //------------------------------------------------------------------------------
 //                            WIDGETS
 //------------------------------------------------------------------------------
-ButtonStyle defaultButtonStyle = ButtonStyle(
+ButtonStyle DEFAULT_BUTTON_STYLE = ButtonStyle(
   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
     RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(BUTTON_BORDER_RADIUS),
@@ -173,13 +174,13 @@ ButtonStyle defaultButtonStyle = ButtonStyle(
   ),
 );
 
-RoundedRectangleBorder dialogBorder = const RoundedRectangleBorder(
+RoundedRectangleBorder DIALOG_BORDER = const RoundedRectangleBorder(
   borderRadius: BorderRadius.all(
     Radius.circular(BORDER_RADIUS),
   ),
 );
 
-TextStyle defaultTextStyle = const TextStyle(fontSize: DEFAULT_TEXT_SIZE);
+TextStyle DEFAULT_TEXT_STYLE = const TextStyle(fontSize: DEFAULT_TEXT_SIZE);
 
 //------------------------------------------------------------------------------
 //                          PICTURE PATHS

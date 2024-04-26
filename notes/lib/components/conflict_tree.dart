@@ -8,7 +8,7 @@ part of components;
 /// of conflict details.
 ///
 /// Parameters:
-/// - [key]: The widget key, used to control how one widget replaces another widget in the tree.
+/// - `key`: The widget key, used to control how one widget replaces another widget in the tree.
 ///
 /// Usage Example:
 /// ```dart
@@ -17,7 +17,7 @@ part of components;
 class ConflictTree extends StatefulWidget {
   /// Constructor of the [ConflictTree]
   ///
-  /// - [key] a key associated with this widget.
+  /// - `key` a key associated with this widget.
   const ConflictTree({super.key});
 
   @override

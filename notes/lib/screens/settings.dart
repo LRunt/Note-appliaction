@@ -99,7 +99,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Expanded(
                     child: Text(
                       AppLocalizations.of(context)!.language,
-                      style: defaultTextStyle,
+                      style: DEFAULT_TEXT_STYLE,
                     ),
                   ),
                   DropdownButton<Language>(
@@ -139,7 +139,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Expanded(
                     child: Text(
                       AppLocalizations.of(context)!.darkMode,
-                      style: defaultTextStyle,
+                      style: DEFAULT_TEXT_STYLE,
                     ),
                   ),
                   Switch(
@@ -162,13 +162,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   Expanded(
                     child: Text(
                       AppLocalizations.of(context)!.showConflicts,
-                      style: defaultTextStyle,
+                      style: DEFAULT_TEXT_STYLE,
                     ),
                   ),
                   SizedBox(
                     width: SETTINGS_BUTTON_SIZE,
                     child: FilledButton(
-                      style: defaultButtonStyle,
+                      style: DEFAULT_BUTTON_STYLE,
                       onPressed: () {
                         Navigator.push(
                             context, MaterialPageRoute(builder: (context) => const Conflict()));
@@ -187,13 +187,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   Expanded(
                     child: Text(
                       AppLocalizations.of(context)!.deleteApplicationData,
-                      style: defaultTextStyle,
+                      style: DEFAULT_TEXT_STYLE,
                     ),
                   ),
                   SizedBox(
                     width: SETTINGS_BUTTON_SIZE,
                     child: FilledButton(
-                      style: defaultButtonStyle,
+                      style: DEFAULT_BUTTON_STYLE,
                       onPressed: () {
                         showDialog(
                           context: context,
@@ -225,13 +225,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   Expanded(
                     child: Text(
                       AppLocalizations.of(context)!.aboutApp,
-                      style: defaultTextStyle,
+                      style: DEFAULT_TEXT_STYLE,
                     ),
                   ),
                   SizedBox(
                     width: SETTINGS_BUTTON_SIZE,
                     child: FilledButton(
-                      style: defaultButtonStyle,
+                      style: DEFAULT_BUTTON_STYLE,
                       onPressed: () {
                         showDialog(
                           context: context,

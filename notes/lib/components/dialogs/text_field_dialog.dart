@@ -77,7 +77,7 @@ class TextFieldDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      shape: dialogBorder,
+      shape: DIALOG_BORDER,
       backgroundColor: Theme.of(context).dialogBackgroundColor,
       title: Text(titleText),
       content: StyledTextField(
@@ -90,12 +90,12 @@ class TextFieldDialog extends StatelessWidget {
         TextButton(
           key: const Key('cancelButton'),
           onPressed: onCancel,
-          style: defaultButtonStyle,
+          style: DEFAULT_BUTTON_STYLE,
           child: Text(AppLocalizations.of(context)!.cancel),
         ),
         FilledButton(
           onPressed: onConfirm,
-          style: defaultButtonStyle,
+          style: DEFAULT_BUTTON_STYLE,
           child: Text(confirmButtonText),
         ),
       ],

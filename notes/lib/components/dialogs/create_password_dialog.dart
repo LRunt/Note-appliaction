@@ -80,7 +80,7 @@ class CreatePasswordDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      shape: dialogBorder,
+      shape: DIALOG_BORDER,
       backgroundColor: Theme.of(context).dialogBackgroundColor,
       title: Text(titleText),
       content: SizedBox(
@@ -110,13 +110,13 @@ class CreatePasswordDialog extends StatelessWidget {
         TextButton(
           key: const Key('cancelButton'),
           onPressed: onCancel,
-          style: defaultButtonStyle,
+          style: DEFAULT_BUTTON_STYLE,
           child: Text(AppLocalizations.of(context)!.cancel),
         ),
         FilledButton(
           key: const Key('confirmButton'),
           onPressed: onConfirm,
-          style: defaultButtonStyle,
+          style: DEFAULT_BUTTON_STYLE,
           child: Text(confirmButtonText),
         ),
       ],

@@ -10,10 +10,6 @@ part of components;
 /// var utils = ComponentUtils();
 /// utils.getSnackBarSuccess(context, "Operation Successful");
 /// ```
-///
-/// Author: Lukas Runt
-/// Date: 2024-02-29
-/// Version: 1.0.0
 class ComponentUtils {
   /// Shows a modal progress indicator dialog, useful during long-running tasks.
   ///
@@ -72,22 +68,44 @@ class ComponentUtils {
     );
   }
 
+  /// Displays an error toast at the center of the screen with a message and a predefined error background color.
+  /// Use this method to inform users of errors or issues that need attention.
+  ///
+  /// - `message`: The error message to be displayed.
   static void showErrorToast(String message) {
     showCenteredToast(message, COLOR_ERROR);
   }
 
+  /// Displays a success toast at the center of the screen with a message and a predefined success background color.
+  /// Use this method to confirm successful operations or actions to users.
+  ///
+  /// - `message`: The success message to be displayed.
   static void showSuccesToast(String message) {
     showCenteredToast(message, COLOR_SUCCESS);
   }
 
+  /// Displays a default toast at the center of the screen with a message and a standard background color.
+  /// This method is versatile for general purpose notifications.
+  ///
+  /// - `message`: The message to be displayed.
   static void showDefaultToast(String message) {
     showCenteredToast(message, COLOR_DEFAULT_TOAST);
   }
 
+  /// Displays a warning toast at the center of the screen with a message and a predefined warning background color.
+  /// Use this method to alert users about potential issues or important notices that require attention.
+  ///
+  /// - `message`: The warning message to be displayed.
   static void showWarningToast(String message) {
     showCenteredToast(message, COLOR_WARNING);
   }
 
+  /// A helper method that displays a toast notification centered on the screen.
+  /// This method configures the appearance and behavior of toast messages, making it reusable
+  /// for different types of notifications by varying the message and background color.
+  ///
+  /// - `message`: The message to display.
+  /// - `color`: The background color of the toast, different colors can be used to signify different message types.
   static void showCenteredToast(String message, Color color) {
     Fluttertoast.showToast(
         msg: message,

@@ -60,19 +60,19 @@ class DeleteDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      shape: dialogBorder,
+      shape: DIALOG_BORDER,
       backgroundColor: Theme.of(context).dialogBackgroundColor,
       title: Text(titleText),
       content: Text(contentText),
       actions: [
         TextButton(
           onPressed: onCancel,
-          style: defaultButtonStyle,
+          style: DEFAULT_BUTTON_STYLE,
           child: Text(AppLocalizations.of(context)!.cancel),
         ),
         FilledButton(
           onPressed: onDelete,
-          style: defaultButtonStyle,
+          style: DEFAULT_BUTTON_STYLE,
           child: Text(AppLocalizations.of(context)!.delete),
         ),
       ],

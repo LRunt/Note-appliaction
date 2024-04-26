@@ -11,7 +11,11 @@ class StyledButton extends StatelessWidget {
   final String text;
 
   /// Constructor of [StyledButton] class
-  const StyledButton({super.key, required this.onTap, required this.text});
+  const StyledButton({
+    super.key,
+    required this.onTap,
+    required this.text,
+  });
 
   /// Builds the UI of my button.
   @override

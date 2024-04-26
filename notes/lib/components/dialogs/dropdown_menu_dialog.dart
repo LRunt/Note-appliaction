@@ -89,7 +89,7 @@ class DropdownMenuDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      shape: dialogBorder,
+      shape: DIALOG_BORDER,
       title: Text(titleText),
       content: DropdownButtonFormField<String>(
         value: selectedValue,
@@ -107,13 +107,13 @@ class DropdownMenuDialog extends StatelessWidget {
         TextButton(
           key: const Key('cancelButton'),
           onPressed: onCancel,
-          style: defaultButtonStyle,
+          style: DEFAULT_BUTTON_STYLE,
           child: Text(AppLocalizations.of(context)!.cancel),
         ),
         FilledButton(
           key: const Key('confirmButton'),
           onPressed: onConfirm,
-          style: defaultButtonStyle,
+          style: DEFAULT_BUTTON_STYLE,
           child: Text(confirmButtonText),
         ),
       ],
