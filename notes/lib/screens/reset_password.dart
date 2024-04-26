@@ -108,7 +108,7 @@ class _ResetPasswordState extends State<ResetPasswordPage> {
                 ),
                 SizedBox(
                   width: MAX_WIDGET_WIDTH,
-                  child: MyTextField(
+                  child: StyledTextField(
                     isPasswordField: false,
                     hint: AppLocalizations.of(context)!.email,
                     controller: emailController,
@@ -120,7 +120,7 @@ class _ResetPasswordState extends State<ResetPasswordPage> {
                 ),
                 SizedBox(
                   width: MAX_WIDGET_WIDTH,
-                  child: MyButton(
+                  child: StyledButton(
                     onTap: () => resetPassword(),
                     text: AppLocalizations.of(context)!.sendResetEmail,
                   ),

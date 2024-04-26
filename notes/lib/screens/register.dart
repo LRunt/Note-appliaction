@@ -135,7 +135,7 @@ class _RegisterFormState extends State<RegisterPage> {
                 ),
                 SizedBox(
                   width: MAX_WIDGET_WIDTH,
-                  child: MyTextField(
+                  child: StyledTextField(
                     isPasswordField: false,
                     hint: AppLocalizations.of(context)!.email,
                     controller: emailController,
@@ -147,7 +147,7 @@ class _RegisterFormState extends State<RegisterPage> {
                 ),
                 SizedBox(
                   width: MAX_WIDGET_WIDTH,
-                  child: MyTextField(
+                  child: StyledTextField(
                     isPasswordField: true,
                     hint: AppLocalizations.of(context)!.password,
                     controller: passwordController,
@@ -159,7 +159,7 @@ class _RegisterFormState extends State<RegisterPage> {
                 ),
                 SizedBox(
                   width: MAX_WIDGET_WIDTH,
-                  child: MyTextField(
+                  child: StyledTextField(
                     isPasswordField: true,
                     hint: AppLocalizations.of(context)!.passwordConfirm,
                     controller: confirmPasswordController,
@@ -171,7 +171,7 @@ class _RegisterFormState extends State<RegisterPage> {
                 ),
                 SizedBox(
                   width: MAX_WIDGET_WIDTH,
-                  child: MyButton(
+                  child: StyledButton(
                     onTap: () {
                       register();
                     },

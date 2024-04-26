@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:notes/components/components.dart';
 import 'package:notes/constants.dart';
-import 'package:notes/components/myButton.dart';
 
 void main() {
   group('MyButton Tests', () {
@@ -12,7 +12,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: MyButton(
+            body: StyledButton(
               text: "Tap Me",
               onTap: () {
                 isTapped = true;
@@ -22,7 +22,7 @@ void main() {
         ),
       );
 
-      await tester.tap(find.byType(MyButton));
+      await tester.tap(find.byType(StyledButton));
       await tester.pump();
 
       expect(find.text('Tap Me'), findsOneWidget);
@@ -33,7 +33,7 @@ void main() {
       //Define the widget
       await tester.pumpWidget(MaterialApp(
         home: Scaffold(
-          body: MyButton(
+          body: StyledButton(
             text: "Styled Button",
             onTap: () {},
           ),

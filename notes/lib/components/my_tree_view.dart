@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
+import 'package:notes/components/components.dart';
 import 'package:notes/constants.dart';
-import 'package:notes/components/componentUtils.dart';
 import 'package:notes/components/dialogs/dialogs.dart';
 import 'package:notes/data/local_databases.dart';
-import 'package:notes/model/myTreeNode.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:notes/model/my_tree_node.dart';
 import 'package:notes/services/services.dart';
 
 /// A custom implementation of a tree view for displaying hierarchical structures.

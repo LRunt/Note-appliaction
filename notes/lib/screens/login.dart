@@ -140,7 +140,7 @@ class _LoginFormState extends State<LoginPage> {
                 ),
                 SizedBox(
                   width: MAX_WIDGET_WIDTH,
-                  child: MyTextField(
+                  child: StyledTextField(
                     isPasswordField: false,
                     hint: AppLocalizations.of(context)!.email,
                     controller: emailController,
@@ -152,7 +152,7 @@ class _LoginFormState extends State<LoginPage> {
                 ),
                 SizedBox(
                   width: MAX_WIDGET_WIDTH,
-                  child: MyTextField(
+                  child: StyledTextField(
                     isPasswordField: true,
                     hint: AppLocalizations.of(context)!.password,
                     controller: passwordController,
@@ -199,7 +199,7 @@ class _LoginFormState extends State<LoginPage> {
                 ),
                 SizedBox(
                   width: MAX_WIDGET_WIDTH,
-                  child: MyButton(
+                  child: StyledButton(
                     onTap: () {
                       login();
                     },

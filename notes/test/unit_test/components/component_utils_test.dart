@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:notes/components/components.dart';
 import 'package:notes/constants.dart';
-import 'package:notes/components/componentUtils.dart';
 
 void main() {
   final utils = ComponentUtils();

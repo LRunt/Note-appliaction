@@ -3,7 +3,7 @@ part of dialogs;
 /// A dialog widget designed for password creation, featuring two password fields.
 ///
 /// This custom dialog uses an [AlertDialog] as its base structure and incorporates
-/// two [MyTextField] widgets for password and password confirmation inputs. It provides
+/// two [StyledTextField] widgets for password and password confirmation inputs. It provides
 /// localized text support and custom styling defined in widget constants. The dialog
 /// facilitates user interaction by offering confirm and cancel actions.
 ///
@@ -88,7 +88,7 @@ class CreatePasswordDialog extends StatelessWidget {
         height: 150,
         child: Column(
           children: [
-            MyTextField(
+            StyledTextField(
               isPasswordField: true,
               hint: AppLocalizations.of(context)!.password,
               controller: controller1,
@@ -97,7 +97,7 @@ class CreatePasswordDialog extends StatelessWidget {
             const SizedBox(
               height: SMALL_GAP,
             ),
-            MyTextField(
+            StyledTextField(
               isPasswordField: true,
               hint: AppLocalizations.of(context)!.passwordConfirm,
               controller: controller2,

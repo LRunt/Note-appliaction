@@ -1,11 +1,9 @@
-import 'package:flutter/material.dart';
+part of components;
 
-import 'package:notes/constants.dart';
-
-/// Class [MyTextField] create styled [TextField].
+/// Class [StyledTextField] create styled [TextField].
 ///
 /// My own designed textField, it has Icon that show that can helps with orientation.
-class MyTextField extends StatefulWidget {
+class StyledTextField extends StatefulWidget {
   /// Indicates if the textField will be used for password or not.
   final bool isPasswordField;
 
@@ -18,8 +16,8 @@ class MyTextField extends StatefulWidget {
   /// Icon that will be displayed at the beginning of the textField.
   final Icon? pefIcon;
 
-  /// Constructor of the class [MyTextField]
-  const MyTextField(
+  /// Constructor of the class [StyledTextField]
+  const StyledTextField(
       {Key? key,
       required this.isPasswordField,
       required this.hint,
@@ -28,10 +26,10 @@ class MyTextField extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<MyTextField> createState() => _MyTextFieldState();
+  State<StyledTextField> createState() => _StyledTextFieldState();
 }
 
-class _MyTextFieldState extends State<MyTextField> {
+class _StyledTextFieldState extends State<StyledTextField> {
   /// State if the text inside password textField is visible or not.
   bool isVisible = true;
 

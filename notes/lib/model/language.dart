@@ -1,3 +1,5 @@
+part of models;
+
 /// Class [Language] represents object of language contains flag, name and language code.
 class Language {
   /// The flag of the language represented as a string (emoji).

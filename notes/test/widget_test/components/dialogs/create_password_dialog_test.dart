@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:notes/components/components.dart';
 import 'package:notes/components/dialogs/dialogs.dart';
-import 'package:notes/components/myTextField.dart';
 
 void main() {
   // Create a testable widget wrapper
@@ -31,7 +31,7 @@ void main() {
       );
 
       expect(find.text('Set Your Password'), findsOneWidget);
-      expect(find.byType(MyTextField), findsNWidgets(2));
+      expect(find.byType(StyledTextField), findsNWidgets(2));
       expect(find.text('Confirm'), findsOneWidget);
       expect(find.byKey(const Key('cancelButton')), findsOneWidget);
       expect(alertDialog.shape, isA<RoundedRectangleBorder>());
@@ -84,8 +84,8 @@ void main() {
       const confirmPasswordText = 'myPassword123';
 
       // Find the text fields
-      final passwordField = find.byType(MyTextField).first;
-      final confirmPasswordField = find.byType(MyTextField).last;
+      final passwordField = find.byType(StyledTextField).first;
+      final confirmPasswordField = find.byType(StyledTextField).last;
 
       // Enter text into the first password field
       await tester.enterText(passwordField, passwordText);

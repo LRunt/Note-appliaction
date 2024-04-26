@@ -72,7 +72,7 @@ class EnterPasswordDialog extends StatelessWidget {
       shape: dialogBorder,
       backgroundColor: Theme.of(context).dialogBackgroundColor,
       title: Text(titleText),
-      content: MyTextField(
+      content: StyledTextField(
         isPasswordField: true,
         hint: AppLocalizations.of(context)!.password,
         controller: controller,

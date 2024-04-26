@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-part 'myTreeNode.g.dart';
+part 'my_tree_node.g.dart';
 
 /// A [MyTreeNode] object represents a node within a tree structure,
 /// which can be either a directory or a note. This class is designed

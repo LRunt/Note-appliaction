@@ -2,8 +2,8 @@ library dialogs;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:notes/components/components.dart';
 import 'package:notes/constants.dart';
-import 'package:notes/components/myTextField.dart';
 
 part 'about_app_dialog.dart';
 part 'create_password_dialog.dart';

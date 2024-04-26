@@ -202,7 +202,7 @@ class _MainScreenState extends State<MainScreen> {
                 child: Column(
                   children: [
                     Text(AppLocalizations.of(context)!.lastSynchronization(lastSync)),
-                    MyButton(
+                    StyledButton(
                         onTap: () async {
                           await firestoreService.synchronize(context);
                           reloadTreeView();

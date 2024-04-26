@@ -4,7 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:notes/constants.dart';
 import 'package:notes/boxes.dart';
 import 'package:notes/data/local_databases.dart';
-import 'package:notes/model/myTreeNode.dart';
+import 'package:notes/model/my_tree_node.dart';
 
 class MockBox extends Mock implements Box {
   @override

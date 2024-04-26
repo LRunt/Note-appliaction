@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:notes/model/language.dart';
+import 'package:notes/model/models.dart';
 
 void main() {
   group('Language Tests', () {

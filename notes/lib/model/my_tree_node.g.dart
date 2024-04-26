@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'myTreeNode.dart';
+part of 'my_tree_node.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator

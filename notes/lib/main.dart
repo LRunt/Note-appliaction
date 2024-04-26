@@ -7,12 +7,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:notes/constants.dart';
 import 'package:notes/data/local_databases.dart';
-import 'package:notes/model/theme.dart';
+import 'package:notes/model/models.dart';
+import 'package:notes/model/my_tree_node.dart';
 import 'package:notes/screens/screens.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:notes/model/myTreeNode.dart';
 import 'boxes.dart';
 
 /// A Flutter application for note-taking.

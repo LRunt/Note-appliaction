@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:notes/model/myTreeNode.dart';
+import 'package:notes/model/my_tree_node.dart';
 
 void main() {
   group('MyTreeNode - toMap Tests', () {

@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:notes/constants.dart';
 import 'package:notes/data/local_databases.dart';
-import 'package:notes/model/theme.dart';
+import 'package:notes/model/models.dart';
 
 class ListenerMock extends Mock {
   void call();

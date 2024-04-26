@@ -80,7 +80,7 @@ class TextFieldDialog extends StatelessWidget {
       shape: dialogBorder,
       backgroundColor: Theme.of(context).dialogBackgroundColor,
       title: Text(titleText),
-      content: MyTextField(
+      content: StyledTextField(
         isPasswordField: false,
         controller: controller,
         pefIcon: null,

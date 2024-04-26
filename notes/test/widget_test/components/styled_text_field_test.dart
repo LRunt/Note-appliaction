@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:notes/components/myTextField.dart';
+import 'package:notes/components/components.dart';
 
 void main() {
   group('MyTextField Tests', () {
@@ -10,7 +10,7 @@ void main() {
       //Define the widget
       await tester.pumpWidget(MaterialApp(
         home: Scaffold(
-          body: MyTextField(
+          body: StyledTextField(
             isPasswordField: false,
             hint: 'Enter text',
             controller: controller,
@@ -30,7 +30,7 @@ void main() {
 
       await tester.pumpWidget(MaterialApp(
         home: Scaffold(
-          body: MyTextField(
+          body: StyledTextField(
             isPasswordField: true,
             hint: 'Password',
             controller: controller,

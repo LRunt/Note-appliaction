@@ -1,18 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:notes/constants.dart';
+part of components;
 
-/// Class [MyButton] creates styled button.
+/// Class [StyledButton] creates styled button.
 ///
 /// This widget is designigned as reusable styled button with tap function.
-class MyButton extends StatelessWidget {
+class StyledButton extends StatelessWidget {
   /// Callback function that is called when the button is tapped.
   final void Function()? onTap;
 
   /// Text what will be displayed inside the button.
   final String text;
 
-  /// Constructor of [MyButton] class
-  const MyButton({super.key, required this.onTap, required this.text});
+  /// Constructor of [StyledButton] class
+  const StyledButton({super.key, required this.onTap, required this.text});
 
   /// Builds the UI of my button.
   @override

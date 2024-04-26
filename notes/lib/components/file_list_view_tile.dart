@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:notes/components/componentUtils.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:notes/model/myTreeNode.dart';
+part of components;
 
 class FileListViewTile extends StatelessWidget {
   final MyTreeNode? node;

@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:notes/constants.dart';
-import 'package:notes/data/local_databases.dart';
+part of models;
 
 /// Manages the theme settings for the application.
 ///
