@@ -403,10 +403,14 @@
     },
     "noConflicts": "No conflicts",
     "@noConflicts": {
-        "description": "Label that the user has no conflicts"
+        "description": "Label that the user has no conflicts."
     },
     "manual": "Application manual",
     "@manual": {
-        "description": "Label for the link to the appliacation manual"
+        "description": "Label for the link to the appliacation manual."
+    },
+    "manualTitle": "App manual",
+    "@manualTitle": {
+        "description": "App bar title for manual page."
     }
 }

@@ -16,6 +16,7 @@ import 'package:notes/services/services.dart';
 import 'dart:developer';
 import 'dart:async';
 import 'package:notes/components/my_tree_view.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 part 'settings.dart';
 part 'login.dart';
@@ -23,3 +24,4 @@ part 'register.dart';
 part 'reset_password.dart';
 part 'main_screen.dart';
 part 'conflict.dart';
+part 'manual.dart';

@@ -266,16 +266,12 @@ class _SettingsPageState extends State<SettingsPage> {
                     child: FilledButton(
                       style: DEFAULT_BUTTON_STYLE,
                       onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AboutAppDialog(
-                              onClose: () {
-                                Navigator.of(context).pop();
-                              },
-                            );
-                          },
-                        );
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ManualScreen(
+                                      urlAddress: 'https://notes-manual.web.app/manual-en.html',
+                                    )));
                       },
                       child: Text(AppLocalizations.of(context)!.show),
                     ),
