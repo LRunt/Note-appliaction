@@ -251,6 +251,39 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
             const Divider(),
+            Padding(
+              padding: const EdgeInsets.all(DEFAULT_PADDING),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      AppLocalizations.of(context)!.manual,
+                      style: DEFAULT_TEXT_STYLE,
+                    ),
+                  ),
+                  SizedBox(
+                    width: SETTINGS_BUTTON_SIZE,
+                    child: FilledButton(
+                      style: DEFAULT_BUTTON_STYLE,
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AboutAppDialog(
+                              onClose: () {
+                                Navigator.of(context).pop();
+                              },
+                            );
+                          },
+                        );
+                      },
+                      child: Text(AppLocalizations.of(context)!.show),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(),
           ],
         ),
       ),

@@ -157,11 +157,26 @@ class _MyTreeViewState extends State<MyTreeView> {
                 db: hierarchyDb);
           },
         ),
-        ElevatedButton(
+        SizedBox(
+          width: 200,
+          child: FilledButton.icon(
+            icon: const Icon(Icons.create_new_folder_rounded),
+            label: Text(AppLocalizations.of(context)!.createFile),
             onPressed: () {
               showCreateDialog(context);
             },
-            child: Text(AppLocalizations.of(context)!.createFile)),
+          ),
+        ),
+        SizedBox(
+          width: 200,
+          child: FilledButton.icon(
+            icon: const Icon(Icons.article),
+            label: Text(AppLocalizations.of(context)!.createNote),
+            onPressed: () {
+              showCreateDialog(context);
+            },
+          ),
+        ),
       ],
     );
   }

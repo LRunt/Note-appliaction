@@ -33,6 +33,7 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
   /// Listens for updates of the user's status and updates the UI.
   late final StreamSubscription<User?> authSubscription;
 
+  /// The authentication service instance.
   late final AuthService _authService;
 
   /// Inicialization of the state
@@ -104,7 +105,6 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
                   style: const TextStyle(
                       fontSize: 20, color: Colors.white), // Makes text larger and white
                 ),
-                const SizedBox(height: 10), // Adds spacing between text and buttons
                 SizedBox(
                   width: 200,
                   child: ElevatedButton.icon(
@@ -125,7 +125,6 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
                     },
                   ),
                 ),
-                const SizedBox(height: 10),
                 SizedBox(
                   width: 200,
                   child: ElevatedButton.icon(

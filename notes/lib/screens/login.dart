@@ -69,10 +69,10 @@ class LoginPage extends StatefulWidget {
 /// and manages text input for user credentials. It also communicates with a Firestore service
 /// for additional user data management post-login.
 class _LoginFormState extends State<LoginPage> {
-  /// Instance of [FirebaseAuth] for handling user authentication processes.
+   /// The authentication service instance.
   late final AuthService _authService;
 
-  /// Instance of [FirebaseFirestore] for database interactions, included for potential future use.
+  /// The Firestore service instance.
   late final FirestoreService _firebaseService;
 
   /// Controller for the email input field.

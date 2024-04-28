@@ -404,5 +404,9 @@
     "noConflicts": "No conflicts",
     "@noConflicts": {
         "description": "Label that the user has no conflicts"
+    },
+    "manual": "Application manual",
+    "@manual": {
+        "description": "Label for the link to the appliacation manual"
     }
 }

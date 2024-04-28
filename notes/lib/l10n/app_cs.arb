@@ -89,5 +89,6 @@
     "synchronizingSuccess": "Data synchronizována",
     "synchronizingFailed": "Při synchronizování se naskytla chyba",
     "synchronizationConflict": "Možné konflikty byly uloženy do Nastavení->Konflikty.",
-    "noConflicts": "Žádné konflikty"
+    "noConflicts": "Žádné konflikty",
+    "manual": "Manuál k aplikaci"
 }
