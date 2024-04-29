@@ -197,7 +197,7 @@ class NodeService {
       ComponentUtils.showErrorToast(AppLocalizations.of(context)!.siblingWithSameNameToast);
       return false;
     }
-    MyTreeNode newRoot = MyTreeNode(id: id, title: name, isNote: false, isLocked: false);
+    MyTreeNode newRoot = MyTreeNode(id: id, title: name, isNote: isNote, isLocked: false);
     hierarchyDb.saveRoot(newRoot);
     return true;
   }

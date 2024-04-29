@@ -21,6 +21,17 @@ class ClearDatabase {
     HierarchyDatabase.conflictData = [];
   }
 
+  /// Clears all stored data connected with user account from the application's database.
+  ///
+  /// This method clears data across all categories including hierarchy structures,
+  /// notes, and synchronization data. It is typically used when user disconnect the app.
+  Future<void> clearHierarchyData() async {
+    await boxHierachy.clear();
+    await boxNotes.clear();
+    await boxSynchronization.clear();
+    print("cleared");
+  }
+
   /// Clears data related to the hierarchy structures from the database.
   ///
   /// Targets only the data stored in the hierarchy box, making it useful for

@@ -79,6 +79,7 @@ class _MyTreeViewState extends State<MyTreeView> {
   // Initializes the tree view, either by loading existing data from the database or creating default data if none exists.
   @override
   void initState() {
+    log("reloading tree");
     //there is no initial state, first time the application runs
     if (hierarchyDb.rootDataNotExist()) {
       log("Creating new data!");

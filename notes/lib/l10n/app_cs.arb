@@ -91,5 +91,7 @@
     "synchronizationConflict": "Možné konflikty byly uloženy do Nastavení->Konflikty.",
     "noConflicts": "Žádné konflikty",
     "manual": "Manuál k aplikaci",
-    "manualTitle": "Manuál"
+    "manualTitle": "Manuál",
+    "deleteUserDataTitle": "Smazat uživatelská data?",
+    "deleteUserDataContent": "Chcete z tohoto zařízení smazat data, která jsou spojena s tímto účtem?"
 }

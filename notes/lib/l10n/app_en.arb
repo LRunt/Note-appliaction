@@ -412,5 +412,13 @@
     "manualTitle": "App manual",
     "@manualTitle": {
         "description": "App bar title for manual page."
+    },
+    "deleteUserDataTitle": "Delete account data",
+    "@deleteUserDataTitle": {
+        "description": "Title of the dialog which asks the user about deleting data, when user logs out of the app."
+    },
+    "deleteUserDataContent": "Do you want to delete data connected with account after log out?",
+     "@deleteUserDataContent": {
+        "description": "Content of the dialog which asks the user about deleting data, when user logs out of the app."
     }
 }

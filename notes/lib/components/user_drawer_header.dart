@@ -14,9 +14,17 @@ class UserDrawerHeader extends StatefulWidget {
   /// Callback when the login of the user is successfull
   final VoidCallback loginSuccess;
 
+  /// Callback when the logout of the user is successfull
+  final VoidCallback logoutSuccess;
+
   /// Constructor of [UserDrawerHeader] class.
-  const UserDrawerHeader(
-      {super.key, required this.auth, required this.firestore, required this.loginSuccess});
+  const UserDrawerHeader({
+    super.key,
+    required this.auth,
+    required this.firestore,
+    required this.loginSuccess,
+    required this.logoutSuccess,
+  });
 
   @override
   State<UserDrawerHeader> createState() => _UserDrawerHeaderState();
@@ -35,6 +43,9 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
 
   /// The authentication service instance.
   late final AuthService _authService;
+
+  /// The database instance for clearing data when user logges out.
+  final ClearDatabase clearData = ClearDatabase();
 
   /// Inicialization of the state
   /// Adding listener to the authentication state changes (login/logout) and update the UI by setting the current user.
@@ -71,12 +82,37 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
     super.dispose();
   }
 
+  /// Displays a confirmation dialog asking if the user want delete account data.
+  Future<void> showDeleteDialog() async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return DeleteDialog(
+            titleText: AppLocalizations.of(context)!.deleteUserDataTitle,
+            contentText: AppLocalizations.of(context)!.deleteUserDataContent,
+            onDelete: () {
+              cleanUserData();
+              Navigator.of(context).pop();
+            },
+            onCancel: () => Navigator.of(context).pop(),
+          );
+        });
+  }
+
+  Future<void> cleanUserData() async {
+    HierarchyDatabase.rootList = [];
+    HierarchyDatabase.roots = [];
+    await clearData.clearHierarchyData();
+    widget.logoutSuccess();
+  }
+
   /// Log out from Firebase Authentication.
   /// This method attempts to sign out the current user.
   /// If an error occurs, it logs the error message.
-  void logout() async {
+  Future<void> logout() async {
     String result = await _authService.logout();
     if (result == "Success") {
+      showDeleteDialog();
       log("Success");
     } else {
       log('Logout failed with error: $result');

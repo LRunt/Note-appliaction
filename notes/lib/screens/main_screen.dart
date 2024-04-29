@@ -247,6 +247,10 @@ class _MainScreenState extends State<MainScreen> {
                 log("login success");
                 reloadTreeView();
               },
+              logoutSuccess: () {
+                reloadTreeView();
+                _changeScreen(0, "");
+              },
             ),
             Expanded(
               child: SingleChildScrollView(
