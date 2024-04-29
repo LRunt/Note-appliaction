@@ -5,33 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Příručka k aplikaci</title>
 	<link rel="stylesheet" href="styles.css">
+    <script>
+        function toggleDarkMode() {
+            let darkMode = localStorage.getItem('darkMode') === 'true';
+            localStorage.setItem('darkMode', !darkMode);
+            updateDarkMode();
+        }
+    
+        function updateDarkMode() {
+            let darkMode = localStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                document.getElementById('darkModeToggle').textContent = 'Světlý režim'; 
+            } else {
+                document.body.classList.remove('dark-mode');
+                document.getElementById('darkModeToggle').textContent = 'Tmavý režim'; 
+            }
+        }
+    
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDarkMode(); 
+        });
+        </script>
 </head>
 <body>
     <header>
         <h1>Příručka k aplikaci</h1>
         <nav>
-            <a href="manual-en.html">English Version</a> <!-- Link to the English version of the manual -->
+            <a href="manual-en.html">English Version</a>
+            <button id="darkModeToggle" onclick="toggleDarkMode()">Tmavý režim</button>
         </nav>
     </header>
 
     <section>
-        <h2>Začínáme</h2>
-        <p>Tato sekce poskytuje informace o tom, jak nainstalovat a začít používat aplikaci.</p>
+        <h2>Úvod</h2>
+        <p>Děkuji, že jste si vybrali Notes pro správu vašich poznámek a úkolů. V tomto manuálu vám ukáži, jak se aplikace ovládá, abyste mohli plně využít její potenciál pro vytváření, ukládání a organizování vašich poznámek. </p>
     </section>
 
     <section>
-        <h2>Funkce</h2>
+        <h2>Spuštění aplikace</h2>
         <p>Dozvíte se o různých funkcích aplikace a jak vám mohou pomoci při vašich úkolech.</p>
     </section>
 
     <section>
-        <h2>Přizpůsobení</h2>
-        <p>Tato sekce popisuje, jak přizpůsobit nastavení aplikace vašim preferencím.</p>
+        <h2>Registrace</h2>
+        <p>Na stránku registrace se dostanete skrze vysouvací menu, po stisknutí tlačítka registrace. Při registraci máte na výběr vybrat si registraci pomocí kombinace emailu a hesla nebo Google účtem.</p>
     </section>
 
     <section>
-        <h2>Řešení problémů</h2>
-        <p>Najděte řešení běžných problémů, které můžete při používání aplikace potkat.</p>
+        <h2>Přihlášení</h2>
+        <p>Na stránku registrace se dostanete skrze vysouvací menu, po stisknutí tlačítka přihlášení. Na následujícím obrázku je zobrazen obrázek přihlašovací obrazovkou s popsáním jednotlivých částí této obrazovky.</p>
+        <img src="img/Login.png" alt="Přihlašovací obrazovka" >
+        <ol>
+            <li>Návrat na předchozí stránku</li>
+            <li>Textové pole pro zadání emailu</li>
+            <li>Textové pole pro zadání hesla</li>
+            <li>Odkaz vedoucí na stránku pro obnovení hesla</li>
+            <li>Tlačítko pro přihlášení</li>
+            <li>Odkaz vedoucí na stránku registrace nového uživatele</li>
+            <li>Tlačítko pro přihlášení pomocí Google účtu</li>
+        </ol>
+    </section>
+
+    <section>
+        <h2>Obnovení hesla</h2>
+        <p>Může se stát, že uživatel zapomene heslo. Pro obnovu svého hesla se musí uživatel dostat na obrazovku s </p>
     </section>
 
     <footer>

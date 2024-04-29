@@ -4,36 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Application Manual</title>
-    <link rel="stylesheet" href="styles.css">
-    <script>
-    function toggleDarkMode() {
-        let darkMode = localStorage.getItem('darkMode') === 'true';
-        localStorage.setItem('darkMode', !darkMode);
-        updateDarkMode();
-    }
-
-    function updateDarkMode() {
-        let darkMode = localStorage.getItem('darkMode') === 'true';
-        if (darkMode) {
-            document.body.classList.add('dark-mode');
-            document.getElementById('darkModeToggle').textContent = 'Light mode'; // Light Mode button text
-        } else {
-            document.body.classList.remove('dark-mode');
-            document.getElementById('darkModeToggle').textContent = 'Dark mode'; // Dark Mode button text
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        updateDarkMode(); // Update dark mode on initial load
-    });
-    </script>
+	<link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <h1>Application Manual</h1>
         <nav>
             <a href="manual-cz.html">Česká Verze</a> <!-- Link to the Czech version of the manual -->
-            <button id="darkModeToggle" onclick="toggleDarkMode()">Tmavý režim</button> <!-- Initial button text -->
         </nav>
     </header>
 

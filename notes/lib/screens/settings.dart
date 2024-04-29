@@ -266,11 +266,14 @@ class _SettingsPageState extends State<SettingsPage> {
                     child: FilledButton(
                       style: DEFAULT_BUTTON_STYLE,
                       onPressed: () {
+                        String url = Localizations.localeOf(context).languageCode == 'en'
+                            ? 'https://notes-manual.web.app/manual-en.html'
+                            : 'https://notes-manual.web.app/manual-cz.html';
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const ManualScreen(
-                                      urlAddress: 'https://notes-manual.web.app/manual-en.html',
+                                builder: (context) => ManualScreen(
+                                      urlAddress: url,
                                     )));
                       },
                       child: Text(AppLocalizations.of(context)!.show),

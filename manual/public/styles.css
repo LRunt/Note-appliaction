@@ -3,13 +3,21 @@ body {
     line-height: 1.6;
     padding: 20px;
     margin: 0;
-    background-color: #f4f4f4;
+    background-color: #f4f4f4; /* Light background */
+    color: #333; /* Dark text */
 }
 header, footer {
-    background: #333;
+    background: #00658F;
     color: #fff;
     padding: 10px 20px;
     text-align: center;
+    position: relative;
+}
+
+#darkModeToggle {
+    position: absolute;
+    top: 10px;   
+    right: 10px;  
 }
 section {
     background: #fff;
@@ -27,10 +35,39 @@ nav {
     text-align: center;
     margin-bottom: 20px;
 }
-nav a {
+nav a, nav button {
     color: white;
-    background-color: #555;
+    background-color: #001E2E;
     padding: 5px 10px;
     text-decoration: none;
     border-radius: 5px;
+    cursor: pointer;
+}
+
+img {
+    display: block; 
+    max-width: 400px;
+    width: 100%; 
+    height: auto;
+    margin: 0 auto; 
+}
+
+/* Dark mode styles */
+body.dark-mode {
+    background-color: #121212; /* Dark background */
+    color: #e0e0e0; /* Light text */
+}
+body.dark-mode header, body.dark-mode footer {
+    background: #00344D;
+}
+body.dark-mode section {
+    background: #333;
+    color: #ccc;
+}
+body.dark-mode nav a, body.dark-mode nav button {
+    background-color: #0d47a1;
+}
+
+body.dark-mode h2 {
+    color: #e0e0e0;
 }
