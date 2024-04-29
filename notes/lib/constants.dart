@@ -68,6 +68,7 @@ const double DEFAULT_PAGE_PADDING = 25.0;
 const double TREE_VIEW_PADDING = 4.0;
 const double MAX_WIDGET_WIDTH = 500.0;
 const double MENU_SIZE_BOX = 10.0;
+const double DRAWER_BUTTON_SIZE = 200.0;
 
 // Bootstrap Colors
 const Color COLOR_ERROR = Color.fromRGBO(220, 53, 69, 1.0);

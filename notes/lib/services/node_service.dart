@@ -182,7 +182,7 @@ class NodeService {
   /// - [context] is the build context for accessing localized strings.
   ///
   /// Returns true if the root node is successfully created, otherwise returns false.
-  bool createNewRoot(String name, BuildContext context) {
+  bool createNewRoot(String name, bool isNote, BuildContext context) {
     String id = DELIMITER + name;
     if (name.isEmpty) {
       //AppLogger.log("The name is empty", level: Level.WARNING);

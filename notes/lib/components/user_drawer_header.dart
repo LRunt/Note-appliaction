@@ -106,7 +106,7 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
                       fontSize: 20, color: Colors.white), // Makes text larger and white
                 ),
                 SizedBox(
-                  width: 200,
+                  width: DRAWER_BUTTON_SIZE,
                   child: ElevatedButton.icon(
                     icon: const Icon(Icons.login),
                     label: Text(AppLocalizations.of(context)!.login),
@@ -126,7 +126,7 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
                   ),
                 ),
                 SizedBox(
-                  width: 200,
+                  width: DRAWER_BUTTON_SIZE,
                   child: ElevatedButton.icon(
                     icon: const Icon(Icons.person_add),
                     label: Text(AppLocalizations.of(context)!.registration),
@@ -159,7 +159,7 @@ class _UserDrawerHeaderState extends State<UserDrawerHeader> {
                 ),
                 const SizedBox(height: 8),
                 SizedBox(
-                  width: 200,
+                  width: DRAWER_BUTTON_SIZE,
                   child: ElevatedButton.icon(
                     icon: const Icon(Icons.exit_to_app),
                     label: Text(AppLocalizations.of(context)!.signOut),

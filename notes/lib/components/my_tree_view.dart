@@ -111,16 +111,18 @@ class _MyTreeViewState extends State<MyTreeView> {
   /// Upon confirmation, it attempts to create the new node and rebuilds the tree view to reflect the changes.
   ///
   /// - `context`: The BuildContext for locating the Scaffold used to show dialogs.
-  void showCreateDialog(BuildContext context) {
+  void showCreateDialog(bool isNote, BuildContext context) {
     showDialog(
         context: context,
         builder: (context) {
           return TextFieldDialog(
-            titleText: AppLocalizations.of(context)!.createFile,
+            titleText: isNote
+                ? AppLocalizations.of(context)!.createNote
+                : AppLocalizations.of(context)!.createFile,
             confirmButtonText: AppLocalizations.of(context)!.create,
             controller: _textDialogController,
             onConfirm: () {
-              if (nodeService.createNewRoot(_textDialogController.text.trim(), context)) {
+              if (nodeService.createNewRoot(_textDialogController.text.trim(), isNote, context)) {
                 Navigator.of(context).pop();
                 treeController.rebuild();
                 _textDialogController.clear();
@@ -130,7 +132,9 @@ class _MyTreeViewState extends State<MyTreeView> {
               _textDialogController.clear();
               Navigator.of(context).pop();
             },
-            hint: AppLocalizations.of(context)!.newDirectoryHint,
+            hint: isNote
+                ? AppLocalizations.of(context)!.newNoteHint
+                : AppLocalizations.of(context)!.newDirectoryHint,
           );
         });
   }
@@ -158,22 +162,22 @@ class _MyTreeViewState extends State<MyTreeView> {
           },
         ),
         SizedBox(
-          width: 200,
+          width: DRAWER_BUTTON_SIZE,
           child: FilledButton.icon(
             icon: const Icon(Icons.create_new_folder_rounded),
             label: Text(AppLocalizations.of(context)!.createFile),
             onPressed: () {
-              showCreateDialog(context);
+              showCreateDialog(false, context);
             },
           ),
         ),
         SizedBox(
-          width: 200,
+          width: DRAWER_BUTTON_SIZE,
           child: FilledButton.icon(
             icon: const Icon(Icons.article),
             label: Text(AppLocalizations.of(context)!.createNote),
             onPressed: () {
-              showCreateDialog(context);
+              showCreateDialog(true, context);
             },
           ),
         ),
