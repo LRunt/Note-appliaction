@@ -57,6 +57,21 @@ void main() {
       expect(HierarchyDatabase.conflictData.isEmpty, isTrue);
     });
 
+    test('clearHierarchyData - simple test', () async {
+      // Act
+      await clearDatabase.clearHierarchyData();
+
+      // Assert
+      verify(mockBoxHierarchy.clear()).called(1);
+      verify(mockBoxNotes.clear()).called(1);
+      verify(mockBoxSynchronization.clear()).called(1);
+
+      expect(HierarchyDatabase.noteList.isEmpty, isTrue);
+      expect(HierarchyDatabase.rootList.isEmpty, isTrue);
+      expect(HierarchyDatabase.roots.isEmpty, isTrue);
+      expect(HierarchyDatabase.conflictData.isEmpty, isTrue);
+    });
+
     test('clearHierarchyStructure only clears hierarchy box', () async {
       // Act
       await clearDatabase.clearHierarchyStructure();

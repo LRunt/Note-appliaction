@@ -29,7 +29,10 @@ class ClearDatabase {
     await boxHierachy.clear();
     await boxNotes.clear();
     await boxSynchronization.clear();
-    print("cleared");
+    HierarchyDatabase.noteList = [];
+    HierarchyDatabase.rootList = [];
+    HierarchyDatabase.roots = [];
+    HierarchyDatabase.conflictData = [];
   }
 
   /// Clears data related to the hierarchy structures from the database.
