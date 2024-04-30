@@ -116,24 +116,4 @@ class ComponentUtils {
         textColor: Colors.white,
         fontSize: DEFAULT_TEXT_SIZE);
   }
-
-  /// Provides a default text style for consistency across the app.
-  ///
-  /// Returns a `TextStyle` with a predefined font size.
-  TextStyle getBasicTextStyle() {
-    return const TextStyle(fontSize: DEFAULT_TEXT_SIZE);
-  }
-
-  /// Provides a default button style with rounded corners for a consistent look.
-  ///
-  /// Returns a `ButtonStyle` with a predefined border radius.
-  ButtonStyle getButtonStyle() {
-    return ButtonStyle(
-      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(BUTTON_BORDER_RADIUS),
-        ),
-      ),
-    );
-  }
 }
