@@ -119,6 +119,7 @@ class _ResetPasswordState extends State<ResetPasswordPage> {
                   height: DEFAULT_GAP_SIZE,
                 ),
                 SizedBox(
+                  key: const Key("Button"),
                   width: MAX_WIDGET_WIDTH,
                   child: StyledButton(
                     onTap: () => resetPassword(),

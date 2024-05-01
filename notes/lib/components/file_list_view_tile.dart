@@ -88,6 +88,7 @@ class FileListViewTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      key: Key('mainInkWell_${node?.id}'),
       onTap: () => touch(),
       child: Ink(
         padding: const EdgeInsets.all(DEFAULT_PADDING),
