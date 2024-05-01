@@ -343,8 +343,8 @@ class MyTreeTile extends StatelessWidget {
         context: context,
         builder: (context) {
           return EnterPasswordDialog(
-              titleText: AppLocalizations.of(context)!.renameNode(node.title),
-              confirmButtonText: AppLocalizations.of(context)!.rename,
+              titleText: AppLocalizations.of(context)!.unlockNode(node.title),
+              confirmButtonText: AppLocalizations.of(context)!.unlock,
               controller: _textDialogController,
               onConfirm: () => unlockNode(context, node),
               onCancel: () => closeAndClear(context));
@@ -599,7 +599,7 @@ class MyTreeTile extends StatelessWidget {
                         children: [
                           const Icon(Icons.lock_open_rounded),
                           const SizedBox(width: ROW_TEXT_GAP),
-                          Text(AppLocalizations.of(context)!.unlock)
+                          Text(AppLocalizations.of(context)!.unlockMenu)
                         ],
                       ),
                     ),

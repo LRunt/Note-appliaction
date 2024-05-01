@@ -102,6 +102,9 @@ class _ResetPasswordState extends State<ResetPasswordPage> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
+                const SizedBox(
+                  height: 5.0,
+                ),
                 Text(AppLocalizations.of(context)!.resetInstructions),
                 const SizedBox(
                   height: DEFAULT_GAP_SIZE,

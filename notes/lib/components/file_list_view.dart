@@ -209,15 +209,16 @@ class _FileListViewState extends State<FileListView> {
   /// - `node`: The [MyTreeNode] instance that is locked and needs to be unlocked.
   void showUnlockDialog(MyTreeNode node) {
     showDialog(
-        context: context,
-        builder: (context) {
-          return EnterPasswordDialog(
-              titleText: AppLocalizations.of(context)!.unlockNode(node.title),
-              confirmButtonText: AppLocalizations.of(context)!.unlock,
-              controller: _textDialogController,
-              onConfirm: () => unlockNode(node),
-              onCancel: () => closeAndClear());
-        });
+      context: context,
+      builder: (context) {
+        return EnterPasswordDialog(
+            titleText: AppLocalizations.of(context)!.unlockNode(node.title),
+            confirmButtonText: AppLocalizations.of(context)!.unlock,
+            controller: _textDialogController,
+            onConfirm: () => unlockNode(node),
+            onCancel: () => closeAndClear());
+      },
+    );
   }
 
   /// Displays a dialog for setting a password to lock a node, preventing unauthorized access.
@@ -229,17 +230,18 @@ class _FileListViewState extends State<FileListView> {
   /// - `node`: The [MyTreeNode] instance to be locked.
   void showLockDialog(MyTreeNode node) {
     showDialog(
-        context: context,
-        builder: (context) {
-          return CreatePasswordDialog(
-            titleText: AppLocalizations.of(context)!.lockNode(node.title),
-            confirmButtonText: AppLocalizations.of(context)!.lock,
-            controller1: _textDialogController,
-            controller2: _textDialogController2,
-            onConfirm: () => lockNode(node),
-            onCancel: () => closeAndClear(),
-          );
-        });
+      context: context,
+      builder: (context) {
+        return CreatePasswordDialog(
+          titleText: AppLocalizations.of(context)!.lockNode(node.title),
+          confirmButtonText: AppLocalizations.of(context)!.lock,
+          controller1: _textDialogController,
+          controller2: _textDialogController2,
+          onConfirm: () => lockNode(node),
+          onCancel: () => closeAndClear(),
+        );
+      },
+    );
   }
 
   /// Closes any open dialog and clears the text input controllers.
@@ -253,9 +255,11 @@ class _FileListViewState extends State<FileListView> {
   /// - `node`: The [MyTreeNode] instance to be deleted.
   void deleteNode(MyTreeNode node) {
     Navigator.of(context).pop();
-    setState(() {
-      service.deleteNode(node, service.getParent(node.id)!);
-    });
+    setState(
+      () {
+        service.deleteNode(node, service.getParent(node.id)!);
+      },
+    );
   }
 
   /// Renames a node based on user input and updates the UI.

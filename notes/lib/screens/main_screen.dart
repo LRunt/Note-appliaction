@@ -103,10 +103,8 @@ class _MainScreenState extends State<MainScreen> {
             context: context,
             builder: (context) {
               return EnterPasswordDialog(
-                  titleText: node.isNote
-                      ? AppLocalizations.of(context)!.createNote
-                      : AppLocalizations.of(context)!.createFile,
-                  confirmButtonText: AppLocalizations.of(context)!.create,
+                  titleText: AppLocalizations.of(context)!.unlockNode(node.title),
+                  confirmButtonText: AppLocalizations.of(context)!.unlock,
                   controller: _textDialogController,
                   onConfirm: () {
                     if (nodeService.comparePassword(_textDialogController.text, node.password!)) {
