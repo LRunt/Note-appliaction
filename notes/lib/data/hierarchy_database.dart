@@ -262,21 +262,34 @@ class HierarchyDatabase {
     conflictData = conflicts.children;
   }
 
-  /// Initializes conflict data in the local database.
+  /// Initializes the conflict data in the local database.
+  /// This method creates a conflict node in the hierarchy and saves it
+  /// in the boxHierarchy.
   void initConflictData() {
     MyTreeNode conflictNode =
         MyTreeNode(id: CONFLICT, title: CONFLICT, isNote: false, isLocked: false);
     boxHierachy.put(CONFLICT, conflictNode);
   }
 
+  /// Retrieves the conflict node from the local database.
+  ///
+  /// Returns:
+  ///   A [MyTreeNode] object representing the conflict node.
   MyTreeNode getConflictNode() {
     return boxHierachy.get(CONFLICT);
   }
 
+  /// Deletes a specific conflict note from the local database.
+  ///
+  ///   - [conflictNoteId]: The ID of the conflict note to delete.
   void deleteConflictNote(String conflictNoteId) {
     boxNotes.delete(conflictNoteId);
   }
 
+  /// Saves the provided conflict node to the local database and
+  /// updates the conflict data.
+  ///
+  ///   - [node]: A [MyTreeNode] object representing the conflict node to be saved.
   void saveConflictNode(MyTreeNode node) {
     conflictData = node.children;
     boxHierachy.put(CONFLICT, node);
