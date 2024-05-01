@@ -3,103 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Application Manual</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>App Guide</title>
+	<link rel="stylesheet" href="styles.css">
     <script>
-    function toggleDarkMode() {
-        let darkMode = localStorage.getItem('darkMode') === 'true';
-        localStorage.setItem('darkMode', !darkMode);
-        updateDarkMode();
-    }
-
-    function updateDarkMode() {
-        let darkMode = localStorage.getItem('darkMode') === 'true';
-        if (darkMode) {
-            document.body.classList.add('dark-mode');
-            document.getElementById('darkModeToggle').textContent = 'Light mode'; // Light Mode button text
-        } else {
-            document.body.classList.remove('dark-mode');
-            document.getElementById('darkModeToggle').textContent = 'Dark mode'; // Dark Mode button text
+        function toggleDarkMode() {
+            let darkMode = localStorage.getItem('darkMode') === 'true';
+            localStorage.setItem('darkMode', !darkMode);
+            updateDarkMode();
         }
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        updateDarkMode(); // Update dark mode on initial load
-    });
-    </script>
+    
+        function updateDarkMode() {
+            let darkMode = localStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                document.getElementById('darkModeToggle').textContent = 'Light Mode'; 
+            } else {
+                document.body.classList.remove('dark-mode');
+                document.getElementById('darkModeToggle').textContent = 'Dark Mode'; 
+            }
+        }
+    
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDarkMode(); 
+        });
+        </script>
 </head>
 <body>
     <header>
-        <h1>Application Manual</h1>
+        <h1>App Manual</h1>
         <nav>
-            <a href="manual-cz.html">Česká Verze</a> <!-- Link to the Czech version of the manual -->
-            <button id="darkModeToggle" onclick="toggleDarkMode()">Tmavý režim</button> <!-- Initial button text -->
+            <a href="manual-cz.html">Czech Version</a>
+            <button id="darkModeToggle" onclick="toggleDarkMode()">Dark Mode</button>
         </nav>
     </header>
 
     <section>
         <h2>Introduction</h2>
-        <p>Thank you for choosing Notes to manage your notes and tasks. In this manual, I will show you how to use the app so you can fully utilize its potential for creating, saving, and organizing your notes.</p>
+        <p>Thank you for choosing Notes to manage your notes and tasks. In this manual, I'll show you how to use the app so you can fully utilize its potential for creating, storing, and organizing your notes.</p>
     </section>
-    
+
     <section>
-        <h2>Launching the Application</h2>
-        <p>Upon launching the application, an initialization screen with the app's logo will be displayed. This screen indicates that the application is initializing.</p>
-        <img src="img/splash_screen.jpg" alt="Initialization screen" style="max-width: 300px;">
-        <p>Once the application is initialized, the home screen will be displayed to the user. The home screen is shown in the following image.</p>
-        <img src="img/welcome_page.jpg" alt="Home screen" style="max-width: 300px;">
-        This page features two buttons:
+        <h2>Launching the App</h2>
+        <p>When the app is launched, an initialization screen with the app's logo appears. This screen indicates that the app is initializing.</p>
+        <img src="img/splash_screen.jpg" alt="Initialization Screen" style="max-width: 300px;">
+        <p>Once initialized, the user is presented with the home screen, which is shown in the following image.</p>
+        <img src="img/welcome_page.jpg" alt="Home Screen" style="max-width: 300px;">
+        On this page, there are two buttons:
         <ul>
-            <li><b>Three lines</b> - Opens the slide-out menu</li>
-            <li><b>Gear icon</b> - Opens the application settings</li>
+            <li><b>Three Lines</b> - Opens the slide-out menu</li>
+            <li><b>Cogwheel</b> - Opens the app settings</li>
         </ul>
     </section>
-    
+
     <section>
-        <h2>Slide-Out Menu</h2>
-        <p>The slide-out menu contains the user header, a hierarchical data structure, and a sync button with the date of the last sync for logged-in users.</p>
-        <img src="img/drawer.jpg" alt="Slide-out menu" style="max-width: 300px;">
+        <h2>Slide-out Menu</h2>
+        <p>The slide-out menu contains a user header, a hierarchical data structure, and a sync button with the last sync date for logged-in users.</p>
+        <img src="img/drawer.jpg" alt="Slide-out Menu" style="max-width: 300px;">
     </section>
-    
+
+    <section>
+        <h2>Directory</h2>
+        <p>This screen displays a list of files. Files can be handled similarly to a tree structure. At the end of each file, there are three dots that open a menu. Clicking on a file directs the user to that file.</p>
+        <img src="img/folder.jpg" alt="Directory Screen" style="max-width: 300px;">
+        <p>In the bottom right corner, there's a floating button. Clicking on it shows three buttons:</p>
+        <ul>
+            <li><b>Note</b> - Creates a new note in the current directory</li>
+            <li><b>Folder</b> - Creates a new folder in the current directory</li>
+            <li><b>Red Cross</b> - Hides the previous buttons</li>
+        </ul>
+        <div style="display: flex;">
+            <img src="img/folder_button.png" alt="Floating Button" style="max-width: 50px;">
+            <img src="img/folder_floating_buttons.png" alt="Floating Buttons" style="max-width: 50px;">
+        </div>
+    </section>
+
+    <section>
+        <h2>Rich Text Editor</h2>
+        <p>The editor is designed for reading, creating, and editing notes. The application panel shows the path to the note. Below the application panel is the control panel, which can be hidden or shown by a floating button in the bottom right corner of the screen.
+            The following images show the editor's appearance.
+        </p>
+        <img src="img/editing_note.jpg" alt="Rich Text Editor Panel Shown" style="max-width: 300px;">
+        <p></p>
+        <img src="img/hidden_rich_text_editor.jpg" alt="Rich Text Editor Panel Hidden" style="max-width: 300px;">
+    </section>
+
     <section>
         <h2>Registration</h2>
-        <p>You can access the registration page through the slide-out menu, by pressing the registration button. When registering, you can choose to sign up using a combination of email and password or with a Google account.</p>
+        <p>You can access the registration page through the slide-out menu by pressing the registration button. During registration, you can choose to register using an email-password combination or a Google account.</p>
         <img src="img/registration.jpg" alt="Registration" style="max-width: 300px;">
     </section>
-    
+
     <section>
         <h2>Login</h2>
-        <p>You can reach the login page through the slide-out menu, by pressing the login button. The following image shows the login screen with descriptions of each part of this screen.</p>
-        <img src="img/login.png" alt="Login screen" style="max-width: 300px;">
+        <p>You can access the registration page through the slide-out menu by pressing the login button. The following image shows the login screen with the different parts of this screen labeled.</p>
+        <img src="img/login.png" alt="Login Screen" style="max-width: 300px;">
         <ol style="text-align: center; list-style-position: inside;">
             <li>Return to the previous page</li>
             <li>Text field for entering email</li>
             <li>Text field for entering password</li>
             <li>Link to the password recovery page</li>
-            <li>Login button</li>
+            <li>Button to log in</li>
             <li>Link to the new user registration page</li>
-            <li>Button for logging in with a Google account</li>
+            <li>Button to log in with a Google account</li>
         </ol>
     </section>
-    
+
     <section>
         <h2>Password Recovery</h2>
-        <p>It can happen that a user forgets their password. For such cases, there is an option to change the password. The following image shows the password change screen.</p>
-        <img src="img/password_reset.jpg" alt="Password recovery screen" style="max-width: 300px;">
-        <p>This page contains a text field for entering the email to which an email with a link for password change will be sent.
-            After pressing the <i>Send Email</i> button, an email will be sent to the provided address. This email is shown in the next image.
+        <p>It can happen that a user forgets their password. In this case, there's an option to change the password. The following image shows the password change screen.</p>
+        <img src="img/password_reset.jpg" alt="Password Recovery Screen" style="max-width: 300px;">
+        <p>This page contains a text field for entering an email address, to which an email with a password change link will be sent.
+            After clicking the <i>Send Email</i> button, an email will be sent to the given address. This email is shown in the next image.
         </p>
-        <img src="img/email_password_reset.png" alt="Email with link" style="max-width: 600px;">
-        <p>By clicking the link in the incoming email, the user will be redirected to a page with a text field and a button for saving a new password. This page is shown in the next image.</p>
-        <img src="img/new_password.png" alt="Password change" style="max-width: 300px;">
+        <img src="img/email_password_reset.png" alt="Email with Link" style="max-width: 600px;">
+        <p>Clicking on the link in the incoming email will redirect the user to a page with a text field and a button to save the new password. This page is shown in the next image.</p>
+        <img src="img/new_password.png" alt="Password Change" style="max-width: 300px;">
     </section>
-    
+
     <section>
         <h2>Settings</h2>
-        <p>The user can access the settings page using the gear icon on the main page. The following image shows what the settings page looks like.</p>
+        <p>The user can access the settings page using the cogwheel on the main page. The following image shows what the settings page looks like.</p>
         <img src="img/settings.jpg" alt="Settings" style="max-width: 300px;">
+        <p>The following section describes the different settings options</p>
+        <h3>Language</h3>
+        <p>The language option in the settings changes the app's localization. In the current version, two languages are available: Czech and English.</p>
+        <h3>Dark Mode</h3>
+        <p>This option switches the app's appearance mode. The app has a light and a dark mode that can be toggled with this switch in the settings.</p>
+        <h3>Show Conflicts</h3>
+        <p>If a conflict is detected, the local version of the conflicting data is saved. This data can be displayed with the show button next to the <i>Show Conflicts</i> option.
+            The appearance of the conflict page is shown in the next image.
+        </p>
+        <img src="img/conflicts.jpg" alt="Conflicting Data" style="max-width: 300px;">
+        <p>This page displays all conflicts. Each conflict is named after the file and the timestamp when the conflict occurred.
+            Users can view and delete this data.
+        </p>
+        <h3>Delete Local App Data</h3>
+        <p>This option deletes all app data. After pressing it, a dialog will appear to confirm if the user wants to delete all this data. The data is then deleted, and the app returns to its first-open state.
+            This feature was primarily for testing purposes, but it remains for users who want to restore the app to its first-open state.
+        </p>
+        <h3>App Information</h3>
+        <p>Displays a dialog box with information about the app, such as the author, app version, and release date.</p>
+        <img src="img/app_informations.jpg" alt="App Information" style="max-width: 300px;">
+        <h3>App Manual</h3>
+        <p>This option redirects to this page.</p>
     </section>
-    
 
     <footer>
         <p>Copyright © 2024 Notes</p>
