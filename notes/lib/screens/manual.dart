@@ -18,7 +18,7 @@ part of screens;
 /// ```dart
 /// ManualScreen(urlAddress: 'https://www.example.com/manual')
 /// ```
-class ManualScreen extends StatelessWidget {
+class ManualScreen extends StatefulWidget {
   /// The URL to be loaded when the WebView is initialized.
   final String urlAddress;
 
@@ -31,6 +31,13 @@ class ManualScreen extends StatelessWidget {
     required this.urlAddress,
   });
 
+  @override
+  State<ManualScreen> createState() => _ManualScreenState();
+}
+
+class _ManualScreenState extends State<ManualScreen> {
+  bool _isLoading = true;
+
   /// Builds the page with manual.
   @override
   Widget build(BuildContext context) {
@@ -38,9 +45,27 @@ class ManualScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.manualTitle),
       ),
-      body: WebView(
-        initialUrl: urlAddress,
-        javascriptMode: JavascriptMode.unrestricted,
+      body: Stack(
+        children: [
+          WebView(
+            initialUrl: widget.urlAddress,
+            javascriptMode: JavascriptMode.unrestricted,
+            onPageStarted: (String url) {
+              setState(() {
+                _isLoading = true;
+              });
+            },
+            onPageFinished: (String url) {
+              setState(() {
+                _isLoading = false;
+              });
+            },
+          ),
+          if (_isLoading)
+            const Center(
+              child: CircularProgressIndicator(),
+            ),
+        ],
       ),
     );
   }

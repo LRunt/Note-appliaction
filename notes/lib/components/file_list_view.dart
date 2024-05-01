@@ -36,14 +36,17 @@ class FileListView extends StatefulWidget {
   /// A callback that handles navigation based on the node type (file/note) and its ID.
   final void Function(bool, String) navigateWithParam;
 
+  final VoidCallback showRoots;
+
   /// Constructor of [FileListView]
   ///
-  /// Requires two positional arguments:
+  /// Requires three positional arguments:
   ///
   const FileListView({
     super.key,
     required this.nodeId,
     required this.navigateWithParam,
+    required this.showRoots,
   });
 
   @override
@@ -74,12 +77,16 @@ class _FileListViewState extends State<FileListView> {
   @override
   void initState() {
     _visibleButtons = false;
-    MyTreeNode? node = service.getNode(widget.nodeId);
-    log("$node");
-    if (node != null) {
-      children = node.children;
+    if (widget.nodeId == SHOW_ROOTS) {
+      children = HierarchyDatabase.roots;
+    } else {
+      MyTreeNode? node = service.getNode(widget.nodeId);
+      log("$node");
+      if (node != null) {
+        children = node.children;
+      }
+      log("Reolading: $node");
     }
-    log("Reolading: $node");
     super.initState();
   }
 
@@ -339,15 +346,22 @@ class _FileListViewState extends State<FileListView> {
       body: children.isEmpty
           ? Column(
               children: [
-                if (!service.isRoot(widget.nodeId))
+                if (widget.nodeId != SHOW_ROOTS)
                   Padding(
                     padding: const EdgeInsets.all(7),
                     child: FileListViewTile(
                       node: null,
-                      touch: () => widget.navigateWithParam(
-                        false,
-                        service.getParentPath(widget.nodeId),
-                      ),
+                      touch: () => {
+                        if (service.isRoot(widget.nodeId))
+                          {widget.showRoots()}
+                        else
+                          {
+                            widget.navigateWithParam(
+                              false,
+                              service.getParentPath(widget.nodeId),
+                            ),
+                          }
+                      },
                       delete: () {},
                       rename: () {},
                       createNote: () {},
@@ -373,13 +387,20 @@ class _FileListViewState extends State<FileListView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (!service.isRoot(widget.nodeId))
+                      if (widget.nodeId != SHOW_ROOTS)
                         FileListViewTile(
                           node: null,
-                          touch: () => widget.navigateWithParam(
-                            false,
-                            service.getParentPath(widget.nodeId),
-                          ),
+                          touch: () => {
+                            if (service.isRoot(widget.nodeId))
+                              {widget.showRoots()}
+                            else
+                              {
+                                widget.navigateWithParam(
+                                  false,
+                                  service.getParentPath(widget.nodeId),
+                                ),
+                              }
+                          },
                           delete: () {},
                           rename: () {},
                           createNote: () {},

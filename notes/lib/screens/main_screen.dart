@@ -194,9 +194,9 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   textAlign: TextAlign.center,
                 )
-              : const Text(
-                  "Home screen",
-                  style: TextStyle(
+              : Text(
+                  AppLocalizations.of(context)!.homeScreen,
+                  style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 32.0,
                   ),
@@ -209,6 +209,7 @@ class _MainScreenState extends State<MainScreen> {
         nodeId: _noteId,
         key: ValueKey(_noteId),
         navigateWithParam: (isNote, nodeId) => checkLock(isNote, nodeId),
+        showRoots: () => _changeScreen(DIRECTORY_SCREEN, SHOW_ROOTS),
       ),
     ];
 
@@ -217,7 +218,7 @@ class _MainScreenState extends State<MainScreen> {
           ? Theme.of(context).colorScheme.surfaceVariant
           : Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-          title: _noteId == ""
+          title: _noteId == "" || _noteId == SHOW_ROOTS
               ? Text(AppLocalizations.of(context)!.appName)
               : FittedBox(child: Text(_noteId)),
           actions: [

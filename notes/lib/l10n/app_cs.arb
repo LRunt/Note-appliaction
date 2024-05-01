@@ -80,7 +80,7 @@
     "open": "Otevřít",
     "darkMode": "Tmavý mód",
     "aboutApp": "Informace o aplikaci",
-    "informationsAboutApp": "Aplikace pro tvorbu poznámek\nAutor: Lukáš Runt\nVerze: 1.0.5\nDatum vydání: 16. 04. 2024",
+    "informationsAboutApp": "Aplikace pro tvorbu poznámek\nAutor: Lukáš Runt\nVerze: 1.0.6\nDatum vydání: 01. 05. 2024",
     "lockButton": "Uzamknout",
     "renameHint": "Nový název",
     "newDirectoryHint": "Název složky",
@@ -93,5 +93,6 @@
     "manual": "Manuál k aplikaci",
     "manualTitle": "Manuál",
     "deleteUserDataTitle": "Smazat uživatelská data?",
-    "deleteUserDataContent": "Chcete z tohoto zařízení smazat data, která jsou spojena s tímto účtem?"
+    "deleteUserDataContent": "Chcete z tohoto zařízení smazat data, která jsou spojena s tímto účtem?",
+    "homeScreen": "Domovská obrazovka"
 }

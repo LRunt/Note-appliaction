@@ -420,5 +420,9 @@
     "deleteUserDataContent": "Do you want to delete data connected with account after log out?",
      "@deleteUserDataContent": {
         "description": "Content of the dialog which asks the user about deleting data, when user logs out of the app."
+    },
+    "homeScreen": "Home screen",
+    "@homeScreen": {
+        "description": "Label that will be on the main screen"
     }
 }

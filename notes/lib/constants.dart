@@ -156,6 +156,8 @@ const int DIRECTORY_SCREEN = 2;
 const String DELIMITER = "|";
 const List DISABLED_CHARS = ["|", "/"];
 
+const String SHOW_ROOTS = "roots";
+
 // Theme constants
 const String LIGHT = "light";
 const String DARK = "dark";
